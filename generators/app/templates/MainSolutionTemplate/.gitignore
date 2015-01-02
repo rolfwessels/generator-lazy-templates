@@ -1,0 +1,10 @@
+/build
+/lib
+/tools/nunit
+/tools/nant
+/tools/IlMerge
+bin
+obj
+*.user
+*.ncrunchsolution
+*.suo
