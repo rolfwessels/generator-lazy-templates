@@ -6,7 +6,6 @@ namespace MainSolutionTemplate.Core.Tests
   [TestFixture]
   public class SampleTests
   {
-
     private Sample _sample;
 
     #region Setup/Teardown
