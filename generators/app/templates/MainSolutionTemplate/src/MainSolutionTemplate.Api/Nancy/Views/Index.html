@@ -7,6 +7,7 @@
 		<link href="http://fezvrasta.github.io/bootstrap-material-design/dist/css/ripples.min.css" rel="stylesheet">
 		<link href="http://fezvrasta.github.io/bootstrap-material-design/dist/css/material-wfont.min.css" rel="stylesheet">
 		<link href="//fezvrasta.github.io/snackbarjs/dist/snackbar.min.css" rel="stylesheet">
+		<link href="http://fezvrasta.github.io/bootstrap-material-design/dist/fonts/Material-Design-Icons.woff?-g7cqhn" rel="stylesheet">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
        
 	</head>
@@ -28,24 +29,52 @@
 				</div>
 			</div>
 		</div>
-		<div class="content">
-			<div class="panel panel-default">
-				<div class="panel-body">
-					<form id="messageForm" class="form-control-wrapper">
-						<input type="text" id="message" class="form-control empty" placeholder="label"><span class="material-input"></span>
-					</form>
+		<div class="container">
+			
+			<div class="content">
+				<div class="">
+					<h2>SignalR test</h2>
+					<div class="panel panel-default">
+				
+						<div class="panel-body">
+							<form id="messageForm" class="form-control-wrapper">
+								<input type="text" id="message" class="form-control empty" placeholder="enter message and press enter"><span class="material-input"></span>
+							</form>
+						</div>
+				
+				
+					</div>
+				
+					<div id="messages" class="list-group">
+						
+					</div>
+				
 				</div>
+			
+
 			</div>
 			<div class="footer">
 				<a href="http://fezvrasta.github.io/bootstrap-material-design/bootstrap-elements.html">Css</a>
 			</div>
-
+		</div>
+		<div style="display:none" id="messageTemplate">
+			<div class="list-group-item">
+							<div class="row-action-primary">
+								<i class="mdi-file-folder"></i>
+							</div>
+							<div class="row-content">
+								<div class="least-content"></div>
+								<h4 class="list-group-item-heading">@message</h4>
+							</div>
+						</div>
+						<div class="list-group-separator"></div>
 		</div>
 		<script src="https://code.jquery.com/jquery-2.1.3.min.js"> </script>
 		<script src="http://ajax.aspnetcdn.com/ajax/signalr/jquery.signalr-2.1.0.min.js"> </script>
 		<script src="http://fezvrasta.github.io/bootstrap-material-design/dist/js/ripples.min.js"> </script>
 		<script src="http://fezvrasta.github.io/bootstrap-material-design/dist/js/material.min.js"> </script>
 		<script src="//fezvrasta.github.io/snackbarjs/dist/snackbar.min.js"> </script>
+		
 		<script>
 			$(function() {
 				//Getting the connection object
@@ -54,36 +83,41 @@
 				//Creating proxy
 				var chatHub = connection.createHubProxy('chatHub');
 				console.log("connecting to hub");
+				chatHub.on('addMessage', function(name, message) {
+					console.log("message:" + name + message);
+					var html = $("#messageTemplate").html().replace("@message", message);
+					$("#messages").append(html);
+					
+				});
 				//Starting connection
 				var start = connection.start();
-				start.done(function () {
+				start.done(function() {
 					console.log("connection made");
+
 				});
-				start.fail(function (result) {
+				start.fail(function(result) {
 					console.log('Could not Connect! > ', result.message);
-				});
-				
-				//Publishing an event when server pushes a greeting message
-				chatHub.on('newMessage', function (name,message) {
-					console.log("message:" + name + message);
+
 				});
 
-				$("#messageForm").submit(function () {
+				//Publishing an event when server pushes a greeting message
+
+
+				$("#messageForm").submit(function() {
 					try {
 						var val = $("#message").val();
 						chatHub.invoke("send", "asdf", val);
 						console.log("Send message: " + val);
 					} catch(e) {
 						console.log("error: " + e);
-					} 
-					
+					}
 					$("#message").val("");
 					event.preventDefault();
 				});
 
-				
+
 			});
-			// This optional function html-encodes messages for display in the page.
+		// This optional function html-encodes messages for display in the page.
 
 		</script>
 
