@@ -1,6 +1,6 @@
 using Microsoft.AspNet.SignalR;
 
-namespace MainSolutionTemplate.Web.SignalRHubs
+namespace MainSolutionTemplate.Api.SignalR
 {
     public class SampleMessageHub : Hub
     {

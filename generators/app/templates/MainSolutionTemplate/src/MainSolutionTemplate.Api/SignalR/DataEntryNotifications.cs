@@ -1,7 +1,6 @@
 using Microsoft.AspNet.SignalR;
-using Microsoft.AspNet.SignalR.Hubs;
 
-namespace MainSolutionTemplate.Web.SignalRHubs
+namespace MainSolutionTemplate.Api.SignalR
 {
     public class DataEntryNotifications : Hub
     {

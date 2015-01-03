@@ -2,6 +2,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0691ABF2-B3C7-43BF-9862-2D8D1299CE58}"
 	ProjectSection(SolutionItems) = preProject
+		..\.gitignore = ..\.gitignore
 		..\go.bat = ..\go.bat
 		..\MainSolutionTemplate.build = ..\MainSolutionTemplate.build
 	EndProjectSection
@@ -23,7 +24,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MainSolutionTemplate.Consol
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MainSolutionTemplate.Api", "MainSolutionTemplate.Api\MainSolutionTemplate.Api.csproj", "{E2D671F8-B13F-4775-AE1A-EAB1DFAA3C78}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MainSolutionTemplate.App.Tests", "MainSolutionTemplate.Api.Tests\MainSolutionTemplate.App.Tests.csproj", "{82C5647D-D8A6-46F6-9184-8AEABD51EDB6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MainSolutionTemplate.Api.Tests", "MainSolutionTemplate.Api.Tests\MainSolutionTemplate.Api.Tests.csproj", "{82C5647D-D8A6-46F6-9184-8AEABD51EDB6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

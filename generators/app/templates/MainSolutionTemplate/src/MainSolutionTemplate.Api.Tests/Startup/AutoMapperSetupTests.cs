@@ -1,8 +1,8 @@
 using AutoMapper;
-using MainSolutionTemplate.Web.AppStartup;
+using MainSolutionTemplate.Api.AppStartup;
 using NUnit.Framework;
 
-namespace MainSolutionTemplate.Web.Tests.Startup
+namespace MainSolutionTemplate.Api.Tests.Startup
 {
     [TestFixture]
     public class AutoMapperSetupTests

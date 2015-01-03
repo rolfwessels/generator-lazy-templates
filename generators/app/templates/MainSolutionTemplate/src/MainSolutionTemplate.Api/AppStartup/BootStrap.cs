@@ -1,4 +1,4 @@
-﻿namespace MainSolutionTemplate.Web.AppStartup
+﻿namespace MainSolutionTemplate.Api.AppStartup
 {
     public class BootStrap
     {

@@ -1,6 +1,6 @@
 ﻿using MainSolutionTemplate.Core.Startup;
 
-namespace MainSolutionTemplate.Web.AppStartup
+namespace MainSolutionTemplate.Api.AppStartup
 {
 	public class IocContainerSetup : IocContainerBase
 	{

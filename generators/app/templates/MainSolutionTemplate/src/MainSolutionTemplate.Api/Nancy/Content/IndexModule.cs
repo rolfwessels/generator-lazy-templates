@@ -1,6 +1,6 @@
 using Nancy;
 
-namespace MainSolutionTemplate.Web.NancyModules
+namespace MainSolutionTemplate.Api.Nancy.Content
 {
     public class IndexModule : NancyModule
     {

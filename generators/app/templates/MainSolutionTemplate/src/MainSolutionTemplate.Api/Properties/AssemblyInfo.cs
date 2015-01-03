@@ -1,7 +1,7 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
+using MainSolutionTemplate.Api;
 using Microsoft.Owin;
-using MainSolutionTemplate.Web;
 
 [assembly: AssemblyTitle("MainSolutionTemplate.Web")]
 [assembly: AssemblyDescription("Contains all MainSolutionTemplate unit tests")]
