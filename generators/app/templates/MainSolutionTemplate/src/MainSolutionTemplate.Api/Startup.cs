@@ -9,7 +9,7 @@ namespace MainSolutionTemplate.Api
         {
 			BootStrap.Initialize();
 	        var webApiSetup = WebApiSetup.Initialize(appBuilder);
-	        //appBuilder.MapSignalR();
+	        appBuilder.MapSignalR();
             appBuilder.UseNancy();
 			webApiSetup.Configuration.EnsureInitialized();
         }

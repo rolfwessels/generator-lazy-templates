@@ -40,7 +40,6 @@ namespace MainSolutionTemplate.Api.Tests.Integration.WebApi
 			// action
 			var restResponse = _client.Value.ExecuteWithLogging<List<TaskModel>>(request);
 			// assert
-			restResponse.Content.Should().StartWith("[");
 			restResponse.StatusCode.Should().Be(HttpStatusCode.OK);
 			restResponse.Content.Should().StartWith("[");
 		}

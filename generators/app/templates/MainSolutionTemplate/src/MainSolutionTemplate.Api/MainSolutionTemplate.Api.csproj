@@ -165,7 +165,7 @@
     <Compile Include="Nancy\Content\IndexModule.cs" />
     <Content Include="Readme.txt" />
     <Compile Include="SignalR\DataEntryNotifications.cs" />
-    <Compile Include="SignalR\SampleMessageHub.cs" />
+    <Compile Include="SignalR\ChatHub.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>

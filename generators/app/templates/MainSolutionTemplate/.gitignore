@@ -11,3 +11,4 @@ obj
 *.suo
 .dropbox.attr
 *.log
+src/_NCrunch_MainSolutionTemplate/
