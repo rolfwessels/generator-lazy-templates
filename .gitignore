@@ -9,3 +9,9 @@ obj
 *.user
 *.ncrunchsolution
 *.suo
+*.user
+*.ncrunchsolution
+*.ncrunchproject
+*.suo
+.dropbox.attr
+

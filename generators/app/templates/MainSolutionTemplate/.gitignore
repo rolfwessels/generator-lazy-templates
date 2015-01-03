@@ -7,4 +7,7 @@ bin
 obj
 *.user
 *.ncrunchsolution
+*.ncrunchproject
 *.suo
+.dropbox.attr
+*.log
