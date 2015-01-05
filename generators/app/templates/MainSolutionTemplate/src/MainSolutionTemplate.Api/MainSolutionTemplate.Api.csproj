@@ -148,6 +148,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Nancy\Views\404.html" />
     <Content Include="Nancy\Views\Index.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

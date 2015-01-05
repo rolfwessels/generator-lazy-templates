@@ -1,126 +1,126 @@
 ﻿<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
-	<head>
-		<meta charset="utf-8">
-		<title>Nancy view</title>
-		<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
-		<link href="http://fezvrasta.github.io/bootstrap-material-design/dist/css/ripples.min.css" rel="stylesheet">
-		<link href="http://fezvrasta.github.io/bootstrap-material-design/dist/css/material-wfont.min.css" rel="stylesheet">
-		<link href="//fezvrasta.github.io/snackbarjs/dist/snackbar.min.css" rel="stylesheet">
-		<link href="http://fezvrasta.github.io/bootstrap-material-design/dist/fonts/Material-Design-Icons.woff?-g7cqhn" rel="stylesheet">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-       
-	</head>
-	<body>
-		<div class="bs-component">
-			<div class="navbar navbar-default">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-					<a class="navbar-brand" href="/">MainSolutionTemplate</a>
-				</div>
-				<div class="navbar-collapse collapse navbar-responsive-collapse">
-					<ul class="nav navbar-nav">
-						<li class="active"><a href="/">Features</a></li>
-						<li ><a href="/swagger">Api</a></li>
-					</ul>
-				</div>
-			</div>
-		</div>
-		<div class="container">
-			
-			<div class="content">
-				<div class="">
-					<h2>SignalR test</h2>
-					<div class="panel panel-default">
-				
-						<div class="panel-body">
-							<form id="messageForm" class="form-control-wrapper">
-								<input type="text" id="message" class="form-control empty" placeholder="enter message and press enter"><span class="material-input"></span>
-							</form>
-						</div>
-				
-				
-					</div>
-				
-					<div id="messages" class="list-group">
-						
-					</div>
-				
-				</div>
-			
+<head>
+  <meta charset="utf-8">
+  <title>Nancy view</title>
+  <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+  <link href="http://fezvrasta.github.io/bootstrap-material-design/dist/css/ripples.min.css" rel="stylesheet">
+  <link href="http://fezvrasta.github.io/bootstrap-material-design/dist/css/material-wfont.min.css" rel="stylesheet">
+  <link href="//fezvrasta.github.io/snackbarjs/dist/snackbar.min.css" rel="stylesheet">
+  <link href="http://fezvrasta.github.io/bootstrap-material-design/dist/fonts/Material-Design-Icons.woff?-g7cqhn" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-			</div>
-			<div class="footer">
-				<a href="http://fezvrasta.github.io/bootstrap-material-design/bootstrap-elements.html">Css</a>
-			</div>
-		</div>
-		<div style="display:none" id="messageTemplate">
-			<div class="list-group-item">
-							<div class="row-action-primary">
-								<i class="mdi-file-folder"></i>
-							</div>
-							<div class="row-content">
-								<div class="least-content"></div>
-								<h4 class="list-group-item-heading">@message</h4>
-							</div>
-						</div>
-						<div class="list-group-separator"></div>
-		</div>
-		<script src="https://code.jquery.com/jquery-2.1.3.min.js"> </script>
-		<script src="http://ajax.aspnetcdn.com/ajax/signalr/jquery.signalr-2.1.0.min.js"> </script>
-		<script src="http://fezvrasta.github.io/bootstrap-material-design/dist/js/ripples.min.js"> </script>
-		<script src="http://fezvrasta.github.io/bootstrap-material-design/dist/js/material.min.js"> </script>
-		<script src="//fezvrasta.github.io/snackbarjs/dist/snackbar.min.js"> </script>
-		
-		<script>
-			$(function() {
-				//Getting the connection object
-				var connection = $.hubConnection();
+</head>
+<body>
+  <div class="bs-component">
+    <div class="navbar navbar-default">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">MainSolutionTemplate</a>
+      </div>
+      <div class="navbar-collapse collapse navbar-responsive-collapse">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="/">Features</a></li>
+          <li><a href="/swagger">Api</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="container">
 
-				//Creating proxy
-				var chatHub = connection.createHubProxy('chatHub');
-				console.log("connecting to hub");
-				chatHub.on('addMessage', function(name, message) {
-					console.log("message:" + name + message);
-					var html = $("#messageTemplate").html().replace("@message", message);
-					$("#messages").append(html);
-					
-				});
-				//Starting connection
-				var start = connection.start();
-				start.done(function() {
-					console.log("connection made");
+    <div class="content">
+      <div class="">
+        <h2>SignalR test</h2>
+        <div class="panel panel-default">
 
-				});
-				start.fail(function(result) {
-					console.log('Could not Connect! > ', result.message);
-
-				});
-
-				//Publishing an event when server pushes a greeting message
+          <div class="panel-body">
+            <form id="messageForm" class="form-control-wrapper">
+              <input type="text" id="message" class="form-control empty" placeholder="enter message and press enter"><span class="material-input"></span>
+            </form>
+          </div>
 
 
-				$("#messageForm").submit(function() {
-					try {
-						var val = $("#message").val();
-						chatHub.invoke("send", "asdf", val);
-						console.log("Send message: " + val);
-					} catch(e) {
-						console.log("error: " + e);
-					}
-					$("#message").val("");
-					event.preventDefault();
-				});
+        </div>
+
+        <div id="messages" class="list-group">
+
+        </div>
+
+      </div>
 
 
-			});
-		// This optional function html-encodes messages for display in the page.
+    </div>
+    <div class="footer">
+      <a href="http://fezvrasta.github.io/bootstrap-material-design/bootstrap-elements.html">Css</a>
+    </div>
+  </div>
+  <div style="display:none" id="messageTemplate">
+    <div class="list-group-item">
+      <div class="row-action-primary">
+        <i class="mdi-file-folder"></i>
+      </div>
+      <div class="row-content">
+        <div class="least-content"></div>
+        <h4 class="list-group-item-heading">@message</h4>
+      </div>
+    </div>
+    <div class="list-group-separator"></div>
+  </div>
+  <script src="https://code.jquery.com/jquery-2.1.3.min.js"> </script>
+  <script src="http://ajax.aspnetcdn.com/ajax/signalr/jquery.signalr-2.1.0.min.js"> </script>
+  <script src="http://fezvrasta.github.io/bootstrap-material-design/dist/js/ripples.min.js"> </script>
+  <script src="http://fezvrasta.github.io/bootstrap-material-design/dist/js/material.min.js"> </script>
+  <script src="//fezvrasta.github.io/snackbarjs/dist/snackbar.min.js"> </script>
 
-		</script>
+  <script>
+    $(function () {
+      //Getting the connection object
+      var connection = $.hubConnection();
 
-	</body>
+      //Creating proxy
+      var chatHub = connection.createHubProxy('chatHub');
+      console.log("connecting to hub");
+      chatHub.on('addMessage', function (name, message) {
+        console.log("message:" + name + message);
+        var html = $("#messageTemplate").html().replace("@message", message);
+        $("#messages").append(html);
+
+      });
+      //Starting connection
+      var start = connection.start();
+      start.done(function () {
+        console.log("connection made");
+
+      });
+      start.fail(function (result) {
+        console.log('Could not Connect! > ', result.message);
+
+      });
+
+      //Publishing an event when server pushes a greeting message
+
+
+      $("#messageForm").submit(function () {
+        try {
+          var val = $("#message").val();
+          chatHub.invoke("send", "asdf", val);
+          console.log("Send message: " + val);
+        } catch (e) {
+          console.log("error: " + e);
+        }
+        $("#message").val("");
+        event.preventDefault();
+      });
+
+
+    });
+    // This optional function html-encodes messages for display in the page.
+
+  </script>
+
+</body>
 </html>
