@@ -158,6 +158,7 @@
     <Compile Include="AppStartup\AutoMapperSetup.cs" />
     <Compile Include="AppStartup\BootStrap.cs" />
     <Compile Include="AppStartup\IocContainerSetup.cs" />
+    <Compile Include="AppStartup\SwaggerSetup.cs" />
     <Compile Include="AppStartup\WebApiSetup.cs" />
     <Compile Include="Nancy\NancySetup.cs" />
     <Compile Include="WebApi\RouteHelper.cs" />

@@ -7,11 +7,11 @@ namespace MainSolutionTemplate.Api
     {
         public void Configuration(IAppBuilder appBuilder)
         {
-			BootStrap.Initialize();
-	        var webApiSetup = WebApiSetup.Initialize(appBuilder);
-	        appBuilder.MapSignalR();
+            BootStrap.Initialize();
+            WebApiSetup webApiSetup = WebApiSetup.Initialize(appBuilder);
+            appBuilder.MapSignalR();
             appBuilder.UseNancy();
-			webApiSetup.Configuration.EnsureInitialized();
+            webApiSetup.Configuration.EnsureInitialized();
         }
     }
 }

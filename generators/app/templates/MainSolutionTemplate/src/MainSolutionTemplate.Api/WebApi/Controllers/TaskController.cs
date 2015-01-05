@@ -15,6 +15,10 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 			Post(new TaskModel {Name = "Add type scripts"});
 		}
 
+		/// <summary>
+		/// Gets this instance.
+		/// </summary>
+		/// <returns></returns>
 		[Route(RouteHelper.TaskController)]
 		public List<TaskModel> Get()
 		{

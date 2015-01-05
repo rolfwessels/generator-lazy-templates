@@ -11,6 +11,8 @@ namespace MainSolutionTemplate.Api.SignalR
         {
 			_log.Info(string.Format("data:'{0}' '{1}'", data, message));
 			Clients.All.addMessage(data, message);
+
+
         }
     }
 }
