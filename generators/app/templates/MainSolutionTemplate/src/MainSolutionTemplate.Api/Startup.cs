@@ -10,6 +10,7 @@ namespace MainSolutionTemplate.Api
             BootStrap.Initialize();
             WebApiSetup webApiSetup = WebApiSetup.Initialize(appBuilder);
             appBuilder.MapSignalR();
+            SwaggerSetup.Initialize(webApiSetup.Configuration);
             appBuilder.UseNancy();
             webApiSetup.Configuration.EnsureInitialized();
         }
