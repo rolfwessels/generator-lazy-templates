@@ -3,6 +3,7 @@ using System.Net;
 
 namespace MainSolutionTemplate.Api.WebApi.Filters
 {
+  [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2237:MarkISerializableTypesWithSerializable")]
   public class ApiException : Exception
   {
     public ApiException(string message)

@@ -142,7 +142,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="WebApi\Controllers\" />
+    <Folder Include="Selenium\" />
+    <Folder Include="UnitTests\WebApi\Controllers\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
