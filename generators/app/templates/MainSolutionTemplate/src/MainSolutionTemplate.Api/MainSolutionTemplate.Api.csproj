@@ -164,6 +164,9 @@
     <Compile Include="AppStartup\SwaggerSetup.cs" />
     <Compile Include="AppStartup\WebApiSetup.cs" />
     <Compile Include="Nancy\NancySetup.cs" />
+    <Compile Include="WebApi\Filters\ApiException.cs" />
+    <Compile Include="WebApi\Filters\CaptureExceptionFilter.cs" />
+    <Compile Include="WebApi\Filters\ErrorMessage.cs" />
     <Compile Include="WebApi\RouteHelper.cs" />
     <Compile Include="WebApi\Controllers\TaskController.cs" />
     <Compile Include="Nancy\Content\IndexModule.cs" />
