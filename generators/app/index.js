@@ -62,12 +62,19 @@ module.exports = yeoman.generators.Base.extend({
         this.prompt(prompts, function (answers) {
             this.appName = answers.appName;
             this.addDemoSection = answers.addDemoSection;
-   
+            
+            
+            this.config.save();
+
             done();
         }.bind(this));
+        
   },
 
-  
+  saveConfig: function() {
+    this.log("Save the configuration for " + this.appName);
+    this.config.set('appName', this.appName);
+  },
 
   writing: {
     

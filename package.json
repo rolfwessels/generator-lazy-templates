@@ -16,7 +16,8 @@
     "test": "mocha"
   },
   "files": [
-    "app"
+    "app",
+    "classlib"
   ],
   "keywords": [
     "yeoman-generator"
