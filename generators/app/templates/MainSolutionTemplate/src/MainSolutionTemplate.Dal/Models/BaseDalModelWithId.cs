@@ -2,8 +2,13 @@
 
 namespace MainSolutionTemplate.Dal.Models
 {
-  public class BaseDalModelWithId : BaseDalModel
-  {
-    public Guid Id { get; set; }
-  }
+	public class BaseDalModelWithId : BaseDalModel
+	{
+		public BaseDalModelWithId()
+		{
+			Id = Guid.NewGuid();
+		}
+
+		public Guid Id { get; set; }
+	}
 }

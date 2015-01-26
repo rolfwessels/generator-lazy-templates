@@ -84,12 +84,11 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SampleTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MainSolutionTemplate.Dal\MainSolutionTemplate.Dal.csproj">
+    <ProjectReference Include="..\MainSolutionTemplate.Core\MainSolutionTemplate.Core.csproj">
       <Project>{6B955EE7-2AC5-42E8-BA94-FE9EA2D49DDF}</Project>
-      <Name>MainSolutionTemplate.Dal</Name>
+      <Name>MainSolutionTemplate.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -110,6 +109,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
