@@ -82,17 +82,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GeneralDataContext.cs" />
+    <Compile Include="GeneralDbContext.cs" />
+    <Compile Include="GeneralUnitOfWork.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Migrations\201501262101332_Initialize Database.cs" />
-    <Compile Include="Migrations\201501262101332_Initialize Database.Designer.cs">
-      <DependentUpon>201501262101332_Initialize Database.cs</DependentUpon>
+    <Compile Include="Migrations\InitializeDatabase.cs" />
+    <Compile Include="Migrations\InitializeDatabase.Designer.cs">
+      <DependentUpon>InitializeDatabase.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="..\MainSolutionTemplate.core\Properties\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="RepositoryWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -125,8 +127,8 @@
     <Content Include="Readme.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201501262101332_Initialize Database.resx">
-      <DependentUpon>201501262101332_Initialize Database.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\InitializeDatabase.resx">
+      <DependentUpon>InitializeDatabase.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

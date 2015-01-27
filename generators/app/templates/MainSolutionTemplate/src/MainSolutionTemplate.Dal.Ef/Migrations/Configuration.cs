@@ -2,14 +2,14 @@ namespace MainSolutionTemplate.Dal.Ef.Migrations
 {
 	using System.Data.Entity.Migrations;
 
-	public sealed class Configuration : DbMigrationsConfiguration<MainSolutionTemplate.Dal.Ef.GeneralDataContext>
+	public sealed class Configuration : DbMigrationsConfiguration<MainSolutionTemplate.Dal.Ef.GeneralUnitOfWork>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(MainSolutionTemplate.Dal.Ef.GeneralDataContext context)
+        protected override void Seed(MainSolutionTemplate.Dal.Ef.GeneralUnitOfWork context)
         {
             //  This method will be called after migrating to the latest version.
 
