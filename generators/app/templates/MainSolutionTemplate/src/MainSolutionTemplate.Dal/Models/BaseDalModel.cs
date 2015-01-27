@@ -1,8 +1,9 @@
 ﻿using System;
+using MainSolutionTemplate.Dal.Models.Interfaces;
 
 namespace MainSolutionTemplate.Dal.Models
 {
-	public class BaseDalModel
+	public class BaseDalModel : IBaseDalModel
 	{
 		public BaseDalModel()
 		{

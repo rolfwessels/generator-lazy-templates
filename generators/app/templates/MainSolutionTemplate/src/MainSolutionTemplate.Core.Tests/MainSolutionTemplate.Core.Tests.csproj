@@ -83,6 +83,7 @@
     <Compile Include="..\MainSolutionTemplate.Core\Properties\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Helpers\PersistanceTester.cs" />
     <Compile Include="Helpers\StringHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SampleTests.cs" />
@@ -91,6 +92,10 @@
     <ProjectReference Include="..\MainSolutionTemplate.Core\MainSolutionTemplate.Core.csproj">
       <Project>{6B955EE7-2AC5-42E8-BA94-FE9EA2D49DDF}</Project>
       <Name>MainSolutionTemplate.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MainSolutionTemplate.Dal\MainSolutionTemplate.Dal.csproj">
+      <Project>{9A75E778-72A2-4DA0-9983-1032C90C515F}</Project>
+      <Name>MainSolutionTemplate.Dal</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

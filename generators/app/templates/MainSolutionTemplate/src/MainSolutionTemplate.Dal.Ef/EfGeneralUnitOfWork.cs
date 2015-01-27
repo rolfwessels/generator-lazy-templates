@@ -4,30 +4,27 @@ using MainSolutionTemplate.Dal.Persistance;
 
 namespace MainSolutionTemplate.Dal.Ef
 {
-	public class GeneralUnitOfWork : IGeneralUnitOfWork 
+	public class EfGeneralUnitOfWork : IGeneralUnitOfWork 
 	{
-		private string _connnectionStringName;
+		private readonly string _connnectionStringName;
 		private Lazy<GeneralDbContext> _context;
 
 
-		public GeneralUnitOfWork() : this("MainSolutionTemplateContext")
+		public EfGeneralUnitOfWork() : this("MainSolutionTemplateContext")
 		{
 
 		}
 
-		public GeneralUnitOfWork(string connnectionStringName)
+		public EfGeneralUnitOfWork(string connnectionStringName)
 		{
 			_connnectionStringName = connnectionStringName;
 			ReCreateContext();
+			
 		}
 
 		
 		#region Implementation of IUnitOfWork
 
-		public void Commit()
-		{
-			_context.Value.SaveChanges();
-		}
 
 		public void Rollback()
 		{
@@ -36,23 +33,16 @@ namespace MainSolutionTemplate.Dal.Ef
 
 		#endregion
 
-		#region Implementation of IGeneralUnitOfWork
-
-		public IRepository<User> Users {
-			get { return new RepositoryWrapper<User>(_context.Value.UsersSet); } 
-		}
-		public IRepository<Role> Roles {
-			get { return new RepositoryWrapper<Role>(_context.Value.RoleSet); } 
-		}
-
-		#endregion
+		
 
 		#region Private Methods
 
 		private void ReCreateContext()
 		{
 			if (_context != null && _context.IsValueCreated) _context.Value.Dispose();
-			_context = new Lazy<GeneralDbContext>(() => new GeneralDbContext(_connnectionStringName)); 
+			_context = new Lazy<GeneralDbContext>(() => new GeneralDbContext(_connnectionStringName));
+			Users = new RepositoryWrapper<User>(_context.Value.UsersSet, _context.Value);
+			Roles = new RepositoryWrapper<Role>(_context.Value.RoleSet, _context.Value);
 		}
 
 		#endregion
@@ -63,6 +53,13 @@ namespace MainSolutionTemplate.Dal.Ef
 		{
 			if (_context.IsValueCreated) _context.Value.Dispose();
 		}
+
+		#endregion
+
+		#region Implementation of IGeneralUnitOfWork
+
+		public IRepository<User> Users { get; private set; }
+		public IRepository<Role> Roles { get; private set; }
 
 		#endregion
 	}

@@ -83,7 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GeneralDbContext.cs" />
-    <Compile Include="GeneralUnitOfWork.cs" />
+    <Compile Include="EfGeneralUnitOfWork.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Migrations\InitializeDatabase.cs" />
     <Compile Include="Migrations\InitializeDatabase.Designer.cs">
