@@ -7,5 +7,6 @@ namespace MainSolutionTemplate.Dal.Persistance
 	{
 		IRepository<User> Users { get;  }
 		IRepository<Role> Roles { get;  }
+		IRepository<Application> Applications { get; }
 	}
 }

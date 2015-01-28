@@ -3,10 +3,25 @@ namespace MainSolutionTemplate.Dal.Ef.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitializeDatabase : DbMigration
+    public partial class Start : DbMigration
     {
         public override void Up()
         {
+            CreateTable(
+                "dbo.Applications",
+                c => new
+                    {
+                        Id = c.Guid(nullable: false, identity: true),
+                        ClientId = c.String(),
+                        Secret = c.String(),
+                        Active = c.Boolean(nullable: false),
+                        AllowedOrigin = c.String(),
+                        RefreshTokenLifeTime = c.Double(nullable: false),
+                        CreateDate = c.DateTime(nullable: false),
+                        UpdateDate = c.DateTime(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id);
+            
             CreateTable(
                 "dbo.Roles",
                 c => new
@@ -26,6 +41,7 @@ namespace MainSolutionTemplate.Dal.Ef.Migrations
                         Name = c.String(),
                         Email = c.String(),
                         HashedPassword = c.String(),
+                        LastLoginDate = c.DateTime(),
                         CreateDate = c.DateTime(nullable: false),
                         UpdateDate = c.DateTime(nullable: false),
                     })
@@ -55,6 +71,7 @@ namespace MainSolutionTemplate.Dal.Ef.Migrations
             DropTable("dbo.UserRoles");
             DropTable("dbo.Users");
             DropTable("dbo.Roles");
+            DropTable("dbo.Applications");
         }
     }
 }

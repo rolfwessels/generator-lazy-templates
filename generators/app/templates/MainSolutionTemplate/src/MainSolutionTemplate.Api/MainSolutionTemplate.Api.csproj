@@ -161,7 +161,6 @@
     <Compile Include="..\MainSolutionTemplate.Core\Properties\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="AppStartup\AutoMapperSetup.cs" />
     <Compile Include="AppStartup\BootStrap.cs" />
     <Compile Include="AppStartup\IocContainerSetup.cs" />
     <Compile Include="AppStartup\SwaggerSetup.cs" />
@@ -192,6 +191,18 @@
     <ProjectReference Include="..\MainSolutionTemplate.Core\MainSolutionTemplate.Core.csproj">
       <Project>{6B955EE7-2AC5-42E8-BA94-FE9EA2D49DDF}</Project>
       <Name>MainSolutionTemplate.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MainSolutionTemplate.Dal.Mongo\MainSolutionTemplate.Dal.Mongo.csproj">
+      <Project>{070F8D6F-737B-4503-8022-13954D52E752}</Project>
+      <Name>MainSolutionTemplate.Dal.Mongo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MainSolutionTemplate.Dal\MainSolutionTemplate.Dal.csproj">
+      <Project>{9A75E778-72A2-4DA0-9983-1032C90C515F}</Project>
+      <Name>MainSolutionTemplate.Dal</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MainSolutionTemplate.OAuth2.Dal\MainSolutionTemplate.OAuth2.Dal.csproj">
+      <Project>{CE1598CB-ADFF-4F64-BBAD-6B16A29BAF8E}</Project>
+      <Name>MainSolutionTemplate.OAuth2.Dal</Name>
     </ProjectReference>
     <ProjectReference Include="..\MainSolutionTemplate.OAuth2\MainSolutionTemplate.OAuth2.csproj">
       <Project>{80F30C95-0E90-4622-9A8D-1BE39854900B}</Project>

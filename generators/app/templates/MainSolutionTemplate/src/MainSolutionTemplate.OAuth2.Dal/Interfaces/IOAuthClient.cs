@@ -1,6 +1,6 @@
 ﻿namespace MainSolutionTemplate.OAuth2.Dal.Interfaces
 {
-	public interface IClient
+	public interface IOAuthClient
 	{
 		string Secret { get; set; }
 		bool Active { get; set; }

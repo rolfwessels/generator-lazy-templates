@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace MainSolutionTemplate.Dal.Models
 {
@@ -13,5 +14,6 @@ namespace MainSolutionTemplate.Dal.Models
 		public string Email { get; set; }
 		public string HashedPassword { get; set; }
 		public virtual List<Role> Roles { get; private set; }
+		public DateTime? LastLoginDate { get; set; }
 	}
 }

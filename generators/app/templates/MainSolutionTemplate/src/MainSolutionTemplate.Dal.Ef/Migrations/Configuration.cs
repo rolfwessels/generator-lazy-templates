@@ -4,6 +4,7 @@ namespace MainSolutionTemplate.Dal.Ef.Migrations
 {
 	using System.Data.Entity.Migrations;
 
+	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Interoperability", "CA1405:ComVisibleTypeBaseTypesShouldBeComVisible")]
 	public sealed class Configuration : DbMigrationsConfiguration<GeneralDbContext>
     {
         public Configuration()
@@ -13,7 +14,7 @@ namespace MainSolutionTemplate.Dal.Ef.Migrations
 
 		protected override void Seed(GeneralDbContext context)
 		{
-			context.UsersSet.AddOrUpdate(x => x.Email,
+			context.Users.AddOrUpdate(x => x.Email,
 			                             new User()
 				                             {
 					                             Email = "admin@admin.com",

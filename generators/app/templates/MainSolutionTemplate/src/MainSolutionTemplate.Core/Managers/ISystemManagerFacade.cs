@@ -2,7 +2,7 @@
 
 namespace MainSolutionTemplate.Core.Managers
 {
-	public interface ISystemManager : IOAuthDataManager
+	public interface ISystemManagerFacade : IOAuthDataManager
 	{
 		 
 	}

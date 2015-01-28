@@ -41,6 +41,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MainSolutionTemplate.Dal.Mo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MainSolutionTemplate.OAuth2", "MainSolutionTemplate.OAuth2\MainSolutionTemplate.OAuth2.csproj", "{80F30C95-0E90-4622-9A8D-1BE39854900B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MainSolutionTemplate.OAuth2.Dal", "MainSolutionTemplate.OAuth2.Dal\MainSolutionTemplate.OAuth2.Dal.csproj", "{CE1598CB-ADFF-4F64-BBAD-6B16A29BAF8E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -99,6 +101,10 @@ Global
 		{80F30C95-0E90-4622-9A8D-1BE39854900B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{80F30C95-0E90-4622-9A8D-1BE39854900B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{80F30C95-0E90-4622-9A8D-1BE39854900B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE1598CB-ADFF-4F64-BBAD-6B16A29BAF8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE1598CB-ADFF-4F64-BBAD-6B16A29BAF8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE1598CB-ADFF-4F64-BBAD-6B16A29BAF8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE1598CB-ADFF-4F64-BBAD-6B16A29BAF8E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

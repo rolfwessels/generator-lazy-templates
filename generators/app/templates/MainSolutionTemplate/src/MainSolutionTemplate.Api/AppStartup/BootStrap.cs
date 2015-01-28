@@ -8,15 +8,14 @@
 
 	    protected BootStrap()
 	    {
-			AutoMapperSetup.Initialize();
-			IocContainerSetup.Initialize();
+			
 	    }
 
 	    #region Initialize
 
-		public static void Initialize()
+		public static BootStrap Initialize()
         {
-			if (_isInitialized) return;
+			if (_isInitialized) return _instance;
             lock (_locker)
             {
                 if (!_isInitialized)
@@ -25,6 +24,7 @@
 	                _isInitialized = true;
                 }
             }
+			return _instance;
         }
 
 	    #endregion

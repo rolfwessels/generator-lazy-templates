@@ -11,7 +11,7 @@ namespace MainSolutionTemplate.Api
         {
             BootStrap.Initialize();
             WebApiSetup webApiSetup = WebApiSetup.Initialize(appBuilder);
-			OathAuthorizationSetup.Initialize(appBuilder,IocContainerSetup.Instance.Resolve<ISystemManager>);
+			OathAuthorizationSetup.Initialize(appBuilder,IocContainerSetup.Instance.Resolve<ISystemManagerFacade>());
             appBuilder.MapSignalR();
             SwaggerSetup.Initialize(webApiSetup.Configuration);
             appBuilder.UseNancy();

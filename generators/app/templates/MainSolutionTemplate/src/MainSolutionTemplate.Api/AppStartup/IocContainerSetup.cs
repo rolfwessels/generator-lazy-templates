@@ -2,6 +2,8 @@
 using Autofac;
 using Autofac.Core;
 using MainSolutionTemplate.Core.Startup;
+using MainSolutionTemplate.Dal.Mongo;
+using MainSolutionTemplate.Dal.Persistance;
 
 namespace MainSolutionTemplate.Api.AppStartup
 {
@@ -47,5 +49,13 @@ namespace MainSolutionTemplate.Api.AppStartup
 
 		#endregion
 
+		#region Overrides of IocContainerBase
+
+		protected override IGeneralUnitOfWork GetGeneralUnitOfWork(IComponentContext arg)
+		{
+			return new MongoGeneralUnitOfWork();
+		}
+
+		#endregion
 	}
 }

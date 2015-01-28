@@ -1,22 +1,39 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using MainSolutionTemplate.Api.AppStartup;
+using MainSolutionTemplate.Core.Mappers;
 using NUnit.Framework;
+using FluentAssertions;
 
 namespace MainSolutionTemplate.Api.Tests.Startup
 {
     [TestFixture]
     public class AutoMapperSetupTests
     {
-        public AutoMapperSetupTests()
+	    private IEnumerable<Type> _types;
+
+	    public AutoMapperSetupTests()
         {
-            AutoMapperSetup.Initialize();
+	        _types = (from t in typeof (AutoMapperUser).Assembly.GetTypes()
+					   where t.Name.Contains("AutoMapper") && t.IsSealed && t.IsAbstract
+	                   select t);
         }
 
-        [Test]
+	    [Test]
         public void AutoMapperSetup_WhenConstructed_ShouldNotBeNull()
         {
             // assert
-            Mapper.AssertConfigurationIsValid();
+		    _types.Select(x => x.Name).Should().Contain("AutoMapperUser");
+        }
+
+	    [Test]
+        public void AutoMapperSetup_ConstructAll_ShouldNotBeNull()
+        {
+            // assert
+		    _types.Select(x => x.TypeInitializer.Invoke(null, null)).Count().Should().BeGreaterThan(1);
+			Mapper.AssertConfigurationIsValid();
         }
 
     }

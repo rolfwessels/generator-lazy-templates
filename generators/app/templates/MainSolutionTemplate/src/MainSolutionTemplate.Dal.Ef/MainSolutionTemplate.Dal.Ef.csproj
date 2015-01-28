@@ -85,9 +85,9 @@
     <Compile Include="GeneralDbContext.cs" />
     <Compile Include="EfGeneralUnitOfWork.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Migrations\InitializeDatabase.cs" />
-    <Compile Include="Migrations\InitializeDatabase.Designer.cs">
-      <DependentUpon>InitializeDatabase.cs</DependentUpon>
+    <Compile Include="Migrations\201501282117534_Start.cs" />
+    <Compile Include="Migrations\201501282117534_Start.Designer.cs">
+      <DependentUpon>201501282117534_Start.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -127,8 +127,8 @@
     <Content Include="Readme.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\InitializeDatabase.resx">
-      <DependentUpon>InitializeDatabase.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201501282117534_Start.resx">
+      <DependentUpon>201501282117534_Start.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

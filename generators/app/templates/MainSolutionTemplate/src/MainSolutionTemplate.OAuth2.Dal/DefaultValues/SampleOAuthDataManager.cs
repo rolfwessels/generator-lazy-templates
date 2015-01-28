@@ -15,8 +15,8 @@ namespace MainSolutionTemplate.OAuth2.Dal.DefaultValues
 		public SampleOAuthDataManager()
 			: this(new List<DefaultAuthUser>()
 				{
-					new DefaultAuthUser("admin", "Admin user", "admin!", new[] {"Admin"}),
-					new DefaultAuthUser("guest", "Guest user", "guest!", new[] {"Guest"})
+					new DefaultAuthUser("admin", "Admin authorizedUser", "admin!", new[] {"Admin"}),
+					new DefaultAuthUser("guest", "Guest authorizedUser", "guest!", new[] {"Guest"})
 				})
 		{
 		}
@@ -31,14 +31,14 @@ namespace MainSolutionTemplate.OAuth2.Dal.DefaultValues
 
 		#region Implementation of IOAuthDataManager
 
-		public Task<IClient> GetClient(string clientId)
+		public Task<IOAuthClient> GetClient(string clientId)
 		{
-			return Task.FromResult(new DefaultClient()
+			return Task.FromResult(new DefaultIoAuthClient()
 				{
 					Active =  true,
 					AllowedOrigin = "*",
 					RefreshTokenLifeTime = TimeSpan.FromDays(1).TotalMinutes
-				} as IClient);
+				} as IOAuthClient);
 		}
 
 		public Task<IAuthorizedUser> GetUserByUserNameAndPassword(string userName, string password)
@@ -48,10 +48,10 @@ namespace MainSolutionTemplate.OAuth2.Dal.DefaultValues
 			return Task.FromResult(_defaultAuthUsers.FirstOrDefault(x => x.UserId.ToLower().Equals(userName.ToLower()) && x.Password == password) as IAuthorizedUser);
 		}
 
-		public Task<string[]> GetRolesForUser(IAuthorizedUser user)
+		public Task<string[]> GetRolesForUser(IAuthorizedUser userId)
 		{
-			if (user == null) throw new ArgumentNullException("user");
-			return Task.FromResult(_defaultAuthUsers.Where(x => x.UserId == user.UserId).Select(x => x.Roles).FirstOrDefault());
+			if (userId == null) throw new ArgumentNullException("userId");
+			return Task.FromResult(_defaultAuthUsers.Where(x => x.UserId == userId.UserId).Select(x => x.Roles).FirstOrDefault());
 		}
 
 		public Task UpdateUserLastActivityDate(IAuthorizedUser user)

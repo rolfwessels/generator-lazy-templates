@@ -38,7 +38,7 @@ namespace MainSolutionTemplate.Api.Tests.Integration.WebApi
 			request.AddParameter("username", "admin");
 			request.AddParameter("password", "admin!");
 			request.AddParameter("grant_type", "password");
-			request.AddParameter("client_id", "sampleApp");
+			request.AddParameter("client_id", "MainSolutionTemplateApi");
 			// action
 			var restResponse = _client.Value.ExecuteWithLogging<List<TaskModel>>(request);
 			// assert
@@ -54,7 +54,7 @@ namespace MainSolutionTemplate.Api.Tests.Integration.WebApi
 			request.AddParameter("username", "admin");
 			request.AddParameter("password", "admin!");
 			request.AddParameter("grant_type", "password");
-			request.AddParameter("client_id", "sampleApp");
+			request.AddParameter("client_id", "MainSolutionTemplateApi");
 			// action
 			var restResponse = _client.Value.ExecuteWithLogging<List<TaskModel>>(request);
 			// assert
@@ -74,7 +74,7 @@ namespace MainSolutionTemplate.Api.Tests.Integration.WebApi
 			request.AddParameter("username", "admin");
 			request.AddParameter("password", "admin");
 			request.AddParameter("grant_type", "password");
-			request.AddParameter("client_id", "sampleApp");
+			request.AddParameter("client_id", "MainSolutionTemplateApi");
 			// action
 			var restResponse = _client.Value.ExecuteWithLogging<List<TaskModel>>(request);
 			// assert

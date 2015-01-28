@@ -41,12 +41,12 @@
   <ItemGroup>
     <Compile Include="Class1.cs" />
     <Compile Include="DefaultValues\DefaultAuthUser.cs" />
-    <Compile Include="DefaultValues\DefaultClient.cs" />
+    <Compile Include="DefaultValues\DefaultIoAuthClient.cs" />
     <Compile Include="DefaultValues\DefaultRefreshToken.cs" />
     <Compile Include="DefaultValues\SampleOAuthDataManager.cs" />
     <Compile Include="DefaultValues\SHA256Security.cs" />
     <Compile Include="Interfaces\IAuthorizedUser.cs" />
-    <Compile Include="Interfaces\IClient.cs" />
+    <Compile Include="Interfaces\IOAuthClient.cs" />
     <Compile Include="Interfaces\IOAuthDataManager.cs" />
     <Compile Include="Interfaces\IOAuthSecurity.cs" />
     <Compile Include="Interfaces\IRefreshToken.cs" />

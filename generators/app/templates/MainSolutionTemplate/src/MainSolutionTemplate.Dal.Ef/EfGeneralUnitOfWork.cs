@@ -10,6 +10,7 @@ using MainSolutionTemplate.Dal.Persistance;
 namespace MainSolutionTemplate.Dal.Ef
 {
 
+	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly")]
 	public class EfGeneralUnitOfWork : IGeneralUnitOfWork
 	{
 		private readonly string _connectionStringName;
@@ -40,15 +41,16 @@ namespace MainSolutionTemplate.Dal.Ef
 		{
 			if (_context != null && _context.IsValueCreated) _context.Value.Dispose();
 			_context = new Lazy<GeneralDbContext>(() => new GeneralDbContext(_connectionStringName));
-			Users = new EfRepository<User>(_context.Value.UsersSet, _context.Value);
-			Roles = new EfRepository<Role>(_context.Value.RoleSet, _context.Value);
+			Users = new EfRepository<User>(_context.Value.Users, _context.Value);
+			Roles = new EfRepository<Role>(_context.Value.Roles, _context.Value);
+			Applications = new EfRepository<Application>(_context.Value.Applications, _context.Value);
 		}
 
 		#endregion
 
 		#region Implementation of IDisposable
 
-		public void Dispose()
+		public virtual void Dispose()
 		{
 			if (_context.IsValueCreated) _context.Value.Dispose();
 		}
@@ -59,6 +61,7 @@ namespace MainSolutionTemplate.Dal.Ef
 
 		public IRepository<User> Users { get; private set; }
 		public IRepository<Role> Roles { get; private set; }
+		public IRepository<Application> Applications { get; private set; }
 
 		#endregion
 	}

@@ -7,13 +7,13 @@ namespace MainSolutionTemplate.Dal.Ef.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.2-31219")]
-    public sealed partial class InitializeDatabase : IMigrationMetadata
+    public sealed partial class Start : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(InitializeDatabase));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Start));
         
         string IMigrationMetadata.Id
         {
-            get { return "201501262101332_Initialize Database"; }
+            get { return "201501282117534_Start"; }
         }
         
         string IMigrationMetadata.Source

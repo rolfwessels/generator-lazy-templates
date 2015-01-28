@@ -2,9 +2,9 @@
 
 namespace MainSolutionTemplate.OAuth2.Dal.DefaultValues
 {
-	public class DefaultClient : IClient
+	public class DefaultIoAuthClient : IOAuthClient
 	{
-		#region Implementation of IClient
+		#region Implementation of IOAuthClient
 
 		public string Secret { get; set; }
 		public bool Active { get; set; }
