@@ -1,6 +1,6 @@
-﻿using MainSolutionTemplate.OAuth2.Interfaces;
+﻿using MainSolutionTemplate.OAuth2.Dal.Interfaces;
 
-namespace MainSolutionTemplate.OAuth2.DefaultValues
+namespace MainSolutionTemplate.OAuth2.Dal.DefaultValues
 {
 	public class DefaultClient : IClient
 	{

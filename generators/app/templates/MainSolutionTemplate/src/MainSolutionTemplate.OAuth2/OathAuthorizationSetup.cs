@@ -1,13 +1,13 @@
 ﻿using System;
-using MainSolutionTemplate.OAuth2.DefaultValues;
-using MainSolutionTemplate.OAuth2.Interfaces;
+using MainSolutionTemplate.OAuth2.Dal.DefaultValues;
+using MainSolutionTemplate.OAuth2.Dal.Interfaces;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
 
 namespace MainSolutionTemplate.OAuth2
 {
-	public static class AuthorizationSetup
+	public static class OathAuthorizationSetup
 	{
 		private static bool _isInitialized;
 		private static readonly object _locker = new object();
@@ -31,6 +31,7 @@ namespace MainSolutionTemplate.OAuth2
 		public static void Initialize(IAppBuilder appBuilder, IOAuthDataManager oauthDataManager, IOAuthSecurity oauthSecurity, AuthorizationSettings settings)
 		{
 			if (settings == null) throw new ArgumentNullException("settings");
+			if (_isInitialized) throw new Exception("Auth setup already done.");
 			lock (_locker)
 			{
 				if (!_isInitialized)

@@ -1,4 +1,4 @@
-﻿namespace MainSolutionTemplate.OAuth2.Interfaces
+﻿namespace MainSolutionTemplate.OAuth2.Dal.Interfaces
 {
 	public interface IAuthorizedUser
 	{

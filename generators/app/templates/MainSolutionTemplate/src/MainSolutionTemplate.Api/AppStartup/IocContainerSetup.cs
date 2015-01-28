@@ -1,4 +1,7 @@
-﻿using MainSolutionTemplate.Core.Startup;
+﻿using System.Collections.Generic;
+using Autofac;
+using Autofac.Core;
+using MainSolutionTemplate.Core.Startup;
 
 namespace MainSolutionTemplate.Api.AppStartup
 {
@@ -7,24 +10,39 @@ namespace MainSolutionTemplate.Api.AppStartup
 		private static bool _isInitialized;
 		private static readonly object _locker = new object();
 		private static IocContainerSetup _instance;
+		private readonly IContainer _container;
 
 		public IocContainerSetup()
 		{
+			var builder = new ContainerBuilder();
+			SetupCore(builder);
+			_container = builder.Build();
 		}
 
 		#region Initialize
 
-		public static void Initialize()
+		public static IocContainerSetup Instance
 		{
-			if (_isInitialized) return;
-			lock (_locker)
+			get
 			{
-				if (!_isInitialized)
+				if (_isInitialized) return _instance;
+				lock (_locker)
 				{
-					_instance = new IocContainerSetup();
-					_isInitialized = true;
+					if (!_isInitialized)
+					{
+						_instance = new IocContainerSetup();
+						_isInitialized = true;
+						
+					}
 				}
+				return _instance;
 			}
+		}
+
+		
+		public T Resolve<T>()
+		{
+			return _container.Resolve<T>();
 		}
 
 		#endregion

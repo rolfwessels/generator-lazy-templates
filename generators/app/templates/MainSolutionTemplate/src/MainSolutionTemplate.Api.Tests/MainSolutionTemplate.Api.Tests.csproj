@@ -123,6 +123,7 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Integration\WebApi\IntegrationTestsBase.cs" />
+    <Compile Include="Integration\WebApi\OAuthIntegrationTests.cs" />
     <Compile Include="Integration\WebApi\TaskControllerIntegrationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup\AutoMapperSetupTests.cs" />

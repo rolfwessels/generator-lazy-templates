@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using MainSolutionTemplate.OAuth2.Interfaces;
+using MainSolutionTemplate.OAuth2.Dal.Interfaces;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OAuth;
 
@@ -38,7 +38,7 @@ namespace MainSolutionTemplate.OAuth2
 				return;
 			}
 
-			IClient client = await _oauthDataManager.GetClient(context.ClientId);
+			var client = await _oauthDataManager.GetClient(context.ClientId);
 
 			if (client == null)
 			{
@@ -48,15 +48,19 @@ namespace MainSolutionTemplate.OAuth2
 				return;
 			}
 
-			if (string.IsNullOrWhiteSpace(clientSecret))
+			if (!string.IsNullOrEmpty(client.Secret))
 			{
-				context.SetError("invalid_clientId", "Client secret should be sent.");
-				return;
-			}
-			if (client.Secret != _oauthSecurity.GetHash(clientSecret))
-			{
-				context.SetError("invalid_clientId", "Client secret is invalid.");
-				return;
+				if (string.IsNullOrWhiteSpace(clientSecret))
+				{
+					context.SetError("invalid_clientId", "Client secret should be sent.");
+					return;
+				}
+
+				if (client.Secret != _oauthSecurity.GetHash(clientSecret))
+				{
+					context.SetError("invalid_clientId", "Client secret is invalid.");
+					return;
+				}
 			}
 
 			if (!client.Active)

@@ -10,18 +10,23 @@ namespace MainSolutionTemplate.Api.Tests.Integration.WebApi
 	public class IntegrationTestsBase
 	{
 		private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-		private readonly Lazy<string> _hostAddress;
+		private readonly static Lazy<string> _hostAddress;
 		protected Lazy<RestClient> _client;
+
+		static IntegrationTestsBase()
+		{
+			_hostAddress = new Lazy<string>(StartHosting);
+		}
 
 		public IntegrationTestsBase()
 		{
-			_hostAddress = new Lazy<string>(StartHosting);
+			
 			_client = new Lazy<RestClient>(GetClient);
 		}
 
 		#region Private Methods
 
-		private string StartHosting()
+		private static string StartHosting()
 		{
 			int port = new Random().Next(9000, 9999);
 			string address = string.Format("http://localhost:{0}/", port);

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Security.Cryptography;
-using MainSolutionTemplate.OAuth2.Interfaces;
+using MainSolutionTemplate.OAuth2.Dal.Interfaces;
 
-namespace MainSolutionTemplate.OAuth2.DefaultValues
+namespace MainSolutionTemplate.OAuth2.Dal.DefaultValues
 {
 	public class SHA256Security : IOAuthSecurity
 	{

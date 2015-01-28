@@ -1,6 +1,6 @@
 using System;
 using System.Threading.Tasks;
-using MainSolutionTemplate.OAuth2.Interfaces;
+using MainSolutionTemplate.OAuth2.Dal.Interfaces;
 using Microsoft.Owin.Security.Infrastructure;
 
 namespace MainSolutionTemplate.OAuth2

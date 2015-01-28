@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MainSolutionTemplate.OAuth2.Interfaces;
+using MainSolutionTemplate.OAuth2.Dal.Interfaces;
 
-namespace MainSolutionTemplate.OAuth2.DefaultValues
+namespace MainSolutionTemplate.OAuth2.Dal.DefaultValues
 {
 	public class SampleOAuthDataManager : IOAuthDataManager
 	{
@@ -37,8 +37,7 @@ namespace MainSolutionTemplate.OAuth2.DefaultValues
 				{
 					Active =  true,
 					AllowedOrigin = "*",
-					RefreshTokenLifeTime = TimeSpan.FromDays(1).TotalMinutes,
-					Secret = "c9CwPOiSAv8WBnI981ZvKTkWOqQuaqAv1gRRjGwrlPG4JeCGDwrRznU10G78qsavyqLA2O8cPMUkhLls7QZnxNA6zeJJ6RkpVFpfx4GO5RgBL2NUMGKEIlUndEWVD1AMNdM8KrFSKegl"
+					RefreshTokenLifeTime = TimeSpan.FromDays(1).TotalMinutes
 				} as IClient);
 		}
 
