@@ -11,12 +11,12 @@ using MongoDB.Driver.Linq;
 
 namespace MainSolutionTemplate.Dal.Mongo
 {
-	public class Repository<T> : IRepository<T>
+	public class MongoRepository<T> : IRepository<T> where T : IBaseDalModel
 	{
 		private readonly MongoDatabase _db;
-		private MongoCollection<T> _mongoCollection;
+		private readonly MongoCollection<T> _mongoCollection;
 
-		public Repository(MongoDatabase db)
+		public MongoRepository(MongoDatabase db)
 		{
 			_db = db;
 			_mongoCollection = _db.GetCollection<T>(typeof(T).Name);
@@ -28,17 +28,16 @@ namespace MainSolutionTemplate.Dal.Mongo
 			get { return _mongoCollection.AsQueryable(); }
 		}
 
-	
-
 		public T Add(T entity)
 		{
+			entity.CreateDate = DateTime.Now;
+			entity.UpdateDate = DateTime.Now;
 			_mongoCollection.Save(entity);
 			return entity;
 		}
 
 		public IEnumerable<T> AddRange(IEnumerable<T> entities)
 		{
-			
 			return entities.Select(Add);
 		}
 
@@ -52,6 +51,13 @@ namespace MainSolutionTemplate.Dal.Mongo
 				return writeConcernResult.Ok;
 			}
 			throw new Exception(string.Format("Entity {0} must have known id to be removed", typeof(T).Name));
+		}
+
+		public T Update(T entity)
+		{
+			entity.UpdateDate = DateTime.Now;
+			_mongoCollection.Save(entity);
+			return entity;
 		}
 
 		public int RemoveRange(IEnumerable<T> entities)

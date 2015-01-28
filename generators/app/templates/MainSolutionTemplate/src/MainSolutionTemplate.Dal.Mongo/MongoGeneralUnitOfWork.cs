@@ -32,8 +32,8 @@ namespace MainSolutionTemplate.Dal.Mongo
 			_server = _client.GetServer();
 			_db = _server.GetDatabase(_databaseName);
 
-			Users = new Repository<User>(_db);
-			Roles = new Repository<Role>(_db);
+			Users = new MongoRepository<User>(_db);
+			Roles = new MongoRepository<Role>(_db);
 		}
 
 		#region Implementation of IUnitOfWork

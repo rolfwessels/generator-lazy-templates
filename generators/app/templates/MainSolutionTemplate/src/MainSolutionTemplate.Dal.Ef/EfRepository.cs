@@ -4,21 +4,23 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
+using MainSolutionTemplate.Dal.Models.Interfaces;
 using MainSolutionTemplate.Dal.Persistance;
 
 namespace MainSolutionTemplate.Dal.Ef
 {
-	public class RepositoryWrapper<T> : IRepository<T> where T : class
+	public class EfRepository<T> : IRepository<T> where T : class, IBaseDalModel
 	{
+		
 		private readonly DbSet<T> _usersSet;
 		private readonly GeneralDbContext _value;
 		private IQueryable<T> _asQueryable;
 
-		public RepositoryWrapper(DbSet<T> usersSet, GeneralDbContext value)
+		public EfRepository(DbSet<T> usersSet, GeneralDbContext value)
 		{
 			_usersSet = usersSet;
 			_value = value;
-			_asQueryable = _usersSet.AsNoTracking();
+			_asQueryable = _usersSet;
 		}
 
 		
@@ -29,6 +31,8 @@ namespace MainSolutionTemplate.Dal.Ef
 
 		public T Add(T entity)
 		{
+			entity.CreateDate = DateTime.Now;
+			entity.UpdateDate = DateTime.Now;
 			T add = _usersSet.Add(entity);
 			_value.SaveChanges();
 			return add;
@@ -45,6 +49,13 @@ namespace MainSolutionTemplate.Dal.Ef
 		{
 			_usersSet.Remove(entity);
 			return _value.SaveChanges() > 0;
+		}
+
+		public T Update(T entity)
+		{
+			entity.UpdateDate = DateTime.Now;
+			_value.SaveChanges();
+			return entity;
 		}
 
 		public int RemoveRange(IEnumerable<T> entities)
