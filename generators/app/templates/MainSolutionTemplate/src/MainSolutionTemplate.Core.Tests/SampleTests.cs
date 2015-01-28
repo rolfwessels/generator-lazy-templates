@@ -1,31 +1,33 @@
-﻿using FluentAssertions;
+﻿using System.Reflection;
+using FluentAssertions;
 using NUnit.Framework;
+using log4net;
 
 namespace MainSolutionTemplate.Core.Tests
 {
-  [TestFixture]
-  public class SampleTests
-  {
-    private Sample _sample;
+	[TestFixture]
+	public class SampleTests
+	{
+		private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+		private Sample _sample;
 
-    #region Setup/Teardown
+		#region Setup/Teardown
 
-    public void Setup()
-    {
-      _sample = new Sample();
-    }
+		public void Setup()
+		{
+			_sample = new Sample();
+		}
 
-    #endregion
+		#endregion
 
-    [Test]
-    public void Constructor_WhenCalled_ShouldNotBeNull()
-    {
-      // arrange
-      Setup();
-      // assert
-      _sample.Should().NotBeNull();
-    }
-
-     
-  }
+		[Test]
+		public void Constructor_WhenCalled_ShouldNotBeNull()
+		{
+			_log.Info("Run");
+			// arrange
+			Setup();
+			// assert
+			_sample.Should().NotBeNull();
+		}
+	}
 }

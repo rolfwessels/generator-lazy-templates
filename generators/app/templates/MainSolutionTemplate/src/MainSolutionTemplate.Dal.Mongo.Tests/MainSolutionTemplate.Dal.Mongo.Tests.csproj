@@ -41,6 +41,10 @@
     <Reference Include="FluentAssertions.Core">
       <HintPath>..\..\lib\FluentAssertions.3.2.2\lib\net45\FluentAssertions.Core.dll</HintPath>
     </Reference>
+    <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\..\lib\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
     </Reference>
@@ -60,12 +64,19 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\MainSolutionTemplate.Core.Tests\app.config">
+      <Link>app.config</Link>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MainSolutionTemplate.Core.Tests\MainSolutionTemplate.Core.Tests.csproj">
       <Project>{54F0B648-DB1E-45A4-BA1B-FEB0AF16023E}</Project>
       <Name>MainSolutionTemplate.Core.Tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MainSolutionTemplate.Core\MainSolutionTemplate.Core.csproj">
+      <Project>{6b955ee7-2ac5-42e8-ba94-fe9ea2d49ddf}</Project>
+      <Name>MainSolutionTemplate.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\MainSolutionTemplate.Dal.Mongo\MainSolutionTemplate.Dal.Mongo.csproj">
       <Project>{070F8D6F-737B-4503-8022-13954D52E752}</Project>

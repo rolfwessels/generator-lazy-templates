@@ -128,7 +128,9 @@
     <Compile Include="Startup\AutoMapperSetupTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
+    <None Include="..\MainSolutionTemplate.Core.Tests\app.config">
+      <Link>app.config</Link>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

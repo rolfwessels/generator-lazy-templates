@@ -78,6 +78,7 @@
   <ItemGroup>
     <Compile Include="Helpers\EnumerableHelper.cs" />
     <Compile Include="Helpers\ExceptionHelper.cs" />
+    <Compile Include="Helpers\Log4NetInitializeAttribute.cs" />
     <Compile Include="Helpers\RestShapHelper.cs" />
     <Compile Include="Managers\ISystemManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
