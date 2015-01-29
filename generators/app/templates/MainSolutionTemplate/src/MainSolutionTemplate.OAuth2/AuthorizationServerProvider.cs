@@ -38,7 +38,7 @@ namespace MainSolutionTemplate.OAuth2
 				return;
 			}
 
-			var client = await _oauthDataManager.GetClient(context.ClientId);
+			var client = await _oauthDataManager.GetApplication(context.ClientId);
 
 			if (client == null)
 			{
@@ -77,7 +77,7 @@ namespace MainSolutionTemplate.OAuth2
 
 		public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
 		{
-			IAuthorizedUser user = await _oauthDataManager.GetUserByUserNameAndPassword(context.UserName, context.Password);
+			IAuthorizedUser user = await _oauthDataManager.GetUserByUserIdAndPassword(context.UserName, context.Password);
 
 			if (user == null)
 			{

@@ -50,6 +50,7 @@ namespace MainSolutionTemplate.Dal.Ef
 
 		#region Implementation of IDisposable
 
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly")]
 		public virtual void Dispose()
 		{
 			if (_context.IsValueCreated) _context.Value.Dispose();

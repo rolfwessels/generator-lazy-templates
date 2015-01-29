@@ -4,7 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Reflection;
 using System.Web.Http.Filters;
-using IIAB.Core.Helpers;
+using MainSolutionTemplate.Core.Helpers;
 using log4net;
 
 namespace MainSolutionTemplate.Api.WebApi.Filters

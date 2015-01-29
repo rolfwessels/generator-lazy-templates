@@ -98,7 +98,7 @@
     <Compile Include="Properties\CommonAssemblyInfo.cs" />
     <Compile Include="Sample.cs" />
     <Compile Include="Startup\IocContainerBase.cs" />
-    <Compile Include="Vendor\Class1.cs" />
+    <Compile Include="Vendor\PasswordHash_.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

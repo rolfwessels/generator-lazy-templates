@@ -32,14 +32,14 @@ namespace MainSolutionTemplate.Core.Managers
 			return _oauthManager.DeleteRefreshToken(hashedTokenId);
 		}
 
-		public Task<IOAuthClient> GetClient(string clientId)
+		public Task<IOAuthClient> GetApplication(string clientId)
 		{
-			return _oauthManager.GetClient(clientId);
+			return _oauthManager.GetApplication(clientId);
 		}
 
-		public Task<IAuthorizedUser> GetUserByUserNameAndPassword(string userName, string password)
+		public Task<IAuthorizedUser> GetUserByUserIdAndPassword(string userName, string password)
 		{
-			return _oauthManager.GetUserByUserNameAndPassword(userName, password);
+			return _oauthManager.GetUserByUserIdAndPassword(userName, password);
 		}
 
 		public Task<string[]> GetRolesForUser(IAuthorizedUser user)

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using Autofac;
-using Autofac.Core;
+﻿using Autofac;
 using MainSolutionTemplate.Core.Startup;
 using MainSolutionTemplate.Dal.Mongo;
 using MainSolutionTemplate.Dal.Persistance;

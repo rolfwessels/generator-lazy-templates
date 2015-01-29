@@ -1,12 +1,10 @@
-﻿
-
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace IIAB.Core.Helpers
+namespace MainSolutionTemplate.Core.Helpers
 {
     public static class ExceptionHelper
     {

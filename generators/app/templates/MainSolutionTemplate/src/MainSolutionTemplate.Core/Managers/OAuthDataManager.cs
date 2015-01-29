@@ -2,7 +2,7 @@
 using System.Reflection;
 using System.Threading.Tasks;
 using MainSolutionTemplate.Core.Mappers;
-using MainSolutionTemplate.Core.Vendor.PasswordHash;
+using MainSolutionTemplate.Core.Vendor;
 using MainSolutionTemplate.Dal.Models;
 using MainSolutionTemplate.Dal.Persistance;
 using MainSolutionTemplate.OAuth2.Dal.Interfaces;
@@ -47,12 +47,12 @@ namespace MainSolutionTemplate.Core.Managers
 
 		#region Implementation of IOAuthDataManager
 
-		public Task<IOAuthClient> GetClient(string clientId)
+		public Task<IOAuthClient> GetApplication(string clientId)
 		{
 			return Task.Run(() => _generalUnitOfWork.Applications.FirstOrDefault(x => x.ClientId == clientId).MapToIOAuthClient());
 		}
 
-		public Task<IAuthorizedUser> GetUserByUserNameAndPassword(string userName, string password)
+		public Task<IAuthorizedUser> GetUserByUserIdAndPassword(string userName, string password)
 		{
 			if (string.IsNullOrEmpty(userName)) throw new ArgumentNullException("userName");
 			if (string.IsNullOrEmpty(userName)) throw new ArgumentNullException("password");
@@ -76,13 +76,13 @@ namespace MainSolutionTemplate.Core.Managers
 				});
 		}
 
-		public Task<string[]> GetRolesForUser(IAuthorizedUser authorizedUser)
+		public Task<string[]> GetRolesForUser(IAuthorizedUser user)
 		{
 			return Task.Run(() =>
 			{
-				_log.Info(string.Format("Roles user '{0}'", authorizedUser.UserId));
-				var user = _generalUnitOfWork.Users.FirstOrDefault(x => x.Email.Equals(authorizedUser.UserId, StringComparison.InvariantCultureIgnoreCase));
-				return user != null ? user.Roles.Select(x => x.Name).ToArray() : new string[0];
+				_log.Info(string.Format("Roles user '{0}'", user.UserId));
+				var foundUser = _generalUnitOfWork.Users.FirstOrDefault(x => x.Email.Equals(user.UserId, StringComparison.InvariantCultureIgnoreCase));
+				return foundUser != null ? foundUser.Roles.Select(x => x.Name).ToArray() : new string[0];
 			});
 		}
 

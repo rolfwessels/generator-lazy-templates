@@ -4,9 +4,9 @@ namespace MainSolutionTemplate.OAuth2.Dal.Interfaces
 {
 	public interface IOAuthDataManager : IRefreshTokenManager
 	{
-		Task<IOAuthClient> GetClient(string clientId);
-		Task<IAuthorizedUser> GetUserByUserNameAndPassword(string userName, string password);
-		Task<string[]> GetRolesForUser(IAuthorizedUser userId);
+		Task<IOAuthClient> GetApplication(string clientId);
+		Task<IAuthorizedUser> GetUserByUserIdAndPassword(string userName, string password);
+		Task<string[]> GetRolesForUser(IAuthorizedUser user);
 		Task UpdateUserLastActivityDate(IAuthorizedUser user);
 	}
 }

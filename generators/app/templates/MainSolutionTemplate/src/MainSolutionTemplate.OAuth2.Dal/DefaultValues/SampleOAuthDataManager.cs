@@ -31,7 +31,7 @@ namespace MainSolutionTemplate.OAuth2.Dal.DefaultValues
 
 		#region Implementation of IOAuthDataManager
 
-		public Task<IOAuthClient> GetClient(string clientId)
+		public Task<IOAuthClient> GetApplication(string clientId)
 		{
 			return Task.FromResult(new DefaultIoAuthClient()
 				{
@@ -41,17 +41,17 @@ namespace MainSolutionTemplate.OAuth2.Dal.DefaultValues
 				} as IOAuthClient);
 		}
 
-		public Task<IAuthorizedUser> GetUserByUserNameAndPassword(string userName, string password)
+		public Task<IAuthorizedUser> GetUserByUserIdAndPassword(string userName, string password)
 		{
 			if (userName == null) throw new ArgumentNullException("userName");
 			if (password == null) throw new ArgumentNullException("password");
 			return Task.FromResult(_defaultAuthUsers.FirstOrDefault(x => x.UserId.ToLower().Equals(userName.ToLower()) && x.Password == password) as IAuthorizedUser);
 		}
 
-		public Task<string[]> GetRolesForUser(IAuthorizedUser userId)
+		public Task<string[]> GetRolesForUser(IAuthorizedUser user)
 		{
-			if (userId == null) throw new ArgumentNullException("userId");
-			return Task.FromResult(_defaultAuthUsers.Where(x => x.UserId == userId.UserId).Select(x => x.Roles).FirstOrDefault());
+			if (user == null) throw new ArgumentNullException("user");
+			return Task.FromResult(_defaultAuthUsers.Where(x => x.UserId == user.UserId).Select(x => x.Roles).FirstOrDefault());
 		}
 
 		public Task UpdateUserLastActivityDate(IAuthorizedUser user)
@@ -65,9 +65,7 @@ namespace MainSolutionTemplate.OAuth2.Dal.DefaultValues
 		{
 			return new DefaultRefreshToken();
 		}
-
 		
-
 		public Task SaveRefreshToken(IRefreshToken token)
 		{
 			_refreshTokens.Add(token);
