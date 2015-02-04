@@ -4,52 +4,55 @@
 
   <!--Properties-->
   <property name="src.folder" value="src"/>
-  <property name="src.sln.file" value="src/MainSolutionTemplate.sln"/>
-  <property name="src.sln.configuration" value="Release"/>
-  <property name="src.sln.configuration.prefix" value=""/>
-  <property name="src.folder.app" value="src/MainSolutionTemplate.Console/"/>
-  <property name="src.folder.core" value="src/MainSolutionTemplate.Core/"/>
-  <property name="version.assembly" value="${src.folder.core}/Properties/CommonAssemblyInfo.cs" />
+  <property name="src.sln.file" value="${src.folder}/MainSolutionTemplate.sln"/>
+  <property name="src.sln.configuration" value="Debug"/>
 
   <property name="build.dir" value="build" />
-  <property name="build.debug.dir" value="${build.dir}\${src.sln.configuration}" dynamic="true"  />
+  <property name="build.config.dir" value="${build.dir}\${src.sln.configuration}" dynamic="true"  />
   <property name="build.reports.dir" value="${build.dir}/Reports" />
   <property name="build.temp.dir" value="${build.dir}/Temp" />
   <property name="build.dist.dir" value="${build.dir}/Distibutions" />
   <property name="msbuild.executeable" value="${framework::get-framework-directory(framework::get-target-framework())}\msbuild.exe"/>
-  <property name="msbuild.executeable" value="C:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe" />
+  <property name="msbuild.executeable" value="C:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe" if="${not file::exists(msbuild.executeable)}" />
   <property name="msbuild.bin.folder" value="bin\${src.sln.configuration}"/>
-  <property name="version.buildFile" value="MainSolutionTemplate.build"/>
-  <property name="mercurial.path" value="C:\Program Files\TortoiseHg\"/>
-  <property name="mercurial.exe" value="${mercurial.path}hg.exe"/>
+  
   <property name="dropbox.public" value="C:\Users\${environment::get-user-name()}\Dropbox\Public\"/>
   
   <!-- Version -->
-  <property name="version.major" value="0"/>
+	<property name="version.buildFile" value="MainSolutionTemplate.build"/>
+	<property name="version.assembly" value="${src.folder}/MainSolutionTemplate.Core/Properties/CommonAssemblyInfo.cs" />
+	<property name="version.major" value="0"/>
   <property name="version.minor" value="0"/>
   <property name="version.build" value="1" />
   <property name="version.revision" value="*" />
   <property name="project.fullversion" value="${version.major}.${version.minor}.${version.build}" dynamic="true" />
   <property name="project.fullversion.file" value="${version.major}.${version.minor}.${version.build}.${version.revision}" dynamic="true" />
 
-  <!-- Teamcity-->
+	<!-- File version controle -->
+	<property name="git.path" value="C:\Program Files (x86)\Git\bin\"/>
+	<property name="git.exe" value="${git.path}git.exe"/>
+	
+  <!-- Continues integration -->
   <property name="version.build" value="${build.number}" if="${property::exists('build.number')}"/>
-  <property name="version.revision" value="${build.vcs.number.1}" if="${property::exists('build.vcs.number.1')}" />
+	<property name="version.build" value="${environment::get-variable('BUILD_NUMBER')}" if="${environment::variable-exists('BUILD_NUMBER')}"/>
 
   <!-- User targets -->
-  <target name="test" depends="compile, run-unit-tests" description="Compile and Run Tests" />
-  <target name="cover" depends="compile, run-code-cover-tests" description="Compile and Run Tests" />
-  <target name="full" depends="clean, version, test, dist , version.update"	description="Compiles, tests, and produces distributions" />
+	<target name="build" depends="clean compile" description="Compile and Run Tests" />
+  <target name="test" depends="build, run-unit-tests" description="Compile and Run Tests" />
+  <target name="cover" depends="build , run-code-cover-tests" description="Compile and Run Tests" />
+  <target name="full" depends="version, test, dist , version.update"	description="Compiles, tests, and produces distributions" />
+	<target name="ci.tests" depends="compile, run-unit-tests" description="Compile and Run Tests" />
+	<target name="ci.deploy.qa" depends="compile, run-unit-tests" description="Compile and Run Tests" />
+	<target name="ci.deploy.staging" depends="compile, run-unit-tests" description="Compile and Run Tests" />
+	<target name="ci.deploy.release" depends="compile, run-unit-tests" description="Compile and Run Tests" />
 
-  <!-- Internal targets -->
+	<!-- Internal targets -->
   <target name="clean" description="Delete Automated Build artifacts">
-    <delete dir="${build.dir}" if="${directory::exists(build.dir)}"/>
+    <delete dir="${build.dir}" if="${directory::exists(build.dir)}" failonerror="false" />
     <delete failonerror="false">
       <fileset basedir="${src.folder}">
-        <include name="**\Bin\Release\**"/>
-        <include name="**\Bin\Debug\**"/>
-        <include name="**\Obj\Debug\**"/>
-        <include name="**\Obj\Release\**"/>
+        <include name="*\Bin\**"/>
+        <include name="*\Obj\**"/>
       </fileset>
     </delete>
   </target>
@@ -59,44 +62,19 @@
 		  program="${msbuild.executeable}"
 		  commandline="${src.sln.file} /t:clean /p:Configuration=${src.sln.configuration} /v:q "
 		  workingdir="." />
-    <property name="msbuild.CommandLine" value="${src.sln.file} /t:rebuild /p:Configuration=${src.sln.configuration} /v:q"/>
-    <echo message="${msbuild.executeable} ${msbuild.CommandLine}" />
     <exec
 		  program="${msbuild.executeable}"
-		  commandline="${msbuild.CommandLine}"
+		  commandline="${src.sln.file} /t:rebuild /p:Configuration=${src.sln.configuration} /v:q"
 		  workingdir="." />
     <call target="msbuild.copy"/>
   </target>
 
   <target name="msbuild.copy">
-    <property name="msbuild.ilmerge.sourceFolder" value="${src.folder}\MainSolutionTemplate.Console\${msbuild.bin.folder}"/>
-    <property name="msbuild.ilmerge.buildFolder" value="${build.debug.dir}\${src.sln.configuration.prefix}MainSolutionTemplate.Console"/>
-    <echo message="Copy files from ${msbuild.ilmerge.sourceFolder}"/>
-    <echo message="Copy files to ${msbuild.ilmerge.buildFolder}"/>
-    <copy todir="${msbuild.ilmerge.buildFolder}" overwrite="true"  >
-      <fileset basedir="${msbuild.ilmerge.sourceFolder}">
-        <include name="*.*"/>
-<!--        <exclude name="*.exe"/>-->
-<!--        <exclude name="*.dll"/>-->
-<!--        <exclude name="*.pdb"/>-->
-      </fileset>
-    </copy>
-<!--    Use ilmerge-->
-<!--    <echo message="${msbuild.ilmerge.sourceFolder}\Plossum CommandLine.pdb"/>-->
-<!--    <delete file="${msbuild.ilmerge.sourceFolder}\Plossum CommandLine.pdb"/>-->
-<!--    <exec program="Tools\ilmerge\ilmerge.exe" failonerror="true" >-->
-<!--      <arg value="/out:&quot;${msbuild.ilmerge.buildFolder}\MainSolutionTemplate.exe&quot;" />-->
-<!--      <arg value="&quot;${msbuild.ilmerge.sourceFolder}\MainSolutionTemplate.exe&quot;"/>-->
-<!--      <arg value="&quot;${msbuild.ilmerge.sourceFolder}\C5.dll&quot;" />-->
-<!--      <arg value="&quot;${msbuild.ilmerge.sourceFolder}\MainSolutionTemplate.Core.dll&quot;" />-->
-<!--      <arg value="&quot;${msbuild.ilmerge.sourceFolder}\Plossum CommandLine.dll&quot;" />-->
-<!--      <arg value="&quot;${msbuild.ilmerge.sourceFolder}\Log4net.dll&quot;" />-->
-<!--    </exec>-->
-    <copy todir="${build.debug.dir}\${src.sln.configuration.prefix}MainSolutionTemplate.Tests" overwrite="true">
-      <fileset basedir="${src.folder}\MainSolutionTemplate.Tests\${msbuild.bin.folder}">
-        <include name="*.*"/>
-      </fileset>
-    </copy>
+		<copy todir="${build.config.dir}\MainSolutionTemplate.Console" overwrite="true">
+			<fileset basedir="${src.folder}\MainSolutionTemplate.Console\${msbuild.bin.folder}">
+					<include name="**\*"/>
+			</fileset>
+		</copy>
   </target>
 
   <target name="version" description="Generate AssemblyInfo">
@@ -149,7 +127,7 @@
 
   <target name="run-unit-tests">
     <mkdir dir="${build.reports.dir}"/>
-    <foreach item="Folder" in="${build.debug.dir}" property="foldername">
+    <foreach item="Folder" in="${build.config.dir}" property="foldername">
       <do>
         <if test="${string::contains(foldername,'Tests')}" >
           <property name="nunit2-tests-by-Folder-dll" value="${path::combine(foldername,path::get-file-name(foldername) + '.dll'  )}" />
@@ -169,7 +147,7 @@
 
   <target name="dist">
     <mkdir dir="${build.dist.dir}" unless="${directory::exists(build.dist.dir)}"/>
-    <foreach item="Folder" in="${build.debug.dir}" property="foldername">
+    <foreach item="Folder" in="${build.config.dir}" property="foldername">
       <do>
         <if test="${not (string::contains(foldername,'Tests'))}" >
           <property name="dist.from.folder" value="${foldername}" />
@@ -187,11 +165,6 @@
     </foreach>
   </target>
 
-  <!-- HG Tagging -->
-  <target name="hg.tag">
-    <exec program="${mercurial.exe}" commandline="commit -m &quot;Commit before tagging&quot;"  failonerror="false" basedir="${mercurial.path}"  workingdir="./" />
-    <exec program="${mercurial.exe}" commandline="tag &quot;${'Version ' + project.fullversion}&quot;"  failonerror="true" basedir="${mercurial.path}"  workingdir="./" />
-  </target>
  
  <!-- Drop box -->
  <target name="dist.to.storage">
