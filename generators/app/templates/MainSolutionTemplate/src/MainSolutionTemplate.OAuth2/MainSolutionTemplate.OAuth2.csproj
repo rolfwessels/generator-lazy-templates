@@ -33,7 +33,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="log4net">
-      <HintPath>..\MainSolutionTemplate.Website\bin\log4net.dll</HintPath>
+      <HintPath>..\..\lib\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Owin">
       <HintPath>..\..\lib\Microsoft.Owin.3.0.0\lib\net45\Microsoft.Owin.dll</HintPath>

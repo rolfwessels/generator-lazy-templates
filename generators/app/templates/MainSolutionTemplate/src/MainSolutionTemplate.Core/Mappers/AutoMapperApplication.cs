@@ -12,7 +12,7 @@ namespace MainSolutionTemplate.Core.Mappers
 			Mapper.AssertConfigurationIsValid();
 		}
 
-		private abstract class OAuthClientAdapter : IOAuthClient
+		private class OAuthClientAdapter : IOAuthClient
 		{
 			#region Implementation of IOAuthClient
 

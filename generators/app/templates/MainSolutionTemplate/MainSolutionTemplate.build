@@ -48,11 +48,11 @@
 	<target name="config.qa" description="Set qa settings">
 		<property name="src.sln.configuration" value="Qa"/>
 	</target>
-	
+
 	<target name="config.staging" description="Set staging settings">
 		<property name="src.sln.configuration" value="Staging"/>
 	</target>
-	
+
 	<target name="config.release" description="Set release settings">
 		<property name="src.sln.configuration" value="Release"/>
 	</target>
@@ -128,21 +128,21 @@
 		<echo message="${string::replace(build.Data, replaceme, 'name=&quot;version.build&quot; value=&quot;'+new.version.build+'&quot; />')}" file="${version.buildFile}"/>
 	</target>
 
-	  <target name="run-code-cover-tests" description="Code coverage of unit tests">
-	    <property name="NUnit.console" value="Tools\nunit\nunit-console.exe" />
-	    <property name="NUnit.console.args" value="/exclude=Integration Vault.UnitTests.dll" />
-	    <echo message="${NUnit.console} ${run.tests.dir} Vault.UnitTests.dll " />
-	    <exec program="regsvr32"  commandline="/s tools\PartCover\PartCover.CorDriver.dll" />
-	    <exec program="Tools\PartCover\PartCover.exe" failonerror="false" >
-	      <arg value="--target &quot;${NUnit.console}&quot;" />
-	      <arg value="--target-work-dir &quot;${run.tests.dir}&quot;"/>
-	      <arg value="--target-args  &quot;${NUnit.console.args}&quot;" />
-	      <arg value="--include &quot;[Vault*]*&quot;" />
-	      <arg value="--exclude &quot;[nunit*]*&quot;" />
-	      <arg value="--output &quot;${build.reports.dir}\partcover.xml&quot;" />
-	    </exec>
-	    <echo>tools\PartCover\PartCover.Browser.exe build\reports\partcover.xml</echo>
-	  </target>
+	<target name="run-code-cover-tests" description="Code coverage of unit tests">
+		<property name="NUnit.console" value="Tools\nunit\nunit-console.exe" />
+		<property name="NUnit.console.args" value="/exclude=Integration Vault.UnitTests.dll" />
+		<echo message="${NUnit.console} ${run.tests.dir} Vault.UnitTests.dll " />
+		<exec program="regsvr32"  commandline="/s tools\PartCover\PartCover.CorDriver.dll" />
+		<exec program="Tools\PartCover\PartCover.exe" failonerror="false" >
+			<arg value="--target &quot;${NUnit.console}&quot;" />
+			<arg value="--target-work-dir &quot;${run.tests.dir}&quot;"/>
+			<arg value="--target-args  &quot;${NUnit.console.args}&quot;" />
+			<arg value="--include &quot;[Vault*]*&quot;" />
+			<arg value="--exclude &quot;[nunit*]*&quot;" />
+			<arg value="--output &quot;${build.reports.dir}\partcover.xml&quot;" />
+		</exec>
+		<echo>tools\PartCover\PartCover.Browser.exe build\reports\partcover.xml</echo>
+	</target>
 
 	<target name="run.tests">
 		<mkdir dir="${build.reports.dir}"/>
@@ -195,4 +195,5 @@
 				</if>
 			</do>
 		</foreach>
-	</target
+	</target>
+</project>
