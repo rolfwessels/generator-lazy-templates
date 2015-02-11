@@ -21,7 +21,7 @@ namespace MainSolutionTemplate.Api.AppStartup
     {
       Bootstrapper.Init(configuration);
 
-      var version = typeof(TaskController).Assembly.GetName().Version.ToString().Split('.').Take(3).StringJoin(".");
+      var version = typeof(UserController).Assembly.GetName().Version.ToString().Split('.').Take(3).StringJoin(".");
 
       SwaggerSpecConfig.Customize(c =>
       {

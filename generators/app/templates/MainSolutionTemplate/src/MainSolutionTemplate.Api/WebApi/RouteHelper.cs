@@ -3,6 +3,6 @@
 	public static class RouteHelper
 	{
 		public const string ApiPrefix = "api/";
-		public const string TaskController = ApiPrefix+"task/";
+		public const string UserController = ApiPrefix+"User/";
 	}
 }

@@ -1,5 +1,6 @@
 /build
 /lib
+/src/packages/
 /tools/nunit
 /tools/nant
 /tools/IlMerge

@@ -111,7 +111,7 @@
       <Name>MainSolutionTemplate.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\MainSolutionTemplate.Dal.Ef\MainSolutionTemplate.Dal.Ef.csproj">
-      <Project>{110DFF89-33B1-4189-B89F-B522A6B2B088}</Project>
+      <Project>{110dff89-33b1-4189-b89f-b522a6b2b088}</Project>
       <Name>MainSolutionTemplate.Dal.Ef</Name>
     </ProjectReference>
     <ProjectReference Include="..\MainSolutionTemplate.Dal\MainSolutionTemplate.Dal.csproj">

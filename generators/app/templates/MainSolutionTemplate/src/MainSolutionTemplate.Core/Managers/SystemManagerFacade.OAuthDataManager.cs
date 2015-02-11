@@ -11,15 +11,9 @@ using log4net;
 
 namespace MainSolutionTemplate.Core.Managers
 {
-	public class OAuthDataManager : IOAuthDataManager
+	public partial class SystemManagerFacade : IOAuthDataManager
 	{
-		private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-		private readonly IGeneralUnitOfWork _generalUnitOfWork;
-
-		public OAuthDataManager(IGeneralUnitOfWork generalUnitOfWork )
-		{
-			_generalUnitOfWork = generalUnitOfWork;
-		}
+		
 
 		#region Implementation of IRefreshTokenManager
 
@@ -59,7 +53,7 @@ namespace MainSolutionTemplate.Core.Managers
 			return Task.Run(() =>
 				{
 					_log.Info(string.Format("Loggin user '{0}'", userName));
-					User user = _generalUnitOfWork.Users.FirstOrDefault(x => x.Email.Equals(userName, StringComparison.InvariantCultureIgnoreCase));
+					User user = _generalUnitOfWork.Users.FirstOrDefault(x => x.Email== userName);
 					if (user != null)
 					{
 						if (!PasswordHash.ValidatePassword(password, user.HashedPassword))
@@ -81,19 +75,22 @@ namespace MainSolutionTemplate.Core.Managers
 			return Task.Run(() =>
 			{
 				_log.Info(string.Format("Roles user '{0}'", user.UserId));
-				var foundUser = _generalUnitOfWork.Users.FirstOrDefault(x => x.Email.Equals(user.UserId, StringComparison.InvariantCultureIgnoreCase));
+				var foundUser = _generalUnitOfWork.Users.FirstOrDefault(x => x.Email == user.UserId);
 				return foundUser != null ? foundUser.Roles.Select(x => x.Name).ToArray() : new string[0];
 			});
 		}
 
-		public Task UpdateUserLastActivityDate(IAuthorizedUser users)
+		public Task UpdateUserLastActivityDate(IAuthorizedUser user)
 		{
 			return Task.Run(() =>
 			{
-				_log.Info(string.Format("Roles user '{0}'", users.UserId));
-				var user = _generalUnitOfWork.Users.FirstOrDefault(x => x.Email.Equals(users.UserId, StringComparison.InvariantCultureIgnoreCase));
-				user.LastLoginDate = DateTime.Now;
-				_generalUnitOfWork.Users.Update(user);
+				_log.Info(string.Format("Roles user '{0}'", user.UserId));
+				var userFound = _generalUnitOfWork.Users.FirstOrDefault(x => x.Email == user.UserId);
+				if (userFound != null)
+				{
+					userFound.LastLoginDate = DateTime.Now;
+					_generalUnitOfWork.Users.Update(userFound);
+				}
 			});
 		}
 

@@ -8,11 +8,11 @@ namespace MainSolutionTemplate.Core.Mappers
 	{
 		static AutoMapperApplication()
 		{
-			Mapper.CreateMap<Application, OAuthClientAddaptor>();
+			Mapper.CreateMap<Application, OAuthClientAdapter>();
 			Mapper.AssertConfigurationIsValid();
 		}
 
-		private class OAuthClientAddaptor : IOAuthClient
+		private abstract class OAuthClientAdapter : IOAuthClient
 		{
 			#region Implementation of IOAuthClient
 
@@ -26,7 +26,7 @@ namespace MainSolutionTemplate.Core.Mappers
 
 		public static IOAuthClient MapToIOAuthClient(this Application application)
 		{
-			return Mapper.Map<Application, OAuthClientAddaptor>(application);
+			return Mapper.Map<Application, OAuthClientAdapter>(application);
 		}
 		
 		

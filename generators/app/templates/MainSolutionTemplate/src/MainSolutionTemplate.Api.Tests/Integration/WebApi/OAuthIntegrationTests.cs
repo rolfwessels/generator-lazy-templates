@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
 using FluentAssertions;
+using MainSolutionTemplate.Api.Models;
 using MainSolutionTemplate.Api.WebApi.Controllers;
 using MainSolutionTemplate.Core.Helpers;
 using NUnit.Framework;
@@ -40,7 +41,7 @@ namespace MainSolutionTemplate.Api.Tests.Integration.WebApi
 			request.AddParameter("grant_type", "password");
 			request.AddParameter("client_id", "MainSolutionTemplateApi");
 			// action
-			var restResponse = _client.Value.ExecuteWithLogging<List<TaskModel>>(request);
+			var restResponse = _client.Value.ExecuteWithLogging<List<UserModel>>(request);
 			// assert
 			restResponse.Content.Should().Contain("access_token");
 		}
@@ -56,7 +57,7 @@ namespace MainSolutionTemplate.Api.Tests.Integration.WebApi
 			request.AddParameter("grant_type", "password");
 			request.AddParameter("client_id", "MainSolutionTemplateApi");
 			// action
-			var restResponse = _client.Value.ExecuteWithLogging<List<TaskModel>>(request);
+			var restResponse = _client.Value.ExecuteWithLogging<List<UserModel>>(request);
 			// assert
 			restResponse.Content.Should().Contain("permissions");
 			restResponse.Content.Should().Contain("displayName");
@@ -76,7 +77,7 @@ namespace MainSolutionTemplate.Api.Tests.Integration.WebApi
 			request.AddParameter("grant_type", "password");
 			request.AddParameter("client_id", "MainSolutionTemplateApi");
 			// action
-			var restResponse = _client.Value.ExecuteWithLogging<List<TaskModel>>(request);
+			var restResponse = _client.Value.ExecuteWithLogging<List<UserModel>>(request);
 			// assert
 			restResponse.Content.Should().Contain("The user name or password is incorrect");
 		}

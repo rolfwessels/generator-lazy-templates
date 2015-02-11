@@ -2,6 +2,7 @@
 using System.Net;
 using System.Reflection;
 using FluentAssertions;
+using MainSolutionTemplate.Api.Models;
 using MainSolutionTemplate.Api.WebApi;
 using MainSolutionTemplate.Api.WebApi.Controllers;
 using MainSolutionTemplate.Core.Helpers;
@@ -13,7 +14,7 @@ namespace MainSolutionTemplate.Api.Tests.Integration.WebApi
 {
 	[TestFixture]
 	[Category("Integration")]
-	public class TaskControllerIntegrationTests : IntegrationTestsBase
+	public class UserControllerIntegrationTests : IntegrationTestsBase
 	{
 		private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 		#region Setup/Teardown
@@ -36,9 +37,9 @@ namespace MainSolutionTemplate.Api.Tests.Integration.WebApi
 		{
 			// arrange
 			Setup();
-			var request = new RestRequest(RouteHelper.TaskController,Method.GET);
+			var request = new RestRequest(RouteHelper.UserController,Method.GET);
 			// action
-			var restResponse = _client.Value.ExecuteWithLogging<List<TaskModel>>(request);
+			var restResponse = _client.Value.ExecuteWithLogging<List<UserModel>>(request);
 			// assert
 			//restResponse.StatusCode.Should().Be(HttpStatusCode.OK);
 			restResponse.Content.Should().StartWith("[");
@@ -49,9 +50,9 @@ namespace MainSolutionTemplate.Api.Tests.Integration.WebApi
 		{
 			// arrange
 			Setup();
-			var request = new RestRequest(RouteHelper.TaskController,Method.GET);
+			var request = new RestRequest(RouteHelper.UserController,Method.GET);
 			// action
-			var restResponse = _client.Value.ExecuteWithLogging<List<TaskModel>>(request);
+			var restResponse = _client.Value.ExecuteWithLogging<List<UserModel>>(request);
 			// assert
 			restResponse.Content.Should().StartWith("[");
 			restResponse.Data.Count.Should().BeGreaterOrEqualTo(1);

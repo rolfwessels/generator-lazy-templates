@@ -1,16 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Reflection;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using MainSolutionTemplate.OAuth2.Dal.Interfaces;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OAuth;
+using log4net;
 
 namespace MainSolutionTemplate.OAuth2
 {
 	public class AuthorizationServerProvider : OAuthAuthorizationServerProvider
 	{
+		private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 		private readonly IOAuthDataManager _oauthDataManager;
 		private readonly IOAuthSecurity _oauthSecurity;
 
@@ -23,56 +26,65 @@ namespace MainSolutionTemplate.OAuth2
 
 		public override async Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
 		{
-			string clientId;
-			string clientSecret;
-
-			if (!context.TryGetBasicCredentials(out clientId, out clientSecret))
+			try
 			{
-				context.TryGetFormCredentials(out clientId, out clientSecret);
-			}
+				string clientId;
+				string clientSecret;
 
-			if (context.ClientId == null)
-			{
+				if (!context.TryGetBasicCredentials(out clientId, out clientSecret))
+				{
+					context.TryGetFormCredentials(out clientId, out clientSecret);
+				}
+
+				if (context.ClientId == null)
+				{
+					context.Validated();
+					context.SetError("invalid_clientId", "ClientId should be sent.");
+					return;
+				}
+
+				var client = await _oauthDataManager.GetApplication(context.ClientId);
+
+				if (client == null)
+				{
+					context.SetError("invalid_clientId",
+					                 string.Format("Client '{0}' is not registered in the system.", context.ClientId));
+
+					return;
+				}
+
+				if (!string.IsNullOrEmpty(client.Secret))
+				{
+					if (string.IsNullOrWhiteSpace(clientSecret))
+					{
+						context.SetError("invalid_clientId", "Client secret should be sent.");
+						return;
+					}
+
+					if (client.Secret != _oauthSecurity.GetHash(clientSecret))
+					{
+						context.SetError("invalid_clientId", "Client secret is invalid.");
+						return;
+					}
+				}
+
+				if (!client.Active)
+				{
+					context.SetError("invalid_clientId", "Client is inactive.");
+					return;
+				}
+
+				context.OwinContext.Set("as:clientAllowedOrigin", client.AllowedOrigin);
+				context.OwinContext.Set("as:clientRefreshTokenLifeTime",
+				                        client.RefreshTokenLifeTime.ToString(CultureInfo.InvariantCulture));
 				context.Validated();
-				context.SetError("invalid_clientId", "ClientId should be sent.");
-				return;
 			}
-
-			var client = await _oauthDataManager.GetApplication(context.ClientId);
-
-			if (client == null)
+			catch (Exception e)
 			{
-				context.SetError("invalid_clientId",
-				                 string.Format("Client '{0}' is not registered in the system.", context.ClientId));
+				_log.Error("AuthorizationServerProvider:log " + e.Message);
 
-				return;
+				throw;
 			}
-
-			if (!string.IsNullOrEmpty(client.Secret))
-			{
-				if (string.IsNullOrWhiteSpace(clientSecret))
-				{
-					context.SetError("invalid_clientId", "Client secret should be sent.");
-					return;
-				}
-
-				if (client.Secret != _oauthSecurity.GetHash(clientSecret))
-				{
-					context.SetError("invalid_clientId", "Client secret is invalid.");
-					return;
-				}
-			}
-
-			if (!client.Active)
-			{
-				context.SetError("invalid_clientId", "Client is inactive.");
-				return;
-			}
-
-			context.OwinContext.Set("as:clientAllowedOrigin", client.AllowedOrigin);
-			context.OwinContext.Set("as:clientRefreshTokenLifeTime",
-			                        client.RefreshTokenLifeTime.ToString(CultureInfo.InvariantCulture));
-			context.Validated();
 		}
 
 		public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)

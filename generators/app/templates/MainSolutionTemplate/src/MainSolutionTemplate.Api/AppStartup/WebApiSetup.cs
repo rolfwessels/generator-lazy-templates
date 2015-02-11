@@ -1,4 +1,5 @@
-﻿using System.Web.Http;
+﻿using System;
+using System.Web.Http;
 using MainSolutionTemplate.Api.WebApi.Filters;
 using Microsoft.Owin.Cors;
 using Owin;
@@ -15,7 +16,7 @@ namespace MainSolutionTemplate.Api.AppStartup
     protected WebApiSetup(IAppBuilder appBuilder)
     {
       var configuration = new HttpConfiguration();
-      //routing done using attributes. see route helper form all routes
+	
       configuration.MapHttpAttributeRoutes();
       appBuilder.UseCors(CorsOptions.AllowAll);
       appBuilder.UseWebApi(configuration);
@@ -46,7 +47,7 @@ namespace MainSolutionTemplate.Api.AppStartup
       {
         if (!_isInitialized)
         {
-          _instance = new WebApiSetup(appBuilder);
+			_instance = new WebApiSetup(appBuilder);
           _isInitialized = true;
         }
       }
@@ -54,5 +55,13 @@ namespace MainSolutionTemplate.Api.AppStartup
     }
 
     #endregion
+
+	  public static WebApiSetup Instance
+	  {
+		  get {
+			  if (_instance == null) throw new Exception("Call Initialize before using Intance.");
+			  return _instance; 
+		  }
+	  }
   }
 }

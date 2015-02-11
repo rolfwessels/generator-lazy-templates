@@ -1,4 +1,7 @@
-﻿using Autofac;
+﻿using System.Web.UI;
+using Autofac;
+using Autofac.Integration.WebApi;
+using MainSolutionTemplate.Api.WebApi.Controllers;
 using MainSolutionTemplate.Core.Startup;
 using MainSolutionTemplate.Dal.Mongo;
 using MainSolutionTemplate.Dal.Persistance;
@@ -16,7 +19,10 @@ namespace MainSolutionTemplate.Api.AppStartup
 		{
 			var builder = new ContainerBuilder();
 			SetupCore(builder);
+			WebApi(builder);
 			_container = builder.Build();
+			var webApiResolver = new AutofacWebApiDependencyResolver(_container);
+			WebApiSetup.Instance.Configuration.DependencyResolver = webApiResolver;
 		}
 
 		#region Initialize
@@ -32,14 +38,18 @@ namespace MainSolutionTemplate.Api.AppStartup
 					{
 						_instance = new IocContainerSetup();
 						_isInitialized = true;
-						
 					}
 				}
 				return _instance;
 			}
 		}
 
-		
+		public IContainer Container
+		{
+			get { return _container; }
+		}
+
+
 		public T Resolve<T>()
 		{
 			return _container.Resolve<T>();
@@ -52,6 +62,15 @@ namespace MainSolutionTemplate.Api.AppStartup
 		protected override IGeneralUnitOfWork GetGeneralUnitOfWork(IComponentContext arg)
 		{
 			return new MongoGeneralUnitOfWork();
+		}
+
+		#endregion
+
+		#region Private Methods
+
+		private static void WebApi(ContainerBuilder builder)
+		{
+			builder.RegisterApiControllers(typeof(UserController).Assembly);
 		}
 
 		#endregion

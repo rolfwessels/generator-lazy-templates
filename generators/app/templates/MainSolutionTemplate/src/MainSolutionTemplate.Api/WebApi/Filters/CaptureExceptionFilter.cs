@@ -9,6 +9,7 @@ using log4net;
 
 namespace MainSolutionTemplate.Api.WebApi.Filters
 {
+	
   public class CaptureExceptionFilter : ExceptionFilterAttribute
   {
     private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);

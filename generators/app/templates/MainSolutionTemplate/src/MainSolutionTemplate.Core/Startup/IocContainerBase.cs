@@ -1,8 +1,7 @@
 ﻿using Autofac;
 using MainSolutionTemplate.Core.Managers;
+using MainSolutionTemplate.Core.Managers.Interfaces;
 using MainSolutionTemplate.Dal.Persistance;
-using MainSolutionTemplate.OAuth2.Dal.Interfaces;
-using log4net.Core;
 
 namespace MainSolutionTemplate.Core.Startup
 {
@@ -12,7 +11,6 @@ namespace MainSolutionTemplate.Core.Startup
 		{
 			builder.Register(GetGeneralUnitOfWork).InstancePerLifetimeScope();
 			builder.RegisterType<SystemManagerFacade>().As<ISystemManagerFacade>();
-			builder.RegisterType<OAuthDataManager>().As<IOAuthDataManager>();
 		}
 
 		protected abstract IGeneralUnitOfWork GetGeneralUnitOfWork(IComponentContext arg);

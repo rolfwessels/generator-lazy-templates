@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using MainSolutionTemplate.Dal.Models;
+using MainSolutionTemplate.Dal.Mongo.Migrations;
 using MainSolutionTemplate.Dal.Persistance;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -16,6 +17,7 @@ namespace MainSolutionTemplate.Dal.Mongo
 		private readonly MongoServer _server;
 		private MongoDatabase _db;
 
+		
 
 		public MongoGeneralUnitOfWork()
 			: this("mongodb://localhost/MainSolutionTemplate_Develop")
@@ -31,7 +33,7 @@ namespace MainSolutionTemplate.Dal.Mongo
 			_client = new MongoClient(connectionString);
 			_server = _client.GetServer();
 			_db = _server.GetDatabase(_databaseName);
-
+			Configuration.Initialize(_db);
 			Users = new MongoRepository<User>(_db);
 			Roles = new MongoRepository<Role>(_db);
 			Applications = new MongoRepository<Application>(_db);
