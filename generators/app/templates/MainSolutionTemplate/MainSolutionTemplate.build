@@ -1,179 +1,198 @@
 <?xml version="1.0" ?>
 <project name="MainSolutionTemplate" default="test" xmlns="http://nant.sourceforge.net/nightly/latest/nant.xsd">
-  
 
-  <!--Properties-->
-  <property name="src.folder" value="src"/>
-  <property name="src.sln.file" value="${src.folder}/MainSolutionTemplate.sln"/>
-  <property name="src.sln.configuration" value="Debug"/>
 
-  <property name="build.dir" value="build" />
-  <property name="build.config.dir" value="${build.dir}\${src.sln.configuration}" dynamic="true"  />
-  <property name="build.reports.dir" value="${build.dir}/Reports" />
-  <property name="build.temp.dir" value="${build.dir}/Temp" />
-  <property name="build.dist.dir" value="${build.dir}/Distibutions" />
-  <property name="msbuild.executeable" value="${framework::get-framework-directory(framework::get-target-framework())}\msbuild.exe"/>
-  <property name="msbuild.executeable" value="C:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe" if="${not file::exists(msbuild.executeable)}" />
-  <property name="msbuild.bin.folder" value="bin\${src.sln.configuration}"/>
-  
-  <property name="dropbox.public" value="C:\Users\${environment::get-user-name()}\Dropbox\Public\"/>
-  
-  <!-- Version -->
+	<!--Properties-->
+	<property name="src.folder" value="src"/>
+	<property name="src.sln.file" value="${src.folder}/MainSolutionTemplate.sln"/>
+	<property name="src.sln.configuration" value="Debug"/>
+
+	<property name="build.dir" value="build" />
+	<property name="build.config.dir" value="${build.dir}\${src.sln.configuration}" dynamic="true"  />
+	<property name="build.reports.dir" value="${build.dir}/Reports" />
+	<property name="build.temp.dir" value="${build.dir}/Temp" />
+	<property name="build.dist.dir" value="${build.dir}/Distibutions" />
+	<property name="msbuild.executeable" value="${framework::get-framework-directory(framework::get-target-framework())}\msbuild.exe"/>
+	<property name="msbuild.executeable" value="C:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe" if="${not file::exists(msbuild.executeable)}" />
+	<property name="msbuild.bin.folder" value="bin\${src.sln.configuration}" dynamic="true"/>
+
+	<!-- Version -->
 	<property name="version.buildFile" value="MainSolutionTemplate.build"/>
 	<property name="version.assembly" value="${src.folder}/MainSolutionTemplate.Core/Properties/CommonAssemblyInfo.cs" />
 	<property name="version.major" value="0"/>
-  <property name="version.minor" value="0"/>
-  <property name="version.build" value="1" />
-  <property name="version.revision" value="*" />
-  <property name="project.fullversion" value="${version.major}.${version.minor}.${version.build}" dynamic="true" />
-  <property name="project.fullversion.file" value="${version.major}.${version.minor}.${version.build}.${version.revision}" dynamic="true" />
+	<property name="version.minor" value="0"/>
+	<property name="version.build" value="1" />
+	<property name="version.revision" value="*" />
+	<property name="project.fullversion" value="${version.major}.${version.minor}.${version.build}" dynamic="true" />
+	<property name="project.fullversion.file" value="${version.major}.${version.minor}.${version.build}.${version.revision}" dynamic="true" />
 
 	<!-- File version controle -->
 	<property name="git.path" value="C:\Program Files (x86)\Git\bin\"/>
 	<property name="git.exe" value="${git.path}git.exe"/>
-	
-  <!-- Continues integration -->
-  <property name="version.build" value="${build.number}" if="${property::exists('build.number')}"/>
+
+	<!-- Continues integration -->
+	<property name="version.build" value="${build.number}" if="${property::exists('build.number')}"/>
 	<property name="version.build" value="${environment::get-variable('BUILD_NUMBER')}" if="${environment::variable-exists('BUILD_NUMBER')}"/>
 
-  <!-- User targets -->
+	<!-- User targets -->
 	<target name="build" depends="clean compile" description="Compile and Run Tests" />
-  <target name="test" depends="build, run-unit-tests" description="Compile and Run Tests" />
-  <target name="cover" depends="build , run-code-cover-tests" description="Compile and Run Tests" />
-  <target name="full" depends="version, test, dist , version.update"	description="Compiles, tests, and produces distributions" />
-	<target name="ci.tests" depends="compile, run-unit-tests" description="Compile and Run Tests" />
-	<target name="ci.deploy.qa" depends="compile, run-unit-tests" description="Compile and Run Tests" />
-	<target name="ci.deploy.staging" depends="compile, run-unit-tests" description="Compile and Run Tests" />
-	<target name="ci.deploy.release" depends="compile, run-unit-tests" description="Compile and Run Tests" />
+	<target name="test" depends="build, run.tests" description="Compile and Run Tests" />
+	<target name="full" depends="version, test, dist , version.update"	description="Compiles, tests, and produces distributions" />
+	<target name="ci.tests" depends="compile, run.tests" description="Compile and Run Tests" />
+	<target name="ci.deploy" depends="version build" description="Compile and Run Tests" />
+	<target name="ci.deploy.qa" depends="config.qa ci.deploy" description="Compile and Run Tests" />
+	<target name="ci.deploy.staging" depends="config.staging ci.deploy" description="Compile and Run Tests" />
+	<target name="ci.deploy.release" depends="config.release ci.deploy" description="Compile and Run Tests" />
+
+	<!-- Configuration -->
+	<target name="config.qa" description="Set qa settings">
+		<property name="src.sln.configuration" value="Qa"/>
+	</target>
+	
+	<target name="config.staging" description="Set staging settings">
+		<property name="src.sln.configuration" value="Staging"/>
+	</target>
+	
+	<target name="config.release" description="Set release settings">
+		<property name="src.sln.configuration" value="Release"/>
+	</target>
 
 	<!-- Internal targets -->
-  <target name="clean" description="Delete Automated Build artifacts">
-    <delete dir="${build.dir}" if="${directory::exists(build.dir)}" failonerror="false" />
-    <delete failonerror="false">
-      <fileset basedir="${src.folder}">
-        <include name="*\Bin\**"/>
-        <include name="*\Obj\**"/>
-      </fileset>
-    </delete>
-  </target>
+	<target name="clean" description="Delete Automated Build artifacts">
+		<delete dir="${build.dir}" if="${directory::exists(build.dir)}" failonerror="false" />
+		<delete failonerror="false">
+			<fileset basedir="${src.folder}">
+				<include name="*\Bin\**"/>
+				<include name="*\Obj\**"/>
+			</fileset>
+		</delete>
+	</target>
 
-  <target name="compile" description="Compiles using the AutomatedDebug Configuration">
-    <exec
+	<target name="compile" description="Compiles using the AutomatedDebug Configuration">
+		<exec
 		  program="${msbuild.executeable}"
 		  commandline="${src.sln.file} /t:clean /p:Configuration=${src.sln.configuration} /v:q "
 		  workingdir="." />
-    <exec
+		<exec
 		  program="${msbuild.executeable}"
 		  commandline="${src.sln.file} /t:rebuild /p:Configuration=${src.sln.configuration} /v:q"
 		  workingdir="." />
-    <call target="msbuild.copy"/>
-  </target>
+		<call target="msbuild.copy"/>
+	</target>
 
-  <target name="msbuild.copy">
+	<target name="msbuild.copy" description="Copy files to build folder">
 		<copy todir="${build.config.dir}\MainSolutionTemplate.Console" overwrite="true">
 			<fileset basedir="${src.folder}\MainSolutionTemplate.Console\${msbuild.bin.folder}">
-					<include name="**\*"/>
+				<include name="**\*"/>
 			</fileset>
 		</copy>
-  </target>
+		<foreach item="Folder" in="${src.folder}" property="foldername">
+			<do>
+				<if test="${(string::contains(foldername,'Tests'))}" >
+					<property name="msbuild.copy.from.folder" value="${foldername}\${msbuild.bin.folder}" />
+					<property name="msbuild.copy.to.folder" value="${path::combine(build.config.dir,path::get-file-name(foldername))}" />
+					<copy todir="${msbuild.copy.to.folder}" overwrite="true" if="${directory::exists(msbuild.copy.from.folder)}">
+						<fileset basedir="${msbuild.copy.from.folder}">
+							<include name="**\*"/>
+						</fileset>
+					</copy>
+				</if>
+			</do>
+		</foreach>
+	</target>
 
-  <target name="version" description="Generate AssemblyInfo">
-    <echo message="Marking build with version ${project.fullversion}" />
-    <loadfile  file="${version.assembly}" property="CommonAssemblyInfo.Data" />
-    <regex pattern="\[assembly: (?'replaceme'AssemblyVersion.*)\]" input="${CommonAssemblyInfo.Data}" />
-    <echo message="Updated from: ${replaceme}" />
-    <echo message="${string::replace(CommonAssemblyInfo.Data, replaceme, 'AssemblyVersion(&quot;'+project.fullversion.file+'&quot;)')}" file="${version.assembly}"/>
+	<target name="version" description="Generate AssemblyInfo">
+		<echo message="Marking build with version ${project.fullversion}" />
+		<loadfile  file="${version.assembly}" property="CommonAssemblyInfo.Data" />
+		<regex pattern="\[assembly: (?'replaceme'AssemblyVersion.*)\]" input="${CommonAssemblyInfo.Data}" />
+		<echo message="Updated from: ${replaceme}" />
+		<echo message="${string::replace(CommonAssemblyInfo.Data, replaceme, 'AssemblyVersion(&quot;'+project.fullversion.file+'&quot;)')}" file="${version.assembly}"/>
+	</target>
 
-  </target>
 
-  
-  <target name="version.update" description="Generate AssemblyInfo">
-    
-    <xmlpeek
+	<target name="version.update" description="Update the version in the build file">
+		<xmlpeek
     file="${version.buildFile}"
     xpath="/x:project/x:property[@name = 'version.build']/@value"
     property="version.build.read"
     verbose="false">
-      <namespaces>
-        <namespace prefix="x" uri="http://nant.sourceforge.net/nightly/latest/nant.xsd" />
-      </namespaces>
-    </xmlpeek>
-    <loadfile  file="${version.buildFile}" property="build.Data" />
-    <regex pattern="property (?'replaceme'name=&quot;version.build&quot;.*)" input="${build.Data}" />
-    
-    
-    <property name="new.version.build" value="${int::parse(version.build.read)+1}"/>
-    <echo message="Updated from: ${replaceme}" />
-    <echo message="Updated To: ${new.version.build}" />
-    <echo message="${string::replace(build.Data, replaceme, 'name=&quot;version.build&quot; value=&quot;'+new.version.build+'&quot; />')}" file="${version.buildFile}"/>
+			<namespaces>
+				<namespace prefix="x" uri="http://nant.sourceforge.net/nightly/latest/nant.xsd" />
+			</namespaces>
+		</xmlpeek>
+		<loadfile  file="${version.buildFile}" property="build.Data" />
+		<regex pattern="property (?'replaceme'name=&quot;version.build&quot;.*)" input="${build.Data}" />
+		<property name="new.version.build" value="${int::parse(version.build.read)+1}"/>
+		<echo message="Updated from: ${replaceme}" />
+		<echo message="Updated To: ${new.version.build}" />
+		<echo message="${string::replace(build.Data, replaceme, 'name=&quot;version.build&quot; value=&quot;'+new.version.build+'&quot; />')}" file="${version.buildFile}"/>
+	</target>
 
-  </target>
+	  <target name="run-code-cover-tests" description="Code coverage of unit tests">
+	    <property name="NUnit.console" value="Tools\nunit\nunit-console.exe" />
+	    <property name="NUnit.console.args" value="/exclude=Integration Vault.UnitTests.dll" />
+	    <echo message="${NUnit.console} ${run.tests.dir} Vault.UnitTests.dll " />
+	    <exec program="regsvr32"  commandline="/s tools\PartCover\PartCover.CorDriver.dll" />
+	    <exec program="Tools\PartCover\PartCover.exe" failonerror="false" >
+	      <arg value="--target &quot;${NUnit.console}&quot;" />
+	      <arg value="--target-work-dir &quot;${run.tests.dir}&quot;"/>
+	      <arg value="--target-args  &quot;${NUnit.console.args}&quot;" />
+	      <arg value="--include &quot;[Vault*]*&quot;" />
+	      <arg value="--exclude &quot;[nunit*]*&quot;" />
+	      <arg value="--output &quot;${build.reports.dir}\partcover.xml&quot;" />
+	    </exec>
+	    <echo>tools\PartCover\PartCover.Browser.exe build\reports\partcover.xml</echo>
+	  </target>
 
-  <target name="run-code-cover-tests" description="Code coverage of unit tests">
-    <property name="NUnit.console" value="Tools\nunit\nunit-console.exe" />
-    <property name="NUnit.console.args" value="/exclude=Integration Vault.UnitTests.dll" />
-    <echo message="${NUnit.console} ${run-unit-tests.dir} Vault.UnitTests.dll " />
-    <exec program="regsvr32"  commandline="/s tools\PartCover\PartCover.CorDriver.dll" />
-    <exec program="Tools\PartCover\PartCover.exe" failonerror="false" >
-      <arg value="--target &quot;${NUnit.console}&quot;" />
-      <arg value="--target-work-dir &quot;${run-unit-tests.dir}&quot;"/>
-      <arg value="--target-args  &quot;${NUnit.console.args}&quot;" />
-      <arg value="--include &quot;[Vault*]*&quot;" />
-      <arg value="--exclude &quot;[nunit*]*&quot;" />
-      <arg value="--output &quot;${build.reports.dir}\partcover.xml&quot;" />
-    </exec>
-    <echo>tools\PartCover\PartCover.Browser.exe build\reports\partcover.xml</echo>
-  </target>
+	<target name="run.tests">
+		<mkdir dir="${build.reports.dir}"/>
+		<property name="run.tests.timeout" value="60000" />
+		<property name="run.tests.folder.pattern" value=".Tests" />
+		<property name="run.tests.settings" value="/exclude:Unstable /timeout:${run.tests.timeout}" />
+		<foreach item="Folder" in="${build.config.dir}" property="foldername">
+			<do>
+				<if test="${string::ends-with(foldername,run.tests.folder.pattern)}" >
 
-  <target name="run-unit-tests">
-    <mkdir dir="${build.reports.dir}"/>
-    <foreach item="Folder" in="${build.config.dir}" property="foldername">
-      <do>
-        <if test="${string::contains(foldername,'Tests')}" >
-          <property name="nunit2-tests-by-Folder-dll" value="${path::combine(foldername,path::get-file-name(foldername) + '.dll'  )}" />
-          <echo message="Run nunit on ${nunit2-tests-by-Folder-dll}" />
-          <nunit2 verbose="true" haltonfailure="true" failonerror="true">
-            <formatter type="Xml" usefile="true" extension=".xml" outputdir="${build.reports.dir}"/>
-            <test assemblyname="${nunit2-tests-by-Folder-dll}" haltonfailure="true">
-              <categories>
-                <exclude name="Integration"/>
-              </categories>
-            </test>
-          </nunit2>
-        </if>
-      </do>
-    </foreach>
-  </target>
+					<property name="run.tests.folder.dll" value="${path::get-file-name(foldername) + '.exe'}" />
+					<property name="run.tests.folder.dll" value="${path::get-file-name(foldername) + '.dll'}" if="${not file::exists(run.tests.folder.dll)}" />
+					<property name="run.tests.folder.result" value="../../../${build.reports.dir}\${path::get-file-name(foldername)+'.xml'}" />
+					<property name="run.tests.folder.out" value="../../../${build.reports.dir}\${path::get-file-name(foldername)+'.txt'}" />
 
-  <target name="dist">
-    <mkdir dir="${build.dist.dir}" unless="${directory::exists(build.dist.dir)}"/>
-    <foreach item="Folder" in="${build.config.dir}" property="foldername">
-      <do>
-        <if test="${not (string::contains(foldername,'Tests'))}" >
-          <property name="dist.from.folder" value="${foldername}" />
-          <property name="dist.to.folder" value="${path::combine(build.dist.dir,path::get-file-name(foldername)+ '.v' + project.fullversion + '.zip'  )}" />
-          <echo message="Zip from ${dist.from.folder}" />
-          <echo message="Zip to ${dist.to.folder}" />
-          <zip zipfile="${dist.to.folder}">
-            <fileset basedir="${dist.from.folder}">
-              <include name="**\*"/>
-              <exclude name="**\*.pdb"/>
-            </fileset>
-          </zip>
-        </if>
-      </do>
-    </foreach>
-  </target>
+					<exec program="nunit-console.exe"
+                failonerror="false"
+                basedir="tools/nunit/"
+                workingdir="${foldername}"
+                resultproperty="exec_result" >
+						<arg value="&quot;${run.tests.folder.dll}&quot;" />
+						<arg value="${run.tests.settings}"/>
+						<arg value="/out:&quot;${run.tests.folder.out}&quot;" />
+						<arg value="/xml:&quot;${run.tests.folder.result}&quot;" />
+						<arg value="/nologo" />
+					</exec>
 
- 
- <!-- Drop box -->
- <target name="dist.to.storage">
-   <echo message="Copy to ${dropbox.public}"/>
-    <copy todir="${dropbox.public}">
-      <fileset basedir="${build.dist.dir}">
-        <include name="**\*.zip"/>
-      </fileset>
-    </copy>
-  </target>
-  
-</project>
+					<echo message="Result : ${exec_result}" />
+					<property name="nunit2-failed" value="true" if="${int::parse(exec_result) != 0}" />
+				</if>
+			</do>
+		</foreach>
+	</target>
+
+	<target name="dist">
+		<mkdir dir="${build.dist.dir}" unless="${directory::exists(build.dist.dir)}"/>
+		<foreach item="Folder" in="${build.config.dir}" property="foldername">
+			<do>
+				<if test="${not (string::contains(foldername,'Tests'))}" >
+					<property name="dist.from.folder" value="${foldername}" />
+					<property name="dist.to.folder" value="${path::combine(build.dist.dir,path::get-file-name(foldername)+ '.v' + project.fullversion +'.'+src.sln.configuration+ '.zip'  )}" />
+					<echo message="Zip from ${dist.from.folder}" />
+					<echo message="Zip to ${dist.to.folder}" />
+					<zip zipfile="${dist.to.folder}">
+						<fileset basedir="${dist.from.folder}">
+							<include name="**\*"/>
+							<exclude name="**\*.pdb"/>
+						</fileset>
+					</zip>
+				</if>
+			</do>
+		</foreach>
+	</target
