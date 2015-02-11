@@ -54,7 +54,7 @@ namespace MainSolutionTemplate.Core.Managers
 				{
 					_log.Info(string.Format("Loggin user '{0}'", userName));
 					User user = _generalUnitOfWork.Users.FirstOrDefault(x => x.Email== userName);
-					if (user != null)
+					if (user != null && user.HashedPassword != null)
 					{
 						if (!PasswordHash.ValidatePassword(password, user.HashedPassword))
 						{

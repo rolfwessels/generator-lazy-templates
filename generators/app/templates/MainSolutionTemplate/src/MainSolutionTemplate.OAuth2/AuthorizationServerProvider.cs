@@ -89,34 +89,41 @@ namespace MainSolutionTemplate.OAuth2
 
 		public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
 		{
-			IAuthorizedUser user = await _oauthDataManager.GetUserByUserIdAndPassword(context.UserName, context.Password);
-
-			if (user == null)
+			try
 			{
-				context.SetError("invalid_grant", "The user name or password is incorrect.");
-				return;
-			}
-
-			var identity = new ClaimsIdentity(context.Options.AuthenticationType);
-			identity.AddClaim(new Claim(ClaimTypes.Name, user.UserId));
-
-			string[] roles = await _oauthDataManager.GetRolesForUser(user);
-			foreach (string role in roles)
-			{
-				identity.AddClaim(new Claim(ClaimTypes.Role, role));
-			}
-
-			var props = new AuthenticationProperties(new Dictionary<string, string>
+				IAuthorizedUser user = await _oauthDataManager.GetUserByUserIdAndPassword(context.UserName, context.Password);
+				if (user == null)
 				{
-					{"client_id", context.ClientId ?? string.Empty},
-					{"userName", user.UserId ?? string.Empty},
-					{"displayName", user.DisplayName ?? string.Empty},
-					{"permissions", string.Join(",", roles)}
-				});
+					context.SetError("invalid_grant", "The user name or password is incorrect.");
+					return;
+				}
 
-			var ticket = new AuthenticationTicket(identity, props);
-			context.Validated(ticket);
-			await _oauthDataManager.UpdateUserLastActivityDate(user);
+				var identity = new ClaimsIdentity(context.Options.AuthenticationType);
+				identity.AddClaim(new Claim(ClaimTypes.Name, user.UserId));
+
+				string[] roles = await _oauthDataManager.GetRolesForUser(user);
+				foreach (string role in roles)
+				{
+					identity.AddClaim(new Claim(ClaimTypes.Role, role));
+				}
+
+				var props = new AuthenticationProperties(new Dictionary<string, string>
+					{
+						{"client_id", context.ClientId ?? string.Empty},
+						{"userName", user.UserId ?? string.Empty},
+						{"displayName", user.DisplayName ?? string.Empty},
+						{"permissions", string.Join(",", roles)}
+					});
+
+				var ticket = new AuthenticationTicket(identity, props);
+				context.Validated(ticket);
+				await _oauthDataManager.UpdateUserLastActivityDate(user);
+			}
+			catch (Exception e)
+			{
+				_log.Error(e.Message, e);
+				throw;
+			}
 		}
 
 		public override Task GrantRefreshToken(OAuthGrantRefreshTokenContext context)
