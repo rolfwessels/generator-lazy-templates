@@ -15,5 +15,10 @@ namespace MainSolutionTemplate.Dal.Models
 		public string HashedPassword { get; set; }
 		public virtual List<Role> Roles { get; private set; }
 		public DateTime? LastLoginDate { get; set; }
+
+		public override string ToString()
+		{
+			return string.Format("Email: {0}, Name: {1}", Email, Name);
+		}
 	}
 }

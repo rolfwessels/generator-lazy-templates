@@ -11,7 +11,7 @@ namespace MainSolutionTemplate.Core.Mappers
 			Mapper.CreateMap<User, OAuthClientAddaptor>()
 			      .ForMember(x => x.UserId, opt => opt.MapFrom(x => x.Email))
 			      .ForMember(x => x.DisplayName, opt => opt.MapFrom(x => x.Name));
-			Mapper.AssertConfigurationIsValid();
+			
 		}
 
 		public static IAuthorizedUser MapToIAuthorizedUser(this User value)

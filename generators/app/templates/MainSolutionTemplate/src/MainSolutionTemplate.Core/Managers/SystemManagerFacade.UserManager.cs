@@ -23,14 +23,17 @@ namespace MainSolutionTemplate.Core.Managers
 			var userFound = _generalUnitOfWork.Users.FirstOrDefault(x => x.Id == user.Id);
 			if (userFound == null)
 			{
+				_log.Info(string.Format("Adding user [{0}]", user));
 				_generalUnitOfWork.Users.Add(user);
+				return user;
 			}
 			else
 			{
-				_generalUnitOfWork.Users.Update(userFound);
+				_log.Info(string.Format("Update user [{0}]", user));
+				_generalUnitOfWork.Users.Update(user);
+				
 			}
-
-			return userFound;
+			return user;
 		}
 
 		public User DeleteUser(Guid id)
@@ -38,6 +41,7 @@ namespace MainSolutionTemplate.Core.Managers
 			var user = _generalUnitOfWork.Users.FirstOrDefault(x => x.Id == id);
 			if (user != null)
 			{
+				_log.Info(string.Format("Remove user [{0}]", user));
 				_generalUnitOfWork.Users.Remove(user);
 			}
 			return user;

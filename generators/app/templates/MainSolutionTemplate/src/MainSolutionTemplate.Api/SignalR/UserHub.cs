@@ -4,34 +4,48 @@ using System.Linq;
 using System.Reflection;
 using MainSolutionTemplate.Api.AppStartup;
 using MainSolutionTemplate.Api.Models;
-using MainSolutionTemplate.Api.Models.Mappers;
-using MainSolutionTemplate.Core.Managers.Interfaces;
+using MainSolutionTemplate.Api.WebApi.Controllers;
 using Microsoft.AspNet.SignalR;
 using log4net;
 
 namespace MainSolutionTemplate.Api.SignalR
 {
-	public interface IUserHub
+	public class UserHub : Hub , IUserHub
 	{
-		List<UserModel> Get();
-	}
-
-	public class UserHub : Hub, IUserHub
-	{
-		private readonly ISystemManagerFacade _systemManagerFacade;
 		private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+		private UserController _userController;
+
+
 		public UserHub()
 		{
-			_systemManagerFacade = IocContainerSetup.Instance.Resolve<ISystemManagerFacade>();
+			_userController = IocContainerSetup.Instance.Resolve<UserController>();
 		}
 
 		public List<UserModel> Get()
 		{
-			var transport = Context.QueryString["transport"];
-			_log.Debug(string.Format("UserHub:Get Transport {0}", transport));
-			
-			return _systemManagerFacade.GetUsers().ToUserModel().ToList();
-			//Clients.All.addMessage(data, message);
+			return _userController.Get().ToList();
+		}
+
+		public UserModel Get(Guid id)
+		{
+			return _userController.Get(id);
+		}
+
+		public UserModel Post(UserModel user)
+		{
+			var userModel = _userController.Post(user);
+			_log.Debug(string.Format("UserHub:Post userModel {0}", userModel));
+			return userModel;
+		}
+
+		public UserModel Put(Guid id, UserModel user)
+		{
+			return _userController.Put(id, user);
+		}
+
+		public bool Delete(Guid id)
+		{
+			return _userController.Delete(id);
 		}
 	}
 }

@@ -11,10 +11,12 @@ namespace MainSolutionTemplate.Api.Models.Mappers
 		{
 			Mapper.CreateMap<User, UserModel>();
 			Mapper.CreateMap<UserModel, User>()
-			      .ForMember(x => x.Roles, opt => opt.Ignore())
+				  .ForMember(x => x.Id, opt => opt.Ignore())  
+				  .ForMember(x => x.Roles, opt => opt.Ignore())
+			      .ForMember(x => x.HashedPassword, opt => opt.Ignore())
 			      .ForMember(x => x.CreateDate, opt => opt.Ignore())
 			      .ForMember(x => x.UpdateDate, opt => opt.Ignore());
-			Mapper.AssertConfigurationIsValid();
+			
 		}
 
 		public static User ToUser(this UserModel model, User user = null)

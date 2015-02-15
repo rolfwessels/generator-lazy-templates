@@ -1,20 +1,17 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
-using System.Web.Http.OData.Query;
-using AutoMapper;
 using MainSolutionTemplate.Api.Models;
 using MainSolutionTemplate.Api.Models.Mappers;
+using MainSolutionTemplate.Api.SignalR;
 using MainSolutionTemplate.Core.Managers.Interfaces;
-using MainSolutionTemplate.Dal.Models;
 
 namespace MainSolutionTemplate.Api.WebApi.Controllers
 {
 	/// <summary>
 	///     Api controller for managing all the tasks
 	/// </summary>
-	public class UserController : ApiController
+	public class UserController : ApiController, IUserHub
 	{
 		private readonly ISystemManagerFacade _systemManager;
 		
@@ -61,7 +58,7 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 		{
 			var userFound = _systemManager.GetUser(id);
 			if (userFound == null) throw new Exception(string.Format("Could not find user by id '{0}'", id));
-			var saveUser = _systemManager.SaveUser(user.ToUser());
+			var saveUser = _systemManager.SaveUser(user.ToUser(userFound));
 			return saveUser.ToUserModel();
 		}
 
@@ -74,6 +71,7 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 		[Route(RouteHelper.UserController)]
 		public UserModel Post(UserModel user)
 		{
+
 			var savedUser = _systemManager.SaveUser(user.ToUser());
 			return savedUser.ToUserModel();
 		}
