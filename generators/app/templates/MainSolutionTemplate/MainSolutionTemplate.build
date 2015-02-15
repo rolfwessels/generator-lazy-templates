@@ -175,6 +175,7 @@
 				</if>
 			</do>
 		</foreach>
+		<fail if="${nunit2-failed == 'true'}" message="Tests have failed." />
 	</target>
 
 	<target name="dist">

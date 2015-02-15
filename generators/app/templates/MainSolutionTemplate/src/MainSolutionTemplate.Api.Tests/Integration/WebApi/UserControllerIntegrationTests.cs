@@ -44,6 +44,19 @@ namespace MainSolutionTemplate.Api.Tests.Integration.WebApi
 			//restResponse.StatusCode.Should().Be(HttpStatusCode.OK);
 			restResponse.Content.Should().StartWith("[");
 		}
+		
+		[Test]
+		public void Get_WhenCalledWithTop_ShouldDisplayOnlySelectedRecords()
+		{
+			// arrange
+			Setup();
+			var request = new RestRequest(RouteHelper.UserController + "?$top=2", Method.GET);
+			// action
+			var restResponse = _client.Value.ExecuteWithLogging<List<UserModel>>(request);
+			// assert
+			//restResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+			restResponse.Data.Count.Should().Be(2);
+		}
 
 		[Test]
 		public void Get_WhenCalled_ShouldHaveSomeContent()

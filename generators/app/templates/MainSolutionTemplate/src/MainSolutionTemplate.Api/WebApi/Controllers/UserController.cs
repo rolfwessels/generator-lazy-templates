@@ -2,10 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using System.Web.Http.OData.Query;
 using AutoMapper;
 using MainSolutionTemplate.Api.Models;
 using MainSolutionTemplate.Api.Models.Mappers;
 using MainSolutionTemplate.Core.Managers.Interfaces;
+using MainSolutionTemplate.Dal.Models;
 
 namespace MainSolutionTemplate.Api.WebApi.Controllers
 {
@@ -29,9 +31,10 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 		/// <returns>
 		/// </returns>
 		[Route(RouteHelper.UserController)]
-		public IQueryable<UserModel> Get()
+		public IQueryable<UserModel> Get(ODataQueryOptions<User> options )
 		{
-			return _systemManager.GetUsers().ToUserModel();
+			var applyTo = options.ApplyTo(_systemManager.GetUsers()) as IQueryable<User>;
+			return applyTo.ToUserModel();
 		}
 
 		/// <summary>

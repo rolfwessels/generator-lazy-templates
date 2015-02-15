@@ -3,6 +3,7 @@ using System.Web.Http;
 using MainSolutionTemplate.Api.WebApi.Filters;
 using Microsoft.Owin.Cors;
 using Owin;
+using System.Web.Http.OData.Extensions;
 
 namespace MainSolutionTemplate.Api.AppStartup
 {
@@ -16,7 +17,7 @@ namespace MainSolutionTemplate.Api.AppStartup
     protected WebApiSetup(IAppBuilder appBuilder)
     {
       var configuration = new HttpConfiguration();
-	
+	  configuration.AddODataQueryFilter();
       configuration.MapHttpAttributeRoutes();
       appBuilder.UseCors(CorsOptions.AllowAll);
       appBuilder.UseWebApi(configuration);
