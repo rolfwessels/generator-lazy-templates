@@ -14,6 +14,42 @@ namespace MainSolutionTemplate.Api.Tests.Integration.WebApi
 {
 	[TestFixture]
 	[Category("Integration")]
+	public class UserHubIntegrationTests : IntegrationTestsBase
+	{
+		private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
+		#region Setup/Teardown
+
+		public void Setup()
+		{
+			_client.Value
+		}
+
+		[TearDown]
+		public void TearDown()
+		{
+
+		}
+
+		#endregion
+
+		[Test]
+		public void Get_WhenCalled_ShouldHaveStatusCodeOk()
+		{
+			// arrange
+			Setup();
+			var request = new RestRequest(RouteHelper.UserController, Method.GET);
+			// action
+			var restResponse = _client.Value.ExecuteWithLogging<List<UserModel>>(request);
+			// assert
+			//restResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+			restResponse.Content.Should().StartWith("[");
+		}
+	}
+
+
+	[TestFixture]
+	[Category("Integration")]
 	public class UserControllerIntegrationTests : IntegrationTestsBase
 	{
 		private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);

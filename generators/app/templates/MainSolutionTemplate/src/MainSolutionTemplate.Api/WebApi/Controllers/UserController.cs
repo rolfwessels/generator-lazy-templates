@@ -31,12 +31,13 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 		/// <returns>
 		/// </returns>
 		[Route(RouteHelper.UserController)]
-		public IQueryable<UserModel> Get(ODataQueryOptions<User> options )
+		public IQueryable<UserModel> Get()
 		{
-			var applyTo = options.ApplyTo(_systemManager.GetUsers()) as IQueryable<User>;
-			return applyTo.ToUserModel();
+			//var applyTo = options.ApplyTo(_systemManager.GetUsers()) as IQueryable<User>;
+			return _systemManager.GetUsers().ToUserModel().AsQueryable();
 		}
 
+		
 		/// <summary>
 		///     Returns list of all the tasks
 		/// </summary>

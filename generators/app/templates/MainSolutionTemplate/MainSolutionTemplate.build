@@ -149,6 +149,7 @@
 		<property name="run.tests.timeout" value="60000" />
 		<property name="run.tests.folder.pattern" value=".Tests" />
 		<property name="run.tests.settings" value="/exclude:Unstable /timeout:${run.tests.timeout}" />
+		<property name="nunit2-failed" value="false" />
 		<foreach item="Folder" in="${build.config.dir}" property="foldername">
 			<do>
 				<if test="${string::ends-with(foldername,run.tests.folder.pattern)}" >
