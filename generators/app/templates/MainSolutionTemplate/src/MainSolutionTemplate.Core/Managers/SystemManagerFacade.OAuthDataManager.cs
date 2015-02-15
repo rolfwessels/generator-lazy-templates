@@ -43,35 +43,25 @@ namespace MainSolutionTemplate.Core.Managers
 
 		public Task<IOAuthClient> GetApplication(string clientId)
 		{
+			if (clientId == null) throw new ArgumentNullException("clientId");
 			return Task.Run(() => _generalUnitOfWork.Applications.FirstOrDefault(x => x.ClientId == clientId).MapToIOAuthClient());
 		}
 
 		public Task<IAuthorizedUser> GetUserByUserIdAndPassword(string userName, string password)
 		{
 			if (string.IsNullOrEmpty(userName)) throw new ArgumentNullException("userName");
-			if (string.IsNullOrEmpty(userName)) throw new ArgumentNullException("password");
+			if (string.IsNullOrEmpty(password)) throw new ArgumentNullException("password");
 			return Task.Run(() =>
 				{
-					_log.Info(string.Format("Loggin user '{0}'", userName));
-					User user = _generalUnitOfWork.Users.FirstOrDefault(x => x.Email== userName);
-					if (user != null && user.HashedPassword != null)
-					{
-						if (!PasswordHash.ValidatePassword(password, user.HashedPassword))
-						{
-							user = null;
-							_log.Info(string.Format("Invalid password for user '{0}'", userName));
-						}
-					}
-					else
-					{
-						_log.Info(string.Format("Invalid user '{0}'", userName));
-					}
+					_log.Info(string.Format("Login user '{0}'", userName));
+					var user = GetUserByEmailAndPassword(userName,password);
 					return user.MapToIAuthorizedUser();
 				});
 		}
 
 		public Task<string[]> GetRolesForUser(IAuthorizedUser user)
 		{
+			if (user == null) throw new ArgumentNullException("user");
 			return Task.Run(() =>
 			{
 				_log.Info(string.Format("Roles user '{0}'", user.UserId));
@@ -82,6 +72,7 @@ namespace MainSolutionTemplate.Core.Managers
 
 		public Task UpdateUserLastActivityDate(IAuthorizedUser user)
 		{
+			if (user == null) throw new ArgumentNullException("user");
 			return Task.Run(() =>
 			{
 				_log.Info(string.Format("Roles user '{0}'", user.UserId));

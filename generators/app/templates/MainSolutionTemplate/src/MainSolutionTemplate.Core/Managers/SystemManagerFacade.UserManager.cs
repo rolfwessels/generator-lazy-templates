@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using MainSolutionTemplate.Core.Managers.Interfaces;
+using MainSolutionTemplate.Core.Vendor;
 using MainSolutionTemplate.Dal.Models;
 
 namespace MainSolutionTemplate.Core.Managers
@@ -43,6 +44,24 @@ namespace MainSolutionTemplate.Core.Managers
 			{
 				_log.Info(string.Format("Remove user [{0}]", user));
 				_generalUnitOfWork.Users.Remove(user);
+			}
+			return user;
+		}
+
+		public User GetUserByEmailAndPassword(string email, string password)
+		{
+			User user = _generalUnitOfWork.Users.FirstOrDefault(x => x.Email == email);
+			if (user != null && user.HashedPassword != null)
+			{
+				if (!PasswordHash.ValidatePassword(password, user.HashedPassword))
+				{
+					user = null;
+					_log.Info(string.Format("Invalid password for user '{0}'", email));
+				}
+			}
+			else
+			{
+				_log.Info(string.Format("Invalid user '{0}'", email));
 			}
 			return user;
 		}

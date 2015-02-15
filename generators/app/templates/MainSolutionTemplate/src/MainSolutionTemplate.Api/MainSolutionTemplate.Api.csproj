@@ -165,7 +165,9 @@
     <Compile Include="AppStartup\IocContainerSetup.cs" />
     <Compile Include="AppStartup\SwaggerSetup.cs" />
     <Compile Include="AppStartup\WebApiSetup.cs" />
+    <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\Mappers\AutoMapperUserModel.cs" />
+    <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Nancy\NancySetup.cs" />
     <Compile Include="SignalR\IUserHub.cs" />

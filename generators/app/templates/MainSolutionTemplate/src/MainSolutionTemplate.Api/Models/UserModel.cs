@@ -14,6 +14,4 @@ namespace MainSolutionTemplate.Api.Models
 			return string.Format("Id: {0}, Email: {1}, Name: {2}", Id, Email, Name);
 		}
 	}
-
-	
 }

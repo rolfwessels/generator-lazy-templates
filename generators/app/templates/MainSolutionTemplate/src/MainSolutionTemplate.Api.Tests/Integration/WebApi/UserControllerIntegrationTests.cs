@@ -4,7 +4,6 @@ using System.Reflection;
 using FluentAssertions;
 using MainSolutionTemplate.Api.Models;
 using MainSolutionTemplate.Api.WebApi;
-using MainSolutionTemplate.Api.WebApi.Controllers;
 using MainSolutionTemplate.Core.Helpers;
 using NUnit.Framework;
 using RestSharp;
@@ -37,25 +36,28 @@ namespace MainSolutionTemplate.Api.Tests.Integration.WebApi
 		{
 			// arrange
 			Setup();
-			var request = new RestRequest(RouteHelper.UserController,Method.GET);
+			
+			var request = AdminRequest(RouteHelper.UserController,Method.GET);
 			// action
 			var restResponse = _client.Value.ExecuteWithLogging<List<UserModel>>(request);
 			// assert
-			//restResponse.StatusCode.Should().Be(HttpStatusCode.OK);
-			restResponse.Content.Should().StartWith("[");
+			restResponse.StatusCode.Should().Be(HttpStatusCode.OK);
 		}
+		
 		
 		[Test]
 		public void Get_WhenCalledWithTop_ShouldDisplayOnlySelectedRecords()
 		{
 			// arrange
 			Setup();
-			var request = new RestRequest(RouteHelper.UserController + "?$top=2", Method.GET);
+
+			var request = AdminRequest(RouteHelper.UserController + "?$top=2", Method.GET);
 			// action
 			var restResponse = _client.Value.ExecuteWithLogging<List<UserModel>>(request);
 			// assert
 			//restResponse.StatusCode.Should().Be(HttpStatusCode.OK);
-			restResponse.Data.Count.Should().Be(2);
+			restResponse.Data.Count.Should().BeGreaterThan(0);
+			restResponse.Data.Count.Should().BeLessOrEqualTo(2);
 		}
 
 		[Test]
@@ -63,14 +65,29 @@ namespace MainSolutionTemplate.Api.Tests.Integration.WebApi
 		{
 			// arrange
 			Setup();
-			var request = new RestRequest(RouteHelper.UserController,Method.GET);
+			var request = AdminRequest(RouteHelper.UserController, Method.GET);
 			// action
 			var restResponse = _client.Value.ExecuteWithLogging<List<UserModel>>(request);
 			// assert
-			restResponse.Content.Should().StartWith("[");
 			restResponse.Data.Count.Should().BeGreaterOrEqualTo(1);
 		}
 
-		 
+
+		[Test]
+		public void Login_WhenCalled_ShouldHaveStatusCodeOk()
+		{
+			// arrange
+			Setup();
+			var request = new RestRequest(RouteHelper.UserControllerLogin, Method.POST);
+			request.AddJsonBody(new LoginModel() {UserName = "admin", Password = "admin!"});
+			// action
+			var restResponse = _client.Value.ExecuteWithLogging<UserModel>(request);
+			// assert
+			restResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+			restResponse.Data.Should().NotBeNull();
+		}
+		
+		
+		
 	}
 }

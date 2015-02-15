@@ -16,10 +16,23 @@ namespace MainSolutionTemplate.Api.Models.Mappers
 			      .ForMember(x => x.HashedPassword, opt => opt.Ignore())
 			      .ForMember(x => x.CreateDate, opt => opt.Ignore())
 			      .ForMember(x => x.UpdateDate, opt => opt.Ignore());
+
+			Mapper.CreateMap<RegisterModel, User>()
+				  .ForMember(x => x.Id, opt => opt.Ignore())  
+				  .ForMember(x => x.Roles, opt => opt.Ignore())
+				  .ForMember(x => x.LastLoginDate, opt => opt.Ignore())
+			      .ForMember(x => x.HashedPassword, opt => opt.Ignore())
+			      .ForMember(x => x.CreateDate, opt => opt.Ignore())
+			      .ForMember(x => x.UpdateDate, opt => opt.Ignore());
 			
 		}
 
 		public static User ToUser(this UserModel model, User user = null)
+		{
+			return Mapper.Map(model, user);
+		}
+
+		public static User ToUser(this RegisterModel model, User user = null)
 		{
 			return Mapper.Map(model, user);
 		}

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using System.Threading;
+using MainSolutionTemplate.Core.Helpers;
 using Microsoft.Owin.Hosting;
 using RestSharp;
 using log4net;
@@ -11,17 +12,20 @@ namespace MainSolutionTemplate.Api.Tests.Integration.WebApi
 	{
 		private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 		private readonly static Lazy<string> _hostAddress;
-		protected Lazy<RestClient> _client;
+		protected static Lazy<RestClient> _client;
+		private static Lazy<AuthResponse> _adminUser;
 
 		static IntegrationTestsBase()
 		{
 			_hostAddress = new Lazy<string>(StartHosting);
+			_adminUser = new Lazy<AuthResponse>(LoggedInResponse);
+			_client = new Lazy<RestClient>(GetClient);
 		}
 
 		public IntegrationTestsBase()
 		{
 			
-			_client = new Lazy<RestClient>(GetClient);
+			
 		}
 
 		#region Private Methods
@@ -35,13 +39,44 @@ namespace MainSolutionTemplate.Api.Tests.Integration.WebApi
 			return address;
 		}
 
-		private RestClient GetClient()
+		private static RestClient GetClient()
 		{
 			var client = new RestClient(_hostAddress.Value);
 			return client;
 		}
 
+		protected RestRequest AdminRequest(string resource, Method method)
+		{
+			_log.Info("data");
+			var request = new RestRequest(resource, method) {RequestFormat = DataFormat.Json};
+			var loggedInResponse = _adminUser.Value;
+
+			var format = string.Format("{0} {1}", loggedInResponse.token_type, loggedInResponse.access_token);
+			_log.Info("Adding auth " + format);
+			request.AddHeader("Authorization", format);
+			return request;
+		}
+
+		private static AuthResponse LoggedInResponse()
+		{
+			var request = new RestRequest("Token", Method.POST);
+			request.AddParameter("username", "admin");
+			request.AddParameter("password", "admin!");
+			request.AddParameter("grant_type", "password");
+			request.AddParameter("client_id", "MainSolutionTemplateApi");
+			// action
+			var loggedInResponse = _client.Value.ExecuteWithLogging<AuthResponse>(request);
+			return loggedInResponse.Data;
+		}
+
 		#endregion
+
+
+		private class AuthResponse
+		{
+			public string access_token { get; set; }
+			public string token_type { get; set; }
+		}
 
 	}
 }

@@ -5,12 +5,14 @@ using MainSolutionTemplate.Api.Models;
 using MainSolutionTemplate.Api.Models.Mappers;
 using MainSolutionTemplate.Api.SignalR;
 using MainSolutionTemplate.Core.Managers.Interfaces;
+using MainSolutionTemplate.Dal.Models;
 
 namespace MainSolutionTemplate.Api.WebApi.Controllers
 {
 	/// <summary>
 	///     Api controller for managing all the tasks
 	/// </summary>
+	[Authorize]
 	public class UserController : ApiController, IUserHub
 	{
 		private readonly ISystemManagerFacade _systemManager;
@@ -28,6 +30,7 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 		/// <returns>
 		/// </returns>
 		[Route(RouteHelper.UserController)]
+		[Authorize]
 		public IQueryable<UserModel> Get()
 		{
 			//var applyTo = options.ApplyTo(_systemManager.GetUsers()) as IQueryable<User>;
@@ -41,6 +44,7 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 		/// <returns>
 		/// </returns>
 		[Route(RouteHelper.UserController)]
+		[Authorize(Roles = "Admin")]
 		public UserModel Get(Guid id)
 		{
 			return _systemManager.GetUser(id).ToUserModel();
@@ -54,6 +58,7 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 		/// <returns>
 		/// </returns>
 		[Route(RouteHelper.UserController)]
+		[Authorize(Roles = "Admin")]
 		public UserModel Put(Guid id, UserModel user)
 		{
 			var userFound = _systemManager.GetUser(id);
@@ -69,9 +74,9 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 		/// <returns>
 		/// </returns>
 		[Route(RouteHelper.UserController)]
+		[Authorize(Roles = "Admin")]
 		public UserModel Post(UserModel user)
 		{
-
 			var savedUser = _systemManager.SaveUser(user.ToUser());
 			return savedUser.ToUserModel();
 		}
@@ -88,5 +93,29 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 			var deleteUser = _systemManager.DeleteUser(id);
 			return deleteUser != null;
 		}
+
+		#region Other actions
+
+		[AllowAnonymous]
+		[Route(RouteHelper.UserControllerRegister)]
+		[HttpPost]
+		public UserModel Register(RegisterModel user)
+		{
+			var user1 = user.ToUser();
+			user1.Roles.Add(Roles.Guest);
+			var savedUser = _systemManager.SaveUser(user1);
+			return savedUser.ToUserModel();
+		}
+		
+		[AllowAnonymous]
+		[Route(RouteHelper.UserControllerLogin)]
+		[HttpPost]
+		public UserModel Login(LoginModel model)
+		{
+			var userByUserameAndPassword = _systemManager.GetUserByEmailAndPassword(model.UserName, model.Password);
+			return userByUserameAndPassword.ToUserModel();
+		}
+
+		#endregion
 	}
 }

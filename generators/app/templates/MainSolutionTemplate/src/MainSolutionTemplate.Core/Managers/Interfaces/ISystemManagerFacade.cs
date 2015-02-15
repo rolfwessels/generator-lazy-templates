@@ -4,6 +4,6 @@ namespace MainSolutionTemplate.Core.Managers.Interfaces
 {
 	public interface ISystemManagerFacade : IOAuthDataManager, IUserManager
 	{
-		 
+		
 	}
 }

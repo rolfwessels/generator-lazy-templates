@@ -10,6 +10,7 @@ using log4net;
 
 namespace MainSolutionTemplate.Api.SignalR
 {
+	
 	public class UserHub : Hub , IUserHub
 	{
 		private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
