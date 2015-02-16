@@ -11,5 +11,9 @@ namespace MainSolutionTemplate.Core.Helpers
 			var array = values.Select(x => x.ToString()).ToArray();
 			return string.Join(separator, array);
 		}
+
+		
 	}
+	
+	
 }

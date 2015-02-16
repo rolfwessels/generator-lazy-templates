@@ -11,5 +11,6 @@ namespace MainSolutionTemplate.Core.Managers.Interfaces
 		User SaveUser(User user);
 		User DeleteUser(Guid id);
 		User GetUserByEmailAndPassword(string email, string password);
+		User GetUserByEmail(string email);
 	}
 }

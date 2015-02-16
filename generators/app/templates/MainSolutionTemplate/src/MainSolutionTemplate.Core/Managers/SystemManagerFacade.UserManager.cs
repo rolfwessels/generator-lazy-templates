@@ -50,7 +50,7 @@ namespace MainSolutionTemplate.Core.Managers
 
 		public User GetUserByEmailAndPassword(string email, string password)
 		{
-			User user = _generalUnitOfWork.Users.FirstOrDefault(x => x.Email == email);
+			User user = GetUserByEmail(email);
 			if (user != null && user.HashedPassword != null)
 			{
 				if (!PasswordHash.ValidatePassword(password, user.HashedPassword))
@@ -64,6 +64,11 @@ namespace MainSolutionTemplate.Core.Managers
 				_log.Info(string.Format("Invalid user '{0}'", email));
 			}
 			return user;
+		}
+
+		public User GetUserByEmail(string email)
+		{
+			return _generalUnitOfWork.Users.FirstOrDefault(x => x.Email == email);
 		}
 	}
 }

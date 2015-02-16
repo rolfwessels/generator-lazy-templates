@@ -5,13 +5,12 @@ using System.Reflection;
 using MainSolutionTemplate.Api.AppStartup;
 using MainSolutionTemplate.Api.Models;
 using MainSolutionTemplate.Api.WebApi.Controllers;
-using Microsoft.AspNet.SignalR;
 using log4net;
 
 namespace MainSolutionTemplate.Api.SignalR
 {
-	
-	public class UserHub : Hub , IUserHub
+	[QueryStringBearerAuthorize]
+	public class UserHub : BaseHub , IUserHub
 	{
 		private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 		private UserController _userController;
@@ -35,7 +34,6 @@ namespace MainSolutionTemplate.Api.SignalR
 		public UserModel Post(UserModel user)
 		{
 			var userModel = _userController.Post(user);
-			_log.Debug(string.Format("UserHub:Post userModel {0}", userModel));
 			return userModel;
 		}
 
@@ -49,4 +47,6 @@ namespace MainSolutionTemplate.Api.SignalR
 			return _userController.Delete(id);
 		}
 	}
+
+	
 }

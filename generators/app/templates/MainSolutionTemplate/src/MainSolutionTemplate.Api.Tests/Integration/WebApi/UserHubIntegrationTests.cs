@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using FizzWare.NBuilder;
@@ -25,11 +26,12 @@ namespace MainSolutionTemplate.Api.Tests.Integration.WebApi
 
 		public void Setup()
 		{
+			
 			var signalRUri = _client.Value.BuildUri(new RestRequest("signalr")).ToString();
 			_log.Info(string.Format("Connecting to {0}", signalRUri));
-			_hubConnection = new HubConnection(signalRUri);
+			var queryString = new Dictionary<string, string>() { { _adminUser.Value.token_type, _adminUser.Value.access_token } };
+			_hubConnection = new HubConnection(signalRUri, queryString);
 			_userHubClient = new UserHubClient(_hubConnection);
-			
 			
 			_hubConnection.Start().Wait();
 			_log.Info(string.Format("Connection made {0}", signalRUri));
@@ -53,7 +55,6 @@ namespace MainSolutionTemplate.Api.Tests.Integration.WebApi
 			// assert
 			userModels.Should().NotBeNull();
 			userModels.Count.Should().BeGreaterThan(0);
-
 		}
 		
 		[Test]

@@ -61,6 +61,18 @@ namespace MainSolutionTemplate.OAuth2
 					
 				}
 			}
+
+
+		}
+
+		public static OAuthAuthorizationServerOptions OAuthOptions
+		{
+			get { return _oAuthOptions; }
+		}
+
+		public static OAuthBearerAuthenticationOptions OAuthBearerAuthenticationOptions
+		{
+			get { return _oAuthBearerAuthenticationOptions; }
 		}
 	}
 }

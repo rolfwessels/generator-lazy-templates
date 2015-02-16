@@ -13,7 +13,7 @@ namespace MainSolutionTemplate.Api.Tests.Integration.WebApi
 		private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 		private readonly static Lazy<string> _hostAddress;
 		protected static Lazy<RestClient> _client;
-		private static Lazy<AuthResponse> _adminUser;
+		protected static Lazy<AuthResponse> _adminUser;
 
 		static IntegrationTestsBase()
 		{
@@ -71,8 +71,7 @@ namespace MainSolutionTemplate.Api.Tests.Integration.WebApi
 
 		#endregion
 
-
-		private class AuthResponse
+		protected class AuthResponse
 		{
 			public string access_token { get; set; }
 			public string token_type { get; set; }

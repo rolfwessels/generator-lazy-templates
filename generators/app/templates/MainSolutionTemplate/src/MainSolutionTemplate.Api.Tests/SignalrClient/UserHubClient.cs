@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using MainSolutionTemplate.Api.Models;
 using MainSolutionTemplate.Api.SignalR;
+using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Client;
 using log4net;
 
@@ -19,7 +20,8 @@ namespace MainSolutionTemplate.Api.Tests.SignalrClient
 		}
 
 		#region Implementation of IUserHub
-
+		
+		
 		public List<UserModel> Get()
 		{
 			return _userHub.Invoke<List<UserModel>>("Get").Result;
