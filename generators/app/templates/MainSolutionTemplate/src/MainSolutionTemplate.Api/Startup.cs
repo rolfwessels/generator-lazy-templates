@@ -3,6 +3,7 @@ using MainSolutionTemplate.Core.Managers.Interfaces;
 using MainSolutionTemplate.OAuth2;
 using Microsoft.AspNet.SignalR;
 using Owin;
+using IDependencyResolver = System.Web.Http.Dependencies.IDependencyResolver;
 
 namespace MainSolutionTemplate.Api
 {
@@ -11,9 +12,11 @@ namespace MainSolutionTemplate.Api
         public void Configuration(IAppBuilder appBuilder)
         {
             BootStrap.Initialize();
-			WebApiSetup webApiSetup = WebApiSetup.Initialize(appBuilder);
-			OathAuthorizationSetup.Initialize(appBuilder,IocContainerSetup.Instance.Resolve<ISystemManagerFacade>());
-			appBuilder.MapSignalR(new HubConfiguration { EnableDetailedErrors = true });
+			OathAuthorizationSetup.Initialize(appBuilder, IocContainerSetup.Instance.Resolve<ISystemManagerFacade>());
+			WebApiSetup webApiSetup = WebApiSetup.Initialize(appBuilder , IocContainerSetup.Instance.Resolve<IDependencyResolver>());
+			
+
+	        appBuilder.MapSignalR(new HubConfiguration { EnableDetailedErrors = true });
             SwaggerSetup.Initialize(webApiSetup.Configuration);
             appBuilder.UseNancy();
             webApiSetup.Configuration.EnsureInitialized();

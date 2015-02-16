@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Linq;
+using System.Net.Http.Formatting;
 using System.Web.Http;
+using System.Web.Http.Dependencies;
 using System.Web.Http.OData.Extensions;
 using MainSolutionTemplate.Api.WebApi.Filters;
 using Microsoft.Owin.Cors;
+using Newtonsoft.Json.Serialization;
 using Owin;
 
 namespace MainSolutionTemplate.Api.AppStartup
@@ -14,16 +18,24 @@ namespace MainSolutionTemplate.Api.AppStartup
 		private static WebApiSetup _instance;
 		private readonly HttpConfiguration _configuration;
 
-		protected WebApiSetup(IAppBuilder appBuilder)
+		protected WebApiSetup(IAppBuilder appBuilder, IDependencyResolver dependencyResolver)
 		{
 			var configuration = new HttpConfiguration();
 			configuration.AddODataQueryFilter();
 
-			appBuilder.UseCors(CorsOptions.AllowAll);
 			SetupRoutes(configuration);
-			appBuilder.UseWebApi(configuration);
 			SetupGlobalFilters(configuration);
+			SetApiCamelCase(configuration);
+			appBuilder.UseCors(CorsOptions.AllowAll);
+			appBuilder.UseWebApi(configuration);
+			configuration.DependencyResolver = dependencyResolver;
 			_configuration = configuration;
+		}
+
+		private static void SetApiCamelCase(HttpConfiguration configuration)
+		{
+			var jsonFormatter = configuration.Formatters.OfType<JsonMediaTypeFormatter>().First();
+			jsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
 		}
 
 		public HttpConfiguration Configuration
@@ -56,14 +68,14 @@ namespace MainSolutionTemplate.Api.AppStartup
 
 		#region Initialize
 
-		public static WebApiSetup Initialize(IAppBuilder appBuilder)
+		public static WebApiSetup Initialize(IAppBuilder appBuilder, IDependencyResolver dependencyResolver)
 		{
 			if (_isInitialized) return _instance;
 			lock (_locker)
 			{
 				if (!_isInitialized)
 				{
-					_instance = new WebApiSetup(appBuilder);
+					_instance = new WebApiSetup(appBuilder,dependencyResolver);
 					_isInitialized = true;
 				}
 			}

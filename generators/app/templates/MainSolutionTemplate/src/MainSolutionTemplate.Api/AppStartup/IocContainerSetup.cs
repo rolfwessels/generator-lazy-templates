@@ -1,4 +1,4 @@
-﻿using System.Web.UI;
+﻿using System.Web.Http.Dependencies;
 using Autofac;
 using Autofac.Integration.WebApi;
 using MainSolutionTemplate.Api.WebApi.Controllers;
@@ -13,7 +13,7 @@ namespace MainSolutionTemplate.Api.AppStartup
 		private static bool _isInitialized;
 		private static readonly object _locker = new object();
 		private static IocContainerSetup _instance;
-		private readonly IContainer _container;
+		private IContainer _container;
 
 		public IocContainerSetup()
 		{
@@ -21,10 +21,9 @@ namespace MainSolutionTemplate.Api.AppStartup
 			SetupCore(builder);
 			WebApi(builder);
 			_container = builder.Build();
-			var webApiResolver = new AutofacWebApiDependencyResolver(_container);
-			WebApiSetup.Instance.Configuration.DependencyResolver = webApiResolver;
 		}
 
+		
 		#region Initialize
 
 		public static IocContainerSetup Instance
@@ -68,9 +67,10 @@ namespace MainSolutionTemplate.Api.AppStartup
 
 		#region Private Methods
 
-		private static void WebApi(ContainerBuilder builder)
+		private void WebApi(ContainerBuilder builder)
 		{
 			builder.RegisterApiControllers(typeof(UserController).Assembly);
+			builder.Register((t) => new AutofacWebApiDependencyResolver(_container)).As<IDependencyResolver>();
 		}
 
 		#endregion

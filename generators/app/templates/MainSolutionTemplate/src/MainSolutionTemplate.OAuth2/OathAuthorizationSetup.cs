@@ -11,6 +11,8 @@ namespace MainSolutionTemplate.OAuth2
 	{
 		private static bool _isInitialized;
 		private static readonly object _locker = new object();
+		private static OAuthAuthorizationServerOptions _oAuthOptions;
+		private static OAuthBearerAuthenticationOptions _oAuthBearerAuthenticationOptions;
 
 
 		public static void Initialize(IAppBuilder appBuilder)
@@ -37,19 +39,26 @@ namespace MainSolutionTemplate.OAuth2
 				if (!_isInitialized)
 				{
 					_isInitialized = true;
-					var oAuthOptions = new OAuthAuthorizationServerOptions
+					_oAuthOptions = new OAuthAuthorizationServerOptions
 						{
 							TokenEndpointPath = new PathString(settings.EndpointPath),
 							Provider = new AuthorizationServerProvider(oauthDataManager, oauthSecurity),
-							AllowInsecureHttp = true
+							AllowInsecureHttp = true,
+							AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(settings.MaxRefresherTokenLifetimeInMinutes)
 						};
 					if (settings.RefresherTokenEnabled)
 					{
-						oAuthOptions.RefreshTokenProvider = new RefreshTokenProvider(oauthDataManager, oauthSecurity);
-						oAuthOptions.AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(settings.MaxRefresherTokenLifetimeInMinutes);
+						_oAuthOptions.RefreshTokenProvider = new RefreshTokenProvider(oauthDataManager, oauthSecurity);
+						
+						
 					}
+					_oAuthBearerAuthenticationOptions = new OAuthBearerAuthenticationOptions() { };
+
+					appBuilder.UseOAuthAuthorizationServer(_oAuthOptions);
+					appBuilder.UseOAuthBearerAuthentication(_oAuthBearerAuthenticationOptions);
 					
-					appBuilder.UseOAuthAuthorizationServer(oAuthOptions);
+					
+					
 				}
 			}
 		}

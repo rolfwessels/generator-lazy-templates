@@ -12,7 +12,6 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 	/// <summary>
 	///     Api controller for managing all the tasks
 	/// </summary>
-	[Authorize]
 	public class UserController : ApiController, IUserHub
 	{
 		private readonly ISystemManagerFacade _systemManager;
@@ -30,7 +29,7 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 		/// <returns>
 		/// </returns>
 		[Route(RouteHelper.UserController)]
-		[Authorize]
+		[Authorize(Roles = "Admin")]
 		public IQueryable<UserModel> Get()
 		{
 			//var applyTo = options.ApplyTo(_systemManager.GetUsers()) as IQueryable<User>;
@@ -43,8 +42,8 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 		/// </summary>
 		/// <returns>
 		/// </returns>
-		[Route(RouteHelper.UserController)]
-		[Authorize(Roles = "Admin")]
+		[Route(RouteHelper.UserControllerId)]
+		[Authorize]
 		public UserModel Get(Guid id)
 		{
 			return _systemManager.GetUser(id).ToUserModel();
