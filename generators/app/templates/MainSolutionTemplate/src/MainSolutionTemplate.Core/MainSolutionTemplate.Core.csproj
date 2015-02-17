@@ -118,8 +118,10 @@
     <Compile Include="Managers\SystemManagerFacade.OAuthDataManager.cs" />
     <Compile Include="Managers\SystemManagerFacade.cs" />
     <Compile Include="Managers\SystemManagerFacade.UserManager.cs" />
-    <Compile Include="Mappers\AutoMapperApplication.cs" />
-    <Compile Include="Mappers\AutoMapperUser.cs" />
+    <Compile Include="Mappers\MapApplication.cs" />
+    <Compile Include="Mappers\MapUser.cs" />
+    <Compile Include="MessageUtil\Messenger.cs" />
+    <Compile Include="MessageUtil\Models\DalUpdateMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\CommonAssemblyInfo.cs" />
     <Compile Include="Sample.cs" />

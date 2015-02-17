@@ -5,6 +5,7 @@
 		UserGet,
 		UserUpdate,
 		UserPost,
-		UserDelete
+		UserDelete,
+		UserSubscribe
 	}
 }

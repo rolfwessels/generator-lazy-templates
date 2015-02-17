@@ -5,12 +5,13 @@ using MainSolutionTemplate.Dal.Models;
 
 namespace MainSolutionTemplate.Api.Models.Mappers
 {
-	public static class AutoMapperUserModel
+	public static class MapUserModel
 	{
-		static AutoMapperUserModel()
+		static MapUserModel()
 		{
 			Mapper.CreateMap<User, UserModel>();
-			Mapper.CreateMap<UserModel, User>()
+
+			Mapper.CreateMap<UserDetailModel, User>()
 				  .ForMember(x => x.Id, opt => opt.Ignore())  
 				  .ForMember(x => x.Roles, opt => opt.Ignore())
 			      .ForMember(x => x.HashedPassword, opt => opt.Ignore())
@@ -27,7 +28,7 @@ namespace MainSolutionTemplate.Api.Models.Mappers
 			
 		}
 
-		public static User ToUser(this UserModel model, User user = null)
+		public static User ToUser(this UserDetailModel model, User user = null)
 		{
 			return Mapper.Map(model, user);
 		}

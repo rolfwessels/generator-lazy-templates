@@ -1,15 +1,6 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Web;
 using System.Web.Http;
-using System.Web.Http.Filters;
-using System.Web.Http.Results;
 using MainSolutionTemplate.Api.Models;
 using MainSolutionTemplate.Api.Models.Mappers;
 using MainSolutionTemplate.Api.SignalR;
@@ -69,7 +60,7 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 		/// </returns>
 		[Route(RouteHelper.UserController)]
 		[AuthorizeActivity(Activity.UserUpdate)]
-		public UserModel Put(Guid id, UserModel user)
+		public UserModel Put(Guid id, UserDetailModel user)
 		{
 			var userFound = _systemManager.GetUser(id);
 			if (userFound == null) throw new Exception(string.Format("Could not find user by id '{0}'", id));
@@ -85,7 +76,7 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 		/// </returns>
 		[Route(RouteHelper.UserController)]
 		[AuthorizeActivity(Activity.UserPost)]
-		public UserModel Post(UserModel user)
+		public UserModel Post(UserDetailModel user)
 		{
 			var savedUser = _systemManager.SaveUser(user.ToUser());
 			return savedUser.ToUserModel();

@@ -4,12 +4,12 @@ using MainSolutionTemplate.OAuth2.Dal.Interfaces;
 
 namespace MainSolutionTemplate.Core.Mappers
 {
-	public static class AutoMapperApplication
+	public static class MapApplication
 	{
-		static AutoMapperApplication()
+		static MapApplication()
 		{
 			Mapper.CreateMap<Application, OAuthClientAdapter>();
-			Mapper.AssertConfigurationIsValid();
+			
 		}
 
 		private class OAuthClientAdapter : IOAuthClient

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 using MainSolutionTemplate.Core.Managers.Interfaces;
+using MainSolutionTemplate.Core.MessageUtil;
+using MainSolutionTemplate.Core.MessageUtil.Models;
 using MainSolutionTemplate.Dal.Models;
 
 namespace MainSolutionTemplate.Core.Managers
@@ -21,7 +23,6 @@ namespace MainSolutionTemplate.Core.Managers
 
 		public Role GetRoleByName(string name)
 		{
-			// todo: Rolf Add some cache here
 			return _generalUnitOfWork.Roles.FirstOrDefault(x => x.Name == name);
 		}
 
@@ -32,12 +33,14 @@ namespace MainSolutionTemplate.Core.Managers
 			{
 				_log.Info(string.Format("Adding role [{0}]", role));
 				_generalUnitOfWork.Roles.Add(role);
+				Messenger.Default.Send(new DalUpdateMessage<Role>(role, Types.Inserted));
 				return role;
 			}
 			else
 			{
 				_log.Info(string.Format("Update role [{0}]", role));
 				_generalUnitOfWork.Roles.Update(role);
+				Messenger.Default.Send(new DalUpdateMessage<Role>(role, Types.Updated));
 			}
 			return role;
 		}
@@ -49,6 +52,7 @@ namespace MainSolutionTemplate.Core.Managers
 			{
 				_log.Info(string.Format("Remove role [{0}]", role));
 				_generalUnitOfWork.Roles.Remove(role);
+				Messenger.Default.Send(new DalUpdateMessage<Role>(role, Types.Removed));
 			}
 			return role;
 		}

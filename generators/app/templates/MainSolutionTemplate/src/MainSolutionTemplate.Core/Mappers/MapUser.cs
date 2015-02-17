@@ -4,9 +4,9 @@ using MainSolutionTemplate.OAuth2.Dal.Interfaces;
 
 namespace MainSolutionTemplate.Core.Mappers
 {
-	public static class AutoMapperUser
+	public static class MapUser
 	{
-		static AutoMapperUser()
+		static MapUser()
 		{
 			Mapper.CreateMap<User, OAuthClientAddaptor>()
 			      .ForMember(x => x.UserId, opt => opt.MapFrom(x => x.Email))

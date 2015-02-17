@@ -35,14 +35,14 @@ namespace MainSolutionTemplate.Api.SignalR
 		}
 
 		[HubAuthorizeActivity(Activity.UserPost)]
-		public UserModel Post(UserModel user)
+		public UserModel Post(UserDetailModel user)
 		{
 			var userModel = _userController.Post(user);
 			return userModel;
 		}
 
 		[HubAuthorizeActivity(Activity.UserUpdate)]
-		public UserModel Put(Guid id, UserModel user)
+		public UserModel Put(Guid id, UserDetailModel user)
 		{
 			return _userController.Put(id, user);
 		}
@@ -52,6 +52,26 @@ namespace MainSolutionTemplate.Api.SignalR
 		{
 			return _userController.Delete(id);
 		}
+
+		[HubAuthorizeActivity(Activity.UserSubscribe)]
+		public void OnInsert(UserModel user)
+		{
+			Clients.All.OnInsert(user);
+		}
+
+		[HubAuthorizeActivity(Activity.UserSubscribe)]
+		public void OnUpdate(UserModel user)
+		{
+			Clients.All.OnUpdate(user);
+		}
+
+		[HubAuthorizeActivity(Activity.UserSubscribe)]
+		public void OnDelete(UserModel user)
+		{
+			Clients.All.OnDelete(user);
+		}
+
+		
 	}
 
 	
