@@ -11,6 +11,7 @@ namespace MainSolutionTemplate.Core.Startup
 		{
 			builder.Register(GetGeneralUnitOfWork).InstancePerLifetimeScope();
 			builder.RegisterType<SystemManagerFacade>().As<ISystemManagerFacade>();
+			builder.RegisterType<AuthorizeManager>().As<IAuthorizeManager>();
 		}
 
 		protected abstract IGeneralUnitOfWork GetGeneralUnitOfWork(IComponentContext arg);

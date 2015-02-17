@@ -109,6 +109,10 @@
     <Compile Include="Helpers\ExceptionHelper.cs" />
     <Compile Include="Helpers\Log4NetInitializeAttribute.cs" />
     <Compile Include="Helpers\RestShapHelper.cs" />
+    <Compile Include="Managers\AuthorizeManager.cs" />
+    <Compile Include="Managers\SystemManagerFacade.RoleManager.cs" />
+    <Compile Include="Managers\Interfaces\IAuthorizeManager.cs" />
+    <Compile Include="Managers\Interfaces\IRoleManager.cs" />
     <Compile Include="Managers\Interfaces\ISystemManagerFacade.cs" />
     <Compile Include="Managers\Interfaces\IUserManager.cs" />
     <Compile Include="Managers\SystemManagerFacade.OAuthDataManager.cs" />

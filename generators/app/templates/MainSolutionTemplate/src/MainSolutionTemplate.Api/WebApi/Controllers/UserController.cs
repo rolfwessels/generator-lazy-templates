@@ -1,11 +1,22 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
+using System.Web.Http.Filters;
+using System.Web.Http.Results;
 using MainSolutionTemplate.Api.Models;
 using MainSolutionTemplate.Api.Models.Mappers;
 using MainSolutionTemplate.Api.SignalR;
+using MainSolutionTemplate.Api.WebApi.Attributes;
 using MainSolutionTemplate.Core.Managers.Interfaces;
 using MainSolutionTemplate.Dal.Models;
+using MainSolutionTemplate.Dal.Models.Enums;
 
 namespace MainSolutionTemplate.Api.WebApi.Controllers
 {
@@ -29,7 +40,7 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 		/// <returns>
 		/// </returns>
 		[Route(RouteHelper.UserController)]
-		[Authorize(Roles = "Admin")]
+		[AuthorizeActivity(Activity.UserGet)]
 		public IQueryable<UserModel> Get()
 		{
 			//var applyTo = options.ApplyTo(_systemManager.GetUsers()) as IQueryable<User>;
@@ -43,7 +54,7 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 		/// <returns>
 		/// </returns>
 		[Route(RouteHelper.UserControllerId)]
-		[Authorize]
+		[AuthorizeActivity(Activity.UserGet)]
 		public UserModel Get(Guid id)
 		{
 			return _systemManager.GetUser(id).ToUserModel();
@@ -57,7 +68,7 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 		/// <returns>
 		/// </returns>
 		[Route(RouteHelper.UserController)]
-		[Authorize(Roles = "Admin")]
+		[AuthorizeActivity(Activity.UserUpdate)]
 		public UserModel Put(Guid id, UserModel user)
 		{
 			var userFound = _systemManager.GetUser(id);
@@ -73,7 +84,7 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 		/// <returns>
 		/// </returns>
 		[Route(RouteHelper.UserController)]
-		[Authorize(Roles = "Admin")]
+		[AuthorizeActivity(Activity.UserPost)]
 		public UserModel Post(UserModel user)
 		{
 			var savedUser = _systemManager.SaveUser(user.ToUser());
@@ -87,6 +98,7 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 		/// <returns>
 		/// </returns>
 		[Route(RouteHelper.UserController)]
+		[AuthorizeActivity(Activity.UserDelete)]
 		public bool Delete(Guid id)
 		{
 			var deleteUser = _systemManager.DeleteUser(id);

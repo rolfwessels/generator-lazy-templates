@@ -21,7 +21,6 @@ namespace MainSolutionTemplate.Api.Tests.SignalrClient
 
 		#region Implementation of IUserHub
 		
-		
 		public List<UserModel> Get()
 		{
 			return _userHub.Invoke<List<UserModel>>("Get").Result;

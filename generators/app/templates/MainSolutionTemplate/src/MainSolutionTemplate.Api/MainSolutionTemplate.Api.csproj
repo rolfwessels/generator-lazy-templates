@@ -177,8 +177,9 @@
     <Compile Include="SignalR\BaseHub.cs" />
     <Compile Include="SignalR\ConnectionMapping.cs" />
     <Compile Include="SignalR\IUserHub.cs" />
-    <Compile Include="SignalR\QueryStringBearerAuthorizeAttribute.cs" />
+    <Compile Include="SignalR\Attributes\TokenAuthorizeAttribute.cs" />
     <Compile Include="SignalR\UserHub.cs" />
+    <Compile Include="WebApi\Attributes\AuthorizeActivityAttribute.cs" />
     <Compile Include="WebApi\Filters\ApiException.cs" />
     <Compile Include="WebApi\Filters\CaptureExceptionFilter.cs" />
     <Compile Include="WebApi\Filters\ErrorMessage.cs" />

@@ -10,7 +10,7 @@
 		public static Role Admin {
 			get
 			{
-				return new Role() { Name = "Admin"};
+				return new Role() { Name = "Admin" };
 			}
 		}
 
