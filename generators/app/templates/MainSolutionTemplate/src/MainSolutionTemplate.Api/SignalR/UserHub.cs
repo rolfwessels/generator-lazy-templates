@@ -4,23 +4,45 @@ using System.Linq;
 using System.Reflection;
 using MainSolutionTemplate.Api.AppStartup;
 using MainSolutionTemplate.Api.Models;
+using MainSolutionTemplate.Api.Models.Mappers;
 using MainSolutionTemplate.Api.SignalR.Attributes;
 using MainSolutionTemplate.Api.WebApi.Attributes;
 using MainSolutionTemplate.Api.WebApi.Controllers;
+using MainSolutionTemplate.Core.MessageUtil;
+using MainSolutionTemplate.Core.MessageUtil.Models;
+using MainSolutionTemplate.Dal.Models;
 using MainSolutionTemplate.Dal.Models.Enums;
 using log4net;
 
 namespace MainSolutionTemplate.Api.SignalR
 {
 	[TokenAuthorize]
-	public class UserHub : BaseHub , IUserHub
+	public class UserHub : BaseHub , IUserHub 
 	{
 		private readonly UserController _userController;
 
-		public UserHub()
+		public UserHub(UserController userController)
 		{
-			_userController = IocContainerSetup.Instance.Resolve<UserController>();
+			_userController = userController;
+			Messenger.Default.Register<DalUpdateMessage<User>>(this, (t) =>
+				{
+					switch (t.UpdateType)
+					{
+						case Types.Inserted:
+							OnInsert(t.Value.ToUserModel());
+							break;
+						case Types.Updated:
+							OnUpdate(t.Value.ToUserModel());
+							break;
+						case Types.Removed:
+							OnDelete(t.Value.ToUserModel());
+							break;
+						default:
+							throw new ArgumentOutOfRangeException();
+					}
+				});
 		}
+
 
 		[HubAuthorizeActivity(Activity.UserGet)]
 		public List<UserModel> Get()

@@ -1,6 +1,9 @@
-﻿using System.Web.Http.Dependencies;
+﻿using System.Reflection;
+using System.Web.Http.Dependencies;
 using Autofac;
+using Autofac.Integration.SignalR;
 using Autofac.Integration.WebApi;
+using MainSolutionTemplate.Api.SignalR;
 using MainSolutionTemplate.Api.WebApi.Controllers;
 using MainSolutionTemplate.Core.Startup;
 using MainSolutionTemplate.Dal.Mongo;
@@ -20,10 +23,12 @@ namespace MainSolutionTemplate.Api.AppStartup
 			var builder = new ContainerBuilder();
 			SetupCore(builder);
 			WebApi(builder);
+			SignalRHubs(builder);
 			_container = builder.Build();
 		}
 
 		
+
 		#region Initialize
 
 		public static IocContainerSetup Instance
@@ -71,6 +76,12 @@ namespace MainSolutionTemplate.Api.AppStartup
 		{
 			builder.RegisterApiControllers(typeof(UserController).Assembly);
 			builder.Register((t) => new AutofacWebApiDependencyResolver(_container)).As<IDependencyResolver>();
+		}
+
+		private void SignalRHubs(ContainerBuilder builder)
+		{
+			builder.RegisterHubs(typeof(UserHub).Assembly);
+			builder.Register((t) => new AutofacDependencyResolver(_container)).As<Microsoft.AspNet.SignalR.IDependencyResolver>();
 		}
 
 		#endregion

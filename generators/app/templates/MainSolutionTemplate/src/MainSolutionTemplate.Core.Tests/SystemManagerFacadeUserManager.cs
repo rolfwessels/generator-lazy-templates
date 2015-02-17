@@ -1,4 +1,5 @@
 ﻿using MainSolutionTemplate.Core.Managers;
+using MainSolutionTemplate.Core.MessageUtil;
 using MainSolutionTemplate.Dal.Persistance;
 using Moq;
 using NUnit.Framework;
@@ -18,7 +19,7 @@ namespace MainSolutionTemplate.Core.Tests
 		{
 			_mockIGeneralUnitOfWork = new Mock<IGeneralUnitOfWork>(MockBehavior.Strict);
 			
-			_systemManagerFacadeUserManager = new SystemManagerFacade(_mockIGeneralUnitOfWork.Object);
+			_systemManagerFacadeUserManager = new SystemManagerFacade(_mockIGeneralUnitOfWork.Object, Messenger.Default);
 		}
 
 		[TearDown]

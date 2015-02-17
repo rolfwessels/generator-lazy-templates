@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using MainSolutionTemplate.Core.Managers.Interfaces;
-using MainSolutionTemplate.Core.MessageUtil;
 using MainSolutionTemplate.Core.MessageUtil.Models;
 using MainSolutionTemplate.Core.Vendor;
 using MainSolutionTemplate.Dal.Models;
@@ -28,14 +27,14 @@ namespace MainSolutionTemplate.Core.Managers
 			{
 				_log.Info(string.Format("Adding user [{0}]", user));
 				_generalUnitOfWork.Users.Add(user);
-				Messenger.Default.Send(new DalUpdateMessage<User>(user, Types.Inserted));
+				_messenger.Send(new DalUpdateMessage<User>(user, Types.Inserted));
 				return user;
 			}
 			else
 			{
 				_log.Info(string.Format("Update user [{0}]", user));
 				_generalUnitOfWork.Users.Update(user);
-				Messenger.Default.Send(new DalUpdateMessage<User>(user, Types.Updated));
+				_messenger.Send(new DalUpdateMessage<User>(user, Types.Updated));
 			}
 			return user;
 		}
@@ -47,7 +46,7 @@ namespace MainSolutionTemplate.Core.Managers
 			{
 				_log.Info(string.Format("Remove user [{0}]", user));
 				_generalUnitOfWork.Users.Remove(user);
-				Messenger.Default.Send(new DalUpdateMessage<User>(user, Types.Removed));
+				_messenger.Send(new DalUpdateMessage<User>(user, Types.Removed));
 			}
 			return user;
 		}

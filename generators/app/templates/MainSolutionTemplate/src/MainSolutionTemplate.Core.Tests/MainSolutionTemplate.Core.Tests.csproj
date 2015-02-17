@@ -114,6 +114,7 @@
     <Compile Include="Helpers\ModelHelper.cs" />
     <Compile Include="Helpers\PersistanceTester.cs" />
     <Compile Include="Helpers\StringHelper.cs" />
+    <Compile Include="MessageUtil\MessengerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SampleTests.cs" />
     <Compile Include="SystemManagerFacadeUserManager.cs" />

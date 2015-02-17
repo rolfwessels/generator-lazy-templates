@@ -14,8 +14,8 @@ namespace MainSolutionTemplate.Api
             BootStrap.Initialize();
 			OathAuthorizationSetup.Initialize(appBuilder, IocContainerSetup.Instance.Resolve<ISystemManagerFacade>());
 			WebApiSetup webApiSetup = WebApiSetup.Initialize(appBuilder , IocContainerSetup.Instance.Resolve<IDependencyResolver>());
-			
 
+			GlobalHost.DependencyResolver = IocContainerSetup.Instance.Resolve<Microsoft.AspNet.SignalR.IDependencyResolver>();
 	        appBuilder.MapSignalR(new HubConfiguration { EnableDetailedErrors = true });
             SwaggerSetup.Initialize(webApiSetup.Configuration);
             appBuilder.UseNancy();

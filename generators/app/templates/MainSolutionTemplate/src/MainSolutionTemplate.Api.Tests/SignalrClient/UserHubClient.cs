@@ -31,13 +31,13 @@ namespace MainSolutionTemplate.Api.Tests.SignalrClient
 			return _userHub.Invoke<UserModel>("Get", id).Result;
 		}
 
-		public UserModel Post(UserModel user)
+		public UserModel Post(UserDetailModel user)
 		{
 			var invoke = _userHub.Invoke<UserModel>("Post", user);
 			return invoke.Result;
 		}
 
-		public UserModel Put(Guid id, UserModel user)
+		public UserModel Put(Guid id, UserDetailModel user)
 		{
 			return _userHub.Invoke<UserModel>("Put", id, user).Result;
 		}

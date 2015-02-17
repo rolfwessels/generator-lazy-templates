@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 
 namespace MainSolutionTemplate.Core.MessageUtil
 {
-	public class Messenger
+	public class Messenger : IMessenger
 	{
 		private static readonly Lazy<Messenger> _massager;
 		private ConcurrentDictionary<Type, ConcurrentDictionary<WeakReference, Action<object>>> _dictionary;
@@ -19,7 +19,7 @@ namespace MainSolutionTemplate.Core.MessageUtil
 			_dictionary = new ConcurrentDictionary<Type, ConcurrentDictionary<WeakReference, Action<object>>>();
 		}
 
-		public static Messenger Default
+		public static IMessenger Default
 		{
 			get { return _massager.Value; }
 		}

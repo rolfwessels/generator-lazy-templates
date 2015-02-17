@@ -9,6 +9,8 @@ namespace MainSolutionTemplate.Core.Managers
 {
 	public partial class SystemManagerFacade : IRoleManager
 	{
+		
+
 		#region IRoleManager Members
 
 		public IQueryable<Role> GetRoles()
@@ -33,14 +35,14 @@ namespace MainSolutionTemplate.Core.Managers
 			{
 				_log.Info(string.Format("Adding role [{0}]", role));
 				_generalUnitOfWork.Roles.Add(role);
-				Messenger.Default.Send(new DalUpdateMessage<Role>(role, Types.Inserted));
+				_messenger.Send(new DalUpdateMessage<Role>(role, Types.Inserted));
 				return role;
 			}
 			else
 			{
 				_log.Info(string.Format("Update role [{0}]", role));
 				_generalUnitOfWork.Roles.Update(role);
-				Messenger.Default.Send(new DalUpdateMessage<Role>(role, Types.Updated));
+				_messenger.Send(new DalUpdateMessage<Role>(role, Types.Updated));
 			}
 			return role;
 		}
@@ -52,7 +54,7 @@ namespace MainSolutionTemplate.Core.Managers
 			{
 				_log.Info(string.Format("Remove role [{0}]", role));
 				_generalUnitOfWork.Roles.Remove(role);
-				Messenger.Default.Send(new DalUpdateMessage<Role>(role, Types.Removed));
+				_messenger.Send(new DalUpdateMessage<Role>(role, Types.Removed));
 			}
 			return role;
 		}
