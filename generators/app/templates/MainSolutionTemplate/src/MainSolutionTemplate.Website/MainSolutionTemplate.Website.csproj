@@ -63,12 +63,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="404.html" />
+    <Content Include="assets\css\avatars.css" />
+    <Content Include="assets\css\spritesheets\avatars.svg" />
     <Content Include="favicon.ico" />
-    <Content Include="images\yeoman.png" />
     <Content Include="index.html" />
     <Content Include="robots.txt" />
-    <Content Include="scripts\app.js" />
-    <Content Include="styles\main.css" />
+    <Content Include="scripts\app_2.js" />
+    <Content Include="scripts\controllers\dashboardCtrl.js" />
     <Content Include="views\about.html" />
     <Content Include="views\contacts.html" />
     <Content Include="views\login.html" />
@@ -97,7 +98,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="scripts\controllers\" />
+    <Folder Include="assets\images\" />
     <Folder Include="scripts\filters\" />
     <Folder Include="scripts\services\" />
   </ItemGroup>

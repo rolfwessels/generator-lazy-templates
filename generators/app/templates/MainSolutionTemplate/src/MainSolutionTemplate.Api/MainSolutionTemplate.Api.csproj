@@ -170,6 +170,7 @@
     </Compile>
     <Compile Include="AppStartup\BootStrap.cs" />
     <Compile Include="AppStartup\IocContainerSetup.cs" />
+    <Compile Include="AppStartup\NewFile1.cs" />
     <Compile Include="AppStartup\SwaggerSetup.cs" />
     <Compile Include="AppStartup\WebApiSetup.cs" />
     <Compile Include="Models\LoginModel.cs" />
@@ -177,7 +178,13 @@
     <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Models\UserDetailModel.cs" />
     <Compile Include="Models\UserModel.cs" />
+    <Compile Include="Nancy\FileNotFoundHandler.cs" />
     <Compile Include="Nancy\NancySetup.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="SignalR\Attributes\HubAuthorizeActivityAttribute.cs" />
     <Compile Include="SignalR\BaseHub.cs" />
     <Compile Include="SignalR\ConnectionMapping.cs" />
@@ -200,6 +207,10 @@
   <ItemGroup>
     <Content Include="packages.config">
       <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

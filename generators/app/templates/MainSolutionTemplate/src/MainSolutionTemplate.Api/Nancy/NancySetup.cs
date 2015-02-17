@@ -1,62 +1,45 @@
+using System.IO;
+using System.Reflection;
+using MainSolutionTemplate.Api.Properties;
 using Nancy;
 using Nancy.Bootstrapper;
 using Nancy.Conventions;
-using Nancy.ErrorHandling;
 using Nancy.TinyIoc;
-using Nancy.ViewEngines;
+using System.Linq;
+using log4net;
 
 namespace MainSolutionTemplate.Api.Nancy
 {
-  public class NancySetup : DefaultNancyBootstrapper
-  {
-    // The bootstrapper enables you to reconfigure the composition of the framework,
-    // by overriding the various methods and properties.
-    // For more information https://github.com/NancyFx/Nancy/wiki/Bootstrapper
-    protected override void ConfigureConventions(NancyConventions nancyConventions)
-    {
-      nancyConventions.StaticContentsConventions.Add(StaticContentConventionBuilder.AddDirectory("Content",
-        @"Nancy\Content"));
-      nancyConventions.StaticContentsConventions.Add(StaticContentConventionBuilder.AddDirectory("Scripts",
-        @"Nancy\Scripts"));
-      nancyConventions.StaticContentsConventions.Add(StaticContentConventionBuilder.AddDirectory("Views", @"Nancy\Views",
-        "html"));
-      base.ConfigureConventions(nancyConventions);
-    }
+	public class NancySetup : DefaultNancyBootstrapper
+	{
+		private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+		protected override void ConfigureConventions(NancyConventions nancyConventions)
+		{
+			nancyConventions.StaticContentsConventions.Add(StaticContentConventionBuilder.AddDirectory("images", GetPath("images")));
+			nancyConventions.StaticContentsConventions.Add(StaticContentConventionBuilder.AddDirectory("styles", GetPath("styles")));
+			nancyConventions.StaticContentsConventions.Add(StaticContentConventionBuilder.AddDirectory("scripts", GetPath("scripts")));
+			nancyConventions.StaticContentsConventions.Add(StaticContentConventionBuilder.AddDirectory("views", GetPath("views"), "html"));
+			nancyConventions.StaticContentsConventions.AddFile("robots.txt",GetPath("robots.txt"));
+			nancyConventions.StaticContentsConventions.AddFile("favicon.ico", GetPath("favicon.ico"));
+			base.ConfigureConventions(nancyConventions);
+		}
 
-    #region Overrides of NancyBootstrapperBase<TinyIoCContainer>
+		#region Overrides of NancyBootstrapperBase<TinyIoCContainer>
 
-    protected override void ApplicationStartup(TinyIoCContainer container, IPipelines pipelines)
-    {
-      Conventions.ViewLocationConventions.Add(
-        (viewName, model, context) => { return string.Concat("Nancy/Views/", viewName); });
-      base.ApplicationStartup(container, pipelines);
-    }
+		protected override void ApplicationStartup(TinyIoCContainer container, IPipelines pipelines)
+		{
+			Conventions.ViewLocationConventions.Add((viewName, model, context) => { return GetPath(viewName+".html"); });
+			base.ApplicationStartup(container, pipelines);
+		}
 
-    #endregion
+		#endregion
 
-    public class MyStatusHandler : IStatusCodeHandler
-    {
-      private readonly IViewRenderer _viewRenderer;
-
-      public MyStatusHandler(IViewRenderer viewRenderer)
-      {
-        this._viewRenderer = viewRenderer;
-      }
-
-      public bool HandlesStatusCode(HttpStatusCode statusCode,
-                                    NancyContext context)
-      {
-        return statusCode == HttpStatusCode.NotFound;
-      }
-
-      public void Handle(HttpStatusCode statusCode, NancyContext context)
-      {
-        var response = _viewRenderer.RenderView(context, @"404.html");
-        response.StatusCode = statusCode;
-        context.Response = response;
-      }
-    }
-  }
-
-  
+		private string GetPath(params string[] paths)
+		{
+			var strings = new[] {Settings.Default.WebBasePath}.Union(paths).ToArray();
+			var combine = Path.Combine(strings);
+			_log.Info(string.Format("View paths: {0}", combine));
+			return combine;
+		}
+	}
 }
