@@ -48,6 +48,9 @@
     <Reference Include="Autofac">
       <HintPath>..\..\lib\Autofac.3.5.0\lib\net40\Autofac.dll</HintPath>
     </Reference>
+    <Reference Include="Autofac.Integration.SignalR">
+      <HintPath>..\..\lib\Autofac.SignalR.3.0.1\lib\net40\Autofac.Integration.SignalR.dll</HintPath>
+    </Reference>
     <Reference Include="Autofac.Integration.WebApi">
       <HintPath>..\..\lib\Autofac.WebApi2.3.4.0\lib\net45\Autofac.Integration.WebApi.dll</HintPath>
     </Reference>
