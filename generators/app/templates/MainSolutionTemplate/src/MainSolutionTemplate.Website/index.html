@@ -1,61 +1,58 @@
 <!DOCTYPE html>
 <html lang="en" class="no-js">
-  <head>
-    <title>MainSolution Website</title>
+	<head>
+		<title>MainSolution Website</title>
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="">
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="description" content="">
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
 
-    <link rel="stylesheet" href="./bower_components/angular-material/angular-material.css">
-    <link rel="stylesheet" href="./assets/css/app.css" >
-  </head>
+		<link rel="stylesheet" href="./bower_components/angular-material/angular-material.css">
+		<link rel="stylesheet" href="./assets/css/app.css" >
+	</head>
 
-  <body ng-app="webapp" layout="column"  >
+	<body ng-app="webapp" layout="column" ng-controller="navigationCtrl" >
 
-    <md-toolbar  class="md-tall" layout="row">
-      <button ng-click="toggleSidenav('left')" hide-gt-sm class="menuBtn" ng-controller="navigationCtrl">
-        <span class="visuallyhidden">Menu</span>
-      </button>
-      
-      <h1 class="md-toolbar-tools">
-        <span>MainSolution Website</span>
-      </h1>
-    </md-toolbar>
+		<md-toolbar  class="md-tall" >
+			<button ng-click="toggleSidenav('left')" hide-gt-sm class="menuBtn" >
+				<span class="visuallyhidden">Menu</span>
+			</button>
+			<div layout="row" layout-align="center center">
+				<h2 class="md-padding" >
+					MainSolution Website
+				</h2>
+			</div>     
+		</md-toolbar>
 
-    <!--
-         Use `flex` [below] to have the side bar and content area
-         fill the available vertical display area
-     -->
 
-    <div layout="row" flex>
+		<div layout="row" flex>
 
-      <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$media('gt-sm')"
-       ng-include="'/views/index_leftMenu.html'"
-       ng-controller="navigationCtrl">
-      </md-sidenav>
+			<md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$media('gt-sm')"
+			            ng-include="'/views/index_leftMenu.html'"
+			            >
+			</md-sidenav>
 
-      <div layout="column" flex class="content-wrapper" id="content" >
-        <div ng-view></div>
-      </div>
-    </div>
+			<div layout="column" flex class="content-wrapper" id="content" >
+				<div ng-view></div>
+			</div>
+		</div>
 
-    <script src="./bower_components/angular/angular.js"></script>
-    <script src="./bower_components/angular-route/angular-route.js"></script>
-    <script src="./bower_components/angular-aria/angular-aria.js"></script>
-    <script src="./bower_components/angular-animate/angular-animate.js"></script>
-    <script src="./bower_components/angular-material/angular-material.js"></script>
+		<script src="./bower_components/angular/angular.js"> </script>
+		<script src="./bower_components/angular-route/angular-route.js"> </script>
+		<script src="./bower_components/angular-aria/angular-aria.js"> </script>
+		<script src="./bower_components/angular-animate/angular-animate.js"> </script>
+		<script src="./bower_components/angular-material/angular-material.js"> </script>
 
     
-		<script src="./scripts/controllers.js"></script>
-		<script src="./scripts/directives.js"></script>
-		<script src="./scripts/filters.js"></script>
-		<script src="./scripts/services.js"></script>
-    <script src="./scripts/route.js"></script>
-		<script src="./scripts/controllers/dashboardCtrl.js"></script>
-    <script src="./scripts/controllers/navigationCtrl.js"></script>
-    <script src="./scripts/controllers/loginCtrl.js"></script>
-    <script src="./scripts/app.js"></script>
-  </body>
+		<script src="./scripts/controllers.js"> </script>
+		<script src="./scripts/directives.js"> </script>
+		<script src="./scripts/filters.js"> </script>
+		<script src="./scripts/services.js"> </script>
+		<script src="./scripts/route.js"> </script>
+		<script src="./scripts/controllers/dashboardCtrl.js"> </script>
+		<script src="./scripts/controllers/navigationCtrl.js"> </script>
+		<script src="./scripts/controllers/loginCtrl.js"> </script>
+		<script src="./scripts/app.js"> </script>
+	</body>
 </html>

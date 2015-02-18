@@ -1,1 +1,37 @@
-<h1>Login</h1>
+<div layout="column" layout-fill>
+  <md-toolbar md-scroll-shrink class="md-hue-1">
+    <div class="md-toolbar-tools ">
+      <h2>
+        <span>login</span>
+      </h2>
+    </div>
+  </md-toolbar>
+  <md-content class="md-padding" >
+   <form name="login">
+      <md-input-container>
+        <label>Email</label>
+        <input required name="email" ng-model="model.email">
+        <div ng-messages="login.email.$error">
+          <div ng-message="required">This is required.</div>
+        </div>
+      </md-input-container>
+      <md-input-container>
+        <label>Password</label>
+        <input type="password" required name="password" ng-model="model.password">
+        <div ng-messages="login.password.$error">
+          <div ng-message="required">This is required.</div>
+        </div>
+      </md-input-container>
+    </form>
+    
+  </md-content>
+
+  <md-content class="md-padding" >
+  <div layout="column" layout-margin layout-fill layout-padding  >
+      
+      <md-button flex class=" md-accent" >forgot password</md-button>
+      <md-button  flex class="md-raised md-accent" ng-click="login()">Login</md-button>
+
+    </div>
+    </md-content >
+</div>
