@@ -63,17 +63,25 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="404.html" />
+    <Content Include="assets\css\app.css" />
     <Content Include="assets\css\avatars.css" />
     <Content Include="assets\css\spritesheets\avatars.svg" />
+    <Content Include="bower_components\angular-material\angular-material.css" />
     <Content Include="favicon.ico" />
     <Content Include="index.html" />
     <Content Include="robots.txt" />
-    <Content Include="scripts\app_2.js" />
+    <Content Include="scripts\app.js" />
+    <Content Include="scripts\controllers.js" />
     <Content Include="scripts\controllers\dashboardCtrl.js" />
-    <Content Include="views\about.html" />
-    <Content Include="views\contacts.html" />
+    <Content Include="scripts\controllers\loginCtrl.js" />
+    <Content Include="scripts\controllers\navigationCtrl.js" />
+    <Content Include="scripts\directives.js" />
+    <Content Include="scripts\filters.js" />
+    <Content Include="scripts\route.js" />
+    <Content Include="scripts\services.js" />
+    <Content Include="views\dashboard.html" />
+    <Content Include="views\index_leftMenu.html" />
     <Content Include="views\login.html" />
-    <Content Include="views\main.html" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -133,9 +141,9 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerPort>49499</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:50451/</IISUrl>
+          <IISUrl>http://localhost:8082/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

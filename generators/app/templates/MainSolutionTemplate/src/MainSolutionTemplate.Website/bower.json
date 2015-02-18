@@ -11,7 +11,8 @@
     "angular-mocks": "^1.4.x",
     "angular-animate": "v1.4.x",
     "angular-aria": "^1.4.x",
-    "angular-material": "^0.8.x"
+    "angular-material": "^0.8.x",
+    "angular-local-storage": "~0.1.5"
   },
   "resolutions": {
     "angular-aria": "^1.4.x",

@@ -158,8 +158,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Nancy\Views\404.html" />
-    <Content Include="Nancy\Views\Index.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -178,6 +176,7 @@
     <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Models\UserDetailModel.cs" />
     <Compile Include="Models\UserModel.cs" />
+    <Compile Include="Nancy\Content\IndexModule.cs" />
     <Compile Include="Nancy\FileNotFoundHandler.cs" />
     <Compile Include="Nancy\NancySetup.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -197,7 +196,6 @@
     <Compile Include="WebApi\Filters\ErrorMessage.cs" />
     <Compile Include="WebApi\RouteHelper.cs" />
     <Compile Include="WebApi\Controllers\UserController.cs" />
-    <Compile Include="Nancy\Content\IndexModule.cs" />
     <Content Include="Readme.txt" />
     <Compile Include="SignalR\DataEntryNotifications.cs" />
     <Compile Include="SignalR\ChatHub.cs" />
@@ -241,10 +239,7 @@
       <Name>MainSolutionTemplate.OAuth2</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Nancy\Modules\" />
-    <Folder Include="Nancy\Scripts\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

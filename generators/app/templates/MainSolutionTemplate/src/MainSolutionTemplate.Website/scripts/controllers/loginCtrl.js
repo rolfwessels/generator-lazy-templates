@@ -3,7 +3,8 @@
 /* dashboardCtrl */
 
 angular.module('webapp.controllers')
-  .controller('loginCtrl', ['$scope','$log','$mdToast',	function ($scope, $log, $mdToast) {
+  .controller('loginCtrl', ['$scope','$log','$mdToast','authorizationService',	
+  	function ($scope, $log, $mdToast, authorizationService) {
   	/*
   	 * Scope
   	 */
@@ -18,12 +19,18 @@ angular.module('webapp.controllers')
 
     function login() {
     	console.log($scope.model);
-		$mdToast.show(
-	      $mdToast.simple()
-	        .content('Login!')
-	        .position($scope.toastPosition)
-	        .hideDelay(3000)
-	    );
+    	var authorize = authorizationService.authorize($scope.model.email,$scope.model.password);
+    	authorize.then(function() {
+
+    	},function (message) {
+    		$mdToast.show(
+		      $mdToast.simple()
+		        .content(message || 'Invalid username or password.')
+		        .position($scope.toastPosition)
+		        .hideDelay(3000)
+		    );
+    	});
+		
     }
 	
 	function forgotPassword() {

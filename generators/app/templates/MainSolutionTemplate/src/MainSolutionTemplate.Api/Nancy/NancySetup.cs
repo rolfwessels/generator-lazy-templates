@@ -15,12 +15,12 @@ namespace MainSolutionTemplate.Api.Nancy
 		private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 		protected override void ConfigureConventions(NancyConventions nancyConventions)
 		{
-			nancyConventions.StaticContentsConventions.Add(StaticContentConventionBuilder.AddDirectory("images", GetPath("images")));
+			nancyConventions.StaticContentsConventions.Add(StaticContentConventionBuilder.AddDirectory("assets", GetPath("images")));
 			nancyConventions.StaticContentsConventions.Add(StaticContentConventionBuilder.AddDirectory("styles", GetPath("styles")));
-			nancyConventions.StaticContentsConventions.Add(StaticContentConventionBuilder.AddDirectory("scripts", GetPath("scripts")));
+			nancyConventions.StaticContentsConventions.Add(StaticContentConventionBuilder.AddDirectory("scripts", GetPath("scripts"), "js"));
 			nancyConventions.StaticContentsConventions.Add(StaticContentConventionBuilder.AddDirectory("views", GetPath("views"), "html"));
-			nancyConventions.StaticContentsConventions.AddFile("robots.txt",GetPath("robots.txt"));
-			nancyConventions.StaticContentsConventions.AddFile("favicon.ico", GetPath("favicon.ico"));
+//			nancyConventions.StaticContentsConventions.AddFile("robots.txt",GetPath("robots.txt"));
+//			nancyConventions.StaticContentsConventions.AddFile("favicon.ico", GetPath("favicon.ico"));
 			base.ConfigureConventions(nancyConventions);
 		}
 

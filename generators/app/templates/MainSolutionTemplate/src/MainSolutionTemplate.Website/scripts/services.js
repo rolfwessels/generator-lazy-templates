@@ -2,4 +2,4 @@
 
 /* Services */
 
-angular.module('webapp.services', []);
+angular.module('webapp.services', ['LocalStorageModule']);
