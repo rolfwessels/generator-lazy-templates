@@ -4,17 +4,24 @@
 
 angular.module('webapp.controllers')
   .controller('loginCtrl', ['$scope','$log','$mdToast',	function ($scope, $log, $mdToast) {
-	$scope.model = {email:"admin", password:"admin!"}
-	$scope.toastPosition = {	    bottom: false,	    top: true,	    left: false,	    right: true	  };
+  	/*
+  	 * Scope
+  	 */
+	$scope.model = {email:"admin", password:"admin!"};
+	$scope.toastPosition = "top left right";
 	$scope.login = login;
 	$scope.forgotPassword = forgotPassword;
   	
+  	/*
+  	 * Functions
+  	 */
+
     function login() {
     	console.log($scope.model);
 		$mdToast.show(
 	      $mdToast.simple()
 	        .content('Login!')
-	        .position($scope.getToastPosition())
+	        .position($scope.toastPosition)
 	        .hideDelay(3000)
 	    );
     }
@@ -23,7 +30,7 @@ angular.module('webapp.controllers')
     	$mdToast.show(
 	      $mdToast.simple()
 	        .content('Password!')
-	        .position($scope.getToastPosition())
+	        .position($scope.toastPosition)
 	        .hideDelay(3000)
 	    );
     }

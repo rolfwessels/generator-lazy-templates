@@ -6,18 +6,9 @@ angular.module('webapp.controllers')
   .controller('dashboardCtrl', ['$scope', '$mdSidenav', '$mdBottomSheet', '$log',
 		function ($scope, $mdSidenav, $mdBottomSheet, $log) {
     
-    $scope.toggleSidenav = toggleSideNav;
     $scope.showActions   = showActions;
 
-  	/**
-		 * Hide or Show the sideNav area
-		 * @param menuId
-		 */
-
-  	function toggleSideNav(name) {
-  		$mdSidenav(name).toggle();
-  	}
-
+  	
   	/**
 		 * Select the current avatars
 		 * @param menuId
