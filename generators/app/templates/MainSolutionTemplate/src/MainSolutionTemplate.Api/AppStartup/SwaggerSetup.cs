@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
+using System.Net;
 using System.Web.Http;
 using System.Web.Http.Description;
 using MainSolutionTemplate.Api.WebApi.Controllers;
 using MainSolutionTemplate.Core.Helpers;
-using Nancy;
 using Swashbuckle;
 using Swashbuckle.Application;
 using Swashbuckle.Swagger;
