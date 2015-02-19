@@ -98,6 +98,7 @@
     <Compile Include="Models\BaseDalModel.cs" />
     <Compile Include="Models\BaseDalModelWithId.cs" />
     <Compile Include="Models\Enums\Activity.cs" />
+    <Compile Include="Models\Enums\Types.cs" />
     <Compile Include="Models\Interfaces\IBaseDalModel.cs" />
     <Compile Include="Models\Interfaces\IBaseDalModelWithId.cs" />
     <Compile Include="Models\Role.cs" />

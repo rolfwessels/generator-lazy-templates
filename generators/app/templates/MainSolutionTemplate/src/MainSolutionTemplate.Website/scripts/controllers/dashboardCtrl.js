@@ -3,57 +3,68 @@
 /* dashboardCtrl */
 
 angular.module('webapp.controllers')
-  .controller('dashboardCtrl', ['$scope', '$mdSidenav', '$mdBottomSheet', '$log',
-		function ($scope, $mdSidenav, $mdBottomSheet, $log) {
-    
-    $scope.showActions   = showActions;
+    .controller('dashboardCtrl', ['$scope', '$mdSidenav', '$mdBottomSheet', '$log', 'dataService',
+        function($scope, $mdSidenav, $mdBottomSheet, $log, 'dataService') {
 
-  	
-  	/**
-		 * Select the current avatars
-		 * @param menuId
-		 */
+            $scope.showActions = showActions;
 
-  	function selectAvatar(avatar) {
-  		$scope.selected = angular.isNumber(avatar) ? $scope.avatars[avatar] : avatar;
-  		$scope.toggleSidenav('left');
-  	}
+            $scope.users = [];
+            dataService.whenConnected().then(function() {
+                dataService.users().get().then(function(data) {
+                    $scope.users = data;
+                },function(error) {
+                  $log.error(error);
+                })
+            })
 
-  	function showActions($event) {
+            /**
+             * Select the current avatars
+             * @param menuId
+             */
 
-  		$mdBottomSheet.show({
-  			parent: angular.element(document.getElementById('content')),
-  			template: '<md-bottom-sheet class="md-list md-has-header">' +
-					'<md-subheader>Avatar Actions</md-subheader>' +
-					'<md-list>' +
-					'<md-item ng-repeat="item in vm.items">' +
-					'<md-button ng-click="vm.performAction(item)">{{item.name}}</md-button>' +
-					'</md-item>' +
-					'</md-list>' +
-					'</md-bottom-sheet>',
-  			bindToController: true,
-  			controllerAs: "vm",
-  			controller: ['$mdBottomSheet', AvatarSheetController],
-  			targetEvent: $event
-  		}).then(function (clickedItem) {
-  			$log.debug(clickedItem.name + ' clicked!');
-  		});
+            function showActions($event) {
 
-  		/**
-			 * Bottom Sheet controller for the Avatar Actions
-			 */
+                $mdBottomSheet.show({
+                    parent: angular.element(document.getElementById('content')),
+                    template: '<md-bottom-sheet class="md-list md-has-header">' +
+                        '<md-subheader>Avatar Actions</md-subheader>' +
+                        '<md-list>' +
+                        '<md-item ng-repeat="item in vm.items">' +
+                        '<md-button ng-click="vm.performAction(item)">{{item.name}}</md-button>' +
+                        '</md-item>' +
+                        '</md-list>' +
+                        '</md-bottom-sheet>',
+                    bindToController: true,
+                    controllerAs: "vm",
+                    controller: ['$mdBottomSheet', AvatarSheetController],
+                    targetEvent: $event
+                }).then(function(clickedItem) {
+                    $log.debug(clickedItem.name + ' clicked!');
+                });
 
-  		function AvatarSheetController($mdBottomSheet) {
-  			this.items = [
-					{ name: 'Share', icon: 'share' },
-					{ name: 'Copy', icon: 'copy' },
-					{ name: 'Impersonate', icon: 'impersonate' },
-					{ name: 'Singalong', icon: 'singalong' },
-  			];
-  			this.performAction = function (action) {
-  				$mdBottomSheet.hide(action);
-  			};
-  		}
-  	}
+                /**
+                 * Bottom Sheet controller for the Avatar Actions
+                 */
 
-  }]);
+                function AvatarSheetController($mdBottomSheet) {
+                    this.items = [{
+                        name: 'Share',
+                        icon: 'share'
+                    }, {
+                        name: 'Copy',
+                        icon: 'copy'
+                    }, {
+                        name: 'Impersonate',
+                        icon: 'impersonate'
+                    }, {
+                        name: 'Singalong',
+                        icon: 'singalong'
+                    }, ];
+                    this.performAction = function(action) {
+                        $mdBottomSheet.hide(action);
+                    };
+                }
+            }
+
+        }
+    ]);

@@ -79,7 +79,7 @@
     <Content Include="scripts\filters.js" />
     <Content Include="scripts\route.js" />
     <Content Include="scripts\services.js" />
-    <Content Include="scripts\services\authorizationService.js" />
+    <Content Include="scripts\services\dataService.js" />
     <Content Include="views\dashboard.html" />
     <Content Include="views\index_leftMenu.html" />
     <Content Include="views\login.html" />

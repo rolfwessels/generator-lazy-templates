@@ -1,49 +1,31 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using MainSolutionTemplate.Api.AppStartup;
 using MainSolutionTemplate.Api.Models;
 using MainSolutionTemplate.Api.Models.Mappers;
 using MainSolutionTemplate.Api.SignalR.Attributes;
-using MainSolutionTemplate.Api.WebApi.Attributes;
 using MainSolutionTemplate.Api.WebApi.Controllers;
 using MainSolutionTemplate.Core.MessageUtil;
 using MainSolutionTemplate.Core.MessageUtil.Models;
 using MainSolutionTemplate.Dal.Models;
 using MainSolutionTemplate.Dal.Models.Enums;
-using log4net;
 
 namespace MainSolutionTemplate.Api.SignalR
 {
 	[TokenAuthorize]
-	public class UserHub : BaseHub , IUserHub 
+	public class UserHub : BaseHub , IUserHub, IUserHubEvents
 	{
 		private readonly UserController _userController;
 
 		public UserHub(UserController userController)
 		{
 			_userController = userController;
-			Messenger.Default.Register<DalUpdateMessage<User>>(this, (t) =>
+			Messenger.Default.Register<DalUpdateMessage<User>>(this, (r) =>
 				{
-					switch (t.UpdateType)
-					{
-						case Types.Inserted:
-							OnInsert(t.Value.ToUserModel());
-							break;
-						case Types.Updated:
-							OnUpdate(t.Value.ToUserModel());
-							break;
-						case Types.Removed:
-							OnDelete(t.Value.ToUserModel());
-							break;
-						default:
-							throw new ArgumentOutOfRangeException();
-					}
+					OnUpdate(r.ToValueUpdateModel<User, UserModel>());
 				});
 		}
-
-
+		
 		[HubAuthorizeActivity(Activity.UserGet)]
 		public List<UserModel> Get()
 		{
@@ -75,22 +57,11 @@ namespace MainSolutionTemplate.Api.SignalR
 			return _userController.Delete(id);
 		}
 
-		[HubAuthorizeActivity(Activity.UserSubscribe)]
-		public void OnInsert(UserModel user)
-		{
-			Clients.All.OnInsert(user);
-		}
 
 		[HubAuthorizeActivity(Activity.UserSubscribe)]
-		public void OnUpdate(UserModel user)
+		public void OnUpdate(ValueUpdateModel<UserModel> user)
 		{
 			Clients.All.OnUpdate(user);
-		}
-
-		[HubAuthorizeActivity(Activity.UserSubscribe)]
-		public void OnDelete(UserModel user)
-		{
-			Clients.All.OnDelete(user);
 		}
 
 		

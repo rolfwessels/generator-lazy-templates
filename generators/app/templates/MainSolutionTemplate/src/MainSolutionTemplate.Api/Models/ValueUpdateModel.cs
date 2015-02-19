@@ -1,13 +1,13 @@
 ﻿using MainSolutionTemplate.Dal.Models.Enums;
 
-namespace MainSolutionTemplate.Core.MessageUtil.Models
+namespace MainSolutionTemplate.Api.Models
 {
-	public class DalUpdateMessage<T>
+	public class ValueUpdateModel<T>
 	{
 		private readonly T _value;
 		private readonly Types _updateType;
 
-		public DalUpdateMessage(T value,Types updateType)
+		public ValueUpdateModel(T value, Types updateType)
 		{
 			_value = value;
 			_updateType = updateType;
@@ -23,6 +23,6 @@ namespace MainSolutionTemplate.Core.MessageUtil.Models
 			get { return _updateType; }
 		}
 
-		
+
 	}
 }

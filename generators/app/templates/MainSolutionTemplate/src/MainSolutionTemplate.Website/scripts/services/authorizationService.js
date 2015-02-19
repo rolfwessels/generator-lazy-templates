@@ -18,7 +18,6 @@ angular.module('webapp.services')
 			function saveSession() {
 				localStorageService.set('token', currentSession);
 				$rootScope.isAuthenticated = isAuthenticate();
-
 			}
 
 			function isAuthenticate() {					

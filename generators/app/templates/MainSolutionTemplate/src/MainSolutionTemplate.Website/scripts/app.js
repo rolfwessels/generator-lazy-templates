@@ -12,6 +12,7 @@ angular
     ])
     .value('tokenUrl', 'http://localhost:8081/token')
     .value('apiUrlBase', 'http://localhost:8081/api')
+    .value('signalrBase', 'http://localhost:8081/signalr')    
     .config(function($mdThemingProvider) {
         $mdThemingProvider.theme('default')
             .primaryPalette('light-green')

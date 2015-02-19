@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
+using MainSolutionTemplate.Core.MessageUtil.Models;
 using MainSolutionTemplate.Dal.Models;
 
 namespace MainSolutionTemplate.Api.Models.Mappers
@@ -25,6 +26,7 @@ namespace MainSolutionTemplate.Api.Models.Mappers
 			      .ForMember(x => x.HashedPassword, opt => opt.Ignore())
 			      .ForMember(x => x.CreateDate, opt => opt.Ignore())
 			      .ForMember(x => x.UpdateDate, opt => opt.Ignore());
+
 			
 		}
 
@@ -46,6 +48,11 @@ namespace MainSolutionTemplate.Api.Models.Mappers
 		public static UserModel ToUserModel(this User user, UserModel model = null)
 		{
 			return Mapper.Map(user, model);
+		}
+
+		public static ValueUpdateModel<TModel> ToValueUpdateModel<T, TModel>(this DalUpdateMessage<T> from)
+		{
+			return new ValueUpdateModel<TModel>(Mapper.Map<T, TModel>(from.Value), from.UpdateType);
 		}
 	}
 }
