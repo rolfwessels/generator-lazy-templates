@@ -4,13 +4,13 @@
 
 angular.module('webapp.controllers')
     .controller('dashboardCtrl', ['$scope', '$mdSidenav', '$mdBottomSheet', '$log', 'dataService',
-        function($scope, $mdSidenav, $mdBottomSheet, $log, 'dataService') {
+        function($scope, $mdSidenav, $mdBottomSheet, $log, dataService) {
 
             $scope.showActions = showActions;
 
             $scope.users = [];
             dataService.whenConnected().then(function() {
-                dataService.users().get().then(function(data) {
+                dataService.users.getAll().then(function(data) {
                     $scope.users = data;
                 },function(error) {
                   $log.error(error);
