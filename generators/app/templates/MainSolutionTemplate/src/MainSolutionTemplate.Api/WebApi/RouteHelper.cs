@@ -8,5 +8,7 @@
 
 		public const string UserControllerRegister = UserController + "Register/";
 		public const string UserControllerLogin = UserController + "Login/";
+		public const string UserControllerForgotPassword = UserController + "ForgotPassword/{email}";
+
 	}
 }

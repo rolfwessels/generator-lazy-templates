@@ -5,7 +5,6 @@
 angular
 	.module('webapp.routes', ['ngRoute'])
 	.config(['$routeProvider', function($routeProvider) {
-      console.log("Adding routing");
 
         $routeProvider
         .when('/', {
@@ -15,6 +14,10 @@ angular
         .when('/login', {
               templateUrl: 'views/login.html',
               controller: 'loginCtrl'
+            })
+        .when('/forgotPassword', {
+              templateUrl: 'views/forgotPassword.html',
+              controller: 'forgotPasswordCtrl'
             })
         .otherwise({ redirectTo: '/' });
 

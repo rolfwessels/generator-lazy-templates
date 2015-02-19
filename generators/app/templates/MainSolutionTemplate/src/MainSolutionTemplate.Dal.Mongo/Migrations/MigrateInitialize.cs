@@ -17,8 +17,12 @@ namespace MainSolutionTemplate.Dal.Mongo.Migrations
 
 		private static void AddApplications(MongoDatabase db)
 		{
-			var applications = new MongoRepository<Application>(db);
-			applications.Add(new Application() {Active = true, AllowedOrigin = "localhost", ClientId = "MainSolutionTemplateApi"});
+			new MongoRepository<Application>(db)
+				{
+					new Application() {Active = true, AllowedOrigin = "*", ClientId = "MainSolutionTemplate.Api"},
+					new Application() {Active = true, AllowedOrigin = "*", ClientId = "MainSolutionTemplate.Console"},
+					new Application() {Active = true, AllowedOrigin = "*", ClientId = "MainSolutionTemplate.App"}
+				};
 		}
 	}
 }

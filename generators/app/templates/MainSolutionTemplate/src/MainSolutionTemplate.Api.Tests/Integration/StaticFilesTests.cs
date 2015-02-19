@@ -57,6 +57,31 @@ namespace MainSolutionTemplate.Api.Tests.Integration
 			restResponse.StatusCode.Should().Be(HttpStatusCode.OK);
 		}
 
+		[Test]
+		public void Root_Givenjson_ShouldNotLoadTheData()
+		{
+			// arrange
+			Setup();
+			var request = AdminRequest("bower.json", Method.GET);
+			// action
+			var restResponse = _client.Value.ExecuteWithLogging<StaticFilesTests>(request);
+			// assert
+			restResponse.Content.Should().BeEmpty();
+		}
+		
+		[Test]
+		public void Root_GivenMissingFile_ShouldBeEmpty()
+		{
+			// arrange
+			Setup();
+			var request = AdminRequest("nowaythisfileisthere", Method.GET);
+			// action
+			var restResponse = _client.Value.ExecuteWithLogging<StaticFilesTests>(request);
+			// assert
+			restResponse.Content.Should().BeEmpty();
+			// todo: Rolf We really want a 404 here at some stage
+
+		}
 
 	}
 }

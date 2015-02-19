@@ -12,7 +12,8 @@
     "angular-animate": "v1.4.x",
     "angular-aria": "^1.4.x",
     "angular-material": "^0.8.x",
-    "angular-local-storage": "~0.1.5"
+    "angular-local-storage": "~0.1.5",
+    "angular-loading-bar": "~0.7.0"
   },
   "resolutions": {
     "angular-aria": "^1.4.x",

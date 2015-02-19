@@ -79,6 +79,7 @@
     <Content Include="scripts\filters.js" />
     <Content Include="scripts\route.js" />
     <Content Include="scripts\services.js" />
+    <Content Include="scripts\services\authorizationService.js" />
     <Content Include="views\dashboard.html" />
     <Content Include="views\index_leftMenu.html" />
     <Content Include="views\login.html" />
@@ -108,7 +109,6 @@
   <ItemGroup>
     <Folder Include="assets\images\" />
     <Folder Include="scripts\filters\" />
-    <Folder Include="scripts\services\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

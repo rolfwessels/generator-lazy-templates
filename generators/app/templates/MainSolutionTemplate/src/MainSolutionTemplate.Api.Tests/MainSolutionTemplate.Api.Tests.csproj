@@ -172,6 +172,7 @@
     <Compile Include="..\MainSolutionTemplate.Core\Properties\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Integration\StaticFilesTests.cs" />
     <Compile Include="Integration\WebApi\IntegrationTestsBase.cs" />
     <Compile Include="Integration\WebApi\OAuthIntegrationTests.cs" />
     <Compile Include="Integration\WebApi\UserControllerIntegrationTests.cs" />

@@ -91,6 +91,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\Microsoft.Owin.Cors.3.0.0\lib\net45\Microsoft.Owin.Cors.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Owin.FileSystems">
+      <HintPath>..\..\lib\Microsoft.Owin.FileSystems.3.0.0\lib\net45\Microsoft.Owin.FileSystems.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Owin.Host.HttpListener, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\Microsoft.Owin.Host.HttpListener.3.0.0\lib\net45\Microsoft.Owin.Host.HttpListener.dll</HintPath>
@@ -107,13 +110,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\MainSolutionTemplate.Api.Tests\bin\Debug\Microsoft.Owin.Security.OAuth.dll</HintPath>
     </Reference>
-    <Reference Include="Nancy, Version=0.23.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\Nancy.0.23.2\lib\net40\Nancy.dll</HintPath>
-    </Reference>
-    <Reference Include="Nancy.Owin, Version=0.23.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\Nancy.Owin.0.23.2\lib\net40\Nancy.Owin.dll</HintPath>
+    <Reference Include="Microsoft.Owin.StaticFiles">
+      <HintPath>..\..\lib\Microsoft.Owin.StaticFiles.3.0.0\lib\net45\Microsoft.Owin.StaticFiles.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\lib\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -176,9 +174,6 @@
     <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Models\UserDetailModel.cs" />
     <Compile Include="Models\UserModel.cs" />
-    <Compile Include="Nancy\Content\IndexModule.cs" />
-    <Compile Include="Nancy\FileNotFoundHandler.cs" />
-    <Compile Include="Nancy\NancySetup.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>

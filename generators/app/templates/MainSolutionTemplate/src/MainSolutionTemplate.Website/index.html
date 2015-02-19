@@ -9,13 +9,14 @@
 		<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
 
 		<link rel="stylesheet" href="./bower_components/angular-material/angular-material.css">
+		<link rel="stylesheet" href="./bower_components/angular-loading-bar/build/loading-bar.min.css"></script>
 		<link rel="stylesheet" href="./assets/css/app.css" >
 	</head>
 
 	<body ng-app="webapp" layout="column" ng-controller="navigationCtrl" >
 
 		<md-toolbar  class="md-tall" >
-			<button ng-click="toggleSidenav('left')" hide-gt-sm class="menuBtn" >
+			<button ng-if="isAuthenticated" ng-click="toggleSidenav('left')" hide-gt-sm class="menuBtn" >
 				<span class="visuallyhidden">Menu</span>
 			</button>
 			<div layout="row" layout-align="center center">
@@ -43,7 +44,8 @@
 		<script src="./bower_components/angular-aria/angular-aria.js"> </script>
 		<script src="./bower_components/angular-animate/angular-animate.js"> </script>
 		<script src="./bower_components/angular-material/angular-material.js"> </script>
-    <script src="./bower_components/angular-local-storage/dist/angular-local-storage.min.js"></script>
+    	<script src="./bower_components/angular-local-storage/dist/angular-local-storage.min.js"></script>
+    	<script src="./bower_components/angular-loading-bar/build/loading-bar.min.js"></script>
     
 		<script src="./scripts/controllers.js"> </script>
 		<script src="./scripts/directives.js"> </script>
@@ -51,6 +53,7 @@
 		<script src="./scripts/services.js"> </script>
 		<script src="./scripts/route.js"> </script>
 		<script src="./scripts/controllers/dashboardCtrl.js"> </script>
+		<script src="./scripts/controllers/forgotPasswordCtrl.js"> </script>
 		<script src="./scripts/controllers/navigationCtrl.js"> </script>
 		<script src="./scripts/controllers/loginCtrl.js"> </script>
     <script src="./scripts/services/authorizationService.js"> </script>

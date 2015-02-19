@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Reflection;
 using System.Web.Http;
 using MainSolutionTemplate.Api.Models;
 using MainSolutionTemplate.Api.Models.Mappers;
@@ -8,6 +9,7 @@ using MainSolutionTemplate.Api.WebApi.Attributes;
 using MainSolutionTemplate.Core.Managers.Interfaces;
 using MainSolutionTemplate.Dal.Models;
 using MainSolutionTemplate.Dal.Models.Enums;
+using log4net;
 
 namespace MainSolutionTemplate.Api.WebApi.Controllers
 {
@@ -16,8 +18,9 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 	/// </summary>
 	public class UserController : ApiController, IUserHub
 	{
+		private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 		private readonly ISystemManagerFacade _systemManager;
-		
+
 
 		public UserController(ISystemManagerFacade systemManager)
 		{
@@ -116,6 +119,17 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 		{
 			var userByUserameAndPassword = _systemManager.GetUserByEmailAndPassword(model.UserName, model.Password);
 			return userByUserameAndPassword.ToUserModel();
+		}
+
+		[AllowAnonymous]
+		[Route(RouteHelper.UserControllerForgotPassword)]
+		[HttpGet]
+		public bool ForgotPassword(string email)
+		{
+			_log.Warn(string.Format("User has called forgot password. We should send him and email to [{0}].", email));
+			// todo: Rolf Forgot password
+
+			return true;
 		}
 
 		#endregion

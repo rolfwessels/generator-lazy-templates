@@ -1,9 +1,14 @@
 using System.IO;
+using System.Reflection;
 using MainSolutionTemplate.Api.AppStartup;
+using MainSolutionTemplate.Api.Properties;
 using MainSolutionTemplate.Core.Managers.Interfaces;
 using MainSolutionTemplate.OAuth2;
 using Microsoft.AspNet.SignalR;
+using Microsoft.Owin.FileSystems;
+using Microsoft.Owin.StaticFiles;
 using Owin;
+using log4net;
 using log4net.Config;
 using IDependencyResolver = System.Web.Http.Dependencies.IDependencyResolver;
 
@@ -14,13 +19,17 @@ namespace MainSolutionTemplate.Api
         public void Configuration(IAppBuilder appBuilder)
         {
 	        XmlConfigurator.Configure();
-            BootStrap.Initialize();
-			OathAuthorizationSetup.Initialize(appBuilder, IocContainerSetup.Instance.Resolve<ISystemManagerFacade>());
+			BootStrap.Initialize(appBuilder);
+	        
+			
 			WebApiSetup webApiSetup = WebApiSetup.Initialize(appBuilder , IocContainerSetup.Instance.Resolve<IDependencyResolver>());
 			SignalRSetup.Initialize(appBuilder,IocContainerSetup.Instance.Resolve<Microsoft.AspNet.SignalR.IDependencyResolver>());
             SwaggerSetup.Initialize(webApiSetup.Configuration);
-            appBuilder.UseNancy();
-            webApiSetup.Configuration.EnsureInitialized();
+			var options = new FileServerOptions
+			{
+				FileSystem = new PhysicalFileSystem(Settings.Default.WebBasePath)
+			};
+	        appBuilder.UseFileServer(options);
         }
     }
 }

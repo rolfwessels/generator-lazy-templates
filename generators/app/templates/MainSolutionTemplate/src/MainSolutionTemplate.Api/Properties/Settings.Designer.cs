@@ -25,7 +25,8 @@ namespace MainSolutionTemplate.Api.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("../MainSolutionTemplate.Website/")]
+        [global::System.Configuration.DefaultSettingValueAttribute("D:\\Work\\Projects\\Home\\generator-lazy-templates\\generators\\app\\templates\\MainSolut" +
+            "ionTemplate\\src\\MainSolutionTemplate.Website")]
         public string WebBasePath {
             get {
                 return ((string)(this["WebBasePath"]));
