@@ -14,6 +14,9 @@ namespace MainSolutionTemplate.Api.Tests.Integration.WebApi
 		private readonly static Lazy<string> _hostAddress;
 		protected static Lazy<RestClient> _client;
 		protected static Lazy<AuthResponse> _adminUser;
+		public const string ClientId = "MainSolutionTemplate.Api";
+		public const string AdminPassword = "admin!";
+		public const string AdminUser = "admin";
 
 		static IntegrationTestsBase()
 		{
@@ -60,10 +63,10 @@ namespace MainSolutionTemplate.Api.Tests.Integration.WebApi
 		private static AuthResponse LoggedInResponse()
 		{
 			var request = new RestRequest("Token", Method.POST);
-			request.AddParameter("username", "admin");
-			request.AddParameter("password", "admin!");
+			request.AddParameter("username", AdminUser);
+			request.AddParameter("password", AdminPassword);
 			request.AddParameter("grant_type", "password");
-			request.AddParameter("client_id", "MainSolutionTemplateApi");
+			request.AddParameter("client_id", ClientId);
 			// action
 			var loggedInResponse = _client.Value.ExecuteWithLogging<AuthResponse>(request);
 			return loggedInResponse.Data;

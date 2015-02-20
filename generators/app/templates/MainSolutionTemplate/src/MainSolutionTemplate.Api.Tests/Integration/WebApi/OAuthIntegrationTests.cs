@@ -36,10 +36,10 @@ namespace MainSolutionTemplate.Api.Tests.Integration.WebApi
 			// arrange
 			Setup();
 			var request = new RestRequest("Token", Method.POST);
-			request.AddParameter("username", "admin");
-			request.AddParameter("password", "admin!");
+			request.AddParameter("username", AdminUser);
+			request.AddParameter("password", AdminPassword);
 			request.AddParameter("grant_type", "password");
-			request.AddParameter("client_id", "MainSolutionTemplateApi");
+			request.AddParameter("client_id", ClientId);
 			// action
 			var restResponse = _client.Value.ExecuteWithLogging<List<UserModel>>(request);
 			// assert
@@ -52,10 +52,10 @@ namespace MainSolutionTemplate.Api.Tests.Integration.WebApi
 			// arrange
 			Setup();
 			var request = new RestRequest("Token", Method.POST);
-			request.AddParameter("username", "admin");
-			request.AddParameter("password", "admin!");
+			request.AddParameter("username", AdminUser);
+			request.AddParameter("password", AdminPassword);
 			request.AddParameter("grant_type", "password");
-			request.AddParameter("client_id", "MainSolutionTemplateApi");
+			request.AddParameter("client_id", ClientId);
 			// action
 			var restResponse = _client.Value.ExecuteWithLogging<List<UserModel>>(request);
 			// assert
@@ -72,10 +72,10 @@ namespace MainSolutionTemplate.Api.Tests.Integration.WebApi
 			// arrange
 			Setup();
 			var request = new RestRequest("Token",Method.POST) ;
-			request.AddParameter("username", "admin");
-			request.AddParameter("password", "admin");
+			request.AddParameter("username", AdminUser);
+			request.AddParameter("password", AdminUser);
 			request.AddParameter("grant_type", "password");
-			request.AddParameter("client_id", "MainSolutionTemplateApi");
+			request.AddParameter("client_id", ClientId);
 			// action
 			var restResponse = _client.Value.ExecuteWithLogging<List<UserModel>>(request);
 			// assert

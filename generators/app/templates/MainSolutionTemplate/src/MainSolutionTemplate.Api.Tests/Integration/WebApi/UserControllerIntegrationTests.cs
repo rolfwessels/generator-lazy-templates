@@ -79,7 +79,7 @@ namespace MainSolutionTemplate.Api.Tests.Integration.WebApi
 			// arrange
 			Setup();
 			var request = new RestRequest(RouteHelper.UserControllerLogin, Method.POST);
-			request.AddJsonBody(new LoginModel() {UserName = "admin", Password = "admin!"});
+			request.AddJsonBody(new LoginModel() {UserName = AdminUser, Password = AdminPassword});
 			// action
 			var restResponse = _client.Value.ExecuteWithLogging<UserModel>(request);
 			// assert
