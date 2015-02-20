@@ -17,6 +17,12 @@
   position: relative;
 }
 
+.menu button.md-button {
+width: 100%;
+text-align: left;
+padding: 10px;
+}
+
 .visuallyhidden {
   border: 0;
   clip: rect(0 0 0 0);
@@ -27,6 +33,17 @@
   position: absolute;
   width: 1px;
 }
+
+ #content .md-button.action {
+      background-color: transparent;
+      border: none;
+      height: 38px;
+      margin: 8px auto 16px 0;
+      position: absolute;
+      top: 10px;
+      right: 25px;
+      width: 36px;
+    }
 
 /* Typography support coming in 0.8.0 */
 .md-default-theme.md-primary {

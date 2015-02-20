@@ -3,8 +3,8 @@
 /* dashboardCtrl */
 
 angular.module('webapp.controllers')
-  .controller('navigationCtrl', ['$scope','$rootScope', '$mdSidenav', 'authorizationService', '$timeout',
-		function ($scope,$rootScope, $mdSidenav, authorizationService,$timeout) {
+  .controller('navigationCtrl', ['$scope','$rootScope', '$mdSidenav', 'authorizationService', '$timeout', '$location',
+		function ($scope,$rootScope, $mdSidenav, authorizationService, $timeout, $location) {
     
     $scope.toggleSidenav = toggleSideNav;
     $scope.logout = logout;
@@ -26,6 +26,12 @@ angular.module('webapp.controllers')
   	function toggleSideNav(name) {
   		$mdSidenav(name).toggle();
   	}
+
+
+    function navigateHome() {
+      $location.path("/");
+    }
+
 
     function logout(name) {
       authorizationService.logout();

@@ -1,8 +1,28 @@
+<div layout="column" layout-fill>
+    <md-toolbar md-scroll-shrink class="md-hue-1">
+        <div class="md-toolbar-tools ">
+            <h2>
+        		<span>List of users</span>
+      		</h2>
+      		<md-button class="action actionBtn" ng-click="showActions($event)">
+            <span class="visuallyhidden">Actions</span>
+        </md-button>
+        </div>
+    </md-toolbar>
+    <md-content layout="column" flex class="md-padding">
+        
 
-        <md-content layout="column" flex class="md-padding">
-            <h2>MainContent</h2>
-            <p>Content</p>
-            <md-button class="action actionBtn" ng-click="showActions($event)">
-              <span class="visuallyhidden">Actions</span>
-            </md-button>
-        </md-content>
+
+        <md-list>
+            <md-item ng-repeat="user in users">
+                <md-item-content>
+                    <div class="md-tile-content">
+                        <md-whiteframe class="md-whiteframe-z1" layout layout-align="center center">
+                            <span style="margin:10px"> {{user.Email}} </span>
+                        </md-whiteframe>
+                    </div>
+                </md-item-content>
+            </md-item>
+        </md-list>
+    </md-content>
+</div>

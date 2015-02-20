@@ -17,14 +17,14 @@ angular.module('webapp.services')
                 var connectionDefer = $q.defer();
                 console.log("Authenticated:" + authorizationService.isAuthenticate());
                 $.connection.hub.url = signalrBase;
-                $.connection.hub.qs = { Bearer : authorizationService.currentSession().accessToken };
-                console.log($.connection.hub.qs);
+                $.connection.hub.qs = { "bearer" : authorizationService.currentSession().accessToken };
+                
                 var connection = $.hubConnection();
 
                 userHub = connection.createHubProxy('UserHub');
 
                 var start = connection.start();
-                connectionDefer.notify("connect to " + signalrBase);
+                connectionDefer.notify("connect to " + signalrBase + " with token " + $.connection.hub.qs.bearer );
                 start.done(function() {
                     connectionDefer.resolve(connection);
                 });

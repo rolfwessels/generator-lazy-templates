@@ -3,8 +3,8 @@
 /* dashboardCtrl */
 
 angular.module('webapp.controllers')
-    .controller('dashboardCtrl', ['$scope', '$mdSidenav', '$mdBottomSheet', '$log', 'dataService',
-        function($scope, $mdSidenav, $mdBottomSheet, $log, dataService) {
+    .controller('dashboardCtrl', ['$scope', '$mdSidenav', '$mdBottomSheet', '$log', 'dataService', 'messageService',
+        function($scope, $mdSidenav, $mdBottomSheet, $log, dataService, messageService) {
 
             $scope.showActions = showActions;
 
@@ -15,7 +15,7 @@ angular.module('webapp.controllers')
                 },function(error) {
                   $log.error(error);
                 })
-            })
+            }, messageService.error,messageService.debug)
 
             /**
              * Select the current avatars
@@ -26,14 +26,8 @@ angular.module('webapp.controllers')
 
                 $mdBottomSheet.show({
                     parent: angular.element(document.getElementById('content')),
-                    template: '<md-bottom-sheet class="md-list md-has-header">' +
-                        '<md-subheader>Avatar Actions</md-subheader>' +
-                        '<md-list>' +
-                        '<md-item ng-repeat="item in vm.items">' +
-                        '<md-button ng-click="vm.performAction(item)">{{item.name}}</md-button>' +
-                        '</md-item>' +
-                        '</md-list>' +
-                        '</md-bottom-sheet>',
+                    templateUrl: 'views/dashboard_bottom.html',
+                   
                     bindToController: true,
                     controllerAs: "vm",
                     controller: ['$mdBottomSheet', AvatarSheetController],
@@ -45,6 +39,7 @@ angular.module('webapp.controllers')
                 /**
                  * Bottom Sheet controller for the Avatar Actions
                  */
+               
 
                 function AvatarSheetController($mdBottomSheet) {
                     this.items = [{
