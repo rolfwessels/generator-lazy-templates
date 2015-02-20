@@ -53,7 +53,7 @@ namespace MainSolutionTemplate.Core.Managers
 			if (string.IsNullOrEmpty(password)) throw new ArgumentNullException("password");
 			return Task.Run(() =>
 				{
-					_log.Info(string.Format("Login user '{0}'", userName));
+					_log.Info(string.Format("Context.Request.GetUserName() user '{0}'", userName));
 					var user = GetUserByEmailAndPassword(userName,password);
 					return user.MapToIAuthorizedUser();
 				});

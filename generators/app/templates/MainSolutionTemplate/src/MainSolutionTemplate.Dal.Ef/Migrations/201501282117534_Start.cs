@@ -41,7 +41,7 @@ namespace MainSolutionTemplate.Dal.Ef.Migrations
                         Name = c.String(),
                         Email = c.String(),
                         HashedPassword = c.String(),
-                        LastLoginDate = c.DateTime(),
+                        LastLogin = c.DateTime(),
                         CreateDate = c.DateTime(nullable: false),
                         UpdateDate = c.DateTime(nullable: false),
                     })

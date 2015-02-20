@@ -12,7 +12,7 @@ using MainSolutionTemplate.Dal.Models.Enums;
 
 namespace MainSolutionTemplate.Api.SignalR
 {
-	//[TokenAuthorize]
+	[TokenAuthorize]
 	public class UserHub : BaseHub , IUserHub, IUserHubEvents
 	{
 		private readonly UserController _userController;
