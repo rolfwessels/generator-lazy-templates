@@ -17,7 +17,7 @@ namespace MainSolutionTemplate.Core.Startup
 
 		private static void SetupManagers(ContainerBuilder builder)
 		{
-			builder.RegisterType<SystemManagerFacade>().As<ISystemManagerFacade>();
+			builder.RegisterType<SystemManager>().As<ISystemManager>();
 			builder.RegisterType<AuthorizeManager>().As<IAuthorizeManager>();
 		}
 

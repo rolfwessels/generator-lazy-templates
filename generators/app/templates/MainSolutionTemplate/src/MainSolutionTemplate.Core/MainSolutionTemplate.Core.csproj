@@ -113,10 +113,10 @@
     <Compile Include="Managers\SystemManagerFacade.RoleManager.cs" />
     <Compile Include="Managers\Interfaces\IAuthorizeManager.cs" />
     <Compile Include="Managers\Interfaces\IRoleManager.cs" />
-    <Compile Include="Managers\Interfaces\ISystemManagerFacade.cs" />
+    <Compile Include="Managers\Interfaces\ISystemManager.cs" />
     <Compile Include="Managers\Interfaces\IUserManager.cs" />
     <Compile Include="Managers\SystemManagerFacade.OAuthDataManager.cs" />
-    <Compile Include="Managers\SystemManagerFacade.cs" />
+    <Compile Include="Managers\SystemManager.cs" />
     <Compile Include="Managers\SystemManagerFacade.UserManager.cs" />
     <Compile Include="Mappers\MapApplication.cs" />
     <Compile Include="Mappers\MapUser.cs" />

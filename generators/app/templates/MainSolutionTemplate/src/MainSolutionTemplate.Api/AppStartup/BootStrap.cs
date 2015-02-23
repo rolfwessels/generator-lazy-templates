@@ -12,7 +12,7 @@ namespace MainSolutionTemplate.Api.AppStartup
 
 	    protected BootStrap(IAppBuilder appBuilder)
 	    {
-			OathAuthorizationSetup.Initialize(appBuilder, IocContainerSetup.Instance.Resolve<ISystemManagerFacade>());
+			OathAuthorizationSetup.Initialize(appBuilder, IocApi.Instance.Resolve<ISystemManager>());
 	    }
 
 	    #region Initialize

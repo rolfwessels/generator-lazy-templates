@@ -11,27 +11,31 @@ using MainSolutionTemplate.Dal.Persistance;
 
 namespace MainSolutionTemplate.Api.AppStartup
 {
-	public class IocContainerSetup : IocContainerBase
+	public class IocApi : IocContainerBase
 	{
 		private static bool _isInitialized;
 		private static readonly object _locker = new object();
-		private static IocContainerSetup _instance;
-		private IContainer _container;
+		private static IocApi _instance;
+		private readonly IContainer _container;
 
-		public IocContainerSetup()
+		public IocApi()
 		{
 			var builder = new ContainerBuilder();
 			SetupCore(builder);
+			SetupSignalr(builder);
 			WebApi(builder);
 			SignalRHubs(builder);
 			_container = builder.Build();
 		}
 
-		
+		private void SetupSignalr(ContainerBuilder builder)
+		{
+			builder.RegisterType<ConnectionStateMapping>().As<IConnectionStateMapping>().SingleInstance();
+		}
 
 		#region Initialize
 
-		public static IocContainerSetup Instance
+		public static IocApi Instance
 		{
 			get
 			{
@@ -40,7 +44,7 @@ namespace MainSolutionTemplate.Api.AppStartup
 				{
 					if (!_isInitialized)
 					{
-						_instance = new IocContainerSetup();
+						_instance = new IocApi();
 						_isInitialized = true;
 					}
 				}

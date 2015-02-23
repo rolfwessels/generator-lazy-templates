@@ -19,10 +19,10 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 	public class UserController : ApiController, IUserHub
 	{
 		private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-		private readonly ISystemManagerFacade _systemManager;
+		private readonly ISystemManager _systemManager;
 
 
-		public UserController(ISystemManagerFacade systemManager)
+		public UserController(ISystemManager systemManager)
 		{
 			_systemManager = systemManager;
 		

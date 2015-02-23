@@ -10,7 +10,7 @@ namespace MainSolutionTemplate.Core.Tests
 	[TestFixture]
 	public class SystemManagerFacadeUserManagerTests
 	{
-		private SystemManagerFacade _systemManagerFacadeUserManager;
+		private SystemManager _systemManagerUserManager;
 		private Mock<IGeneralUnitOfWork> _mockIGeneralUnitOfWork;
 
 		#region Setup/Teardown
@@ -19,7 +19,7 @@ namespace MainSolutionTemplate.Core.Tests
 		{
 			_mockIGeneralUnitOfWork = new Mock<IGeneralUnitOfWork>(MockBehavior.Strict);
 			
-			_systemManagerFacadeUserManager = new SystemManagerFacade(_mockIGeneralUnitOfWork.Object, Messenger.Default);
+			_systemManagerUserManager = new SystemManager(_mockIGeneralUnitOfWork.Object, Messenger.Default);
 		}
 
 		[TearDown]
@@ -37,7 +37,7 @@ namespace MainSolutionTemplate.Core.Tests
 			// arrange
 			Setup();
 			// assert
-			_systemManagerFacadeUserManager.Should().NotBeNull();
+			_systemManagerUserManager.Should().NotBeNull();
 		}
 
 		 

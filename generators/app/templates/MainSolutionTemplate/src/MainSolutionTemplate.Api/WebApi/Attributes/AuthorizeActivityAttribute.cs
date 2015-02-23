@@ -41,7 +41,7 @@ namespace MainSolutionTemplate.Api.WebApi.Attributes
 					_log.Error("User not authorized because we were expecting a ClaimsIdentity");
 					return false;
 				}
-				var authorizeManager = IocContainerSetup.Instance.Resolve<IAuthorizeManager>();
+				var authorizeManager = IocApi.Instance.Resolve<IAuthorizeManager>();
 				isAuthorized = identity.Claims.Where(x => x.Type == ClaimTypes.Role).Any(x => authorizeManager.IsAuthorizedActivity(Activities, x.Value));
 			}
 			return isAuthorized;

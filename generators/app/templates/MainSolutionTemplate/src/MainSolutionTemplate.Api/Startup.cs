@@ -22,8 +22,8 @@ namespace MainSolutionTemplate.Api
 			BootStrap.Initialize(appBuilder);
 	        
 			
-			WebApiSetup webApiSetup = WebApiSetup.Initialize(appBuilder , IocContainerSetup.Instance.Resolve<IDependencyResolver>());
-			SignalRSetup.Initialize(appBuilder,IocContainerSetup.Instance.Resolve<Microsoft.AspNet.SignalR.IDependencyResolver>());
+			WebApiSetup webApiSetup = WebApiSetup.Initialize(appBuilder , IocApi.Instance.Resolve<IDependencyResolver>());
+			SignalRSetup.Initialize(appBuilder,IocApi.Instance.Resolve<Microsoft.AspNet.SignalR.IDependencyResolver>());
             SwaggerSetup.Initialize(webApiSetup.Configuration);
 			var options = new FileServerOptions
 			{

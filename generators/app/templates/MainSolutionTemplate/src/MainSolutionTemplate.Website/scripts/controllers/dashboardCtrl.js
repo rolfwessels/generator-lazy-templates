@@ -11,11 +11,16 @@ angular.module('webapp.controllers')
             $scope.users = [];
             dataService.whenConnected().then(function() {
                 dataService.users.getAll().then(function(data) {
-                    $scope.users = data;
+                    angular.forEach(data, function(value, key) {
+                      $scope.users.push(value);
+                    });
+                    
                 },function(error) {
                   $log.error(error);
                 })
             }, messageService.error,messageService.debug)
+
+            dataService.users.onUpdate($scope, $scope.users);
 
             /**
              * Select the current avatars
@@ -34,6 +39,27 @@ angular.module('webapp.controllers')
                     targetEvent: $event
                 }).then(function(clickedItem) {
                     $log.debug(clickedItem.name + ' clicked!');
+                    if (clickedItem.name == "Add") {
+                            dataService.users.post({ Name : ("Sample "+new Date()), Email : "Sample" });
+                    }
+                    else if (clickedItem.name == "Delete") {
+                        var data =  null;
+                        angular.forEach($scope.users, function(value, key) {
+                          data = value;
+                        });
+                        if (data != null) {
+                            dataService.users.delete(data.Id);
+                        }
+                    }
+                    else if (clickedItem.name == "Update") {
+                        var data =  null;
+                        angular.forEach($scope.users, function(value, key) {
+                          data = value;
+                        });
+                        if (data != null) {
+                            dataService.users.put(data.Id,{ Name : ("Sample "+new Date()), Email : "Sample312" });
+                        }
+                    }
                 });
 
                 /**
@@ -43,19 +69,17 @@ angular.module('webapp.controllers')
 
                 function AvatarSheetController($mdBottomSheet) {
                     this.items = [{
-                        name: 'Share',
-                        icon: 'share'
+                        name: 'Add',
+                        icon: 'add'
+                    }, {  
+                        name: 'Update',
+                        icon: 'update'
                     }, {
-                        name: 'Copy',
-                        icon: 'copy'
-                    }, {
-                        name: 'Impersonate',
-                        icon: 'impersonate'
-                    }, {
-                        name: 'Singalong',
-                        icon: 'singalong'
-                    }, ];
+                        name: 'Delete',
+                        icon: 'delete'
+                    }];
                     this.performAction = function(action) {
+
                         $mdBottomSheet.hide(action);
                     };
                 }

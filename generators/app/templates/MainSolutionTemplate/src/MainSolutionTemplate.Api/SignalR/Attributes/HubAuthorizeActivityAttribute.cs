@@ -14,7 +14,7 @@ namespace MainSolutionTemplate.Api.SignalR.Attributes
 
 		public HubAuthorizeActivityAttribute(params Activity[] activities)
 		{
-			_authorizeManager = IocContainerSetup.Instance.Resolve<IAuthorizeManager>();
+			_authorizeManager = IocApi.Instance.Resolve<IAuthorizeManager>();
 			Activities = activities;
 		}
 

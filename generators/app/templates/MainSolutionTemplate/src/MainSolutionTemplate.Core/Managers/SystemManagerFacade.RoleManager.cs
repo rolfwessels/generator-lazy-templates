@@ -8,7 +8,7 @@ using MainSolutionTemplate.Dal.Models.Enums;
 
 namespace MainSolutionTemplate.Core.Managers
 {
-	public partial class SystemManagerFacade : IRoleManager
+	public partial class SystemManager : IRoleManager
 	{
 		
 

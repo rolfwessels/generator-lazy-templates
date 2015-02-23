@@ -66,6 +66,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Client">
+      <HintPath>..\MainSolutionTemplate.Api.Tests\bin\Debug\Microsoft.AspNet.SignalR.Client.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\Microsoft.AspNet.SignalR.Core.2.2.0\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
@@ -165,7 +168,7 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="AppStartup\BootStrap.cs" />
-    <Compile Include="AppStartup\IocContainerSetup.cs" />
+    <Compile Include="AppStartup\IocApi.cs" />
     <Compile Include="AppStartup\NewFile1.cs" />
     <Compile Include="AppStartup\SwaggerSetup.cs" />
     <Compile Include="AppStartup\WebApiSetup.cs" />
@@ -182,8 +185,11 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="SignalR\Attributes\HubAuthorizeActivityAttribute.cs" />
+    <Compile Include="SignalR\Attributes\RequestUserDetailsHelper.cs" />
     <Compile Include="SignalR\BaseHub.cs" />
-    <Compile Include="SignalR\ConnectionMapping.cs" />
+    <Compile Include="SignalR\ConnectionState.cs" />
+    <Compile Include="SignalR\ConnectionStateMapping.cs" />
+    <Compile Include="SignalR\IConnectionStateMapping.cs" />
     <Compile Include="SignalR\IUserHub.cs" />
     <Compile Include="SignalR\Attributes\TokenAuthorizeAttribute.cs" />
     <Compile Include="SignalR\IUserHubEvents.cs" />

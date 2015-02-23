@@ -6,13 +6,13 @@ using log4net;
 
 namespace MainSolutionTemplate.Core.Managers
 {
-	public partial class SystemManagerFacade : ISystemManagerFacade
+	public partial class SystemManager : ISystemManager
 	{
 		private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 		private readonly IMessenger _messenger;
 		private readonly IGeneralUnitOfWork _generalUnitOfWork;
 
-		public SystemManagerFacade(IGeneralUnitOfWork generalUnitOfWork, IMessenger messenger)
+		public SystemManager(IGeneralUnitOfWork generalUnitOfWork, IMessenger messenger)
 		{
 			_generalUnitOfWork = generalUnitOfWork;
 			_messenger = messenger;

@@ -1,89 +1,80 @@
-using System;
-using System.Linq;
-using System.Reflection;
-using System.Security.Claims;
-using System.Security.Principal;
 using System.Threading.Tasks;
 using MainSolutionTemplate.Api.AppStartup;
 using MainSolutionTemplate.Core.Managers.Interfaces;
-using MainSolutionTemplate.OAuth2;
 using Microsoft.AspNet.SignalR;
-using Microsoft.Owin.Security;
-using log4net;
-using MainSolutionTemplate.Api.SignalR.Attributes;
 
 namespace MainSolutionTemplate.Api.SignalR
 {
-	public class BaseHub : Hub
+	public abstract class BaseHub : Hub
 	{
-		private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-		private static readonly ConnectionMapping<string> _connections = new ConnectionMapping<string>();
-		private ISystemManagerFacade _systemManagerFacade;
-		private ISecureDataFormat<AuthenticationTicket> _accessTokenFormat;
-		
+		private readonly IConnectionStateMapping _connectionsState;
+		private static bool _isFireOnceDone;
+		private static readonly object _fireOnceLocker = new object();
 
-		public BaseHub()
+
+
+		public BaseHub(IConnectionStateMapping connectionStateMapping)
 		{
-			_systemManagerFacade = IocContainerSetup.Instance.Resolve<ISystemManagerFacade>();
-			_accessTokenFormat = OathAuthorizationSetup.OAuthOptions.AccessTokenFormat;
+			_connectionsState = connectionStateMapping;
+			FireInitializeOnce();
+
 		}
 
 
 		/// <summary>
-		/// The on connected.
+		///    The on connected.
 		/// </summary>
 		/// <returns>
-		/// The <see cref="Task"/>.
+		///    The <see cref="Task" /> .
 		/// </returns>
 		public override Task OnConnected()
 		{
-			// Identity Related
-			var connectionId = Context.ConnectionId;
-			
-
-			// Presence Related            
-			_connections.Add(Context.Request.GetUserName(), connectionId);
-			_log.Info(string.Format("Welcome userId {0}", Context.Request.GetUserName()));
-
+			ConnectionState connectionState = _connectionsState.Add(Context, OnInitialConnection);
+			Groups.Add(Context.ConnectionId, connectionState.UserEmail);
 			return base.OnConnected();
 		}
 
-		/// <summary>
-		/// The on disconnected.
-		/// </summary>
-		/// <param name="stopCalled">
-		/// The stop called.
-		/// </param>
-		/// <returns>
-		/// The <see cref="Task"/>.
-		/// </returns>
+
 		public override Task OnDisconnected(bool stopCalled)
 		{
-			// Presence Related            
-			_connections.Remove(Context.Request.GetUserName(), Context.ConnectionId);
-			_log.Info(string.Format("UserName {0} has left ", Context.Request.GetUserName()));
+			ConnectionState connectionState = _connectionsState.Remove(Context.ConnectionId);
+			Groups.Remove(Context.ConnectionId, connectionState.UserEmail);
 			return base.OnDisconnected(stopCalled);
 		}
 
-		/// <summary>
-		/// The on reconnected.
-		/// </summary>
-		/// <returns>
-		/// The <see cref="Task"/>.
-		/// </returns>
+
 		public override Task OnReconnected()
 		{
-			var connectionId = Context.ConnectionId;
-			
-			if (!_connections.GetConnections(Context.Request.GetUserName()).Contains(connectionId))
-            {
-				_connections.Add(Context.Request.GetUserName(), Context.ConnectionId);
-            }
+			_connectionsState.Reconnect(Context);
 			return base.OnReconnected();
 		}
 
-		
+		protected virtual void OnInitializeOnce()
+		{
+		}
 
-		
+
+		protected virtual void OnInitialConnection(ConnectionState connectionState)
+		{
+		}
+
+		#region Private Methods
+
+		private void FireInitializeOnce()
+		{
+			if (_isFireOnceDone) return;
+			lock (_fireOnceLocker)
+			{
+				if (!_isFireOnceDone)
+				{
+					OnInitializeOnce();
+					_isFireOnceDone = true;
+				}
+			}
+		}
+
+		#endregion
 	}
+
+	
 }

@@ -8,7 +8,7 @@ using MainSolutionTemplate.Dal.Models.Enums;
 
 namespace MainSolutionTemplate.Core.Managers
 {
-	public partial class SystemManagerFacade : IUserManager
+	public partial class SystemManager : IUserManager
 	{
 		
 		public IQueryable<User> GetUsers()

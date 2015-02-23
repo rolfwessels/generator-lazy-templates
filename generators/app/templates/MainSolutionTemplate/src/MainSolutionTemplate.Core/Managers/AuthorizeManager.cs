@@ -11,9 +11,9 @@ namespace MainSolutionTemplate.Core.Managers
 		public const string AdministratorRoleName = "Admin";
 
 		private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-		private readonly ISystemManagerFacade _systemManager;
+		private readonly ISystemManager _systemManager;
 
-		public AuthorizeManager(ISystemManagerFacade systemManager)
+		public AuthorizeManager(ISystemManager systemManager)
 		{
 			_systemManager = systemManager;
 		}
