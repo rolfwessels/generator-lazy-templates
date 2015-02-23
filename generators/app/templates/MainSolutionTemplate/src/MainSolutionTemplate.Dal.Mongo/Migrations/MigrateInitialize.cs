@@ -9,10 +9,19 @@ namespace MainSolutionTemplate.Dal.Mongo.Migrations
 		public MigrateInitialize(MongoDatabase db)
 		{
 			AddApplications(db);
+			AddUsers(db);
+		}
+
+		private static void AddUsers(MongoDatabase db)
+		{
 			var users = new MongoRepository<User>(db);
-			var entity = new User() {Name = "Admin user", Email = "admin", HashedPassword = PasswordHash.CreateHash("admin!")};
-			entity.Roles.Add(Roles.Admin);
-			users.Add(entity);
+			var admin = new User() {Name = "Admin user", Email = "admin", HashedPassword = PasswordHash.CreateHash("admin!")};
+			admin.Roles.Add(Roles.Admin);
+			users.Add(admin);
+
+			var guest = new User() { Name = "Guest", Email = "guest@guest.com", HashedPassword = PasswordHash.CreateHash("guest!") };
+			guest.Roles.Add(Roles.Guest);
+			users.Add(guest);
 		}
 
 		private static void AddApplications(MongoDatabase db)

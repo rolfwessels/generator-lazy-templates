@@ -12,7 +12,7 @@ angular.module('webapp.controllers')
             var  currentUser = authorizationService.currentSession();
             $scope.model = {
                 email: currentUser.email,
-                password: "admin!"
+                password: ''
             };
             $scope.login = login;
             $scope.forgotPassword = forgotPassword;

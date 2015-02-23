@@ -95,8 +95,8 @@ namespace MainSolutionTemplate.Api.Tests.Integration.WebApi
 			var removed = _userHubClient.Delete(userModels.Id);
 			var removedSecond = _userHubClient.Delete(userModels.Id);
 			// assert
-			userModel[0].Email.Should().Be(userModels.Email);
-			userModel[1].Email.Should().Be(userModelLoad.Email);
+			userModel[0].Email.ToLower().Should().Be(userModels.Email);
+			userModel[1].Email.ToLower().Should().Be(userModelLoad.Email);
 			removed.Should().BeTrue();
 			removedSecond.Should().BeFalse();
 			count.Should().Be(_userHubClient.Get().Count);

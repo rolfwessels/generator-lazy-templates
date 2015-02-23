@@ -23,6 +23,7 @@ namespace MainSolutionTemplate.Core.Managers
 
 		public User SaveUser(User user)
 		{
+			user.Email = user.Email.ToLower();
 			var userFound = _generalUnitOfWork.Users.FirstOrDefault(x => x.Id == user.Id);
 			if (userFound == null)
 			{
@@ -72,7 +73,7 @@ namespace MainSolutionTemplate.Core.Managers
 
 		public User GetUserByEmail(string email)
 		{
-			return _generalUnitOfWork.Users.FirstOrDefault(x => x.Email == email);
+			return _generalUnitOfWork.Users.FirstOrDefault(x => x.Email == email.ToLower());
 		}
 	}
 }

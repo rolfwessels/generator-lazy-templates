@@ -5,6 +5,7 @@ namespace MainSolutionTemplate.Api.Models
 	public class UserModel : UserDetailModel
 	{
 		public Guid Id { get; set; }
+		public DateTime? LastLoginDate { get; set; }
 
 		public override string ToString()
 		{

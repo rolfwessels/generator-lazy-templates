@@ -12,24 +12,16 @@ namespace MainSolutionTemplate.Api.SignalR
 		private static readonly object _fireOnceLocker = new object();
 
 
-
-		public BaseHub(IConnectionStateMapping connectionStateMapping)
+		protected BaseHub(IConnectionStateMapping connectionStateMapping)
 		{
 			_connectionsState = connectionStateMapping;
 			FireInitializeOnce();
 
 		}
 
-
-		/// <summary>
-		///    The on connected.
-		/// </summary>
-		/// <returns>
-		///    The <see cref="Task" /> .
-		/// </returns>
 		public override Task OnConnected()
 		{
-			ConnectionState connectionState = _connectionsState.Add(Context, OnInitialConnection);
+			ConnectionState connectionState = _connectionsState.AddOrGet(Context);
 			Groups.Add(Context.ConnectionId, connectionState.UserEmail);
 			return base.OnConnected();
 		}
@@ -50,11 +42,6 @@ namespace MainSolutionTemplate.Api.SignalR
 		}
 
 		protected virtual void OnInitializeOnce()
-		{
-		}
-
-
-		protected virtual void OnInitialConnection(ConnectionState connectionState)
 		{
 		}
 

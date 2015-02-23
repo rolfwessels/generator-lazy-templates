@@ -28,8 +28,8 @@
 
 
 		<div layout="row" flex>
-
-			<md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$media('gt-sm')"
+			
+			<md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$media('gt-sm') && isAuthenticated"
 			            ng-include="'/views/index_leftMenu.html'"
 			            >
 			</md-sidenav>

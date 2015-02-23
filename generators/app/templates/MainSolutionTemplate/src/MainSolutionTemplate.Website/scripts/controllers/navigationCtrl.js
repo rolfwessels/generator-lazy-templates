@@ -11,7 +11,7 @@ angular.module('webapp.controllers')
     $rootScope.$watch("isAuthenticated", function(newValue) {
       if (!newValue) {
           $timeout(function() {
-             $mdSidenav('left').close();
+          	$mdSidenav('left').close();
           },500);           
         }
       }

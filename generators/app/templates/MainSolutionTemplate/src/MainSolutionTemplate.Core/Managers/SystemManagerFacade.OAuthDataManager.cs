@@ -13,7 +13,6 @@ namespace MainSolutionTemplate.Core.Managers
 {
 	public partial class SystemManager : IOAuthDataManager
 	{
-		
 
 		#region Implementation of IRefreshTokenManager
 
@@ -43,14 +42,11 @@ namespace MainSolutionTemplate.Core.Managers
 
 		public Task<IOAuthClient> GetApplication(string clientId)
 		{
-			if (clientId == null) throw new ArgumentNullException("clientId");
 			return Task.Run(() => _generalUnitOfWork.Applications.FirstOrDefault(x => x.ClientId == clientId).MapToIOAuthClient());
 		}
 
 		public Task<IAuthorizedUser> GetUserByUserIdAndPassword(string userName, string password)
 		{
-			if (string.IsNullOrEmpty(userName)) throw new ArgumentNullException("userName");
-			if (string.IsNullOrEmpty(password)) throw new ArgumentNullException("password");
 			return Task.Run(() =>
 				{
 					_log.Info(string.Format("Login user '{0}'", userName));

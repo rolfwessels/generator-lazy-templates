@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Reflection;
 using System.Security.Claims;
 using MainSolutionTemplate.OAuth2;
@@ -33,5 +34,16 @@ namespace MainSolutionTemplate.Api.SignalR.Attributes
 			if (claimsPrincipal != null) return claimsPrincipal.Identity.Name;
 			return null;
 		}
+
+		public static bool IsAuthenticated(this ClaimsPrincipal principal)
+		{
+			if (principal != null && principal.Identity.IsAuthenticated)
+			{
+				return true;
+			}
+			return false;
+		}
+		
+		
 	}
 }

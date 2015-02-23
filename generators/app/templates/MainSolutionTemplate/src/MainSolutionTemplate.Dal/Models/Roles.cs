@@ -1,4 +1,7 @@
-﻿namespace MainSolutionTemplate.Dal.Models
+﻿using System.Collections.Generic;
+using MainSolutionTemplate.Dal.Models.Enums;
+
+namespace MainSolutionTemplate.Dal.Models
 {
 	public static class Roles
 	{
@@ -18,7 +21,7 @@
 		{
 			get
 			{
-				return new Role() { Name = "Guest" };
+				return new Role() { Name = "Guest", Activities = new List<Activity>() { Activity.UserGet, Activity.UserSubscribe } };
 			}
 		}
 

@@ -2,10 +2,10 @@
 {
 	public enum Activity
 	{
-		UserGet,
-		UserUpdate,
-		UserPost,
-		UserDelete,
-		UserSubscribe
+		UserGet = 0 ,
+		UserUpdate = 1 ,
+		UserPost = 2,
+		UserDelete = 3,
+		UserSubscribe = 4
 	}
 }

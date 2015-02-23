@@ -13,21 +13,23 @@ namespace MainSolutionTemplate.Api.Models.Mappers
 			Mapper.CreateMap<User, UserModel>();
 
 			Mapper.CreateMap<UserDetailModel, User>()
-				  .ForMember(x => x.Id, opt => opt.Ignore())  
-				  .ForMember(x => x.Roles, opt => opt.Ignore())
+			      .ForMember(x => x.Email, opt => opt.MapFrom(x => x.Email.ToLower()))
+			      .ForMember(x => x.LastLoginDate, opt => opt.Ignore())
+			      .ForMember(x => x.Id, opt => opt.Ignore())
+			      .ForMember(x => x.Roles, opt => opt.Ignore())
 			      .ForMember(x => x.HashedPassword, opt => opt.Ignore())
 			      .ForMember(x => x.CreateDate, opt => opt.Ignore())
 			      .ForMember(x => x.UpdateDate, opt => opt.Ignore());
 
 			Mapper.CreateMap<RegisterModel, User>()
-				  .ForMember(x => x.Id, opt => opt.Ignore())  
-				  .ForMember(x => x.Roles, opt => opt.Ignore())
-				  .ForMember(x => x.LastLoginDate, opt => opt.Ignore())
+			      .ForMember(x => x.Email, opt => opt.MapFrom(x => x.Email.ToLower()))
+					.ForMember(x => x.LastLoginDate, opt => opt.Ignore())
+			      .ForMember(x => x.Id, opt => opt.Ignore())
+			      .ForMember(x => x.Roles, opt => opt.Ignore())
+			      .ForMember(x => x.LastLoginDate, opt => opt.Ignore())
 			      .ForMember(x => x.HashedPassword, opt => opt.Ignore())
 			      .ForMember(x => x.CreateDate, opt => opt.Ignore())
 			      .ForMember(x => x.UpdateDate, opt => opt.Ignore());
-
-			
 		}
 
 		public static User ToUser(this UserDetailModel model, User user = null)

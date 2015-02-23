@@ -1,4 +1,5 @@
 using System;
+using MainSolutionTemplate.Dal.Models.Enums;
 using Microsoft.AspNet.SignalR.Hubs;
 
 namespace MainSolutionTemplate.Api.SignalR
@@ -6,9 +7,9 @@ namespace MainSolutionTemplate.Api.SignalR
 	public interface IConnectionStateMapping
 	{
 		int Count { get; }
-		void Add(HubCallerContext context);
-		ConnectionState Add(HubCallerContext context , Action<ConnectionState> connectionBuild);
+		ConnectionState AddOrGet(HubCallerContext context);
 		ConnectionState Remove(string connectionId);
 		void Reconnect(HubCallerContext context);
+		bool IsAuthorized(ConnectionState connectionState, Activity[] activities);
 	}
 }
