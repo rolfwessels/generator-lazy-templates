@@ -15,7 +15,7 @@
 	<property name="msbuild.executeable" value="${framework::get-framework-directory(framework::get-target-framework())}\msbuild.exe"/>
 	<property name="msbuild.executeable" value="C:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe" if="${not file::exists(msbuild.executeable)}" />
 	<property name="msbuild.bin.folder" value="bin\${src.sln.configuration}" dynamic="true"/>
-
+  <property name="test.minimum.coverage" value="60" />
 	<!-- Version -->
 	<property name="version.buildFile" value="MainSolutionTemplate.build"/>
 	<property name="version.assembly" value="${src.folder}/MainSolutionTemplate.Core/Properties/CommonAssemblyInfo.cs" />
@@ -37,8 +37,9 @@
 	<!-- User targets -->
 	<target name="build" depends="clean compile" description="Compile and Run Tests" />
 	<target name="test" depends="build, run.tests" description="Compile and Run Tests" />
-	<target name="full" depends="version, test, dist , version.update"	description="Compiles, tests, and produces distributions" />
-	<target name="ci.tests" depends="compile, run.tests" description="Compile and Run Tests" />
+  <target name="cover" depends="build, run.codecover.tests" description="Compile and Run Tests" />
+	<target name="full" depends="version, cover, dist , version.update"	description="Compiles, tests, and produces distributions" />
+	<target name="ci.tests" depends="compile, run.codecover.tests" description="Compile and Run Tests" />
 	<target name="ci.deploy" depends="version build" description="Compile and Run Tests" />
 	<target name="ci.deploy.qa" depends="config.qa ci.deploy" description="Compile and Run Tests" />
 	<target name="ci.deploy.staging" depends="config.staging ci.deploy" description="Compile and Run Tests" />
@@ -128,32 +129,63 @@
 		<echo message="${string::replace(build.Data, replaceme, 'name=&quot;version.build&quot; value=&quot;'+new.version.build+'&quot; />')}" file="${version.buildFile}"/>
 	</target>
 
-	<target name="run-code-cover-tests" description="Code coverage of unit tests">
-		<property name="NUnit.console" value="Tools\nunit\nunit-console.exe" />
-		<property name="NUnit.console.args" value="/exclude=Integration Vault.UnitTests.dll" />
-		<echo message="${NUnit.console} ${run.tests.dir} Vault.UnitTests.dll " />
-		<exec program="regsvr32"  commandline="/s tools\PartCover\PartCover.CorDriver.dll" />
-		<exec program="Tools\PartCover\PartCover.exe" failonerror="false" >
-			<arg value="--target &quot;${NUnit.console}&quot;" />
-			<arg value="--target-work-dir &quot;${run.tests.dir}&quot;"/>
-			<arg value="--target-args  &quot;${NUnit.console.args}&quot;" />
-			<arg value="--include &quot;[Vault*]*&quot;" />
-			<arg value="--exclude &quot;[nunit*]*&quot;" />
-			<arg value="--output &quot;${build.reports.dir}\partcover.xml&quot;" />
-		</exec>
-		<echo>tools\PartCover\PartCover.Browser.exe build\reports\partcover.xml</echo>
-	</target>
-
-
-  <property name="partcover.dir" value="lib\OpenCover.4.5.3723\" />
 
   <target name="run.codecover.tests">
-      <mkdir dir="build\reports" />
-      <exec program="${partcover.dir}\OpenCover.Console.exe" workingdir=".\" basedir="${partcover.dir}" >
+    <mkdir dir="${build.reports.dir}"/>
+    <property name="partcover.dir" value="lib\OpenCover.4.5.3723\" />
 
-      </exec>
+		<property name="run.tests.timeout" value="60000" />
+		<property name="run.tests.folder.pattern" value=".Tests" />
+		<property name="run.tests.settings" value="/exclude:Unstable /timeout:${run.tests.timeout}" />
+		<property name="nunit2-failed" value="false" />
+		<foreach item="Folder" in="${build.config.dir}" property="foldername">
+			<do>
+				<if test="${string::ends-with(foldername,run.tests.folder.pattern)}" >
+
+          <property name="run.tests.folder" value="${path::get-file-name(foldername)}" />
+					<property name="run.tests.folder.dll" value="${path::get-file-name(foldername) + '.exe'}" />
+					<property name="run.tests.folder.dll" value="${path::get-file-name(foldername) + '.dll'}" if="${not file::exists(run.tests.folder.dll)}" />
+					<property name="run.tests.folder.result" value="../../../${build.reports.dir}\${path::get-file-name(foldername)+'.xml'}" />
+					<property name="run.tests.folder.out" value="../../../${build.reports.dir}\${path::get-file-name(foldername)+'.txt'}" />
+					<property name="run.tests.folder.outPart" value="../../../${build.reports.dir}\${path::get-file-name(foldername)+'.part.xml'}" />
+
+           <exec program="OpenCover.Console.exe" workingdir="${foldername}" basedir="${partcover.dir}" verbose="false" failonerror="false"  resultproperty="exec_result"  >
+              <arg value="-target:&quot;../../../tools/nunit/nunit-console.exe&quot;" />
+					    <arg value="&quot;-targetargs:${run.tests.folder.dll} ${run.tests.settings} /nologo /out:${run.tests.folder.out} /xml:${run.tests.folder.result} &quot;"/>
+<!--    					<arg value="-filter:&quot;+[{run.tests.folder}*]*  -[{run.tests.folder}*]*&quot;" />-->
+
+					    <arg value="-register:user" />
+              <arg value="-output:&quot;${run.tests.folder.outPart}&quot;" />
+              <arg value="-log:&quot;Warn&quot;" />
+          </exec>
+					<echo message="Result : ${exec_result}" />
+					<property name="nunit2-failed" value="true" if="${int::parse(exec_result) != 0}" />
+				</if>
+			</do>
+		</foreach>
+    <fail if="${nunit2-failed == 'true'}" message="Tests have failed." />
+    <call target="run.codecover.tests.generate.report"/>
+    <call target="run.codecover.tests.coverage.test"/>
   </target>
 
+  <target name="run.codecover.tests.generate.report">
+    <exec program="ReportGenerator.exe"  basedir="lib\ReportGenerator.2.1.1.0" verbose="true" failonerror="true"  >
+        <arg value="-reports:&quot;${build.reports.dir}\*.Tests.part.xml&quot;" />
+        <arg value="-targetdir:&quot;${build.reports.dir}\CodeCoverage&quot;" />
+        <arg value="-reporttypes:&quot;HTML;HTMLSummary;XMLSummary&quot;" />
+        <arg value="-filters:&quot;+MainSolutionTemplate*;-MainSolutionTemplate*Tests&quot;" />
+    </exec>
+
+
+  </target>
+
+   <target name="run.codecover.tests.coverage.test">
+    <property name="test.line.coverage" value="0" />
+    <xmlpeek file="${build.reports.dir}\CodeCoverage\Summary.xml" xpath="/CoverageReport/Summary/LineCoverage" property="test.line.coverage" verbose="true"></xmlpeek>
+    <echo message="'${test.line.coverage}'" />
+    <property name="test.line.coverage" value="${double::parse(string::replace(test.line.coverage, '%', ''))}" />
+    <fail if="${double::parse(test.line.coverage) &lt; double::parse(test.minimum.coverage)}" message="The solution currently has ${test.line.coverage}% coverage, less than the required ${test.minimum.coverage}%" />
+  </target>
 
 	<target name="run.tests">
 		<mkdir dir="${build.reports.dir}"/>
