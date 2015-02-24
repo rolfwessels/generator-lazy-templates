@@ -1,6 +1,4 @@
-﻿'use strict';
-
-/* dashboardCtrl */
+﻿/* dashboardCtrl */
 
 angular.module('webapp.controllers')
     .controller('dashboardCtrl', ['$scope', '$mdSidenav', '$mdBottomSheet', '$log', 'dataService', 'messageService',
@@ -17,8 +15,8 @@ angular.module('webapp.controllers')
                     
                 },function(error) {
                   $log.error(error);
-                })
-            }, messageService.error,messageService.debug)
+                });
+            }, messageService.error,messageService.debug);
 
             dataService.users.onUpdate($scope, $scope.users);
 
@@ -38,25 +36,26 @@ angular.module('webapp.controllers')
                     controller: ['$mdBottomSheet', AvatarSheetController],
                     targetEvent: $event
                 }).then(function(clickedItem) {
+                    var data =  null;
                     $log.debug(clickedItem.name + ' clicked!');
                     if (clickedItem.name == "Add") {
                             dataService.users.post({ Name : ("Sample "+new Date()), Email : "Sample" });
                     }
                     else if (clickedItem.name == "Delete") {
-                        var data =  null;
+                        
                         angular.forEach($scope.users, function(value, key) {
                           data = value;
                         });
-                        if (data != null) {
+                        if (data !== null) {
                             dataService.users.delete(data.Id);
                         }
                     }
                     else if (clickedItem.name == "Update") {
-                        var data =  null;
+                        
                         angular.forEach($scope.users, function(value, key) {
                           data = value;
                         });
-                        if (data != null) {
+                        if (data !== null) {
                             dataService.users.put(data.Id,{ Name : ("Sample "+new Date()), Email : "Sample312" });
                         }
                     }

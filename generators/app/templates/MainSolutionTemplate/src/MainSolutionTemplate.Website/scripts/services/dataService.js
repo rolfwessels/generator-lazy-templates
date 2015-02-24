@@ -1,5 +1,3 @@
-'use strict';
-
 /* authorizationService */
 
 angular.module('webapp.services')
@@ -50,7 +48,7 @@ angular.module('webapp.services')
 				if (angular.isArray(callBack)) {
 
 					scope.$apply(function() {
-						if (update.UpdateType == 0) {
+						if (update.UpdateType === 0) {
 							callBack.push(update.Value);
 						}
 							//delete

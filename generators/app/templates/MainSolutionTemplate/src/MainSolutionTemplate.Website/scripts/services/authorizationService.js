@@ -1,5 +1,3 @@
-'use strict';
-
 /* authorizationService */
 
 angular.module('webapp.services')
@@ -21,7 +19,7 @@ angular.module('webapp.services')
 			}
 
 			function isAuthenticate() {					
-					return currentSession.accessToken != null ;//&&  currentSession.expires < new Date();
+					return currentSession.accessToken !== null ;//&&  currentSession.expires < new Date();
 			}
 
 			/* 

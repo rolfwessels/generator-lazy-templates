@@ -1,6 +1,4 @@
-﻿'use strict';
-
-/* dashboardCtrl */
+﻿/* dashboardCtrl */
 
 angular.module('webapp.controllers')
     .controller('forgotPasswordCtrl', ['$scope', '$log', 'messageService', 'authorizationService','$location',

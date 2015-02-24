@@ -1,5 +1,3 @@
-'use strict';
-
 /* authorizationService */
 
 angular.module('webapp.services')

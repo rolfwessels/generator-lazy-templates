@@ -1,6 +1,4 @@
-﻿'use strict';
-
-/* dashboardCtrl */
+﻿/* dashboardCtrl */
 
 angular.module('webapp.controllers')
   .controller('navigationCtrl', ['$scope','$rootScope', '$mdSidenav', 'authorizationService', '$timeout', '$location',

@@ -45,7 +45,11 @@ module.exports = function(grunt) {
           }
         },
         jshint: {
-          files: ['Gruntfile.js', 'src/MainSolutionTemplate.Website/scripts/**/*.js' , '!src/MainSolutionTemplate.Website/scripts/*dist*.js'],
+          files: [
+            'Gruntfile.js', 
+            'src/MainSolutionTemplate.Website/scripts/**/*.js' , 
+            '!src/MainSolutionTemplate.Website/scripts/dist/*.js'
+            ],
           options: {
             // options here to override JSHint defaults
             globals: {
@@ -72,5 +76,5 @@ module.exports = function(grunt) {
     // Task definitions
     grunt.registerTask('launch', ['watch']);
     grunt.registerTask('test', ['jshint']);
-    grunt.registerTask('default', ['concat','uglify']);
+    grunt.registerTask('default', ['concat','uglify','jshint']);
 };
