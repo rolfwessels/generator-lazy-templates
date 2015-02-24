@@ -19,3 +19,4 @@ obj
 **/_NCrunch*
 generators/app/templates/MainSolutionTemplate/src/MainSolutionTemplate.Api/nCrunchTemp_7ab116ed-6c36-45b4-95c9-431bbff3fbcd
 
+/generators/app/templates/MainSolutionTemplate/src/MainSolutionTemplate.Website/scripts/dist
