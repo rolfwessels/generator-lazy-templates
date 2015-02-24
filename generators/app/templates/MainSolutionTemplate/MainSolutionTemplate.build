@@ -175,8 +175,6 @@
         <arg value="-reporttypes:&quot;HTML;HTMLSummary;XMLSummary&quot;" />
         <arg value="-filters:&quot;+MainSolutionTemplate*;-MainSolutionTemplate*Tests&quot;" />
     </exec>
-
-
   </target>
 
    <target name="run.codecover.tests.coverage.test">
