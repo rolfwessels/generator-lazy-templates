@@ -144,6 +144,17 @@
 		<echo>tools\PartCover\PartCover.Browser.exe build\reports\partcover.xml</echo>
 	</target>
 
+
+  <property name="partcover.dir" value="lib\OpenCover.4.5.3723\" />
+
+  <target name="run.codecover.tests">
+      <mkdir dir="build\reports" />
+      <exec program="${partcover.dir}\OpenCover.Console.exe" workingdir=".\" basedir="${partcover.dir}" >
+
+      </exec>
+  </target>
+
+
 	<target name="run.tests">
 		<mkdir dir="${build.reports.dir}"/>
 		<property name="run.tests.timeout" value="60000" />

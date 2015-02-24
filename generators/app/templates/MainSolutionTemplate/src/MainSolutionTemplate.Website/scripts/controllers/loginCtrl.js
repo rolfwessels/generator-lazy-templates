@@ -20,7 +20,6 @@ angular.module('webapp.controllers')
             /*
              * Functions
              */
-
             function login() {
                 
                 var authenticate = authorizationService.authenticate($scope.model.email, $scope.model.password);
@@ -34,7 +33,7 @@ angular.module('webapp.controllers')
             }
 
             function forgotPassword() {
-                $location.path('forgotPassword')
+	            $location.path('forgotPassword');
             }
 
         }
