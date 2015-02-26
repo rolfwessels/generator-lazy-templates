@@ -3,5 +3,5 @@
 [assembly: AssemblyTitle("MainSolutionTemplate.Dal.Mongo.Tests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: MainSolutionTemplate.Core.Helpers.Log4NetInitialize("MainSolutionTemplate.Dal.Mongo.Tests")]
+[assembly: MainSolutionTemplate.Utilities.Helpers.Log4NetInitialize("MainSolutionTemplate.Dal.Mongo.Tests")]
 [assembly: log4net.Config.XmlConfigurator()]

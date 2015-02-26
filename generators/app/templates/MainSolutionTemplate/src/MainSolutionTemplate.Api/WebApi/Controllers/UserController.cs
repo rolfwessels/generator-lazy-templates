@@ -9,6 +9,8 @@ using MainSolutionTemplate.Api.WebApi.Attributes;
 using MainSolutionTemplate.Core.Managers.Interfaces;
 using MainSolutionTemplate.Dal.Models;
 using MainSolutionTemplate.Dal.Models.Enums;
+using MainSolutionTemplate.Shared;
+using MainSolutionTemplate.Shared.Interfaces.Signalr;
 using MainSolutionTemplate.Shared.Models;
 using log4net;
 

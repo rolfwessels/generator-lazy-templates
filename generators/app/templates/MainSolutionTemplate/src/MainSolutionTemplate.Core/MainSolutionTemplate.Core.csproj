@@ -91,9 +91,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="RestSharp">
-      <HintPath>..\..\lib\RestSharp.105.0.1\lib\net4\RestSharp.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -105,10 +102,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Helpers\EnumerableHelper.cs" />
-    <Compile Include="Helpers\ExceptionHelper.cs" />
-    <Compile Include="Helpers\Log4NetInitializeAttribute.cs" />
-    <Compile Include="Helpers\RestShapHelper.cs" />
     <Compile Include="Managers\AuthorizeManager.cs" />
     <Compile Include="Managers\SystemManagerFacade.RoleManager.cs" />
     <Compile Include="Managers\Interfaces\IAuthorizeManager.cs" />
@@ -157,6 +150,9 @@
       <Project>{CE1598CB-ADFF-4F64-BBAD-6B16A29BAF8E}</Project>
       <Name>MainSolutionTemplate.OAuth2.Dal</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Helpers\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

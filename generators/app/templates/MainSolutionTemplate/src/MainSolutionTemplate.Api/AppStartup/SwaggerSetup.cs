@@ -4,7 +4,7 @@ using System.Net;
 using System.Web.Http;
 using System.Web.Http.Description;
 using MainSolutionTemplate.Api.WebApi.Controllers;
-using MainSolutionTemplate.Core.Helpers;
+using MainSolutionTemplate.Utilities.Helpers;
 using Swashbuckle;
 using Swashbuckle.Application;
 using Swashbuckle.Swagger;

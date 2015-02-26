@@ -185,15 +185,12 @@
     <Compile Include="SignalR\ConnectionState.cs" />
     <Compile Include="SignalR\ConnectionStateMapping.cs" />
     <Compile Include="SignalR\IConnectionStateMapping.cs" />
-    <Compile Include="SignalR\IUserHub.cs" />
     <Compile Include="SignalR\Attributes\TokenAuthorizeAttribute.cs" />
-    <Compile Include="SignalR\IUserHubEvents.cs" />
     <Compile Include="SignalR\UserHub.cs" />
     <Compile Include="WebApi\Attributes\AuthorizeActivityAttribute.cs" />
     <Compile Include="WebApi\Filters\ApiException.cs" />
     <Compile Include="WebApi\Filters\CaptureExceptionFilter.cs" />
     <Compile Include="WebApi\Filters\ErrorMessage.cs" />
-    <Compile Include="WebApi\RouteHelper.cs" />
     <Compile Include="WebApi\Controllers\UserController.cs" />
     <Content Include="Readme.txt" />
     <Compile Include="SignalR\DataEntryNotifications.cs" />
@@ -240,6 +237,10 @@
     <ProjectReference Include="..\MainSolutionTemplate.Shared\MainSolutionTemplate.Shared.csproj">
       <Project>{4F64894D-E45E-46D2-B448-FF6CDB52EEE2}</Project>
       <Name>MainSolutionTemplate.Shared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MainSolutionTemplate.Utilities\MainSolutionTemplate.Utilities.csproj">
+      <Project>{b5efc032-43a4-4326-a42a-f365c763efe8}</Project>
+      <Name>MainSolutionTemplate.Utilities</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
