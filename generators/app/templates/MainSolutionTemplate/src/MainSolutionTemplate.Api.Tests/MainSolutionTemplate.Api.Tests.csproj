@@ -178,6 +178,7 @@
   <ItemGroup>
     <None Include="..\MainSolutionTemplate.Core.Tests\app.config">
       <Link>app.config</Link>
+      <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
   </ItemGroup>

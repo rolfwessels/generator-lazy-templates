@@ -1,9 +1,9 @@
 using System;
 using System.Threading.Tasks;
 
-namespace MainSolutionTemplate.Shared.Interfaces.Signalr
+namespace MainSolutionTemplate.Shared.Interfaces.Base
 {
-    public interface ICrud<TModel, TDetailModel>
+    public interface ICrudController<TModel, TDetailModel>
     {
         Task<TModel> Get(Guid id);
         Task<TModel> Post(TDetailModel user);
