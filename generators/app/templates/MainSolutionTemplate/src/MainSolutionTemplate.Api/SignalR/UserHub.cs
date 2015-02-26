@@ -1,83 +1,103 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MainSolutionTemplate.Api.AppStartup;
-using MainSolutionTemplate.Api.Models;
+using MainSolutionTemplate.Api.Common;
 using MainSolutionTemplate.Api.Models.Mappers;
 using MainSolutionTemplate.Api.SignalR.Attributes;
-using MainSolutionTemplate.Api.WebApi.Controllers;
-using MainSolutionTemplate.Core.Managers.Interfaces;
 using MainSolutionTemplate.Core.MessageUtil;
 using MainSolutionTemplate.Core.MessageUtil.Models;
 using MainSolutionTemplate.Dal.Models;
 using MainSolutionTemplate.Dal.Models.Enums;
 using MainSolutionTemplate.Shared.Interfaces.Signalr;
 using MainSolutionTemplate.Shared.Models;
+using MainSolutionTemplate.Shared.Models.Reference;
 
 namespace MainSolutionTemplate.Api.SignalR
 {
-	[TokenAuthorize]
-	public class UserHub : BaseHub , IUserHub, IUserHubEvents
-	{
-		private readonly UserController _userController;
+    
+    public class UserHub : BaseHub, IUserControllerActions, IUserHubEvents
+    {
+        private readonly UserCommonController _userCommonController;
 
-		public UserHub(UserController userController, IConnectionStateMapping connectionStateMapping) : base(connectionStateMapping)
-		{
-			_userController = userController;
-		}
-		
-		[HubAuthorizeActivity(Activity.UserGet)]
-		public List<UserModel> Get()
-		{
-			return _userController.Get().ToList();
-		}
+        public UserHub(UserCommonController userCommonController, IConnectionStateMapping connectionStateMapping)
+            : base(connectionStateMapping)
+        {
+            _userCommonController = userCommonController;
+        }
 
-		[HubAuthorizeActivity(Activity.UserGet)]
-		public UserModel Get(Guid id)
-		{
-			return _userController.Get(id);
-		}
+        #region IUserControllerActions Members
 
-		[HubAuthorizeActivity(Activity.UserPost)]
-		public UserModel Post(UserDetailModel user)
-		{
-			var userModel = _userController.Post(user);
-			return userModel;
-		}
+        [HubAuthorizeActivity(Activity.UserGet)]
+        public UserModel Get(Guid id)
+        {
+            return _userCommonController.Get(id);
+        }
 
-		[HubAuthorizeActivity(Activity.UserUpdate)]
-		public UserModel Put(Guid id, UserDetailModel user)
-		{
-			return _userController.Put(id, user);
-		}
+        [HubAuthorizeActivity(Activity.UserPost)]
+        public UserModel Post(UserDetailModel user)
+        {
+            UserModel userModel = _userCommonController.Post(user);
+            return userModel;
+        }
 
-		[HubAuthorizeActivity(Activity.UserDelete)]
-		public bool Delete(Guid id)
-		{
-			return _userController.Delete(id);
-		}
+        [HubAuthorizeActivity(Activity.UserUpdate)]
+        public UserModel Put(Guid id, UserDetailModel user)
+        {
+            return _userCommonController.Put(id, user);
+        }
+
+        [HubAuthorizeActivity(Activity.UserDelete)]
+        public bool Delete(Guid id)
+        {
+            return _userCommonController.Delete(id);
+        }
 
 
-		[HubAuthorizeActivity(Activity.UserSubscribe)]
-		public void OnUpdate(ValueUpdateModel<UserModel> user)
-		{
-			Clients.All.OnUpdate(user);
-		}
+        public UserModel Register(RegisterModel user)
+        {
+            return _userCommonController.Register(user);
+        }
 
-		#region Overrides of BaseHub
 
-		protected override void OnInitializeOnce()
-		{
-			Messenger.Default.Register<DalUpdateMessage<User>>(this, (r) =>
-			{
-				OnUpdate(r.ToValueUpdateModel<User, UserModel>());
-			});
-		}
+        public bool ForgotPassword(string email)
+        {
+            return _userCommonController.ForgotPassword(email);
+        }
 
-		#endregion
+        #endregion
 
-		
-	}
+        #region IUserHubEvents Members
 
-	
+        [HubAuthorizeActivity(Activity.UserSubscribe)]
+        public void OnUpdate(ValueUpdateModel<UserModel> user)
+        {
+            Clients.All.OnUpdate(user);
+        }
+
+        #endregion
+
+        #region Overrides of BaseHub
+
+        protected override void OnInitializeOnce()
+        {
+            Messenger.Default.Register<DalUpdateMessage<User>>(this,
+                                                               (r) =>
+                                                                   { OnUpdate(r.ToValueUpdateModel<User, UserModel>());
+                                                                   });
+        }
+
+        #endregion
+
+        [HubAuthorizeActivity(Activity.UserGet)]
+        public List<UserReferenceModel> Get()
+        {
+            return _userCommonController.Get().ToList();
+        }
+
+        [HubAuthorizeActivity(Activity.UserGet)]
+        public List<UserModel> GetDetail()
+        {
+            return _userCommonController.GetDetail().ToList();
+        }
+    }
 }

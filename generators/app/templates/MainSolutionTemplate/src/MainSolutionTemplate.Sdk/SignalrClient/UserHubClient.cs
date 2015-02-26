@@ -8,7 +8,7 @@ using log4net;
 
 namespace MainSolutionTemplate.Sdk.SignalrClient
 {
-	public class UserHubClient : IUserHub
+	public class UserHubClient : IUserControllerActions
 	{
 		private readonly IHubProxy _userHub;
 
@@ -45,6 +45,16 @@ namespace MainSolutionTemplate.Sdk.SignalrClient
 			return _userHub.Invoke<bool>("Delete", id).Result;
 		}
 
-		#endregion
+	    public UserModel Register(RegisterModel user)
+	    {
+            return _userHub.Invoke<UserModel>("Register", user).Result;
+	    }
+
+	    public bool ForgotPassword(string email)
+	    {
+            return _userHub.Invoke<bool>("ForgotPassword", email).Result;
+	    }
+
+	    #endregion
 	}
 }

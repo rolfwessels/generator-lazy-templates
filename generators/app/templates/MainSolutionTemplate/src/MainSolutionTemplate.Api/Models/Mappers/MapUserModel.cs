@@ -3,8 +3,10 @@ using System.Linq;
 using AutoMapper;
 using MainSolutionTemplate.Core.MessageUtil.Models;
 using MainSolutionTemplate.Dal.Models;
+using MainSolutionTemplate.Dal.Models.Reference;
 using MainSolutionTemplate.Shared.Models;
 using MainSolutionTemplate.Shared.Models.Enums;
+using MainSolutionTemplate.Shared.Models.Reference;
 
 namespace MainSolutionTemplate.Api.Models.Mappers
 {
@@ -47,6 +49,11 @@ namespace MainSolutionTemplate.Api.Models.Mappers
 		public static IQueryable<UserModel> ToUserModel(this IQueryable<User> users)
 		{
 			return Mapper.Map<IQueryable<User>, List<UserModel>>(users).AsQueryable();
+		}
+
+        public static IQueryable<UserReferenceModel> ToUserModel(this IQueryable<UserReference> users)
+		{
+            return Mapper.Map<IQueryable<UserReference>, List<UserReferenceModel>>(users).AsQueryable();
 		}
 
 		public static UserModel ToUserModel(this User user, UserModel model = null)

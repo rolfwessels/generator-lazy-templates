@@ -19,6 +19,5 @@ namespace MainSolutionTemplate.Api.SignalR.Attributes
 			return principal.IsAuthenticated();
 		}
 
-		
 	}
 }

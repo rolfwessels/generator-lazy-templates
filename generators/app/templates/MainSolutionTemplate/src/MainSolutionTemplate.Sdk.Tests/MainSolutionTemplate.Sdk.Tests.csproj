@@ -106,6 +106,10 @@
     <Compile Include="WebApi\UserHubIntegrationTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MainSolutionTemplate.Api\MainSolutionTemplate.Api.csproj">
+      <Project>{e2d671f8-b13f-4775-ae1a-eab1dfaa3c78}</Project>
+      <Name>MainSolutionTemplate.Api</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MainSolutionTemplate.Core\MainSolutionTemplate.Core.csproj">
       <Project>{6B955EE7-2AC5-42E8-BA94-FE9EA2D49DDF}</Project>
       <Name>MainSolutionTemplate.Core</Name>

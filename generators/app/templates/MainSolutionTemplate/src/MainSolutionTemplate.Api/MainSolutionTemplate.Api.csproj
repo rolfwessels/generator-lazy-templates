@@ -172,6 +172,7 @@
     <Compile Include="AppStartup\NewFile1.cs" />
     <Compile Include="AppStartup\SwaggerSetup.cs" />
     <Compile Include="AppStartup\WebApiSetup.cs" />
+    <Compile Include="Common\UserCommonController.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Models\Mappers\MapUserModel.cs" />
     <Compile Include="Properties\Settings.Designer.cs">

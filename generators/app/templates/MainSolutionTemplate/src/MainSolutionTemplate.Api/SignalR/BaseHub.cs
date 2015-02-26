@@ -16,7 +16,6 @@ namespace MainSolutionTemplate.Api.SignalR
 		{
 			_connectionsState = connectionStateMapping;
 			FireInitializeOnce();
-
 		}
 
 		public override Task OnConnected()

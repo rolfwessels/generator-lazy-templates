@@ -5,6 +5,7 @@ using MainSolutionTemplate.Core.MessageUtil.Models;
 using MainSolutionTemplate.Core.Vendor;
 using MainSolutionTemplate.Dal.Models;
 using MainSolutionTemplate.Dal.Models.Enums;
+using MainSolutionTemplate.Dal.Models.Reference;
 
 namespace MainSolutionTemplate.Core.Managers
 {
@@ -16,7 +17,12 @@ namespace MainSolutionTemplate.Core.Managers
 			return _generalUnitOfWork.Users;
 		}
 
-		public User GetUser(Guid id)
+	    public IQueryable<UserReference> GetUsersAsReference()
+	    {
+            return _generalUnitOfWork.Users.Select(x => new UserReference { Id = x.Id, Name = x.Name });
+	    }
+
+	    public User GetUser(Guid id)
 		{
 			return _generalUnitOfWork.Users.FirstOrDefault(x => x.Id == id);
 		}
@@ -32,13 +38,10 @@ namespace MainSolutionTemplate.Core.Managers
 				_messenger.Send(new DalUpdateMessage<User>(user, UpdateTypes.Inserted));
 				return user;
 			}
-			else
-			{
-				_log.Info(string.Format("Update user [{0}]", user));
-				_generalUnitOfWork.Users.Update(user);
-				_messenger.Send(new DalUpdateMessage<User>(user, UpdateTypes.Updated));
-			}
-			return user;
+		    _log.Info(string.Format("Update user [{0}]", user));
+		    _generalUnitOfWork.Users.Update(user);
+		    _messenger.Send(new DalUpdateMessage<User>(user, UpdateTypes.Updated));
+		    return user;
 		}
 
 		public User DeleteUser(Guid id)

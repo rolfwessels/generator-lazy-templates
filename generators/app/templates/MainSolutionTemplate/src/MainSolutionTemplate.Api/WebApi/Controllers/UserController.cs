@@ -1,48 +1,46 @@
 using System;
 using System.Linq;
-using System.Reflection;
 using System.Web.Http;
-using MainSolutionTemplate.Api.Models;
-using MainSolutionTemplate.Api.Models.Mappers;
-using MainSolutionTemplate.Api.SignalR;
+using MainSolutionTemplate.Api.Common;
 using MainSolutionTemplate.Api.WebApi.Attributes;
-using MainSolutionTemplate.Core.Managers.Interfaces;
-using MainSolutionTemplate.Dal.Models;
 using MainSolutionTemplate.Dal.Models.Enums;
 using MainSolutionTemplate.Shared;
 using MainSolutionTemplate.Shared.Interfaces.Signalr;
 using MainSolutionTemplate.Shared.Models;
-using log4net;
+using MainSolutionTemplate.Shared.Models.Reference;
 
 namespace MainSolutionTemplate.Api.WebApi.Controllers
 {
 	/// <summary>
 	///     Api controller for managing all the tasks
 	/// </summary>
-	public class UserController : ApiController, IUserHub
+	public class UserController : ApiController, IUserControllerActions
 	{
-		private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-		private readonly ISystemManager _systemManager;
+	    private readonly UserCommonController _userCommonController;
+	    
+        public UserController(UserCommonController userCommonController)
+        {
+            _userCommonController = userCommonController;
+        }
 
-
-		public UserController(ISystemManager systemManager)
-		{
-			_systemManager = systemManager;
-		
-		}
-
-		/// <summary>
+	    /// <summary>
 		///     Returns list of all the tasks
 		/// </summary>
 		/// <returns>
 		/// </returns>
 		[Route(RouteHelper.UserController)]
 		[AuthorizeActivity(Activity.UserGet)]
-		public IQueryable<UserModel> Get()
-		{
-			//var applyTo = options.ApplyTo(_systemManager.GetUsers()) as IQueryable<User>;
-			return _systemManager.GetUsers().ToUserModel().AsQueryable();
-		}
+		public IQueryable<UserReferenceModel> Get()
+	    {
+	        return _userCommonController.Get();
+	    }
+
+		[Route(RouteHelper.UserController)]
+		[AuthorizeActivity(Activity.UserGet)]
+		public IQueryable<UserModel> GetDetail()
+	    {
+	        return _userCommonController.GetDetail();
+	    }
 
 		
 		/// <summary>
@@ -54,7 +52,7 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 		[AuthorizeActivity(Activity.UserGet)]
 		public UserModel Get(Guid id)
 		{
-			return _systemManager.GetUser(id).ToUserModel();
+            return _userCommonController.Get(id);
 		}
 
 		/// <summary>
@@ -68,10 +66,7 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 		[AuthorizeActivity(Activity.UserUpdate)]
 		public UserModel Put(Guid id, UserDetailModel user)
 		{
-			var userFound = _systemManager.GetUser(id);
-			if (userFound == null) throw new Exception(string.Format("Could not find user by id '{0}'", id));
-			var saveUser = _systemManager.SaveUser(user.ToUser(userFound));
-			return saveUser.ToUserModel();
+            return _userCommonController.Put(id, user);
 		}
 
 		/// <summary>
@@ -84,8 +79,7 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 		[AuthorizeActivity(Activity.UserPost)]
 		public UserModel Post(UserDetailModel user)
 		{
-			var savedUser = _systemManager.SaveUser(user.ToUser());
-			return savedUser.ToUserModel();
+            return _userCommonController.Post(user);
 		}
 
 		/// <summary>
@@ -98,41 +92,36 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 		[AuthorizeActivity(Activity.UserDelete)]
 		public bool Delete(Guid id)
 		{
-			var deleteUser = _systemManager.DeleteUser(id);
-			return deleteUser != null;
+            return _userCommonController.Delete(id);
 		}
 
 		#region Other actions
 
+        /// <summary>
+        /// Registers the specified user.
+        /// </summary>
+        /// <param name="user">The user.</param>
+        /// <returns></returns>
 		[AllowAnonymous]
 		[Route(RouteHelper.UserControllerRegister)]
 		[HttpPost]
 		public UserModel Register(RegisterModel user)
 		{
-			var user1 = user.ToUser();
-			user1.Roles.Add(Roles.Guest);
-			var savedUser = _systemManager.SaveUser(user1);
-			return savedUser.ToUserModel();
-		}
-		
-		[AllowAnonymous]
-		[Route(RouteHelper.UserControllerLogin)]
-		[HttpPost]
-		public UserModel Login(LoginModel model)
-		{
-			var userByUserameAndPassword = _systemManager.GetUserByEmailAndPassword(model.UserName, model.Password);
-			return userByUserameAndPassword.ToUserModel();
+            return _userCommonController.Register(user);
 		}
 
+
+        /// <summary>
+        /// Forgot the password sends user an email with his password.
+        /// </summary>
+        /// <param name="email">The email.</param>
+        /// <returns></returns>
 		[AllowAnonymous]
 		[Route(RouteHelper.UserControllerForgotPassword)]
 		[HttpGet]
 		public bool ForgotPassword(string email)
 		{
-			_log.Warn(string.Format("User has called forgot password. We should send him and email to [{0}].", email));
-			// todo: Rolf Forgot password
-
-			return true;
+            return _userCommonController.ForgotPassword(email);
 		}
 
 		#endregion

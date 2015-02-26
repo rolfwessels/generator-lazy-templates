@@ -24,12 +24,6 @@ namespace MainSolutionTemplate.Sdk.Tests.WebApi
 			_client = new Lazy<RestClient>(GetClient);
 		}
 
-		public IntegrationTestsBase()
-		{
-			
-			
-		}
-
 		#region Private Methods
 
 		private static string StartHosting()
@@ -38,7 +32,7 @@ namespace MainSolutionTemplate.Sdk.Tests.WebApi
 			string address = string.Format("http://localhost:{0}/", port);
 			_log.Info(string.Format("Starting api on [{0}]", address));
 
-			//WebApp.Start<Api.Startup>(address);
+			WebApp.Start<Api.Startup>(address);
 			return address;
 		}
 
