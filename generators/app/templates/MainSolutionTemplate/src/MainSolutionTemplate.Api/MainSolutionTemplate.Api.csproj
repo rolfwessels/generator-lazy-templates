@@ -173,12 +173,7 @@
     <Compile Include="AppStartup\SwaggerSetup.cs" />
     <Compile Include="AppStartup\WebApiSetup.cs" />
     <Compile Include="Constants.cs" />
-    <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\Mappers\MapUserModel.cs" />
-    <Compile Include="Models\RegisterModel.cs" />
-    <Compile Include="Models\UserDetailModel.cs" />
-    <Compile Include="Models\UserModel.cs" />
-    <Compile Include="Models\ValueUpdateModel.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -241,6 +236,10 @@
     <ProjectReference Include="..\MainSolutionTemplate.OAuth2\MainSolutionTemplate.OAuth2.csproj">
       <Project>{80F30C95-0E90-4622-9A8D-1BE39854900B}</Project>
       <Name>MainSolutionTemplate.OAuth2</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MainSolutionTemplate.Shared\MainSolutionTemplate.Shared.csproj">
+      <Project>{4F64894D-E45E-46D2-B448-FF6CDB52EEE2}</Project>
+      <Name>MainSolutionTemplate.Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

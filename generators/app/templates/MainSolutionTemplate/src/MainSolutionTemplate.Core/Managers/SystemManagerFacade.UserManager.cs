@@ -29,14 +29,14 @@ namespace MainSolutionTemplate.Core.Managers
 			{
 				_log.Info(string.Format("Adding user [{0}]", user));
 				_generalUnitOfWork.Users.Add(user);
-				_messenger.Send(new DalUpdateMessage<User>(user, Types.Inserted));
+				_messenger.Send(new DalUpdateMessage<User>(user, UpdateTypes.Inserted));
 				return user;
 			}
 			else
 			{
 				_log.Info(string.Format("Update user [{0}]", user));
 				_generalUnitOfWork.Users.Update(user);
-				_messenger.Send(new DalUpdateMessage<User>(user, Types.Updated));
+				_messenger.Send(new DalUpdateMessage<User>(user, UpdateTypes.Updated));
 			}
 			return user;
 		}
@@ -48,7 +48,7 @@ namespace MainSolutionTemplate.Core.Managers
 			{
 				_log.Info(string.Format("Remove user [{0}]", user));
 				_generalUnitOfWork.Users.Remove(user);
-				_messenger.Send(new DalUpdateMessage<User>(user, Types.Removed));
+				_messenger.Send(new DalUpdateMessage<User>(user, UpdateTypes.Removed));
 			}
 			return user;
 		}

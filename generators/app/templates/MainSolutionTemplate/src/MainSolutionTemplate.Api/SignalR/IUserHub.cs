@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using MainSolutionTemplate.Api.Models;
+using MainSolutionTemplate.Shared.Models;
 
 namespace MainSolutionTemplate.Api.SignalR
 {

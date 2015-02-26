@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using MainSolutionTemplate.Api.Models;
 using MainSolutionTemplate.Api.SignalR;
-using Microsoft.AspNet.SignalR;
+using MainSolutionTemplate.Shared.Models;
 using Microsoft.AspNet.SignalR.Client;
 using log4net;
 

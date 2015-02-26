@@ -1,6 +1,6 @@
 ﻿namespace MainSolutionTemplate.Dal.Models.Enums
 {
-	public enum Types
+	public enum UpdateTypes
 	{
 		Inserted,
 		Updated,

@@ -5,9 +5,9 @@ namespace MainSolutionTemplate.Core.MessageUtil.Models
 	public class DalUpdateMessage<T>
 	{
 		private readonly T _value;
-		private readonly Types _updateType;
+		private readonly UpdateTypes _updateType;
 
-		public DalUpdateMessage(T value,Types updateType)
+		public DalUpdateMessage(T value,UpdateTypes updateType)
 		{
 			_value = value;
 			_updateType = updateType;
@@ -18,7 +18,7 @@ namespace MainSolutionTemplate.Core.MessageUtil.Models
 			get { return _value; }
 		}
 
-		public Types UpdateType
+		public UpdateTypes UpdateType
 		{
 			get { return _updateType; }
 		}

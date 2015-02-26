@@ -3,6 +3,8 @@ using System.Linq;
 using AutoMapper;
 using MainSolutionTemplate.Core.MessageUtil.Models;
 using MainSolutionTemplate.Dal.Models;
+using MainSolutionTemplate.Shared.Models;
+using MainSolutionTemplate.Shared.Models.Enums;
 
 namespace MainSolutionTemplate.Api.Models.Mappers
 {
@@ -52,9 +54,9 @@ namespace MainSolutionTemplate.Api.Models.Mappers
 			return Mapper.Map(user, model);
 		}
 
-		public static ValueUpdateModel<TModel> ToValueUpdateModel<T, TModel>(this DalUpdateMessage<T> from)
+		public static ValueUpdateModel<TModel> ToValueUpdateModel<T, TModel>(this DalUpdateMessage<T> updateMessage)
 		{
-			return new ValueUpdateModel<TModel>(Mapper.Map<T, TModel>(from.Value), from.UpdateType);
+			return new ValueUpdateModel<TModel>(Mapper.Map<T, TModel>(updateMessage.Value), (UpdateTypeCodes) updateMessage.UpdateType);
 		}
 	}
 }

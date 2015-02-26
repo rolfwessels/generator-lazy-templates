@@ -36,14 +36,14 @@ namespace MainSolutionTemplate.Core.Managers
 			{
 				_log.Info(string.Format("Adding role [{0}]", role));
 				_generalUnitOfWork.Roles.Add(role);
-				_messenger.Send(new DalUpdateMessage<Role>(role, Types.Inserted));
+				_messenger.Send(new DalUpdateMessage<Role>(role, UpdateTypes.Inserted));
 				return role;
 			}
 			else
 			{
 				_log.Info(string.Format("Update role [{0}]", role));
 				_generalUnitOfWork.Roles.Update(role);
-				_messenger.Send(new DalUpdateMessage<Role>(role, Types.Updated));
+				_messenger.Send(new DalUpdateMessage<Role>(role, UpdateTypes.Updated));
 			}
 			return role;
 		}
@@ -55,7 +55,7 @@ namespace MainSolutionTemplate.Core.Managers
 			{
 				_log.Info(string.Format("Remove role [{0}]", role));
 				_generalUnitOfWork.Roles.Remove(role);
-				_messenger.Send(new DalUpdateMessage<Role>(role, Types.Removed));
+				_messenger.Send(new DalUpdateMessage<Role>(role, UpdateTypes.Removed));
 			}
 			return role;
 		}
