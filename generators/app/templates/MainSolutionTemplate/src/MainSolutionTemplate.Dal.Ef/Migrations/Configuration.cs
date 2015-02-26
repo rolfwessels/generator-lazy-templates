@@ -1,34 +1,28 @@
-using MainSolutionTemplate.Dal.Models;
-
 namespace MainSolutionTemplate.Dal.Ef.Migrations
 {
-	using System.Data.Entity.Migrations;
+    using System.Data.Entity.Migrations;
 
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Interoperability", "CA1405:ComVisibleTypeBaseTypesShouldBeComVisible")]
-	public sealed class Configuration : DbMigrationsConfiguration<GeneralDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<GeneralDbContext>
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
         }
 
-		protected override void Seed(GeneralDbContext context)
-		{
-			context.Users.AddOrUpdate(x => x.Email,
-			                             new User()
-				                             {
-					                             Email = "admin@admin.com",
-					                             Name = "Admin",
-					                             HashedPassword = "password123"
-				                             },
-			                             new User()
-				                             {
-					                             Email = "guest@guest.com",
-					                             Name = "Guest",
-					                             HashedPassword = "password123"
-				                             }
-				);
+        protected override void Seed(GeneralDbContext context)
+        {
+            //  This method will be called after migrating to the latest version.
 
-		}
+            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
+            //  to avoid creating duplicate seed data. E.g.
+            //
+            //    context.People.AddOrUpdate(
+            //      p => p.FullName,
+            //      new Person { FullName = "Andrew Peters" },
+            //      new Person { FullName = "Brice Lambson" },
+            //      new Person { FullName = "Rowan Miller" }
+            //    );
+            //
+        }
     }
 }

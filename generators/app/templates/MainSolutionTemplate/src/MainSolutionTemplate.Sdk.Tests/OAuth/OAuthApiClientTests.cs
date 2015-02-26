@@ -72,9 +72,9 @@ namespace MainSolutionTemplate.Sdk.Tests.OAuth
 		{
 			// arrange
 			Setup();
-            _tokenRequestModel = new TokenRequestModel() { UserName = AdminUser, client_id = ClientId, Password = AdminPassword + AdminPassword };
+		    var tokenRequestModel = new TokenRequestModel() { UserName = AdminUser, client_id = ClientId, Password = AdminPassword + AdminPassword };
 			// action
-		    Action testCall = () => { _oAuthApiClient.GenerateToken(_tokenRequestModel).Wait(); };
+            Action testCall = () => { _oAuthApiClient.GenerateToken(tokenRequestModel).Wait(); };
 		    // assert
 		    testCall.ShouldThrow<Exception>().WithMessage("The user name or password is incorrect.");
 		}

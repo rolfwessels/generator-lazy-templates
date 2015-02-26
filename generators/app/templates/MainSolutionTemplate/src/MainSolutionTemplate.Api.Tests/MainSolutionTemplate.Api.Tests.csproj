@@ -112,6 +112,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\Microsoft.Owin.Security.3.0.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
     </Reference>
+    <Reference Include="Moq, Version=4.2.1502.911, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Moq.4.2.1502.0911\lib\net40\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="Nancy, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\Nancy.1.0.0\lib\net40\Nancy.dll</HintPath>
@@ -172,6 +176,7 @@
     <Compile Include="..\MainSolutionTemplate.Core\Properties\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Common\UserCommonControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup\AutoMapperSetupTests.cs" />
   </ItemGroup>
@@ -194,6 +199,14 @@
     <ProjectReference Include="..\MainSolutionTemplate.Core\MainSolutionTemplate.Core.csproj">
       <Project>{6B955EE7-2AC5-42E8-BA94-FE9EA2D49DDF}</Project>
       <Name>MainSolutionTemplate.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MainSolutionTemplate.Dal\MainSolutionTemplate.Dal.csproj">
+      <Project>{9A75E778-72A2-4DA0-9983-1032C90C515F}</Project>
+      <Name>MainSolutionTemplate.Dal</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MainSolutionTemplate.OAuth2.Dal\MainSolutionTemplate.OAuth2.Dal.csproj">
+      <Project>{CE1598CB-ADFF-4F64-BBAD-6B16A29BAF8E}</Project>
+      <Name>MainSolutionTemplate.OAuth2.Dal</Name>
     </ProjectReference>
     <ProjectReference Include="..\MainSolutionTemplate.Shared\MainSolutionTemplate.Shared.csproj">
       <Project>{4F64894D-E45E-46D2-B448-FF6CDB52EEE2}</Project>
