@@ -34,4 +34,7 @@ Finally, initiate the generator:
 ```bash
 yo lazy-templates
 ```
-
+To add a library call
+```bash
+yo lazy-templates:classlib ModuleName
+```
