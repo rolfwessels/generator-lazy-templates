@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using MainSolutionTemplate.Sdk.Helpers;
 using MainSolutionTemplate.Sdk.RestApi;
 using MainSolutionTemplate.Shared;
+using MainSolutionTemplate.Shared.Interfaces.Shared;
 using MainSolutionTemplate.Shared.Interfaces.Signalr;
 using MainSolutionTemplate.Shared.Models;
 using MainSolutionTemplate.Shared.Models.Reference;
