@@ -7,6 +7,7 @@ using FizzWare.NBuilder.Generators;
 using FluentAssertions;
 using MainSolutionTemplate.Api.Models;
 using MainSolutionTemplate.Api.Tests.SignalrClient;
+using MainSolutionTemplate.Shared.Models;
 using Microsoft.AspNet.SignalR.Client;
 using NUnit.Framework;
 using RestSharp;

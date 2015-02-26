@@ -6,6 +6,7 @@ using FluentAssertions;
 using MainSolutionTemplate.Api.Models;
 using MainSolutionTemplate.Api.WebApi;
 using MainSolutionTemplate.Core.Helpers;
+using MainSolutionTemplate.Shared.Models;
 using NUnit.Framework;
 using RestSharp;
 using log4net;
