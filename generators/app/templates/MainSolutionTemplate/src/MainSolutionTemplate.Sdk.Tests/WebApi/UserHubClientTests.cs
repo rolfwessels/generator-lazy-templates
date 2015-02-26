@@ -6,6 +6,7 @@ using FizzWare.NBuilder;
 using FizzWare.NBuilder.Generators;
 using FluentAssertions;
 using MainSolutionTemplate.Sdk.SignalrClient;
+using MainSolutionTemplate.Sdk.Tests.Shared;
 using MainSolutionTemplate.Shared.Models;
 using Microsoft.AspNet.SignalR.Client;
 using NUnit.Framework;
@@ -16,7 +17,8 @@ namespace MainSolutionTemplate.Sdk.Tests.WebApi
 {
 	[TestFixture]
 	[Category("Integration")]
-	public class UserHubIntegrationTests : IntegrationTestsBase
+   
+	public class UserHubClientTests : IntegrationTestsBase
 	{
 		private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 		private HubConnection _hubConnection;
@@ -25,16 +27,14 @@ namespace MainSolutionTemplate.Sdk.Tests.WebApi
 		#region Setup/Teardown
 
 		public void Setup()
-		{
+		{	
 			
-			var signalRUri = _client.Value.BuildUri(new RestRequest("signalr")).ToString();
-			_log.Info(string.Format("Connecting to {0}", signalRUri));
-			var queryString = new Dictionary<string, string>() { { _adminUser.Value.token_type, _adminUser.Value.access_token } };
-			_hubConnection = new HubConnection(signalRUri, queryString);
+			_log.Info(string.Format("Connecting to {0}", SignalRUri));
+			var queryString = new Dictionary<string, string>() { { _adminUser.Value.TokenType, _adminUser.Value.AccessToken } };
+			_hubConnection = new HubConnection(SignalRUri, queryString);
 			_userHubClient = new UserHubClient(_hubConnection);
-			
 			_hubConnection.Start().Wait();
-			_log.Info(string.Format("Connection made {0}", signalRUri));
+			_log.Info(string.Format("Connection made {0}", SignalRUri));
 		}
 
 		[TearDown]
@@ -51,7 +51,7 @@ namespace MainSolutionTemplate.Sdk.Tests.WebApi
 			// arrange
 			Setup();
 			// action
-			var userModels = _userHubClient.Get().ToList();
+			var userModels = _userHubClient.Get().Result.ToList();
 			// assert
 			userModels.Should().NotBeNull();
 			userModels.Count.Should().BeGreaterThan(0);
@@ -63,7 +63,7 @@ namespace MainSolutionTemplate.Sdk.Tests.WebApi
 			// arrange
 			Setup();
 			// action
-			var userModels = _userHubClient.Get(Guid.NewGuid());
+			var userModels = _userHubClient.Get(Guid.NewGuid()).Result;
 			// assert
 			userModels.Should().BeNull();
 		}
@@ -73,7 +73,7 @@ namespace MainSolutionTemplate.Sdk.Tests.WebApi
 		{
 			// arrange
 			Setup();
-			var userId = _userHubClient.Get().ToArray().Select(x => x.Id).First();
+            var userId = _userHubClient.Get().Result.ToArray().Select(x => x.Id).First();
 			_log.Info("userId:" + userId);
 			
 			// action
@@ -83,23 +83,23 @@ namespace MainSolutionTemplate.Sdk.Tests.WebApi
 		}
 		
 		[Test]
-		public void PostPutDelete_WhenWhenGivenValidModel_ShouldLookupModels()
+        public void PostPutDelete_WhenWhenGivenValidModel_ShouldLookupModels()
 		{
 			// arrange
 			Setup();
-			var count = _userHubClient.Get().Count;
+            var count = _userHubClient.Get().Result.Count;
 			var userModel = Builder<UserModel>.CreateListOfSize(2).All().With(x=>x.Email = GetRandom.Email()).Build();
 			// action
-			var userModels = _userHubClient.Post(userModel[0]);
-			var userModelLoad = _userHubClient.Put(userModels.Id, userModel[1]);
-			var removed = _userHubClient.Delete(userModels.Id);
-			var removedSecond = _userHubClient.Delete(userModels.Id);
+			var userModels = _userHubClient.Post(userModel[0]).Result;
+            var userModelLoad = _userHubClient.Put(userModels.Id, userModel[1]).Result;
+            var removed = _userHubClient.Delete(userModels.Id).Result;
+            var removedSecond = _userHubClient.Delete(userModels.Id).Result;
 			// assert
 			userModel[0].Email.ToLower().Should().Be(userModels.Email);
 			userModel[1].Email.ToLower().Should().Be(userModelLoad.Email);
 			removed.Should().BeTrue();
 			removedSecond.Should().BeFalse();
-			count.Should().Be(_userHubClient.Get().Count);
+            count.Should().Be(_userHubClient.Get().Result.Count);
 		}
 	}
 }

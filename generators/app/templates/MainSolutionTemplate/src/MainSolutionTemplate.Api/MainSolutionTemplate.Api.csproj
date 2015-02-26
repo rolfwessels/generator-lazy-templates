@@ -186,9 +186,8 @@
     <Compile Include="SignalR\Attributes\TokenAuthorizeAttribute.cs" />
     <Compile Include="SignalR\UserHub.cs" />
     <Compile Include="WebApi\Attributes\AuthorizeActivityAttribute.cs" />
-    <Compile Include="WebApi\Filters\ApiException.cs" />
+    <Compile Include="WebApi\Exceptions\ApiException.cs" />
     <Compile Include="WebApi\Filters\CaptureExceptionFilter.cs" />
-    <Compile Include="WebApi\Filters\ErrorMessage.cs" />
     <Compile Include="WebApi\Controllers\UserController.cs" />
     <Content Include="Readme.txt" />
     <Compile Include="SignalR\DataEntryNotifications.cs" />
@@ -289,7 +288,6 @@
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Import Project="..\..\lib\AutoMapper.3.3.1\tools\AutoMapper.targets" Condition="Exists('..\..\lib\AutoMapper.3.3.1\tools\AutoMapper.targets')" />
-  
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

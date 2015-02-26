@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using MainSolutionTemplate.Api.Common;
 using MainSolutionTemplate.Api.Models.Mappers;
 using MainSolutionTemplate.Api.SignalR.Attributes;
@@ -15,7 +16,8 @@ using MainSolutionTemplate.Shared.Models.Reference;
 namespace MainSolutionTemplate.Api.SignalR
 {
     
-    public class UserHub : BaseHub, IUserControllerActions, IUserHubEvents
+
+    public class UserHub : BaseHub, IUserControllerActions, IUserHubEvents, IUserControllerStandardLookups
     {
         private readonly UserCommonController _userCommonController;
 
@@ -28,38 +30,37 @@ namespace MainSolutionTemplate.Api.SignalR
         #region IUserControllerActions Members
 
         [HubAuthorizeActivity(Activity.UserGet)]
-        public UserModel Get(Guid id)
+        public Task<UserModel> Get(Guid id)
         {
             return _userCommonController.Get(id);
         }
 
         [HubAuthorizeActivity(Activity.UserPost)]
-        public UserModel Post(UserDetailModel user)
+        public Task<UserModel> Post(UserDetailModel user)
         {
-            UserModel userModel = _userCommonController.Post(user);
-            return userModel;
+            return _userCommonController.Post(user);
         }
 
         [HubAuthorizeActivity(Activity.UserUpdate)]
-        public UserModel Put(Guid id, UserDetailModel user)
+        public Task<UserModel> Put(Guid id, UserDetailModel user)
         {
             return _userCommonController.Put(id, user);
         }
 
         [HubAuthorizeActivity(Activity.UserDelete)]
-        public bool Delete(Guid id)
+        public Task<bool> Delete(Guid id)
         {
             return _userCommonController.Delete(id);
         }
 
 
-        public UserModel Register(RegisterModel user)
+        public Task<UserModel> Register(RegisterModel user)
         {
             return _userCommonController.Register(user);
         }
 
 
-        public bool ForgotPassword(string email)
+        public Task<bool> ForgotPassword(string email)
         {
             return _userCommonController.ForgotPassword(email);
         }
@@ -89,15 +90,17 @@ namespace MainSolutionTemplate.Api.SignalR
         #endregion
 
         [HubAuthorizeActivity(Activity.UserGet)]
-        public List<UserReferenceModel> Get()
+        public async Task<List<UserReferenceModel>> Get()
         {
-            return _userCommonController.Get().ToList();
+            var task = await _userCommonController.Get();
+            return task.ToList();
         }
 
         [HubAuthorizeActivity(Activity.UserGet)]
-        public List<UserModel> GetDetail()
+        public async Task<List<UserModel>> GetDetail()
         {
-            return _userCommonController.GetDetail().ToList();
+            var task = await _userCommonController.GetDetail();
+            return task.ToList();
         }
     }
 }

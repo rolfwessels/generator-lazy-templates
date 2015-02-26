@@ -3,6 +3,7 @@ using System.Web.Http.Dependencies;
 using Autofac;
 using Autofac.Integration.SignalR;
 using Autofac.Integration.WebApi;
+using MainSolutionTemplate.Api.Common;
 using MainSolutionTemplate.Api.SignalR;
 using MainSolutionTemplate.Api.WebApi.Controllers;
 using MainSolutionTemplate.Core.Startup;
@@ -23,6 +24,7 @@ namespace MainSolutionTemplate.Api.AppStartup
 			var builder = new ContainerBuilder();
 			SetupCore(builder);
 			SetupSignalr(builder);
+            SetupCommonControllers(builder);
 			WebApi(builder);
 			SignalRHubs(builder);
 			_container = builder.Build();
@@ -31,6 +33,10 @@ namespace MainSolutionTemplate.Api.AppStartup
 		private void SetupSignalr(ContainerBuilder builder)
 		{
 			builder.RegisterType<ConnectionStateMapping>().As<IConnectionStateMapping>().SingleInstance();
+		}
+		private void SetupCommonControllers(ContainerBuilder builder)
+		{
+			builder.RegisterType<UserCommonController>();
 		}
 
 		#region Initialize

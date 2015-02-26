@@ -1,17 +1,11 @@
-using System;
+using System.Threading.Tasks;
 using MainSolutionTemplate.Shared.Models;
 
 namespace MainSolutionTemplate.Shared.Interfaces.Signalr
 {
-	public interface IUserControllerActions
+    public interface IUserControllerActions : ICrud<UserModel, UserDetailModel>
 	{
-		UserModel Get(Guid id);
-		UserModel Post(UserDetailModel user);
-		UserModel Put(Guid id, UserDetailModel user);
-		bool Delete(Guid id);
-
-	    UserModel Register(RegisterModel user);
-	    bool ForgotPassword(string email);
+	    Task<UserModel> Register(RegisterModel user);
+	    Task<bool> ForgotPassword(string email);
 	}
-
 }

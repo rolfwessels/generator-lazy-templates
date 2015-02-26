@@ -1,6 +1,6 @@
-﻿using System;
+using System;
 
-namespace MainSolutionTemplate.Api.WebApi.Filters
+namespace MainSolutionTemplate.Shared.Models
 {
   public class ErrorMessage
   {
