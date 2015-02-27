@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using FizzWare.NBuilder;
@@ -41,16 +42,28 @@ namespace MainSolutionTemplate.Sdk.Tests.WebApi
 		#endregion
         
 		[Test]
-		public void Get_WhenCalledWithTop_ShouldDisplayOnlySelectedRecords()
+		public void Get_WhenCalledWithTopAndSomeFilter_ShouldDisplayOnlySelectedRecords()
 		{
 			// arrange
 			Setup();
 			// action
-		    var restResponse = _userApiClient.Get().Result;
+            var restResponse = _userApiClient.Get("$top=1&$orderby=Name desc&$filter=not startswith(tolower(Name),'new')").Result;
 			// assert
-            restResponse.Count.Should().BeGreaterThan(0);
+            restResponse.Count.Should().Be(1);
+		}  
+
+		[Test]
+		public void Get_WhenCalledWithInlineCountAllpages_ShouldDisplayOnlySelectedRecordsButWithACount()
+		{
+			// arrange
+			Setup();
+			// action
+            var restResponse = _userApiClient.Get("$inlinecount=allpages&$top=1").Result;
+			// assert
+            restResponse.Count.Should().Be(1);
 		}
 
+       
 		[Test]
 		public void Get_WhenCalled_ShouldHaveSomeContent()
 		{

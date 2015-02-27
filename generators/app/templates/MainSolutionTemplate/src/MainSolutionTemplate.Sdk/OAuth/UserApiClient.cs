@@ -1,12 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using MainSolutionTemplate.Sdk.Helpers;
 using MainSolutionTemplate.Sdk.RestApi;
 using MainSolutionTemplate.Shared;
 using MainSolutionTemplate.Shared.Interfaces.Shared;
-using MainSolutionTemplate.Shared.Interfaces.Signalr;
 using MainSolutionTemplate.Shared.Models;
 using MainSolutionTemplate.Shared.Models.Reference;
 using MainSolutionTemplate.Utilities.Helpers;
@@ -16,7 +13,7 @@ namespace MainSolutionTemplate.Sdk.OAuth
 {
     public class UserApiClient : OAuthApiClientBase, IUserControllerActions, IUserControllerStandardLookups
     {
-        private string _apiPrefix;
+        private readonly string _apiPrefix;
 
         public UserApiClient(RestConnectionFactory restConnectionFactory) : base(restConnectionFactory)
         {
@@ -76,15 +73,23 @@ namespace MainSolutionTemplate.Sdk.OAuth
 
         #endregion
 
+
+        public async Task<List<UserReferenceModel>> Get(string oDataQuery)
+        {
+            var request = DefaultRequest(_apiPrefix + "?" + oDataQuery, Method.GET);
+            return await ExecuteAndValidate<List<UserReferenceModel>>(request);
+        }
+
+
         #region Implementation of IUserControllerStandardLookups
 
-        public async Task<List<UserReferenceModel>> Get()
+        public async Task<IList<UserReferenceModel>> Get()
         {
             var request = DefaultRequest(_apiPrefix, Method.GET);
             return await ExecuteAndValidate<List<UserReferenceModel>>(request);
         }
 
-        public async Task<List<UserModel>> GetDetail()
+        public async Task<IList<UserModel>> GetDetail()
         {
             var request = DefaultRequest(_apiPrefix, Method.GET);
             return await ExecuteAndValidate<List<UserModel>>(request);
