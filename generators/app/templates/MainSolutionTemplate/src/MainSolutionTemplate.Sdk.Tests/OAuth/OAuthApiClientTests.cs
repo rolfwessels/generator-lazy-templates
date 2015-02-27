@@ -16,7 +16,7 @@ namespace MainSolutionTemplate.Sdk.Tests.OAuth
 	{
 		private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 	    private OAuthApiClient _oAuthApiClient;
-	    private TokenRequestModel _tokenRequestModel;
+	    private readonly TokenRequestModel _tokenRequestModel;
 
 	    public OAuthApiClientTests()
 	    {

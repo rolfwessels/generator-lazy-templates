@@ -13,25 +13,6 @@ namespace MainSolutionTemplate.Sdk.Helpers
     {
         private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        public static IRestResponse<T> ExecuteWithLogging<T>(this RestClient client, RestRequest request)
-            where T : new()
-        {
-            Method method = request.Method;
-            Uri buildUri = client.BuildUri(request);
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
-
-            _log.Debug(string.Format("Sent {2} {1} [{0}]",
-                request.Parameters.Where(x => x.Name == "application/json").Select(x => x.Value).StringJoin(), buildUri,
-                method));
-            IRestResponse<T> restResponse = client.Execute<T>(request);
-            stopwatch.Stop();
-
-            _log.Debug(string.Format("Response {2} {1} [{3}] [{0}]", restResponse.Content, buildUri, method,
-                stopwatch.ElapsedMilliseconds));
-
-            return restResponse;
-        }
 
         public static  Task<IRestResponse<T>> ExecuteAsyncWithLogging<T>(this RestClient client,
             RestRequest request) where T : new()

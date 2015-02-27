@@ -6,6 +6,7 @@ using MainSolutionTemplate.Core.Vendor;
 using MainSolutionTemplate.Dal.Models;
 using MainSolutionTemplate.Dal.Models.Enums;
 using MainSolutionTemplate.Dal.Models.Reference;
+using MainSolutionTemplate.Utilities.Helpers;
 
 namespace MainSolutionTemplate.Core.Managers
 {
@@ -24,6 +25,7 @@ namespace MainSolutionTemplate.Core.Managers
 
 	    public User GetUser(Guid id)
 		{
+           
 			return _generalUnitOfWork.Users.FirstOrDefault(x => x.Id == id);
 		}
 

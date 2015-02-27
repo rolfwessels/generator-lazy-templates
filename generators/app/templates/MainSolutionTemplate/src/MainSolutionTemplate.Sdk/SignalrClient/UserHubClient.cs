@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Threading.Tasks;
 using MainSolutionTemplate.Shared.Interfaces.Shared;
-using MainSolutionTemplate.Shared.Interfaces.Signalr;
 using MainSolutionTemplate.Shared.Models;
 using MainSolutionTemplate.Shared.Models.Reference;
 using Microsoft.AspNet.SignalR.Client;
-using log4net;
 
 namespace MainSolutionTemplate.Sdk.SignalrClient
 {

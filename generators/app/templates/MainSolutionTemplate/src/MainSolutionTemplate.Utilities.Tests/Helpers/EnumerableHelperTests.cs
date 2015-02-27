@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using FluentAssertions;
 using MainSolutionTemplate.Utilities.Helpers;
 using NUnit.Framework;
@@ -51,5 +52,19 @@ namespace MainSolutionTemplate.Utilities.Tests.Helpers
 			// assert
 			stringJoin.Should().Be(null);
 		}
+
+	    [Test]
+        public void ForEach_GivenEnum_ShouldRunForeachOverAll()
+	    {
+            // arrange
+	        var ints = new [] {1,23,4,5,7,8,5678,809,790};
+	        int counter = 0;
+	        // action
+	        var stringJoin = ints.ForEach(i => counter ++);
+            // assert
+	        ints.Count().Should().Be(counter);
+	    }
+
+
 	}
 }

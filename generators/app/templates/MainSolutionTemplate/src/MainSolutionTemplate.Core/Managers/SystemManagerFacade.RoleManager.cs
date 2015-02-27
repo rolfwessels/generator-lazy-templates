@@ -10,7 +10,6 @@ namespace MainSolutionTemplate.Core.Managers
 {
 	public partial class SystemManager : IRoleManager
 	{
-		
 
 		#region IRoleManager Members
 
