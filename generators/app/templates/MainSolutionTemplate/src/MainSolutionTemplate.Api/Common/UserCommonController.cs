@@ -23,7 +23,7 @@ namespace MainSolutionTemplate.Api.Common
             _systemManager = systemManager;
         }
 
-        
+
         public Task<IQueryable<UserReferenceModel>> Get()
         {
             return Task.Run(() => _systemManager.GetUsersAsReference().ToUserModel());

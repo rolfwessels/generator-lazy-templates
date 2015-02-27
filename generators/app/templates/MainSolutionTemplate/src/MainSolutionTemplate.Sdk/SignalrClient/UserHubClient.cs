@@ -53,14 +53,14 @@ namespace MainSolutionTemplate.Sdk.SignalrClient
 
 	    #region Implementation of IUserControllerStandardLookups
 
-	    public Task<List<UserReferenceModel>> Get()
+	    public Task<IList<UserReferenceModel>> Get()
 	    {
-            return _userHub.Invoke<List<UserReferenceModel>>("Get");
+            return _userHub.Invoke<IList<UserReferenceModel>>("Get");
 	    }
 
-	    public Task<List<UserModel>> GetDetail()
+	    public Task<IList<UserModel>> GetDetail()
 	    {
-            return _userHub.Invoke<List<UserModel>>("GetDetail");
+            return _userHub.Invoke<IList<UserModel>>("GetDetail");
 	    }
 
 	    #endregion
