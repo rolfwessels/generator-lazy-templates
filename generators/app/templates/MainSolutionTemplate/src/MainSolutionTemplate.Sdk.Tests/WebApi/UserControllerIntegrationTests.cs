@@ -73,20 +73,6 @@ namespace MainSolutionTemplate.Sdk.Tests.WebApi
 		}
 
 
-		[Test]
-		public void Login_WhenCalled_ShouldHaveStatusCodeOk()
-		{
-			// arrange
-			Setup();
-			var request = new RestRequest(RouteHelper.UserControllerLogin, Method.POST);
-			request.AddJsonBody(new LoginModel() {UserName = AdminUser, Password = AdminPassword});
-			// action
-			var restResponse = _client.Value.ExecuteWithLogging<UserModel>(request);
-			// assert
-			restResponse.StatusCode.Should().Be(HttpStatusCode.OK);
-			restResponse.Data.Should().NotBeNull();
-		}
-		
 		
 		
 	}
