@@ -11,7 +11,7 @@ using RestSharp;
 
 namespace MainSolutionTemplate.Sdk.OAuth
 {
-    public class UserApiClient : OAuthApiClientBase, IUserControllerActions, IUserControllerStandardLookups
+    public class UserApiClient : RestClientBase, IUserControllerActions, IUserControllerStandardLookups
     {
         private readonly string _apiPrefix;
 

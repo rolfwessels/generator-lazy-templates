@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
+  <Identity Name="97575ba8-73d7-48e0-961f-c4d409f78714" Publisher="CN=rolf" Version="1.0.0.0" />
+  <Properties>
+    <DisplayName>MainSolutionTemplate.W8.App</DisplayName>
+    <PublisherDisplayName>rolf</PublisherDisplayName>
+    <Logo>Assets\StoreLogo.png</Logo>
+  </Properties>
+  <Prerequisites>
+    <OSMinVersion>6.2.1</OSMinVersion>
+    <OSMaxVersionTested>6.2.1</OSMaxVersionTested>
+  </Prerequisites>
+  <Resources>
+    <Resource Language="x-generate" />
+  </Resources>
+  <Applications>
+    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="MainSolutionTemplate.W8.App.App">
+      <VisualElements DisplayName="MainSolutionTemplate.W8.App" Logo="Assets\Logo.png" SmallLogo="Assets\SmallLogo.png" Description="MainSolutionTemplate windows store app" ForegroundText="light" BackgroundColor="#464646">
+        <DefaultTile ShowName="allLogos" />
+        <SplashScreen Image="Assets\SplashScreen.png" />
+      </VisualElements>
+    </Application>
+  </Applications>
+  <Capabilities>
+    <Capability Name="internetClient" />
+  </Capabilities>
+</Package>

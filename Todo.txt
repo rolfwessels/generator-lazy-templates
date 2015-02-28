@@ -1,1 +1,7 @@
-Type script ?
+TypeScript
+Wp8 App
+W8 App
+Integration Test subscribe publish updates
+Queue ? 
+Validation
+

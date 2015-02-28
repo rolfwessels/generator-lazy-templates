@@ -8,7 +8,7 @@ using RestSharp;
 
 namespace MainSolutionTemplate.Sdk.OAuth
 {
-    public class OAuthApiClient : OAuthApiClientBase
+    public class OAuthApiClient : RestClientBase
     {
         public OAuthApiClient(RestConnectionFactory restConnectionFactory) : base(restConnectionFactory)
         {
@@ -44,7 +44,7 @@ namespace MainSolutionTemplate.Sdk.OAuth
 
         #endregion
 
-        #region Overrides of OAuthApiClientBase
+        #region Overrides of RestClientBase
 
         protected override void ValidateResponse<T>(IRestResponse<T> result)
         {

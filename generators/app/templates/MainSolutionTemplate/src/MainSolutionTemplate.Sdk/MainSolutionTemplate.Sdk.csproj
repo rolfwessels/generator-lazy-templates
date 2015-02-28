@@ -84,12 +84,11 @@
   <ItemGroup>
     <Compile Include="Helpers\RestShapHelper.cs" />
     <Compile Include="OAuth\OAuthApiClient.cs" />
-    <Compile Include="OAuth\OAuthApiClientBase.cs" />
-    <Compile Include="OAuth\RestClientException.cs" />
-    <Compile Include="OAuth\UserApiClient.cs" />
+    <Compile Include="Common\RestClientBase.cs" />
+    <Compile Include="Common\RestClientException.cs" />
+    <Compile Include="RestApi\UserApiClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RestApi\RestConnectionFactory.cs" />
-    <Compile Include="Sample.cs" />
+    <Compile Include="Common\RestConnectionFactory.cs" />
     <Compile Include="..\MainSolutionTemplate.core\Properties\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>

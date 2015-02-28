@@ -8,11 +8,11 @@ using RestSharp;
 
 namespace MainSolutionTemplate.Sdk.OAuth
 {
-    public class OAuthApiClientBase
+    public class RestClientBase
     {
-        protected RestClient _restClient;
+        protected RestSharp.RestClient _restClient;
 
-        public OAuthApiClientBase(RestConnectionFactory restConnectionFactory)
+        public RestClientBase(RestConnectionFactory restConnectionFactory)
         {
             _restClient = restConnectionFactory.GetClient();
         }
