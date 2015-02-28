@@ -3,12 +3,13 @@
 	public static class RouteHelper
 	{
 		public const string ApiPrefix = "api/";
-		public const string UserController = ApiPrefix+"User/";
-		public const string UserControllerId = UserController + "{Id}/";
+		public const string UserController = ApiPrefix+"User";
 
-		public const string UserControllerRegister = UserController + "Register/";
-		public const string UserControllerLogin = UserController + "Login/";
-		public const string UserControllerForgotPassword = UserController + "ForgotPassword/{email}";
+		public const string UserControllerRegister = "Register";
+		public const string UserControllerLogin = "Login";
+		public const string UserControllerForgotPassword = "ForgotPassword/{email}";
 
+        public const string WithId = "{id}";
+        public const string WithDetail = "Detail";
 	}
 }

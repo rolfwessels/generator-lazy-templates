@@ -150,6 +150,10 @@
       <Project>{CE1598CB-ADFF-4F64-BBAD-6B16A29BAF8E}</Project>
       <Name>MainSolutionTemplate.OAuth2.Dal</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MainSolutionTemplate.Utilities\MainSolutionTemplate.Utilities.csproj">
+      <Project>{B5EFC032-43A4-4326-A42A-F365C763EFE8}</Project>
+      <Name>MainSolutionTemplate.Utilities</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Helpers\" />

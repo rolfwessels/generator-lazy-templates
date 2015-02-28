@@ -76,14 +76,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interfaces\Signalr\IUserControllerActions.cs" />
+    <Compile Include="Interfaces\Base\IBaseControllerLookups.cs" />
+    <Compile Include="Interfaces\Base\IBaseStandardLookups.cs" />
+    <Compile Include="Interfaces\Base\ICrudController.cs" />
+    <Compile Include="Interfaces\Shared\IUserControllerActions.cs" />
+    <Compile Include="Interfaces\Shared\IUserControllerLookups.cs" />
+    <Compile Include="Interfaces\Shared\IUserControllerStandardLookups.cs" />
     <Compile Include="Interfaces\Signalr\IUserHubEvents.cs" />
     <Compile Include="Models\Base\BaseReferenceModel.cs" />
     <Compile Include="Models\Base\BaseReferenceModelWithName.cs" />
     <Compile Include="Models\Enums\UpdateTypeCodes.cs" />
+    <Compile Include="Models\ErrorMessage.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\Reference\UserReferenceModel.cs" />
     <Compile Include="Models\RegisterModel.cs" />
+    <Compile Include="Models\TokenRequestModel.cs" />
+    <Compile Include="Models\TokenResponseModel.cs" />
     <Compile Include="Models\UserDetailModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Models\ValueUpdateModel.cs" />

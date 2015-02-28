@@ -15,6 +15,7 @@ namespace MainSolutionTemplate.Api.Models.Mappers
 		static MapUserModel()
 		{
 			Mapper.CreateMap<User, UserModel>();
+			Mapper.CreateMap<UserReference, UserReferenceModel>();
 
 			Mapper.CreateMap<UserDetailModel, User>()
 			      .ForMember(x => x.Email, opt => opt.MapFrom(x => x.Email.ToLower()))

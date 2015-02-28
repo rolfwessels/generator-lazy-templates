@@ -6,6 +6,7 @@ using MainSolutionTemplate.Core.Vendor;
 using MainSolutionTemplate.Dal.Models;
 using MainSolutionTemplate.Dal.Models.Enums;
 using MainSolutionTemplate.Dal.Models.Reference;
+using MainSolutionTemplate.Utilities.Helpers;
 
 namespace MainSolutionTemplate.Core.Managers
 {
@@ -19,11 +20,12 @@ namespace MainSolutionTemplate.Core.Managers
 
 	    public IQueryable<UserReference> GetUsersAsReference()
 	    {
-            return _generalUnitOfWork.Users.Select(x => new UserReference { Id = x.Id, Name = x.Name });
+            return _generalUnitOfWork.Users.Select(x => new UserReference { Id = x.Id, Name = x.Name , Email = x.Email});
 	    }
 
 	    public User GetUser(Guid id)
 		{
+           
 			return _generalUnitOfWork.Users.FirstOrDefault(x => x.Id == id);
 		}
 
@@ -64,6 +66,7 @@ namespace MainSolutionTemplate.Core.Managers
 				if (!PasswordHash.ValidatePassword(password, user.HashedPassword))
 				{
 					user = null;
+                    _log.Debug(string.Format("SystemManager:GetUserByEmailAndPassword {0}", password));
 					_log.Info(string.Format("Invalid password for user '{0}'", email));
 				}
 			}

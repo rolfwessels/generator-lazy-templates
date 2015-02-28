@@ -59,8 +59,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FizzWare.NBuilder">
-      <HintPath>..\MainSolutionTemplate.Core.Tests\bin\Debug\FizzWare.NBuilder.dll</HintPath>
+    <Reference Include="FizzWare.NBuilder, Version=3.0.1.0, Culture=neutral, PublicKeyToken=5651b03e12e42c12, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\NBuilder.3.0.1.1\lib\FizzWare.NBuilder.dll</HintPath>
     </Reference>
     <Reference Include="FluentAssertions, Version=3.2.2.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -100,10 +101,10 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SampleTests.cs" />
-    <Compile Include="WebApi\IntegrationTestsBase.cs" />
-    <Compile Include="WebApi\OAuthIntegrationTests.cs" />
-    <Compile Include="WebApi\UserControllerIntegrationTests.cs" />
-    <Compile Include="WebApi\UserHubIntegrationTests.cs" />
+    <Compile Include="Shared\IntegrationTestsBase.cs" />
+    <Compile Include="OAuth\OAuthApiClientTests.cs" />
+    <Compile Include="WebApi\UserApiClientTests.cs" />
+    <Compile Include="WebApi\UserHubClientTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MainSolutionTemplate.Api\MainSolutionTemplate.Api.csproj">

@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Reflection;
 using System.Web.Http.Filters;
+using MainSolutionTemplate.Shared.Models;
 using MainSolutionTemplate.Utilities.Helpers;
 using log4net;
 
