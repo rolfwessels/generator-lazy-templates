@@ -4,13 +4,13 @@ namespace MainSolutionTemplate.Shared.Models
 {
     public class ValueUpdateModel<T>
     {
-        private readonly UpdateTypeCodes _updateUpdateTypeCode;
+        private readonly UpdateTypeCodes _updateType;
         private readonly T _value;
 
-        public ValueUpdateModel(T value, UpdateTypeCodes updateUpdateTypeCode)
+        public ValueUpdateModel(T value, UpdateTypeCodes updateType)
         {
             _value = value;
-            _updateUpdateTypeCode = updateUpdateTypeCode;
+            _updateType = updateType;
         }
 
         public T Value
@@ -18,9 +18,9 @@ namespace MainSolutionTemplate.Shared.Models
             get { return _value; }
         }
 
-        public UpdateTypeCodes UpdateUpdateTypeCode
+        public UpdateTypeCodes UpdateType
         {
-            get { return _updateUpdateTypeCode; }
+            get { return _updateType; }
         }
     }
 }

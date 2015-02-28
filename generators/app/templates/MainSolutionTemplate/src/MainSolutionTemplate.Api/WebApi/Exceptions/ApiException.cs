@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net;
 
-namespace MainSolutionTemplate.Api.WebApi.Filters
+namespace MainSolutionTemplate.Api.WebApi.Exceptions
 {
   [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2237:MarkISerializableTypesWithSerializable")]
   public class ApiException : Exception

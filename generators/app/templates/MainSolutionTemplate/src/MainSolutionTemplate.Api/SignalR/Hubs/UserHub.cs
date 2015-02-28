@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using MainSolutionTemplate.Api.Common;
 using MainSolutionTemplate.Api.Models.Mappers;
 using MainSolutionTemplate.Api.SignalR.Attributes;
+using MainSolutionTemplate.Api.SignalR.Connnections;
 using MainSolutionTemplate.Core.MessageUtil;
 using MainSolutionTemplate.Core.MessageUtil.Models;
 using MainSolutionTemplate.Dal.Models;
@@ -13,13 +15,16 @@ using MainSolutionTemplate.Shared.Interfaces.Shared;
 using MainSolutionTemplate.Shared.Interfaces.Signalr;
 using MainSolutionTemplate.Shared.Models;
 using MainSolutionTemplate.Shared.Models.Reference;
+using log4net;
 
-namespace MainSolutionTemplate.Api.SignalR
+namespace MainSolutionTemplate.Api.SignalR.Hubs
 {
-    
 
-    public class UserHub : BaseHub, IUserControllerActions, IUserHubEvents, IUserControllerStandardLookups
+
+    public class UserHub : BaseHub, IUserControllerActions, ISubscribeUpdateModel<UserModel>, IUserControllerStandardLookups
     {
+        private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private const string UserUpdateGroupName = "user.update";
         private readonly UserCommonController _userCommonController;
 
         public UserHub(UserCommonController userCommonController, IConnectionStateMapping connectionStateMapping)
@@ -68,15 +73,7 @@ namespace MainSolutionTemplate.Api.SignalR
 
         #endregion
 
-        #region IUserHubEvents Members
-
-        [HubAuthorizeActivity(Activity.UserSubscribe)]
-        public void OnUpdate(ValueUpdateModel<UserModel> user)
-        {
-            Clients.All.OnUpdate(user);
-        }
-
-        #endregion
+      
 
         #region Overrides of BaseHub
 
@@ -84,7 +81,8 @@ namespace MainSolutionTemplate.Api.SignalR
         {
             Messenger.Default.Register<DalUpdateMessage<User>>(this,
                                                                (r) =>
-                                                                   { OnUpdate(r.ToValueUpdateModel<User, UserModel>());
+                                                                   {
+                                                                       OnUpdate(r.ToValueUpdateModel<User, UserModel>());
                                                                    });
         }
 
@@ -103,5 +101,30 @@ namespace MainSolutionTemplate.Api.SignalR
             var task = await _userCommonController.GetDetail();
             return task.ToList();
         }
+
+        #region Implementation of ISubscribeUpdateModel
+
+        [HubAuthorizeActivity(Activity.UserSubscribe)]
+        public void OnUpdate(ValueUpdateModel<UserModel> updatedModel)
+        {
+            _log.Info("Sending update to " + UserUpdateGroupName);
+            Clients.Group(UserUpdateGroupName).OnUpdate(updatedModel);
+        }
+
+        [HubAuthorizeActivity(Activity.UserSubscribe)]
+        public void SubscribeToUpdate()
+        {
+            _log.Info("Adding user to " + UserUpdateGroupName);
+            Groups.Add(Context.ConnectionId, UserUpdateGroupName);
+        }
+
+        [HubAuthorizeActivity(Activity.UserSubscribe)]
+        public void UnsubscribeFromUpdate()
+        {
+            _log.Info("Remove user from " + UserUpdateGroupName);
+            Groups.Remove(Context.ConnectionId, UserUpdateGroupName);
+        }
+
+        #endregion
     }
 }

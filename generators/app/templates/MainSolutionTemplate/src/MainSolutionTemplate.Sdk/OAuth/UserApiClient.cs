@@ -96,5 +96,6 @@ namespace MainSolutionTemplate.Sdk.OAuth
         }
 
         #endregion
+
     }
 }

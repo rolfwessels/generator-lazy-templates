@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Concurrent;
 using System.Reflection;
 using MainSolutionTemplate.Api.SignalR.Attributes;
@@ -7,7 +6,7 @@ using MainSolutionTemplate.Dal.Models.Enums;
 using Microsoft.AspNet.SignalR.Hubs;
 using log4net;
 
-namespace MainSolutionTemplate.Api.SignalR
+namespace MainSolutionTemplate.Api.SignalR.Connnections
 {
 	public class ConnectionStateMapping : IConnectionStateMapping
 	{
@@ -47,10 +46,10 @@ namespace MainSolutionTemplate.Api.SignalR
 			return removed;
 		}
 
-		public void Reconnect(HubCallerContext context)
+		public ConnectionState Reconnect(HubCallerContext context)
 		{
 			_log.Info("Reconnect.... " + _connections.ContainsKey(context.ConnectionId));
-			AddOrGet(context);
+			return AddOrGet(context);
 		}
 
 		public bool IsAuthorized(ConnectionState connectionState, Activity[] activities)

@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MainSolutionTemplate.Shared.Interfaces.Shared;
+using MainSolutionTemplate.Shared.Interfaces.Signalr;
 using MainSolutionTemplate.Shared.Models;
 using MainSolutionTemplate.Shared.Models.Reference;
 using Microsoft.AspNet.SignalR.Client;
 
 namespace MainSolutionTemplate.Sdk.SignalrClient
 {
-	public class UserHubClient : IUserControllerActions , IUserControllerStandardLookups
+    public class UserHubClient : IUserControllerActions, IUserControllerStandardLookups, ISubscribeUpdateModelClient<UserModel> 
 	{
 		private readonly IHubProxy _userHub;
 
@@ -64,5 +65,20 @@ namespace MainSolutionTemplate.Sdk.SignalrClient
 	    }
 
 	    #endregion
+
+        #region Implementation of ISubscribeUpdateModelClient<UserModel>
+
+        public void SubscribeToUpdate(Action<ValueUpdateModel<UserModel>> callBack)
+        {
+            _userHub.On("OnUpdate", callBack);
+            _userHub.Invoke("SubscribeToUpdate");
+        }
+
+        public void UnsubscribeFromUpdate()
+        {
+            _userHub.Invoke("UnsubscribeFromUpdate");
+        }
+
+        #endregion
 	}
 }

@@ -166,9 +166,8 @@
     </Compile>
     <Compile Include="AppStartup\BootStrap.cs" />
     <Compile Include="AppStartup\IocApi.cs" />
-    <Compile Include="AppStartup\NewFile1.cs" />
+    <Compile Include="AppStartup\SimpleFileServer.cs" />
     <Compile Include="AppStartup\SwaggerSetup.cs" />
-    <Compile Include="AppStartup\WebApiSetup.cs" />
     <Compile Include="Common\UserCommonController.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Models\Mappers\MapUserModel.cs" />
@@ -180,18 +179,18 @@
     <Compile Include="SignalR\Attributes\HubAuthorizeActivityAttribute.cs" />
     <Compile Include="SignalR\Attributes\RequestUserDetailsHelper.cs" />
     <Compile Include="SignalR\BaseHub.cs" />
-    <Compile Include="SignalR\ConnectionState.cs" />
-    <Compile Include="SignalR\ConnectionStateMapping.cs" />
-    <Compile Include="SignalR\IConnectionStateMapping.cs" />
+    <Compile Include="SignalR\Connnections\ConnectionState.cs" />
+    <Compile Include="SignalR\Connnections\ConnectionStateMapping.cs" />
+    <Compile Include="SignalR\Connnections\IConnectionStateMapping.cs" />
     <Compile Include="SignalR\Attributes\TokenAuthorizeAttribute.cs" />
-    <Compile Include="SignalR\UserHub.cs" />
+    <Compile Include="SignalR\SignalRSetup.cs" />
+    <Compile Include="SignalR\Hubs\UserHub.cs" />
     <Compile Include="WebApi\Attributes\AuthorizeActivityAttribute.cs" />
     <Compile Include="WebApi\Exceptions\ApiException.cs" />
     <Compile Include="WebApi\Filters\CaptureExceptionFilter.cs" />
     <Compile Include="WebApi\Controllers\UserController.cs" />
+    <Compile Include="WebApi\WebApiSetup.cs" />
     <Content Include="Readme.txt" />
-    <Compile Include="SignalR\DataEntryNotifications.cs" />
-    <Compile Include="SignalR\ChatHub.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>

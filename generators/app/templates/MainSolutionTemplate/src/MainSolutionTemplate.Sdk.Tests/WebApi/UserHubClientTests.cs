@@ -17,7 +17,6 @@ namespace MainSolutionTemplate.Sdk.Tests.WebApi
 {
 	[TestFixture]
 	[Category("Integration")]
-   
 	public class UserHubClientTests : IntegrationTestsBase
 	{
 		private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);

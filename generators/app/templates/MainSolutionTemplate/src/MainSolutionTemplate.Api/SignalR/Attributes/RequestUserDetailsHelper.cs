@@ -14,7 +14,6 @@ namespace MainSolutionTemplate.Api.SignalR.Attributes
 		{
 			try
 			{
-				_log.Info(string.Format("request.QueryString: [{0}]", request.QueryString.Get(Constants.TokenQueryStringParam)));
 				var token = request.QueryString.Get(Constants.TokenQueryStringParam);
 				var authenticationTicket = OathAuthorizationSetup.OAuthOptions.AccessTokenFormat.Unprotect(token);
 				if (authenticationTicket == null)  return null; 

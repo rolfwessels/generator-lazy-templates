@@ -9,7 +9,7 @@ using Microsoft.Owin.Cors;
 using Newtonsoft.Json.Serialization;
 using Owin;
 
-namespace MainSolutionTemplate.Api.AppStartup
+namespace MainSolutionTemplate.Api.WebApi
 {
 	public class WebApiSetup
 	{

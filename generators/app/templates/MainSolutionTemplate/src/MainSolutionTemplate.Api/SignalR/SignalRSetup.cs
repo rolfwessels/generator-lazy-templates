@@ -1,8 +1,7 @@
-﻿using System;
-using Microsoft.AspNet.SignalR;
+﻿using Microsoft.AspNet.SignalR;
 using Owin;
 
-namespace MainSolutionTemplate.Api.AppStartup
+namespace MainSolutionTemplate.Api.SignalR
 {
 	public class SignalRSetup
 	{

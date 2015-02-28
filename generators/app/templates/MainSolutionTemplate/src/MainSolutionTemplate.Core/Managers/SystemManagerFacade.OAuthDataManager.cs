@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Reflection;
 using System.Threading.Tasks;
 using MainSolutionTemplate.Core.Mappers;
-using MainSolutionTemplate.Core.Vendor;
-using MainSolutionTemplate.Dal.Models;
-using MainSolutionTemplate.Dal.Persistance;
 using MainSolutionTemplate.OAuth2.Dal.Interfaces;
 using System.Linq;
-using log4net;
 
 namespace MainSolutionTemplate.Core.Managers
 {
@@ -60,7 +55,6 @@ namespace MainSolutionTemplate.Core.Managers
 			if (user == null) throw new ArgumentNullException("user");
 			return Task.Run(() =>
 			{
-				_log.Info(string.Format("Roles user '{0}'", user.UserId));
 				var foundUser = _generalUnitOfWork.Users.FirstOrDefault(x => x.Email == user.UserId);
 				return foundUser != null ? foundUser.Roles.Select(x => x.Name).ToArray() : new string[0];
 			});
@@ -71,7 +65,6 @@ namespace MainSolutionTemplate.Core.Managers
 			if (user == null) throw new ArgumentNullException("user");
 			return Task.Run(() =>
 			{
-				_log.Info(string.Format("Roles user '{0}'", user.UserId));
 				var userFound = _generalUnitOfWork.Users.FirstOrDefault(x => x.Email == user.UserId);
 				if (userFound != null)
 				{

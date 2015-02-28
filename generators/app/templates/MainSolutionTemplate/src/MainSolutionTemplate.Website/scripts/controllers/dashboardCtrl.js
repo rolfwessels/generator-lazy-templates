@@ -16,9 +16,9 @@ angular.module('webapp.controllers')
                 },function(error) {
                   $log.error(error);
                 });
+                dataService.users.onUpdate($scope, $scope.users);
             }, messageService.error,messageService.debug);
 
-            dataService.users.onUpdate($scope, $scope.users);
 
             /**
              * Select the current avatars
@@ -64,8 +64,6 @@ angular.module('webapp.controllers')
                 /**
                  * Bottom Sheet controller for the Avatar Actions
                  */
-               
-
                 function AvatarSheetController($mdBottomSheet) {
                     this.items = [{
                         name: 'Add',

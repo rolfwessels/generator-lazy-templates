@@ -1,9 +1,9 @@
 using System.Web.Http.Dependencies;
 using MainSolutionTemplate.Api.AppStartup;
-using MainSolutionTemplate.Api.Properties;
-using Microsoft.Owin.FileSystems;
-using Microsoft.Owin.StaticFiles;
+using MainSolutionTemplate.Api.SignalR;
+using MainSolutionTemplate.Api.WebApi;
 using Owin;
+using log4net.Config;
 
 namespace MainSolutionTemplate.Api
 {
@@ -11,16 +11,15 @@ namespace MainSolutionTemplate.Api
 	{
 		public void Configuration(IAppBuilder appBuilder)
 		{
+		    XmlConfigurator.Configure();
 			BootStrap.Initialize(appBuilder);
-
 			WebApiSetup webApiSetup = WebApiSetup.Initialize(appBuilder, IocApi.Instance.Resolve<IDependencyResolver>());
 			SignalRSetup.Initialize(appBuilder, IocApi.Instance.Resolve<Microsoft.AspNet.SignalR.IDependencyResolver>());
 			SwaggerSetup.Initialize(webApiSetup.Configuration);
-			var options = new FileServerOptions
-				{
-					FileSystem = new PhysicalFileSystem(Settings.Default.WebBasePath)
-				};
-			appBuilder.UseFileServer(options);
+		    SimpleFileServer.Initialize(appBuilder);
+
 		}
+
+	    
 	}
 }
