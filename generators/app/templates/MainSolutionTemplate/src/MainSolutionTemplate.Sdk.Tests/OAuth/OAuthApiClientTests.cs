@@ -20,7 +20,7 @@ namespace MainSolutionTemplate.Sdk.Tests.OAuth
 
 	    public OAuthApiClientTests()
 	    {
-	        _tokenRequestModel = new TokenRequestModel() { UserName = AdminUser, client_id = ClientId, Password = AdminPassword };
+	        _tokenRequestModel = new TokenRequestModel() { UserName = AdminUser, ClientId = ClientId, Password = AdminPassword };
 	    }
 
 	    #region Setup/Teardown
@@ -58,12 +58,13 @@ namespace MainSolutionTemplate.Sdk.Tests.OAuth
 		    // action
             var result = _oAuthApiClient.GenerateToken(_tokenRequestModel).Result;
 			// assert
-            result.TokenType.Should().Be("bearer");
-            result.ExpiresIn.Should().Be(86399);
             result.ClientId.Should().Be("MainSolutionTemplate.Api");
             result.UserName.Should().Be("admin");
             result.DisplayName.Should().Be("Admin user");
             result.Permissions.Should().Be("Admin");
+            result.TokenType.Should().Be("bearer");
+            result.ExpiresIn.Should().Be(86399);
+            
 		}
 
 		
@@ -72,11 +73,11 @@ namespace MainSolutionTemplate.Sdk.Tests.OAuth
 		{
 			// arrange
 			Setup();
-		    var tokenRequestModel = new TokenRequestModel() { UserName = AdminUser, client_id = ClientId, Password = AdminPassword + AdminPassword };
+		    var tokenRequestModel = new TokenRequestModel() { UserName = AdminUser, ClientId = ClientId, Password = AdminPassword + AdminPassword };
 			// action
             Action testCall = () => { _oAuthApiClient.GenerateToken(tokenRequestModel).Wait(); };
 		    // assert
-		    testCall.ShouldThrow<Exception>().WithMessage("The user name or password is incorrect.");
+            testCall.ShouldThrow<RestClientException>().WithMessage("The user name or password is incorrect.");
 		}
 
 	}

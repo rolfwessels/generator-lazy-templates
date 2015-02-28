@@ -2,10 +2,11 @@
 using System.IO;
 using System.Reflection;
 using MainSolutionTemplate.Api.AppStartup;
+using MainSolutionTemplate.Sdk.Common;
+using MainSolutionTemplate.Sdk.Helpers;
 using NCrunch.Framework;
 using log4net;
 using MainSolutionTemplate.Sdk.OAuth;
-using MainSolutionTemplate.Sdk.RestApi;
 using MainSolutionTemplate.Shared.Models;
 using Microsoft.Owin.Hosting;
 using RestSharp;
@@ -26,7 +27,7 @@ namespace MainSolutionTemplate.Sdk.Tests.Shared
 
 		static IntegrationTestsBase()
 		{
-            
+            RestShapHelper.Logger = message => _log.Debug(message); 
 		    _hostAddress = new Lazy<string>(StartHosting);
             _adminUser = new Lazy<TokenResponseModel>(LoggedInResponse);
             _defaultRequestFactory = new Lazy<RestConnectionFactory>(() => new RestConnectionFactory(_hostAddress.Value));
@@ -34,13 +35,12 @@ namespace MainSolutionTemplate.Sdk.Tests.Shared
             
 		}
 
-	    public string SignalRUri {
-	        get {
-                return _defaultRequestFactory.Value.GetClient().BuildUri(new RestRequest("signalr")).ToString();
-            }
+	    public string SignalRUri
+	    {
+	        get { return _hostAddress + "signalr"; }
 	    }
 
-		#region Private Methods
+	    #region Private Methods
 
 		private static string StartHosting()
 		{
@@ -75,7 +75,7 @@ namespace MainSolutionTemplate.Sdk.Tests.Shared
 		    var generateToken = oAuthConnection.GenerateToken(new TokenRequestModel()
 		    {
 		        UserName = AdminUser,
-		        client_id = ClientId,
+		        ClientId = ClientId,
 		        Password = AdminPassword
 		    }).Result;
 		    var request = new RestRequest("Token", Method.POST);

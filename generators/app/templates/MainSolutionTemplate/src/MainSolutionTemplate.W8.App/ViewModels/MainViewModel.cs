@@ -4,7 +4,7 @@
     {
         public MainViewModel()
         {
-            var restConnectionFactory = new RestConnectionFactory();
+          //  var restConnectionFactory = new RestConnectionFactory();
         }
     }
 }

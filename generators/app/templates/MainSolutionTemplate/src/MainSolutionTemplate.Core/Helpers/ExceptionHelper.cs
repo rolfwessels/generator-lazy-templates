@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace MainSolutionTemplate.Utilities.Helpers
+namespace MainSolutionTemplate.Core.Helpers
 {
     public static class ExceptionHelper
     {

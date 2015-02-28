@@ -1,4 +1,3 @@
-using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -16,16 +15,7 @@ namespace MainSolutionTemplate.Utilities.Helpers
       return uri;
     }
 
-    public static string ToTitleCase(this string text)
-    {
-      return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(text);
-    }
-
-    public static string ToInitialCase(this string text)
-    {
-      
-      return text.Substring(0, 1).ToTitleCase() + text.Substring(1).ToLower();
-    }
+    
 
     public static string UnderScoreAndCamelCaseToHumanReadable(this string text)
     {
@@ -61,10 +51,7 @@ namespace MainSolutionTemplate.Utilities.Helpers
       return value + postFix;
     }
 
-    public static int NonAlphanumericCharactersCount(this string newPassword)
-    {
-      return newPassword.Where((t, i) => !char.IsLetterOrDigit(newPassword, i)).Count();
-    }
+   
 
   }
 }

@@ -6,7 +6,7 @@ using NUnit.Framework;
 
 namespace MainSolutionTemplate.Utilities.Tests.Helpers
 {
-	[TestFixture]
+    [TestFixture]
 	public class EnumerableHelperTests
 	{
 		[Test]

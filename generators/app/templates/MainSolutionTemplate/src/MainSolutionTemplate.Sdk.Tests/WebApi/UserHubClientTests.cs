@@ -10,7 +10,6 @@ using MainSolutionTemplate.Sdk.Tests.Shared;
 using MainSolutionTemplate.Shared.Models;
 using Microsoft.AspNet.SignalR.Client;
 using NUnit.Framework;
-using RestSharp;
 using log4net;
 
 namespace MainSolutionTemplate.Sdk.Tests.WebApi
@@ -27,7 +26,6 @@ namespace MainSolutionTemplate.Sdk.Tests.WebApi
 
 		public void Setup()
 		{	
-			
 			_log.Info(string.Format("Connecting to {0}", SignalRUri));
 			var queryString = new Dictionary<string, string>() { { _adminUser.Value.TokenType, _adminUser.Value.AccessToken } };
 			_hubConnection = new HubConnection(SignalRUri, queryString);

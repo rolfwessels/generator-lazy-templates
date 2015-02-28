@@ -109,7 +109,7 @@ namespace MainSolutionTemplate.OAuth2
 
 				var props = new AuthenticationProperties(new Dictionary<string, string>
 					{
-						{"client_id", context.ClientId ?? string.Empty},
+						{"clientId", context.ClientId ?? string.Empty},
 						{"userName", user.UserId ?? string.Empty},
 						{"displayName", user.DisplayName ?? string.Empty},
 						{"permissions", string.Join(",", roles)}

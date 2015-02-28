@@ -1,15 +1,17 @@
 using System;
-using System.Collections.Concurrent;
+using System.Collections.Generic;
+using MainSolutionTemplate.Utilities.Helpers;
 using RestSharp;
+using RestSharp.Portable;
 
-namespace MainSolutionTemplate.Sdk.RestApi
+namespace MainSolutionTemplate.Sdk.Common
 {
     public class RestConnectionFactory
     {
         private readonly string _urlString;
 
-        private readonly ConcurrentDictionary<string, RestClient> _clients =
-            new ConcurrentDictionary<string, RestClient>();
+        private readonly Dictionary<string, RestClient> _clients =
+            new Dictionary<string, RestClient>();
 
         public RestConnectionFactory(string urlString)
         {

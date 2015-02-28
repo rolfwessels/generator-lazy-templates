@@ -164,6 +164,12 @@
       <HintPath>..\..\lib\Windows.UI.Interactivity.1.3.0.0\lib\win8\Windows.UI.Interactivity.dll</HintPath>
     </Reference>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MainSolutionTemplate.Utilities\MainSolutionTemplate.Utilities.csproj">
+      <Project>{b5efc032-43a4-4326-a42a-f365c763efe8}</Project>
+      <Name>MainSolutionTemplate.Utilities</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">
     <VisualStudioVersion>11.0</VisualStudioVersion>
   </PropertyGroup>

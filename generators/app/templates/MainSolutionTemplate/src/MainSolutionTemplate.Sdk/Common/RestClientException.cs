@@ -1,9 +1,9 @@
 using System;
 using RestSharp;
+using RestSharp.Portable;
 
 namespace MainSolutionTemplate.Sdk.OAuth
 {
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2240:ImplementISerializableCorrectly"), Serializable]
     public class RestClientException : Exception
     {
         private readonly IRestResponse _response;

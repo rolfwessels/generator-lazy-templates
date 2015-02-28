@@ -1,6 +1,7 @@
 using System.Reflection;
+using MainSolutionTemplate.Core.Helpers;
 
 [assembly: AssemblyTitle("MainSolutionTemplate.Core.Tests")]
 [assembly: AssemblyDescription("Contains all MainSolutionTemplate Core unit tests.")]
-[assembly: MainSolutionTemplate.Utilities.Helpers.Log4NetInitialize("MainSolutionTemplate.Core.Tests")]
+[assembly: Log4NetInitialize("MainSolutionTemplate.Core.Tests")]
 [assembly: log4net.Config.XmlConfigurator()]

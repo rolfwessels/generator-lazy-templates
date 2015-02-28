@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace MainSolutionTemplate.Utilities.Helpers
+namespace MainSolutionTemplate.Core.Helpers
 {
 	public class Log4NetInitializeAttribute : Attribute
 	{

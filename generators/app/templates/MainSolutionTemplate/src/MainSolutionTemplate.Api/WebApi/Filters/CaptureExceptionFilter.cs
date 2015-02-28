@@ -5,8 +5,8 @@ using System.Net.Http;
 using System.Reflection;
 using System.Web.Http.Filters;
 using MainSolutionTemplate.Api.WebApi.Exceptions;
+using MainSolutionTemplate.Core.Helpers;
 using MainSolutionTemplate.Shared.Models;
-using MainSolutionTemplate.Utilities.Helpers;
 using log4net;
 
 namespace MainSolutionTemplate.Api.WebApi.Filters
