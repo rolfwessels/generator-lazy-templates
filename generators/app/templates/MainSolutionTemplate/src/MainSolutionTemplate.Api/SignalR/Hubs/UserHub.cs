@@ -89,14 +89,14 @@ namespace MainSolutionTemplate.Api.SignalR.Hubs
         #endregion
 
         [HubAuthorizeActivity(Activity.UserGet)]
-        public async Task<IList<UserReferenceModel>> Get()
+        public async Task<List<UserReferenceModel>> Get()
         {
             var task = await _userCommonController.Get();
             return task.ToList();
         }
 
         [HubAuthorizeActivity(Activity.UserGet)]
-        public async Task<IList<UserModel>> GetDetail()
+        public async Task<List<UserModel>> GetDetail()
         {
             var task = await _userCommonController.GetDetail();
             return task.ToList();

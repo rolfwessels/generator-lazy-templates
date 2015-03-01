@@ -104,6 +104,7 @@ namespace MainSolutionTemplate.Sdk.Tests.WebApi
         {
             // arrange
             Setup();
+
             var userId = _userApiClient.Get().Result.ToArray().Select(x => x.Id).First();
             _log.Info("userId:" + userId);
 

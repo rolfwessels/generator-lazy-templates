@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Flurl;
+using Flurl.Http;
 using MainSolutionTemplate.Sdk.Common;
 using MainSolutionTemplate.Shared;
 using MainSolutionTemplate.Shared.Interfaces.Shared;
@@ -11,6 +13,7 @@ using MainSolutionTemplate.Utilities.Helpers;
 using RestSharp;
 using RestSharp.Portable;
 using RestSharp.Portable.Serializers;
+using System.Linq;
 
 namespace MainSolutionTemplate.Sdk.OAuth
 {
@@ -85,13 +88,18 @@ namespace MainSolutionTemplate.Sdk.OAuth
 
         #region Implementation of IUserControllerStandardLookups
 
-        public async Task<IList<UserReferenceModel>> Get()
+        public async Task<List<UserReferenceModel>> Get()
         {
+//            var token = _restClient.DefaultParameters.Where(x => x.Name == "Authorization").Select(x => x.Value as string).First().Split(' ').Last();
+//            var withOAuthBearerToken = _restClient.BaseUrl.ToString().AppendPathSegment(_apiPrefix).WithOAuthBearerToken(token);
+//            return await withOAuthBearerToken.GetJsonAsync<IList<UserReferenceModel>>();
+
             var request = DefaultRequest(_apiPrefix, HttpMethod.Get);
-            return await ExecuteAndValidate<List<UserReferenceModel>>(request);
+            var userReferenceModels = await ExecuteAndValidate<UserReferenceModel[]>(request);
+            return userReferenceModels.ToList();
         }
 
-        public async Task<IList<UserModel>> GetDetail()
+        public async Task<List<UserModel>> GetDetail()
         {
             var request = DefaultRequest(_apiPrefix, HttpMethod.Get);
             return await ExecuteAndValidate<List<UserModel>>(request);
