@@ -29,7 +29,7 @@ namespace MainSolutionTemplate.Sdk.Tests.Shared
             // arrange
             Setup();
             // action
-            var userModels = _userStandardLookups.Get().Result.ToList();
+            var userModels = _userStandardLookups.Get().Result;
             // assert
             userModels.Should().NotBeNull();
             userModels.Count.Should().BeGreaterThan(0);

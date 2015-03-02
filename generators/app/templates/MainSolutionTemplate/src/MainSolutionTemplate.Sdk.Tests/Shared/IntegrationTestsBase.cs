@@ -47,11 +47,6 @@ namespace MainSolutionTemplate.Sdk.Tests.Shared
 			return address;
 		}
 
-		private static RestClient GetClient()
-		{
-			var client = new RestClient(_hostAddress.Value);
-			return client;
-		}
 
 		protected RestRequest AdminRequest(string resource, Method method)
 		{

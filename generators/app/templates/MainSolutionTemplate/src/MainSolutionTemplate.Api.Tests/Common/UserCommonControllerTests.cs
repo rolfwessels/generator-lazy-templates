@@ -46,14 +46,13 @@ namespace MainSolutionTemplate.Api.Tests.Common
             _userCommonController.Should().NotBeNull();
         }
 
-
         [Test]
         public void Get_GivenRequest_ShouldReturnUserReferenceModels()
         {
             // arrange
             Setup();
-            var userReference = Builder<UserReference>.CreateListOfSize(2).Build();
-            _mockISystemManager.Setup(mc => mc.GetUsersAsReference())
+            var userReference = Builder<User>.CreateListOfSize(2).Build();
+            _mockISystemManager.Setup(mc => mc.GetUsers())
                 .Returns(userReference.AsQueryable);
             // action
             var result = _userCommonController.Get().Result;
