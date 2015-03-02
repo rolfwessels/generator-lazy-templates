@@ -3,7 +3,10 @@
   <Profiles />
   <Settings>
     <Setting Name="WebBasePath" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">D:\Work\Projects\Home\generator-lazy-templates\generators\app\templates\MainSolutionTemplate\src\MainSolutionTemplate.Website</Value>
+      <Value Profile="(Default)">D:\Work\Temp\generator-lazy-templates\generators\app\templates\MainSolutionTemplate\src\MainSolutionTemplate.Website</Value>
+    </Setting>
+    <Setting Name="DefaultMaxResultCount" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">200</Value>
     </Setting>
   </Settings>
 </SettingsFile>

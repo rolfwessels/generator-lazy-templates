@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using MainSolutionTemplate.Api.Models.Mappers;
+using MainSolutionTemplate.Api.WebApi.ODataSupport;
 using MainSolutionTemplate.Core.Managers.Interfaces;
 using MainSolutionTemplate.Dal.Models;
 using MainSolutionTemplate.Shared.Interfaces.Shared;
@@ -21,17 +23,18 @@ namespace MainSolutionTemplate.Api.Common
         public UserCommonController(ISystemManager systemManager)
         {
             _systemManager = systemManager;
+            
         }
 
 
-        public Task<IQueryable<UserReferenceModel>> Get()
+        public Task<IEnumerable<UserReferenceModel>> Get(string query = null)
         {
-            return Task.Run(() => _systemManager.GetUsersAsReference().ToUserModel());
+            return Task.Run(() => new QueryToODataWrapper<User, UserReferenceModel>(_systemManager.GetUsers(), query, MapUserModel.ToUserReferenceModelList) as IEnumerable<UserReferenceModel>);
         }
 
-        public Task<IQueryable<UserModel>> GetDetail()
+        public Task<IEnumerable<UserModel>> GetDetail(string query = null)
         {
-            return Task.Run(() => _systemManager.GetUsers().ToUserModel());
+            return Task.Run(() => new QueryToODataWrapper<User, UserModel>(_systemManager.GetUsers(), query, MapUserModel.ToUserModelList) as IEnumerable<UserModel>);
         }
 
         public Task<UserModel> Get(Guid id)

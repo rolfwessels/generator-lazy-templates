@@ -45,6 +45,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Antlr3.Runtime">
+      <HintPath>..\..\lib\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Autofac">
       <HintPath>..\..\lib\Autofac.3.5.0\lib\net40\Autofac.dll</HintPath>
     </Reference>
@@ -61,6 +65,10 @@
     <Reference Include="AutoMapper.Net4, Version=3.3.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\AutoMapper.3.3.1\lib\net40\AutoMapper.Net4.dll</HintPath>
+    </Reference>
+    <Reference Include="LinqToQuerystring">
+      <HintPath>..\..\lib\LinqToQuerystring.0.7.0.8\lib\net35\LinqToQuerystring.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -134,6 +142,7 @@
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Spatial, Version=5.6.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -186,9 +195,14 @@
     <Compile Include="SignalR\Attributes\TokenAuthorizeAttribute.cs" />
     <Compile Include="SignalR\Hubs\UserHub.cs" />
     <Compile Include="WebApi\Attributes\AuthorizeActivityAttribute.cs" />
+    <Compile Include="WebApi\Controllers\WebApiHelper.cs" />
     <Compile Include="WebApi\Exceptions\ApiException.cs" />
     <Compile Include="WebApi\Filters\CaptureExceptionFilter.cs" />
     <Compile Include="WebApi\Controllers\UserController.cs" />
+    <Compile Include="WebApi\ODataSupport\IQueryToODataWrapper.cs" />
+    <Compile Include="WebApi\ODataSupport\ODataPageResult.cs" />
+    <Compile Include="WebApi\ODataSupport\QueryToODataFilterAttribute.cs" />
+    <Compile Include="WebApi\ODataSupport\QueryToODataWrapper.cs" />
     <Content Include="Readme.txt" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />

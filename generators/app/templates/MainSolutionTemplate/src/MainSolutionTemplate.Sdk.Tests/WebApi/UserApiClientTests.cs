@@ -48,14 +48,40 @@ namespace MainSolutionTemplate.Sdk.Tests.WebApi
 		}  
 
 		[Test]
-		public void Get_WhenCalledWithInlineCountAllpages_ShouldDisplayOnlySelectedRecordsButWithACount()
+		public void GetDatail_WhenCalledWithTopAndSomeFilter_ShouldDisplayOnlySelectedRecords()
 		{
 			// arrange
 			Setup();
 			// action
-            var restResponse = _userApiClient.Get("$inlinecount=allpages&$top=1").Result;
+            var restResponse = _userApiClient.GetDetail("$top=1&$orderby=Name desc&$filter=not startswith(tolower(Name),'new')").Result;
 			// assert
             restResponse.Count.Should().Be(1);
+		}  
+
+		[Test]
+        public void GetPaged_WhenCalledWithInlineCountAllpages_ShouldDisplayOnlySelectedRecordsButWithACount()
+		{
+			// arrange
+			Setup();
+			// action
+            var restResponse = _userApiClient.GetPaged("$top=1").Result;
+			// assert
+		    restResponse.Should().NotBeNull();
+		    restResponse.Items.Should().HaveCount(1);
+            restResponse.Count.Should().BeGreaterThan(0);
+		}
+        
+        [Test]
+        public void GetDetailPaged_WhenCalledWithInlineCountAllpages_ShouldDisplayOnlySelectedRecordsButWithACount()
+		{
+			// arrange
+			Setup();
+			// action
+            var restResponse = _userApiClient.GetDetailPaged("$top=1").Result;
+			// assert
+		    restResponse.Should().NotBeNull();
+		    restResponse.Items.Should().HaveCount(1);
+            restResponse.Count.Should().BeGreaterThan(0);
 		}
 
 		[Test]

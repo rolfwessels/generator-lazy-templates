@@ -15,6 +15,7 @@ namespace MainSolutionTemplate.Api.Models.Mappers
 		static MapUserModel()
 		{
 			Mapper.CreateMap<User, UserModel>();
+            Mapper.CreateMap<User, UserReferenceModel>();
 			Mapper.CreateMap<UserReference, UserReferenceModel>();
 
 			Mapper.CreateMap<UserDetailModel, User>()
@@ -47,16 +48,6 @@ namespace MainSolutionTemplate.Api.Models.Mappers
 			return Mapper.Map(model, user);
 		}
 
-		public static IQueryable<UserModel> ToUserModel(this IQueryable<User> users)
-		{
-			return Mapper.Map<IQueryable<User>, List<UserModel>>(users).AsQueryable();
-		}
-
-        public static IQueryable<UserReferenceModel> ToUserModel(this IQueryable<UserReference> users)
-		{
-            return Mapper.Map<IQueryable<UserReference>, List<UserReferenceModel>>(users).AsQueryable();
-		}
-
 		public static UserModel ToUserModel(this User user, UserModel model = null)
 		{
 			return Mapper.Map(user, model);
@@ -66,5 +57,16 @@ namespace MainSolutionTemplate.Api.Models.Mappers
 		{
 			return new ValueUpdateModel<TModel>(Mapper.Map<T, TModel>(updateMessage.Value), (UpdateTypeCodes) updateMessage.UpdateType);
 		}
+
+
+	    public static IEnumerable<UserReferenceModel> ToUserReferenceModelList(IQueryable<User> users)
+	    {
+            return Mapper.Map<IQueryable<User>, IEnumerable<UserReferenceModel>>(users);
+	    }
+
+        public static IEnumerable<UserModel> ToUserModelList(IQueryable<User> users)
+	    {
+            return Mapper.Map<IQueryable<User>, IEnumerable<UserModel>>(users);
+	    }
 	}
 }

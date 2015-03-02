@@ -1,9 +1,11 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 using MainSolutionTemplate.Api.Common;
 using MainSolutionTemplate.Api.WebApi.Attributes;
+using MainSolutionTemplate.Api.WebApi.ODataSupport;
 using MainSolutionTemplate.Dal.Models.Enums;
 using MainSolutionTemplate.Shared;
 using MainSolutionTemplate.Shared.Interfaces.Shared;
@@ -12,10 +14,8 @@ using MainSolutionTemplate.Shared.Models.Reference;
 
 namespace MainSolutionTemplate.Api.WebApi.Controllers
 {
-    
-
     /// <summary>
-	///     Api controller for managing all the tasks
+	///     Api controller for managing all the user
 	/// </summary>
     [RoutePrefix(RouteHelper.UserController)]
 	public class UserController : ApiController, IUserControllerActions, IUserControllerLookups
@@ -27,28 +27,30 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
             _userCommonController = userCommonController;
         }
 
-	    /// <summary>
-		///     Returns list of all the tasks
-		/// </summary>
-		/// <returns>
-		/// </returns>
-        [Route,AuthorizeActivity(Activity.UserGet)]
-		public Task<IQueryable<UserReferenceModel>> Get()
-	    {
-	        return _userCommonController.Get();
-	    }
+        /// <summary>
+        ///     Returns list of all the users as references
+        /// </summary>
+        /// <returns>
+        /// </returns>
+        [Route,AuthorizeActivity(Activity.UserGet) , QueryToODataFilter]
+        public Task<IEnumerable<UserReferenceModel>> Get()
+        {   
+            return _userCommonController.Get(Request.GetQuery());
+        }
 
-        
-		
-		[Route(RouteHelper.WithDetail),AuthorizeActivity(Activity.UserGet)]
-		public Task<IQueryable<UserModel>> GetDetail()
-	    {
-	        return _userCommonController.GetDetail();
-	    }
+        /// <summary>
+        /// Gets all users with their detail.
+        /// </summary>
+        /// <returns></returns>
+        [Route(RouteHelper.WithDetail),AuthorizeActivity(Activity.UserGet), QueryToODataFilter]
+        public Task<IEnumerable<UserModel>> GetDetail()
+		{
+		    return _userCommonController.GetDetail(Request.GetQuery());
+		}
 
-		
-		/// <summary>
-		///     Returns list of all the tasks
+
+        /// <summary>
+		///     Returns a user by his Id.
 		/// </summary>
 		/// <returns>
 		/// </returns>
@@ -59,7 +61,7 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 		}
 
 	    /// <summary>
-	    ///     Updates an instance of the task item
+	    ///     Updates an instance of the user item.
 	    /// </summary>
 	    /// <param name="id">The identifier.</param>
 	    /// <param name="user">The user.</param>
@@ -72,7 +74,7 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 		}
 
 	    /// <summary>
-	    ///     Create an instance of an item
+	    ///     Add a new user
 	    /// </summary>
 	    /// <param name="user">The user.</param>
 	    /// <returns>
@@ -84,7 +86,7 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 		}
 
 	    /// <summary>
-	    ///     Deletes the specified task.
+	    ///     Deletes the specified user.
 	    /// </summary>
 	    /// <param name="id">The identifier.</param>
 	    /// <returns>

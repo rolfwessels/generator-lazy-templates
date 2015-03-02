@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using MainSolutionTemplate.Sdk.Models;
 using MainSolutionTemplate.Sdk.RestApi;
 using MainSolutionTemplate.Shared;
 using MainSolutionTemplate.Shared.Interfaces.Shared;
@@ -74,27 +75,47 @@ namespace MainSolutionTemplate.Sdk.OAuth
         #endregion
 
 
-        public async Task<List<UserReferenceModel>> Get(string oDataQuery)
+
+        #region Implementation of IUserControllerStandardLookups
+
+        public  Task<IList<UserReferenceModel>> Get()
+        {
+            return Get("");
+        }
+
+        public Task<IList<UserModel>> GetDetail()
+        {
+            return GetDetail("");
+        }
+
+        #endregion
+
+        public async Task<PagedResult<UserReferenceModel>> GetPaged(string oDataQuery)
+        {
+            if (oDataQuery == null || !oDataQuery.Contains("$inlinecount"))
+                oDataQuery = string.Format("{0}&$inlinecount=allpages", oDataQuery);
+            var request = DefaultRequest(_apiPrefix + "?" + oDataQuery, Method.GET);
+            return await ExecuteAndValidate<PagedResult<UserReferenceModel>>(request);
+        }
+
+        public async Task<IList<UserReferenceModel>> Get(string oDataQuery)
         {
             var request = DefaultRequest(_apiPrefix + "?" + oDataQuery, Method.GET);
             return await ExecuteAndValidate<List<UserReferenceModel>>(request);
         }
 
-
-        #region Implementation of IUserControllerStandardLookups
-
-        public async Task<IList<UserReferenceModel>> Get()
+        public async Task<IList<UserModel>> GetDetail(string oDataQuery)
         {
-            var request = DefaultRequest(_apiPrefix, Method.GET);
-            return await ExecuteAndValidate<List<UserReferenceModel>>(request);
-        }
-
-        public async Task<IList<UserModel>> GetDetail()
-        {
-            var request = DefaultRequest(_apiPrefix, Method.GET);
+            var request = DefaultRequest(_apiPrefix.UriCombine(RouteHelper.WithDetail) + "?" + oDataQuery, Method.GET);
             return await ExecuteAndValidate<List<UserModel>>(request);
         }
 
-        #endregion
+        public async Task<PagedResult<UserModel>> GetDetailPaged(string oDataQuery)
+        {
+            if (oDataQuery == null || !oDataQuery.Contains("$inlinecount"))
+                oDataQuery = string.Format("{0}&$inlinecount=allpages", oDataQuery);
+            var request = DefaultRequest(_apiPrefix.UriCombine(RouteHelper.WithDetail) + "?" + oDataQuery, Method.GET);
+            return await ExecuteAndValidate<PagedResult<UserModel>>(request);
+        }
     }
 }
