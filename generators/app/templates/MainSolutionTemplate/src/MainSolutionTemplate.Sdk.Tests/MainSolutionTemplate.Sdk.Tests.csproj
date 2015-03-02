@@ -104,7 +104,8 @@
     <Compile Include="Shared\IntegrationTestsBase.cs" />
     <Compile Include="OAuth\OAuthApiClientTests.cs" />
     <Compile Include="WebApi\UserApiClientTests.cs" />
-    <Compile Include="WebApi\UserHubClientTests.cs" />
+    <Compile Include="Shared\UserClientBaseTests.cs" />
+    <Compile Include="SignalR\UserHubClientTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MainSolutionTemplate.Api\MainSolutionTemplate.Api.csproj">

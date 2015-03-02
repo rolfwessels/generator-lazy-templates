@@ -8,7 +8,7 @@ using Microsoft.AspNet.SignalR.Client;
 
 namespace MainSolutionTemplate.Sdk.SignalrClient
 {
-	public class UserHubClient : IUserControllerActions , IUserControllerStandardLookups
+    public class UserHubClient : IUserControllerActions, IUserControllerStandardLookups, IEventUpdateEventSubSubscription<UserModel>
 	{
 		private readonly IHubProxy _userHub;
 
@@ -64,5 +64,24 @@ namespace MainSolutionTemplate.Sdk.SignalrClient
 	    }
 
 	    #endregion
+
+        #region Implementation of IEventUpdateEvent
+
+        public void OnUpdate(Action<ValueUpdateModel<UserModel>> callBack)
+        {
+            _userHub.On("OnUpdate", callBack);
+        }
+
+        public void SubscribeToUpdates()
+        {
+            _userHub.Invoke("SubscribeToUpdates");
+        }
+
+        public void UnsubscribeFromUpdates()
+        {
+            _userHub.Invoke("UnsubscribeFromUpdates");
+        }
+
+        #endregion
 	}
 }

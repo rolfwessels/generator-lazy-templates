@@ -10,7 +10,6 @@ using MainSolutionTemplate.Core.MessageUtil.Models;
 using MainSolutionTemplate.Dal.Models;
 using MainSolutionTemplate.Dal.Models.Enums;
 using MainSolutionTemplate.Shared.Interfaces.Shared;
-using MainSolutionTemplate.Shared.Interfaces.Signalr;
 using MainSolutionTemplate.Shared.Models;
 using MainSolutionTemplate.Shared.Models.Reference;
 
@@ -18,8 +17,9 @@ namespace MainSolutionTemplate.Api.SignalR
 {
     
 
-    public class UserHub : BaseHub, IUserControllerActions, IUserHubEvents, IUserControllerStandardLookups
+    public class UserHub : BaseHub, IUserControllerActions, IEventUpdateEvent<UserModel>, IUserControllerStandardLookups
     {
+        private const string UpdateGroupName = "user.update.group";
         private readonly UserCommonController _userCommonController;
 
         public UserHub(UserCommonController userCommonController, IConnectionStateMapping connectionStateMapping)
@@ -68,12 +68,22 @@ namespace MainSolutionTemplate.Api.SignalR
 
         #endregion
 
-        #region IUserHubEvents Members
+        #region IEventUpdateEvent Members
+
+        public void SubscribeToUpdates()
+        {
+            Groups.Add(Context.ConnectionId, UpdateGroupName);
+        }
 
         [HubAuthorizeActivity(Activity.UserSubscribe)]
         public void OnUpdate(ValueUpdateModel<UserModel> user)
         {
-            Clients.All.OnUpdate(user);
+            Clients.Group(UpdateGroupName).OnUpdate(user);
+        }
+
+        public void UnsubscribeFromUpdates()
+        {
+            Groups.Remove(Context.ConnectionId, UpdateGroupName);
         }
 
         #endregion
