@@ -32,8 +32,7 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 		/// </summary>
 		/// <returns>
 		/// </returns>
-		[AuthorizeActivity(Activity.UserGet)]
-        [Route]
+        [Route,AuthorizeActivity(Activity.UserGet)]
 		public Task<IQueryable<UserReferenceModel>> Get()
 	    {
 	        return _userCommonController.Get();
@@ -41,8 +40,7 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 
         
 		
-		[AuthorizeActivity(Activity.UserGet)]
-        [Route(RouteHelper.WithDetail)]
+		[Route(RouteHelper.WithDetail),AuthorizeActivity(Activity.UserGet)]
 		public Task<IQueryable<UserModel>> GetDetail()
 	    {
 	        return _userCommonController.GetDetail();
@@ -54,8 +52,7 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 		/// </summary>
 		/// <returns>
 		/// </returns>
-		[AuthorizeActivity(Activity.UserGet)]
-		[Route(RouteHelper.WithId)]
+		[Route(RouteHelper.WithId),AuthorizeActivity(Activity.UserGet)]
 		public Task<UserModel> Get(Guid id)
 		{
             return _userCommonController.Get(id);
@@ -68,8 +65,7 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 	    /// <param name="user">The user.</param>
 	    /// <returns>
 	    /// </returns>
-		[AuthorizeActivity(Activity.UserUpdate)]
-        [Route(RouteHelper.WithId)]
+		[Route(RouteHelper.WithId),AuthorizeActivity(Activity.UserUpdate)]
 		public Task<UserModel> Put(Guid id, UserDetailModel user)
 		{
             return _userCommonController.Put(id, user);
@@ -81,8 +77,7 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 	    /// <param name="user">The user.</param>
 	    /// <returns>
 	    /// </returns>
-		[AuthorizeActivity(Activity.UserPost)]
-        [Route]
+        [Route,AuthorizeActivity(Activity.UserPost)]
 		public Task<UserModel> Post(UserDetailModel user)
 		{
             return _userCommonController.Post(user);
@@ -94,8 +89,7 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 	    /// <param name="id">The identifier.</param>
 	    /// <returns>
 	    /// </returns>
-		[AuthorizeActivity(Activity.UserDelete)]
-        [Route(RouteHelper.WithId)]
+		[Route(RouteHelper.WithId),AuthorizeActivity(Activity.UserDelete)]
 		public Task<bool> Delete(Guid id)
 		{
             return _userCommonController.Delete(id);
@@ -108,9 +102,7 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 	    /// </summary>
 	    /// <param name="user">The user.</param>
 	    /// <returns></returns>
-	    [AllowAnonymous]
-		[Route(RouteHelper.UserControllerRegister)]
-		[HttpPost]
+        [HttpPost, Route(RouteHelper.UserControllerRegister), AllowAnonymous]
 		public Task<UserModel> Register(RegisterModel user)
 		{
             return _userCommonController.Register(user);
@@ -122,9 +114,7 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 	    /// </summary>
 	    /// <param name="email">The email.</param>
 	    /// <returns></returns>
-	    [AllowAnonymous]
-		[Route(RouteHelper.UserControllerForgotPassword)]
-		[HttpGet]
+		[HttpGet, Route(RouteHelper.UserControllerForgotPassword),AllowAnonymous]
 		public Task<bool> ForgotPassword(string email)
 		{
             return _userCommonController.ForgotPassword(email);

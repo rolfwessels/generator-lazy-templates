@@ -58,7 +58,6 @@ namespace MainSolutionTemplate.Sdk.Tests.WebApi
             restResponse.Count.Should().Be(1);
 		}
 
-       
 		[Test]
 		public void Get_WhenCalled_ShouldHaveSomeContent()
 		{
