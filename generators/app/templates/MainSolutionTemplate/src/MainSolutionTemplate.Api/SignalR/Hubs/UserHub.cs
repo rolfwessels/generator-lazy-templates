@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using MainSolutionTemplate.Api.Common;
 using MainSolutionTemplate.Api.Models.Mappers;
 using MainSolutionTemplate.Api.SignalR.Attributes;
+using MainSolutionTemplate.Api.SignalR.Connection;
 using MainSolutionTemplate.Core.MessageUtil;
 using MainSolutionTemplate.Core.MessageUtil.Models;
 using MainSolutionTemplate.Dal.Models;
@@ -13,7 +14,7 @@ using MainSolutionTemplate.Shared.Interfaces.Shared;
 using MainSolutionTemplate.Shared.Models;
 using MainSolutionTemplate.Shared.Models.Reference;
 
-namespace MainSolutionTemplate.Api.SignalR
+namespace MainSolutionTemplate.Api.SignalR.Hubs
 {
     
 

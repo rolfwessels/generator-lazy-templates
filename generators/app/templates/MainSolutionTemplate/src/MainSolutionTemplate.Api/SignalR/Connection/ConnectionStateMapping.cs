@@ -1,13 +1,12 @@
-using System;
 using System.Collections.Concurrent;
 using System.Reflection;
+using log4net;
 using MainSolutionTemplate.Api.SignalR.Attributes;
 using MainSolutionTemplate.Core.Managers.Interfaces;
 using MainSolutionTemplate.Dal.Models.Enums;
 using Microsoft.AspNet.SignalR.Hubs;
-using log4net;
 
-namespace MainSolutionTemplate.Api.SignalR
+namespace MainSolutionTemplate.Api.SignalR.Connection
 {
 	public class ConnectionStateMapping : IConnectionStateMapping
 	{

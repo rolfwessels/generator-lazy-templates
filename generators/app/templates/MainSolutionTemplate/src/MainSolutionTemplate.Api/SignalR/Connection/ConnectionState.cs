@@ -1,12 +1,10 @@
 using System.Linq;
 using System.Security.Claims;
-using MainSolutionTemplate.Core.Managers;
-using MainSolutionTemplate.Core.Managers.Interfaces;
+using MainSolutionTemplate.Api.SignalR.Attributes;
 using MainSolutionTemplate.Dal.Models;
 using MainSolutionTemplate.Dal.Models.Enums;
-using MainSolutionTemplate.Api.SignalR.Attributes;
 
-namespace MainSolutionTemplate.Api.SignalR
+namespace MainSolutionTemplate.Api.SignalR.Connection
 {
 	public class ConnectionState
 	{

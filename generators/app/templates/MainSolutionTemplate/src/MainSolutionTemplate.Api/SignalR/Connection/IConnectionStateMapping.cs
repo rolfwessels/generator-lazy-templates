@@ -1,8 +1,7 @@
-using System;
 using MainSolutionTemplate.Dal.Models.Enums;
 using Microsoft.AspNet.SignalR.Hubs;
 
-namespace MainSolutionTemplate.Api.SignalR
+namespace MainSolutionTemplate.Api.SignalR.Connection
 {
 	public interface IConnectionStateMapping
 	{
