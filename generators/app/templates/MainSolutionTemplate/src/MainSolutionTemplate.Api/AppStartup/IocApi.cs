@@ -12,7 +12,7 @@ using MainSolutionTemplate.Dal.Persistance;
 
 namespace MainSolutionTemplate.Api.AppStartup
 {
-	public class IocApi : IocContainerBase
+	public class IocApi : IocCoreBase
 	{
 		private static bool _isInitialized;
 		private static readonly object _locker = new object();
@@ -71,7 +71,7 @@ namespace MainSolutionTemplate.Api.AppStartup
 
 		#endregion
 
-		#region Overrides of IocContainerBase
+		#region Overrides of IocCoreBase
 
 		protected override IGeneralUnitOfWork GetGeneralUnitOfWork(IComponentContext arg)
 		{
