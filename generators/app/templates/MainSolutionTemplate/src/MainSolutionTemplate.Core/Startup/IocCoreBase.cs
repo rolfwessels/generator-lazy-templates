@@ -6,7 +6,7 @@ using MainSolutionTemplate.Dal.Persistance;
 
 namespace MainSolutionTemplate.Core.Startup
 {
-	public abstract class IocContainerBase
+	public abstract class IocCoreBase
 	{
 		protected void SetupCore(ContainerBuilder builder)
 		{
