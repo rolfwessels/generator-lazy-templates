@@ -12,15 +12,10 @@ namespace MainSolutionTemplate.Api
 		public void Configuration(IAppBuilder appBuilder)
 		{
 			BootStrap.Initialize(appBuilder);
-
 			WebApiSetup webApiSetup = WebApiSetup.Initialize(appBuilder, IocApi.Instance.Resolve<IDependencyResolver>());
 			SignalRSetup.Initialize(appBuilder, IocApi.Instance.Resolve<Microsoft.AspNet.SignalR.IDependencyResolver>());
 			SwaggerSetup.Initialize(webApiSetup.Configuration);
-			var options = new FileServerOptions
-				{
-					FileSystem = new PhysicalFileSystem(Settings.Default.WebBasePath)
-				};
-			appBuilder.UseFileServer(options);
+            SimpleFileServer.Initialize(appBuilder);
 		}
 	}
 }

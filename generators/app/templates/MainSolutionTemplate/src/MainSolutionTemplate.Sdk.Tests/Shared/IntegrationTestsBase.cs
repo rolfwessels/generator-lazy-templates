@@ -1,5 +1,8 @@
 ﻿using System;
+using System.IO;
 using System.Reflection;
+using MainSolutionTemplate.Api.AppStartup;
+using NCrunch.Framework;
 using log4net;
 using MainSolutionTemplate.Sdk.OAuth;
 using MainSolutionTemplate.Sdk.RestApi;
@@ -42,7 +45,8 @@ namespace MainSolutionTemplate.Sdk.Tests.Shared
 			int port = new Random().Next(9000, 9999);
 			string address = string.Format("http://localhost:{0}/", port);
 			_log.Info(string.Format("Starting api on [{0}]", address));
-
+		    SimpleFileServer.PossibleWebBasePath = Path.Combine(NCrunchEnvironment.GetOriginalSolutionPath(),
+		                                                        @"..\MainSolutionTemplate.Website");
 			WebApp.Start<Api.Startup>(address);
 			return address;
 		}

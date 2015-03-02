@@ -176,6 +176,7 @@
     <Compile Include="AppStartup\BootStrap.cs" />
     <Compile Include="AppStartup\IocApi.cs" />
     <Compile Include="AppStartup\NewFile1.cs" />
+    <Compile Include="AppStartup\SimpleFileServer.cs" />
     <Compile Include="AppStartup\SwaggerSetup.cs" />
     <Compile Include="AppStartup\WebApiSetup.cs" />
     <Compile Include="Common\UserCommonController.cs" />
