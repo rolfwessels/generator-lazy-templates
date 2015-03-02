@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using MainSolutionTemplate.Api.AppStartup;
+using MainSolutionTemplate.Api.SignalR.Connection;
 using MainSolutionTemplate.Core.Managers.Interfaces;
 using Microsoft.AspNet.SignalR;
 

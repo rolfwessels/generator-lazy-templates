@@ -1,10 +1,10 @@
-﻿using System.Reflection;
-using System.Web.Http.Dependencies;
+﻿using System.Web.Http.Dependencies;
 using Autofac;
 using Autofac.Integration.SignalR;
 using Autofac.Integration.WebApi;
 using MainSolutionTemplate.Api.Common;
-using MainSolutionTemplate.Api.SignalR;
+using MainSolutionTemplate.Api.SignalR.Connection;
+using MainSolutionTemplate.Api.SignalR.Hubs;
 using MainSolutionTemplate.Api.WebApi.Controllers;
 using MainSolutionTemplate.Core.Startup;
 using MainSolutionTemplate.Dal.Mongo;

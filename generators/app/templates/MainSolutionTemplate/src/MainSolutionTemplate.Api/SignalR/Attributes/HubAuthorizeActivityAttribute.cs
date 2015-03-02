@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Security.Claims;
 using MainSolutionTemplate.Api.AppStartup;
+using MainSolutionTemplate.Api.SignalR.Connection;
 using MainSolutionTemplate.Core.Managers.Interfaces;
 using MainSolutionTemplate.Dal.Models.Enums;
 using Microsoft.AspNet.SignalR;
