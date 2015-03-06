@@ -22,7 +22,6 @@ namespace MainSolutionTemplate.Api.AppStartup
         public static void Initialize(IAppBuilder appBuilder)
         {
             var webBasePath = Settings.Default.WebBasePath;
-            _log.Info("Setting web path: " + PossibleWebBasePath);
             if (!Directory.Exists(webBasePath) && Directory.Exists(PossibleWebBasePath))
             {
                 _log.Warn("Using alternative path to base path:" + Path.GetFullPath(PossibleWebBasePath));
