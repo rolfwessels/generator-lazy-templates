@@ -3,9 +3,11 @@ using System.Linq;
 using FizzWare.NBuilder;
 using FizzWare.NBuilder.Generators;
 using FluentAssertions;
+using MainSolutionTemplate.Sdk.OAuth;
 using MainSolutionTemplate.Shared.Interfaces.Shared;
 using MainSolutionTemplate.Shared.Models;
 using NUnit.Framework;
+using MainSolutionTemplate.Utilities.Helpers;
 
 namespace MainSolutionTemplate.Sdk.Tests.Shared
 {
@@ -57,6 +59,26 @@ namespace MainSolutionTemplate.Sdk.Tests.Shared
             var userModels = _userHubClient.Get(userId);
             // assert
             userModels.Should().NotBeNull();
+        }
+
+        [Test]
+        public void Post_WhenCalledWithInvalidDate_ShouldThrowException()
+        {
+            // arrange
+            Setup();
+            var userDetailModel = Builder<UserDetailModel>.CreateNew().Build();
+            // action
+            try
+            {
+                _userHubClient.Post(userDetailModel).Wait();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            Action testCall = () => { _userHubClient.Post(userDetailModel).Wait(); };
+            // assert
+            testCall.ShouldThrow<Exception>().WithMessage("Validation failed: \r\n -- 'Email' is not a valid email address.");
         }
 
         [Test]

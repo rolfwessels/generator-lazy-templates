@@ -21,6 +21,6 @@ namespace MainSolutionTemplate.Shared.Models
       get { return _message; }
     }
 
-    public dynamic AdditionalDetail { get; set; }
+    public string AdditionalDetail { get; set; }
   }
 }

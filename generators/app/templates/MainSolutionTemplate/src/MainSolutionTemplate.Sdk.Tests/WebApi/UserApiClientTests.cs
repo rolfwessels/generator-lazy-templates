@@ -1,7 +1,10 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
+using FizzWare.NBuilder;
 using FluentAssertions;
 using MainSolutionTemplate.Sdk.OAuth;
 using MainSolutionTemplate.Sdk.Tests.Shared;
+using MainSolutionTemplate.Shared.Models;
 using NUnit.Framework;
 using log4net;
 
@@ -13,11 +16,6 @@ namespace MainSolutionTemplate.Sdk.Tests.WebApi
 	{
 		private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 	    private UserApiClient _userApiClient;
-
-	    public UserApiClientTests()
-	    {
-            
-	    }
 
 	    #region Setup/Teardown
 
@@ -48,7 +46,7 @@ namespace MainSolutionTemplate.Sdk.Tests.WebApi
 		}  
 
 		[Test]
-		public void GetDatail_WhenCalledWithTopAndSomeFilter_ShouldDisplayOnlySelectedRecords()
+		public void GetDetail_WhenCalledWithTopAndSomeFilter_ShouldDisplayOnlySelectedRecords()
 		{
 			// arrange
 			Setup();
@@ -95,6 +93,7 @@ namespace MainSolutionTemplate.Sdk.Tests.WebApi
             restResponse.Count.Should().BeGreaterThan(0);
 		}
 
+    
 
 	}
 
