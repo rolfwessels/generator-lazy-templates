@@ -10,7 +10,7 @@ namespace MainSolutionTemplate.Core.Managers.Interfaces
 		IQueryable<User> GetUsers();
         IQueryable<UserReference> GetUsersAsReference();
 		User GetUser(Guid id);
-		User SaveUser(User user);
+        User SaveUser(User user, string password = null);
 		User DeleteUser(Guid id);
 		User GetUserByEmailAndPassword(string email, string password);
 		User GetUserByEmail(string email);

@@ -1,14 +1,18 @@
-﻿using System.Web.Http.Dependencies;
+﻿using System;
+using System.Web.Http.Dependencies;
 using Autofac;
 using Autofac.Integration.SignalR;
 using Autofac.Integration.WebApi;
+using FluentValidation;
 using MainSolutionTemplate.Api.Common;
 using MainSolutionTemplate.Api.SignalR.Connection;
 using MainSolutionTemplate.Api.SignalR.Hubs;
 using MainSolutionTemplate.Api.WebApi.Controllers;
 using MainSolutionTemplate.Core.Startup;
+using MainSolutionTemplate.Dal.Models;
 using MainSolutionTemplate.Dal.Mongo;
 using MainSolutionTemplate.Dal.Persistance;
+using MainSolutionTemplate.Dal.Validation;
 
 namespace MainSolutionTemplate.Api.AppStartup
 {
@@ -28,6 +32,11 @@ namespace MainSolutionTemplate.Api.AppStartup
 			WebApi(builder);
 			SignalRHubs(builder);
 			_container = builder.Build();
+		    var validationRules = _container.Resolve<IValidator<User>>();
+		    if (validationRules == null)
+		    {
+		        throw new Exception("asdfasdn");
+		    }
 		}
 
 		private void SetupSignalr(ContainerBuilder builder)

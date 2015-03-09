@@ -71,6 +71,7 @@ namespace MainSolutionTemplate.Api.SignalR.Hubs
 
         #region IEventUpdateEvent Members
 
+        [HubAuthorizeActivity(Activity.UserSubscribe)]
         public async Task SubscribeToUpdates()
         {
             await Groups.Add(Context.ConnectionId, UpdateGroupName);
@@ -82,6 +83,7 @@ namespace MainSolutionTemplate.Api.SignalR.Hubs
             await Clients.Group(UpdateGroupName).OnUpdate(user);
         }
 
+        [HubAuthorizeActivity(Activity.UserSubscribe)]
         public async Task UnsubscribeFromUpdates()
         {
             await Groups.Remove(Context.ConnectionId, UpdateGroupName);
@@ -95,7 +97,8 @@ namespace MainSolutionTemplate.Api.SignalR.Hubs
         {
             Messenger.Default.Register<DalUpdateMessage<User>>(this,
                                                                (r) =>
-                                                                   { OnUpdate(r.ToValueUpdateModel<User, UserModel>());
+                                                                   { 
+                                                                       OnUpdate(r.ToValueUpdateModel<User, UserModel>()).Wait();
                                                                    });
         }
 

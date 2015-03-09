@@ -67,19 +67,19 @@ namespace MainSolutionTemplate.Sdk.SignalrClient
 
         #region Implementation of IEventUpdateEvent
 
-        public void OnUpdate(Action<ValueUpdateModel<UserModel>> callBack)
+        public Task OnUpdate(Action<ValueUpdateModel<UserModel>> callBack)
         {
-            _userHub.On("OnUpdate", callBack);
+           return  Task.Run(() => _userHub.On("OnUpdate", callBack));
         }
 
-        public void SubscribeToUpdates()
+        public Task SubscribeToUpdates()
         {
-            _userHub.Invoke("SubscribeToUpdates");
+            return  Task.Run(() => _userHub.Invoke("SubscribeToUpdates"));
         }
 
-        public void UnsubscribeFromUpdates()
+        public Task UnsubscribeFromUpdates()
         {
-            _userHub.Invoke("UnsubscribeFromUpdates");
+            return  Task.Run(() => _userHub.Invoke("UnsubscribeFromUpdates"));
         }
 
         #endregion

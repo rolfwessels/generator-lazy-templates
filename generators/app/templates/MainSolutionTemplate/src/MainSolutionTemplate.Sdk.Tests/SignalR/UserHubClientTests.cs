@@ -5,6 +5,8 @@ using System.Threading;
 using FizzWare.NBuilder;
 using FizzWare.NBuilder.Generators;
 using FluentAssertions;
+using MainSolutionTemplate.Api.Tests.Helper;
+using MainSolutionTemplate.Dal.Tests.Helpers;
 using log4net;
 using MainSolutionTemplate.Sdk.SignalrClient;
 using MainSolutionTemplate.Sdk.Tests.Shared;
@@ -50,7 +52,7 @@ namespace MainSolutionTemplate.Sdk.Tests.SignalR
         {
             // arrange
             Setup();
-            var userDetailModel = Builder<UserDetailModel>.CreateNew().With(x=>x.Name = GetRandom.FirstName()).Build();
+            var userDetailModel = Builder<UserDetailModel>.CreateNew().WithValidModelData().With(x => x.Name = GetRandom.FirstName()).Build();
             
             var valueUpdateModels = new List<ValueUpdateModel<UserModel>>();
             _client.OnUpdate(valueUpdateModels.Add);

@@ -6,6 +6,7 @@ using MainSolutionTemplate.Core.Vendor;
 using MainSolutionTemplate.Dal.Models;
 using MainSolutionTemplate.Dal.Models.Enums;
 using MainSolutionTemplate.Dal.Models.Reference;
+using MainSolutionTemplate.Dal.Validation;
 using MainSolutionTemplate.Utilities.Helpers;
 
 namespace MainSolutionTemplate.Core.Managers
@@ -29,13 +30,16 @@ namespace MainSolutionTemplate.Core.Managers
 			return _generalUnitOfWork.Users.FirstOrDefault(x => x.Id == id);
 		}
 
-		public User SaveUser(User user)
+		public User SaveUser(User user , string password = null)
 		{
 			user.Email = user.Email.ToLower();
-			var userFound = _generalUnitOfWork.Users.FirstOrDefault(x => x.Id == user.Id);
+            _validationFactory.ValidateAndThrow(user);
+            var userFound = _generalUnitOfWork.Users.FirstOrDefault(x => x.Id == user.Id);
+            user.HashedPassword = password != null || userFound == null ? PasswordHash.CreateHash(password ?? user.HashedPassword ?? DateTime.Now.ToString()) : userFound.HashedPassword;
 			if (userFound == null)
 			{
 				_log.Info(string.Format("Adding user [{0}]", user));
+                
 				_generalUnitOfWork.Users.Add(user);
 				_messenger.Send(new DalUpdateMessage<User>(user, UpdateTypes.Inserted));
 				return user;

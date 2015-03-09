@@ -112,6 +112,10 @@
     <Compile Include="SignalR\UserHubClientTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MainSolutionTemplate.Api.Tests\MainSolutionTemplate.Api.Tests.csproj">
+      <Project>{82C5647D-D8A6-46F6-9184-8AEABD51EDB6}</Project>
+      <Name>MainSolutionTemplate.Api.Tests</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MainSolutionTemplate.Api\MainSolutionTemplate.Api.csproj">
       <Project>{e2d671f8-b13f-4775-ae1a-eab1dfaa3c78}</Project>
       <Name>MainSolutionTemplate.Api</Name>
@@ -119,6 +123,10 @@
     <ProjectReference Include="..\MainSolutionTemplate.Core\MainSolutionTemplate.Core.csproj">
       <Project>{6B955EE7-2AC5-42E8-BA94-FE9EA2D49DDF}</Project>
       <Name>MainSolutionTemplate.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MainSolutionTemplate.Dal.Tests\MainSolutionTemplate.Dal.Tests.csproj">
+      <Project>{1076F621-E398-451F-A9EF-2C379B847FB9}</Project>
+      <Name>MainSolutionTemplate.Dal.Tests</Name>
     </ProjectReference>
     <ProjectReference Include="..\MainSolutionTemplate.Sdk\MainSolutionTemplate.Sdk.csproj">
       <Project>{01FB8481-2537-4C31-84FB-D402B4EAE20F}</Project>

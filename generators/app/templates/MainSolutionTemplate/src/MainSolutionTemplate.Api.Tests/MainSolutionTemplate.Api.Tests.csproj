@@ -179,6 +179,7 @@
     <Compile Include="Common\UserCommonControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup\AutoMapperSetupTests.cs" />
+    <Compile Include="Helper\TestDataHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\MainSolutionTemplate.Core.Tests\app.config">
