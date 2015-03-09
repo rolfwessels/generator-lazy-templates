@@ -71,20 +71,20 @@ namespace MainSolutionTemplate.Api.SignalR.Hubs
 
         #region IEventUpdateEvent Members
 
-        public void SubscribeToUpdates()
+        public async Task SubscribeToUpdates()
         {
-            Groups.Add(Context.ConnectionId, UpdateGroupName);
+            await Groups.Add(Context.ConnectionId, UpdateGroupName);
         }
 
         [HubAuthorizeActivity(Activity.UserSubscribe)]
-        public void OnUpdate(ValueUpdateModel<UserModel> user)
+        public async Task OnUpdate(ValueUpdateModel<UserModel> user)
         {
-            Clients.Group(UpdateGroupName).OnUpdate(user);
+            await Clients.Group(UpdateGroupName).OnUpdate(user);
         }
 
-        public void UnsubscribeFromUpdates()
+        public async Task UnsubscribeFromUpdates()
         {
-            Groups.Remove(Context.ConnectionId, UpdateGroupName);
+            await Groups.Remove(Context.ConnectionId, UpdateGroupName);
         }
 
         #endregion

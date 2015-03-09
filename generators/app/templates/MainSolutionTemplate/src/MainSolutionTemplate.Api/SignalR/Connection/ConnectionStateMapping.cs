@@ -46,10 +46,10 @@ namespace MainSolutionTemplate.Api.SignalR.Connection
 			return removed;
 		}
 
-		public void Reconnect(HubCallerContext context)
+		public ConnectionState Reconnect(HubCallerContext context)
 		{
 			_log.Info("Reconnect.... " + _connections.ContainsKey(context.ConnectionId));
-			AddOrGet(context);
+			return AddOrGet(context);
 		}
 
 		public bool IsAuthorized(ConnectionState connectionState, Activity[] activities)

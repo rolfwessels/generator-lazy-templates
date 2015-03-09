@@ -1,7 +1,5 @@
 using System.Threading.Tasks;
-using MainSolutionTemplate.Api.AppStartup;
 using MainSolutionTemplate.Api.SignalR.Connection;
-using MainSolutionTemplate.Core.Managers.Interfaces;
 using Microsoft.AspNet.SignalR;
 
 namespace MainSolutionTemplate.Api.SignalR
@@ -19,26 +17,28 @@ namespace MainSolutionTemplate.Api.SignalR
 			FireInitializeOnce();
 		}
 
-		public override Task OnConnected()
+		public override async Task OnConnected()
 		{
 			ConnectionState connectionState = _connectionsState.AddOrGet(Context);
-			Groups.Add(Context.ConnectionId, connectionState.UserEmail);
-			return base.OnConnected();
+			await Groups.Add(Context.ConnectionId, connectionState.UserEmail);
+			await base.OnConnected();
 		}
 
 
-		public override Task OnDisconnected(bool stopCalled)
+        public override async Task OnDisconnected(bool stopCalled)
 		{
 			ConnectionState connectionState = _connectionsState.Remove(Context.ConnectionId);
-			Groups.Remove(Context.ConnectionId, connectionState.UserEmail);
-			return base.OnDisconnected(stopCalled);
+            await Groups.Remove(Context.ConnectionId, connectionState.UserEmail);
+			await base.OnDisconnected(stopCalled);
+            
 		}
 
 
-		public override Task OnReconnected()
+		public override async Task OnReconnected()
 		{
-			_connectionsState.Reconnect(Context);
-			return base.OnReconnected();
+		    var connectionState = _connectionsState.Reconnect(Context);
+		    await Groups.Add(Context.ConnectionId, connectionState.UserEmail);
+			await base.OnReconnected();
 		}
 
 		protected virtual void OnInitializeOnce()

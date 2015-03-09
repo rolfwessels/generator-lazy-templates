@@ -1,15 +1,16 @@
+using System.Threading.Tasks;
 using MainSolutionTemplate.Shared.Models;
 
 namespace MainSolutionTemplate.Shared.Interfaces.Shared
 {
 	public interface IEventUpdateEvent
 	{
-        void SubscribeToUpdates();
-        void UnsubscribeFromUpdates();
+        Task SubscribeToUpdates();
+        Task UnsubscribeFromUpdates();
 	}
     
     public interface IEventUpdateEvent<T> : IEventUpdateEvent
 	{
-		void OnUpdate(ValueUpdateModel<T> user);
+		Task OnUpdate(ValueUpdateModel<T> user);
 	}
 }
