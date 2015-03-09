@@ -87,6 +87,7 @@
   <ItemGroup>
     <Compile Include="Helpers\RestShapHelper.cs" />
     <Compile Include="Models\PagedResult.cs" />
+    <Compile Include="OAuth\ApiClientBase.cs" />
     <Compile Include="OAuth\OAuthApiClient.cs" />
     <Compile Include="OAuth\OAuthApiClientBase.cs" />
     <Compile Include="OAuth\RestClientException.cs" />
