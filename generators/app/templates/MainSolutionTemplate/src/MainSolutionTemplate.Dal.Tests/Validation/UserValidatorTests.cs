@@ -32,7 +32,7 @@ namespace MainSolutionTemplate.Dal.Tests.Validation
         #endregion
 
         [Test]
-        public void Validate_GiveNullName_ShouldFail()
+        public void Validate_GiveValidUserData_ShouldNotFail()
         {
             // arrange
             Setup();
@@ -52,6 +52,43 @@ namespace MainSolutionTemplate.Dal.Tests.Validation
             Setup();
             // assert
             _validator.ShouldHaveValidationErrorFor(user => user.Name, null as string);
+        }
+
+             
+        [Test]
+        public void Email_GiveEmptyEmail_ShouldFail()
+        {
+            // arrange
+            Setup();
+            // assert
+            _validator.ShouldHaveValidationErrorFor(user => user.Email, null as string);
+        }
+     
+        [Test]
+        public void Email_GiveInvalidEmail_ShouldFail()
+        {
+            // arrange
+            Setup();
+            // assert
+            _validator.ShouldHaveValidationErrorFor(user => user.Email, "test");
+        }
+
+        [Test]
+        public void Email_GiveValidEmail_ShouldNotFail()
+        {
+            // arrange
+            Setup();
+            // assert
+            _validator.ShouldNotHaveValidationErrorFor(user => user.Email, "test@test.com");
+        }
+
+        [Test]
+        public void HashedPassword_GivenEmptyPassword_ShouldFail()
+        {
+            // arrange
+            Setup();
+            // assert
+            _validator.ShouldHaveValidationErrorFor(user => user.HashedPassword, "");
         }
 
          

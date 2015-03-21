@@ -33,13 +33,12 @@ namespace MainSolutionTemplate.Core.Managers
 		public User SaveUser(User user , string password = null)
 		{
 			user.Email = user.Email.ToLower();
-            _validationFactory.ValidateAndThrow(user);
-            var userFound = _generalUnitOfWork.Users.FirstOrDefault(x => x.Id == user.Id);
-            user.HashedPassword = password != null || userFound == null ? PasswordHash.CreateHash(password ?? user.HashedPassword ?? DateTime.Now.ToString()) : userFound.HashedPassword;
-			if (userFound == null)
+		    var userFound = _generalUnitOfWork.Users.FirstOrDefault(x => x.Id == user.Id);
+		    user.HashedPassword = password != null || userFound == null ? PasswordHash.CreateHash(password ?? user.HashedPassword ?? DateTime.Now.ToString()) : userFound.HashedPassword;
+		    _validationFactory.ValidateAndThrow(user);
+		    if (userFound == null)
 			{
 				_log.Info(string.Format("Adding user [{0}]", user));
-                
 				_generalUnitOfWork.Users.Add(user);
 				_messenger.Send(new DalUpdateMessage<User>(user, UpdateTypes.Inserted));
 				return user;

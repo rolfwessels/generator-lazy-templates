@@ -13,4 +13,4 @@ obj
 .dropbox.attr
 *.log
 src/_NCrunch_MainSolutionTemplate/
-src/MainSolutionTemplate.Website/bower_components
+**/bower_components
