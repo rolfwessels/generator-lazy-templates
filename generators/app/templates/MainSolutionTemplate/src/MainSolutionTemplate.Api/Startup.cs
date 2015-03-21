@@ -1,6 +1,8 @@
 using System.Web.Http.Dependencies;
 using MainSolutionTemplate.Api.AppStartup;
 using MainSolutionTemplate.Api.Properties;
+using MainSolutionTemplate.Api.SignalR;
+using MainSolutionTemplate.Api.Swagger;
 using Microsoft.Owin.FileSystems;
 using Microsoft.Owin.StaticFiles;
 using Owin;

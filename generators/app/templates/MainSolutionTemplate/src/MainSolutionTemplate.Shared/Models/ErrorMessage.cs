@@ -4,22 +4,18 @@ namespace MainSolutionTemplate.Shared.Models
 {
   public class ErrorMessage
   {
-    private readonly string _message;
-
+    
     public ErrorMessage()
     {
-      _message = String.Empty;
+        Message = String.Empty;
     }
 
     public ErrorMessage(string message)
     {
-      _message = message;
+        Message = message;
     }
 
-    public string Message
-    {
-      get { return _message; }
-    }
+    public string Message { get; set; }
 
     public string AdditionalDetail { get; set; }
   }

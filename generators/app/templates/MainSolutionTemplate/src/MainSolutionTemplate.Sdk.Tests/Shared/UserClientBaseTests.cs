@@ -78,7 +78,7 @@ namespace MainSolutionTemplate.Sdk.Tests.Shared
             }
             Action testCall = () => { _userHubClient.Post(userDetailModel).Wait(); };
             // assert
-            testCall.ShouldThrow<Exception>().WithMessage("Validation failed: \r\n -- 'Email' is not a valid email address.");
+            testCall.ShouldThrow<Exception>().WithMessage("'Email' is not a valid email address.");
         }
 
         [Test]

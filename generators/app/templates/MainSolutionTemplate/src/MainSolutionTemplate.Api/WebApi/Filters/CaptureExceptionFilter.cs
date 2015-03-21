@@ -73,7 +73,7 @@ namespace MainSolutionTemplate.Api.WebApi.Filters
             context.Response = context.Request.CreateResponse(httpStatusCode, errorMessage);
         }
 
-        private static bool IsSomeSortOfValidationError(Exception exception)
+        public static bool IsSomeSortOfValidationError(Exception exception)
         {
             return exception is System.ComponentModel.DataAnnotations.ValidationException ||
                    exception is ArgumentException ||

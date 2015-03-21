@@ -45,7 +45,11 @@ namespace MainSolutionTemplate.Sdk.Tests.Shared
             int port = new Random().Next(9000, 9999);
             string address = string.Format("http://localhost:{0}/", port);
             _log.Info(string.Format("Starting api on [{0}]", address));
-            SimpleFileServer.PossibleWebBasePath = Path.Combine(NCrunchEnvironment.GetOriginalSolutionPath(),
+
+            var combine = Path.GetFullPath(Path.Combine(new Uri(Assembly.GetAssembly(typeof(Startup)).CodeBase).LocalPath, @"..\..\..\"));
+            _log.Info("lookfor:" + combine);
+            SimpleFileServer.PossibleWebBasePath = Path.Combine(NCrunchEnvironment.GetOriginalSolutionPath()
+                ?? combine,
                                                                 @"..\MainSolutionTemplate.Website");
             WebApp.Start<Startup>(address);
             return address;

@@ -5,6 +5,7 @@ using MainSolutionTemplate.Sdk.Helpers;
 using MainSolutionTemplate.Sdk.RestApi;
 using MainSolutionTemplate.Shared.Models;
 using MainSolutionTemplate.Utilities.Helpers;
+using Newtonsoft.Json;
 using RestSharp;
 
 namespace MainSolutionTemplate.Sdk.OAuth
@@ -23,9 +24,7 @@ namespace MainSolutionTemplate.Sdk.OAuth
             
             if (result.StatusCode != HttpStatusCode.OK)
             {
-                var errorMessage = SimpleJson.DeserializeObject<ErrorMessage>(result.Content);
-                Console.Out.WriteLine("errorMessage: " + errorMessage.Dump());
-                
+                var errorMessage = JsonConvert.DeserializeObject<ErrorMessage>(result.Content);
                 throw new Exception(errorMessage.Message);
             }
         }

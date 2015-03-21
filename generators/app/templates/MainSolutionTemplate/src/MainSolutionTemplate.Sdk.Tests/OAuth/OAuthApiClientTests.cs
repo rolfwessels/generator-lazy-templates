@@ -4,7 +4,6 @@ using FluentAssertions;
 using log4net;
 using MainSolutionTemplate.Sdk.OAuth;
 using MainSolutionTemplate.Sdk.Tests.Shared;
-using MainSolutionTemplate.Sdk.Tests.WebApi;
 using MainSolutionTemplate.Shared.Models;
 using NUnit.Framework;
 

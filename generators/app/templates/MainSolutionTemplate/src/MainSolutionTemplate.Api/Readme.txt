@@ -1,34 +1,27 @@
-﻿﻿Urls
--------------------------
-
-http://www.asp.net/signalr/overview/signalr-20/getting-started-with-signalr-20/tutorial-signalr-20-self-host
-
-
-Install packages
+﻿Install packages for any selfhosting
 ----------------------
 
--- Install-Package Microsoft.AspNet.WebApi.Owin
--- Install-Package Microsoft.AspNet.SignalR.Owin
+install-package Antlr -version 3.5.0.2
+install-package Microsoft.AspNet.Cors -version 5.2.2
+install-package Microsoft.AspNet.SignalR.Core -version 2.1.2
+install-package Microsoft.AspNet.SignalR.Owin -version 1.2.2
+install-package Microsoft.AspNet.WebApi.Client -version 5.2.3
+install-package Microsoft.AspNet.WebApi.Core -version 5.2.3
+install-package Microsoft.AspNet.WebApi.OData -version 5.4.0
+install-package Microsoft.AspNet.WebApi.Owin -version 5.2.2
+install-package Microsoft.Data.Edm -version 5.6.3
+install-package Microsoft.Data.OData -version 5.6.3
+install-package Microsoft.Owin -version 3.0.0
+install-package Microsoft.Owin.Cors -version 3.0.0
+install-package Microsoft.Owin.FileSystems -version 3.0.0
+install-package Microsoft.Owin.Host.HttpListener -version 3.0.0
+install-package Microsoft.Owin.Host.SystemWeb -version 3.0.0
+install-package Microsoft.Owin.Security -version 3.0.0
+install-package Microsoft.Owin.Security.OAuth -version 3.0.0
+install-package Microsoft.Owin.StaticFiles -version 3.0.0
+install-package Owin -version 1.0
+install-package Owin.Extensions -version 0.8.5
+install-package Owin.Types -version 0.8.5
+install-package Owin.Types -version 0.8.5
 
-Install-Package log4net
-Install-Package AutoMapper
-Install-Package Owin.Extensions
-Install-Package Microsoft.Owin.Host.HttpListener
-install-package Microsoft.AspNet.WebApi.OData
-install-package Microsoft.Owin.Security
-install-package Microsoft.Owin.Cors
-install-package Microsoft.AspNet.WebApi.Owin
-install-package Microsoft.Owin.Host.SystemWeb
 
-
-Install-Package Microsoft.Owin.Host.SystemWeb
-Install-Package Owin.Extensions
-Install-Package Microsoft.Owin.Host.HttpListener
-Install-Package Nancy.Owin
-Install-Package Microsoft.AspNet.SignalR.Core
-Install-Package Microsoft.AspNet.SignalR.JS
-
-Setup Owin
---------------------
-cinst owinhost
-[assembly: OwinStartup(typeof(WebApplication3.Startup))]

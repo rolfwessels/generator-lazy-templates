@@ -169,6 +169,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Swagger\loginForm.html" />
+    <EmbeddedResource Include="Swagger\onComplete.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -179,10 +181,11 @@
     </Compile>
     <Compile Include="AppStartup\BootStrap.cs" />
     <Compile Include="AppStartup\IocApi.cs" />
-    <Compile Include="AppStartup\NewFile1.cs" />
+    <Compile Include="SignalR\Modules\HubErrorModule.cs" />
+    <Compile Include="SignalR\SignalRSetup.cs" />
     <Compile Include="AppStartup\SimpleFileServer.cs" />
-    <Compile Include="AppStartup\SwaggerSetup.cs" />
-    <Compile Include="AppStartup\WebApiSetup.cs" />
+    <Compile Include="Swagger\SwaggerSetup.cs" />
+    <Compile Include="WebApi\WebApiSetup.cs" />
     <Compile Include="Common\UserCommonController.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Models\Mappers\MapUserModel.cs" />
@@ -220,6 +223,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </Content>
+    <None Include="Properties\PublishProfiles\Publish - Debug.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
