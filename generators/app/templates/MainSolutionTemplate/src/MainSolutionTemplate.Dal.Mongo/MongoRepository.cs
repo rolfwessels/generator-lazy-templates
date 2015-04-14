@@ -24,9 +24,11 @@ namespace MainSolutionTemplate.Dal.Mongo
 
 		#region Implementation of IRepository<T>
 
-		public IQueryable<T> All {
-			get { return _mongoCollection.AsQueryable(); }
-		}
+        public IQueryable<T> All
+        {
+            get { return _mongoCollection.AsQueryable(); }
+
+        }
 
 		public T Add(T entity)
 		{
@@ -83,15 +85,21 @@ namespace MainSolutionTemplate.Dal.Mongo
 
 		#region Implementation of IQueryable
 
-		public Expression Expression {
-			get { return _mongoCollection.AsQueryable().Expression; }
-		}
-		public Type ElementType {
-			get { return _mongoCollection.AsQueryable().ElementType; }
-		}
-		public IQueryProvider Provider {
-			get { return _mongoCollection.AsQueryable().Provider; }
-		}
+        public Expression Expression
+        {
+            get { return _mongoCollection.AsQueryable().Expression; }
+
+        }
+        public Type ElementType
+        {
+            get { return _mongoCollection.AsQueryable().ElementType; }
+
+        }
+        public IQueryProvider Provider
+        {
+            get { return _mongoCollection.AsQueryable().Provider; }
+
+        }
 
 		#endregion
 	}

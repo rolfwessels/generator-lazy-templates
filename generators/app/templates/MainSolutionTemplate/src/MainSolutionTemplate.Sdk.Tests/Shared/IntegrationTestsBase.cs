@@ -42,12 +42,16 @@ namespace MainSolutionTemplate.Sdk.Tests.Shared
 
         public static TokenResponseModel AdminToken
         {
-            get {
+            get
+            {
                 if (_adminToken == null)
                 {
                     _log.Info("Create admin request: " + _adminRequestFactory.Value);
                 }
-                return _adminToken; }
+
+                return _adminToken;
+            }
+
         }
 
         #region Private Methods

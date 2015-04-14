@@ -12,7 +12,8 @@ namespace MainSolutionTemplate.Core.Tests.Helpers
             do
             {
                 result = o(updateModels);
-            } while (!result && stopTime< DateTime.Now);
+            }
+            while (!result && stopTime < DateTime.Now);
         }
     }
 }

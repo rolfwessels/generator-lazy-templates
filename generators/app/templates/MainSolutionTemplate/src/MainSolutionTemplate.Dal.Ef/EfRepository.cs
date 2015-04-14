@@ -82,9 +82,11 @@ namespace MainSolutionTemplate.Dal.Ef
 
 		#region Implementation of IQueryable
 
-		public Expression Expression {
-			get { return _asQueryable.Expression; }
-		}
+        public Expression Expression
+        {
+            get { return _asQueryable.Expression; }
+
+        }
 
 		public Type ElementType
 		{

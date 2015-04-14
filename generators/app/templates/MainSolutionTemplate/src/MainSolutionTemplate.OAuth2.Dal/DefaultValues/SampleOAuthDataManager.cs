@@ -31,15 +31,16 @@ namespace MainSolutionTemplate.OAuth2.Dal.DefaultValues
 
 		#region Implementation of IOAuthDataManager
 
-		public Task<IOAuthClient> GetApplication(string clientId)
-		{
-			return Task.FromResult(new DefaultIoAuthClient()
-				{
-					Active =  true,
-					AllowedOrigin = "*",
-					RefreshTokenLifeTime = TimeSpan.FromDays(1).TotalMinutes
-				} as IOAuthClient);
-		}
+        public Task<IOAuthClient> GetApplication(string clientId)
+        {
+            return Task.FromResult(new DefaultIoAuthClient()
+                {
+                    Active = true,
+                    AllowedOrigin = "*",
+                    RefreshTokenLifeTime = TimeSpan.FromDays(1).TotalMinutes
+                }
+ as IOAuthClient);
+        }
 
 		public Task<IAuthorizedUser> GetUserByUserIdAndPassword(string userName, string password)
 		{
