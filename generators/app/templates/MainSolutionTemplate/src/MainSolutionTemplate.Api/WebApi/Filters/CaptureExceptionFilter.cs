@@ -39,26 +39,6 @@ namespace MainSolutionTemplate.Api.WebApi.Filters
 
         #region Private Methods
 
-        private void RespondWithValidationRequest(HttpActionExecutedContext context,
-                                                  ValidationException validationException)
-        {
-            const HttpStatusCode httpStatusCode = HttpStatusCode.BadRequest;
-            var errorMessage = new ErrorMessage(validationException.Errors.Select(x=>x.ErrorMessage).FirstOrDefault());
-            context.Response = context.Request.CreateResponse(httpStatusCode, errorMessage);
-        }
-
-        private void RespondWithInternalServerException(HttpActionExecutedContext context, Exception exception)
-        {
-            _log.Error(exception.Message, exception);
-            const HttpStatusCode httpStatusCode = HttpStatusCode.InternalServerError;
-            var errorMessage =
-                new ErrorMessage("An internal system error has occurred. The developers have been notified.");
-#if DEBUG
-            errorMessage.AdditionalDetail = exception.Message;
-#endif
-            context.Response = context.Request.CreateResponse(httpStatusCode, errorMessage);
-        }
-
         private static void RespondWithTheExceptionMessage(HttpActionExecutedContext context, Exception exception)
         {
             HttpStatusCode httpStatusCode = (exception as ApiException).HttpStatusCode;
@@ -79,6 +59,28 @@ namespace MainSolutionTemplate.Api.WebApi.Filters
                    exception is ArgumentException ||
                    exception is ArgumentOutOfRangeException || exception is ArgumentNullException;
         }
+
+        private void RespondWithValidationRequest(HttpActionExecutedContext context,
+                                                  ValidationException validationException)
+        {
+            const HttpStatusCode httpStatusCode = HttpStatusCode.BadRequest;
+            var errorMessage = new ErrorMessage(validationException.Errors.Select(x=>x.ErrorMessage).FirstOrDefault());
+            context.Response = context.Request.CreateResponse(httpStatusCode, errorMessage);
+        }
+
+        private void RespondWithInternalServerException(HttpActionExecutedContext context, Exception exception)
+        {
+            _log.Error(exception.Message, exception);
+            const HttpStatusCode httpStatusCode = HttpStatusCode.InternalServerError;
+            var errorMessage =
+                new ErrorMessage("An internal system error has occurred. The developers have been notified.");
+#if DEBUG
+            errorMessage.AdditionalDetail = exception.Message;
+#endif
+            context.Response = context.Request.CreateResponse(httpStatusCode, errorMessage);
+        }
+
+       
 
         #endregion
     }

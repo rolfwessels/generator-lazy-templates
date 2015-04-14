@@ -21,12 +21,6 @@ namespace MainSolutionTemplate.Sdk.OAuth
             _apiPrefix = RouteHelper.UserController;
         }
 
-
-        private RestRequest DefaultRequest(string userController, Method get)
-        {
-            return new RestRequest(userController, get) { RequestFormat = DataFormat.Json };
-        }
-
         #region Implementation of IUserControllerActions
 
         public async Task<UserModel> Get(Guid id)
@@ -117,5 +111,14 @@ namespace MainSolutionTemplate.Sdk.OAuth
             var request = DefaultRequest(_apiPrefix.UriCombine(RouteHelper.WithDetail) + "?" + oDataQuery, Method.GET);
             return await ExecuteAndValidate<PagedResult<UserModel>>(request);
         }
+
+        #region Private Methods
+        
+        private RestRequest DefaultRequest(string userController, Method get)
+        {
+            return new RestRequest(userController, get) { RequestFormat = DataFormat.Json };
+        }
+
+        #endregion
     }
 }
