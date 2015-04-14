@@ -236,7 +236,7 @@ namespace MainSolutionTemplate.Console.Helpers
                     }
                 }
             }
-            return (status.dwCurrentState == desiredStatus);
+            return status.dwCurrentState == desiredStatus;
         }
 
         private static IntPtr OpenSCManager(ScmAccessRights rights)

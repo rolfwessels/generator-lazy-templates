@@ -11,5 +11,5 @@ using Microsoft.Owin;
 [assembly: ComVisible(false)]
 [assembly: Guid("41627d52-98a4-4f2b-adef-0752c128eff9")]
 [assembly: MainSolutionTemplate.Utilities.Helpers.Log4NetInitialize("MainSolutionTemplate.console")]
-[assembly: log4net.Config.XmlConfigurator()]
+[assembly: log4net.Config.XmlConfigurator]
 

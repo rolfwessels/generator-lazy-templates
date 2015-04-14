@@ -6,4 +6,4 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("")]
 [assembly: Guid("009ad277-246f-48eb-8b57-7f773f9dda19")]
 [assembly: MainSolutionTemplate.Utilities.Helpers.Log4NetInitialize("MainSolutionTemplate.Website")]
-[assembly: log4net.Config.XmlConfigurator()]
+[assembly: log4net.Config.XmlConfigurator]

@@ -5,5 +5,5 @@ using System.Reflection;
 // associated with an assembly.
 [assembly: AssemblyTitle("MainSolutionTemplate.Api.Tests")]
 [assembly: MainSolutionTemplate.Utilities.Helpers.Log4NetInitialize("MainSolutionTemplate.Api.Tests")]
-[assembly: log4net.Config.XmlConfigurator()]
+[assembly: log4net.Config.XmlConfigurator]
 [assembly: AssemblyDescription("Contains all MainSolutionTemplate unit tests")]
