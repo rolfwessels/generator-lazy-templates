@@ -123,7 +123,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\CommonAssemblyInfo.cs" />
     <Compile Include="Startup\IocCoreBase.cs" />
-    <Compile Include="Vendor\PasswordHash.cs" />
+    <Compile Include="Vendor\PasswordHash.cs">
+      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

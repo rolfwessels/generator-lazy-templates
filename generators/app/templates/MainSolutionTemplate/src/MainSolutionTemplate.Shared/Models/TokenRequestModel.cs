@@ -16,7 +16,7 @@ namespace MainSolutionTemplate.Shared.Models
         public string Password { get; set; }
 
         [SerializeAs(Name = "client_id")]
-        public string client_id { get; set; }
+        public string ClientId { get; set; }
 
         [SerializeAs(Name = "grant_type")]
         public string GrantType { get; set; }

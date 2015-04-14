@@ -78,7 +78,7 @@ namespace MainSolutionTemplate.Sdk.Tests.Shared
             var oAuthConnection = new OAuthApiClient(restConnectionFactory);
             _adminToken = oAuthConnection.GenerateToken(new TokenRequestModel
                 {
-                    UserName = AdminUser, client_id = ClientId, Password = AdminPassword
+                    UserName = AdminUser, ClientId = ClientId, Password = AdminPassword
                 }).Result;
             
             return restConnectionFactory;

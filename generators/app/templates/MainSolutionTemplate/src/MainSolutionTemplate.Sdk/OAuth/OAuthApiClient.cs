@@ -20,7 +20,7 @@ namespace MainSolutionTemplate.Sdk.OAuth
             request.AddParameter("username", tokenRequestModel.UserName);
             request.AddParameter("password", tokenRequestModel.Password);
             request.AddParameter("grant_type", tokenRequestModel.GrantType);
-            request.AddParameter("client_id", tokenRequestModel.client_id);
+            request.AddParameter("client_id", tokenRequestModel.ClientId);
 
             IRestResponse<TokenResponseModel> result =
                 await _restClient.ExecuteAsyncWithLogging<TokenResponseModel>(request);

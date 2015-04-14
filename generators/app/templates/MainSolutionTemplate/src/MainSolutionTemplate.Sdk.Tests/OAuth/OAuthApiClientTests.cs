@@ -19,7 +19,7 @@ namespace MainSolutionTemplate.Sdk.Tests.OAuth
 
 	    public OAuthApiClientTests()
 	    {
-	        _tokenRequestModel = new TokenRequestModel() { UserName = AdminUser, client_id = ClientId, Password = AdminPassword };
+	        _tokenRequestModel = new TokenRequestModel() { UserName = AdminUser, ClientId = ClientId, Password = AdminPassword };
 	    }
 
 	    #region Setup/Teardown
@@ -71,7 +71,7 @@ namespace MainSolutionTemplate.Sdk.Tests.OAuth
 		{
 			// arrange
 			Setup();
-		    var tokenRequestModel = new TokenRequestModel() { UserName = AdminUser, client_id = ClientId, Password = AdminPassword + AdminPassword };
+		    var tokenRequestModel = new TokenRequestModel() { UserName = AdminUser, ClientId = ClientId, Password = AdminPassword + AdminPassword };
 			// action
             Action testCall = () => { _oAuthApiClient.GenerateToken(tokenRequestModel).Wait(); };
 		    // assert
