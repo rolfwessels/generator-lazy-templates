@@ -37,6 +37,7 @@ namespace MainSolutionTemplate.Dal.Mongo
 			Users = new MongoRepository<User>(_db);
 			Roles = new MongoRepository<Role>(_db);
 			Applications = new MongoRepository<Application>(_db);
+            Projects = new MongoRepository<Project>(_db);
 		}
 
 		#region Implementation of IUnitOfWork
@@ -67,8 +68,9 @@ namespace MainSolutionTemplate.Dal.Mongo
 		public IRepository<User> Users { get; private set; }
 		public IRepository<Role> Roles { get; private set; }
 		public IRepository<Application> Applications { get; private set; }
+	    public IRepository<Project> Projects { get; private set; }
 
-		#endregion
+	    #endregion
 	}
 
 }

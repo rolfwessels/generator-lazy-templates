@@ -8,7 +8,7 @@ namespace MainSolutionTemplate.Dal.Validation
     {
         public UserValidator()
         {
-            RuleFor(x => x.Name).NotNull().Length(1, 100);
+            RuleFor(x => x.Name).NotNull().MediumString();
             RuleFor(x => x.Email).NotNull().EmailAddress();
             RuleFor(x => x.HashedPassword).NotEmpty();
         }

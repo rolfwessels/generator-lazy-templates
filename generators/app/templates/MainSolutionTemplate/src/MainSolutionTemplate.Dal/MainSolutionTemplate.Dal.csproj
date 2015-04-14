@@ -110,9 +110,11 @@
     <Compile Include="Models\Interfaces\IBaseDalModel.cs" />
     <Compile Include="Models\Interfaces\IBaseDalModelWithId.cs" />
     <Compile Include="Models\Reference\UserReference.cs" />
+    <Compile Include="Models\Reference\ProjectReference.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\Roles.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Models\Project.cs" />
     <Compile Include="Persistance\IGeneralUnitOfWork.cs" />
     <Compile Include="Persistance\IRepository.cs" />
     <Compile Include="Persistance\IUnitOfWork.cs" />
@@ -122,6 +124,8 @@
     </Compile>
     <Compile Include="Validation\IValidatorFactory.cs" />
     <Compile Include="Validation\UserValidator.cs" />
+    <Compile Include="Validation\ProjectValidator.cs" />
+    <Compile Include="Validation\ValidationHelper.cs" />
     <Compile Include="Validation\ValidatorFactory.cs" />
   </ItemGroup>
   <ItemGroup>

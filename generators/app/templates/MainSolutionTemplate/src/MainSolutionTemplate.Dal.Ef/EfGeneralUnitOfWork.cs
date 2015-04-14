@@ -44,6 +44,7 @@ namespace MainSolutionTemplate.Dal.Ef
 			Users = new EfRepository<User>(_context.Value.Users, _context.Value);
 			Roles = new EfRepository<Role>(_context.Value.Roles, _context.Value);
 			Applications = new EfRepository<Application>(_context.Value.Applications, _context.Value);
+            Projects = new EfRepository<Project>(_context.Value.Projects, _context.Value);
 		}
 
 		#endregion
@@ -63,7 +64,8 @@ namespace MainSolutionTemplate.Dal.Ef
 		public IRepository<User> Users { get; private set; }
 		public IRepository<Role> Roles { get; private set; }
 		public IRepository<Application> Applications { get; private set; }
+	    public IRepository<Project> Projects { get; private set; }
 
-		#endregion
+	    #endregion
 	}
 }

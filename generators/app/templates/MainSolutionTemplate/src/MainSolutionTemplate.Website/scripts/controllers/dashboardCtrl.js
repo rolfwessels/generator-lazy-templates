@@ -16,9 +16,10 @@ angular.module('webapp.controllers')
                 },function(error) {
                   $log.error(error);
                 });
+                dataService.users.onUpdate($scope, $scope.users);
             }, messageService.error,messageService.debug);
 
-            dataService.users.onUpdate($scope, $scope.users);
+            
 
             /**
              * Select the current avatars
@@ -39,7 +40,10 @@ angular.module('webapp.controllers')
                     var data =  null;
                     $log.debug(clickedItem.name + ' clicked!');
                     if (clickedItem.name == "Add") {
-                            dataService.users.post({ Name : ("Sample "+new Date()), Email : "Sample" });
+                        var result = dataService.users.post({ Name : ("Sample "+new Date()), Email : "Sample" });
+                        console.log(result);
+                        result.fail(messageService.error);
+
                     }
                     else if (clickedItem.name == "Delete") {
                         

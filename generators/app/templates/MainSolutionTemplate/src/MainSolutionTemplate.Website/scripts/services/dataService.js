@@ -109,10 +109,15 @@ angular.module('webapp.services')
 						return userHub.invoke('Delete', id);
 					},
 					onUpdate: function(scope, callBack) {
+						userHub.invoke('SubscribeToUpdates');
+						
 						var destroy = $rootScope.$on("userHub.OnUpdate", function(onId, update) {
 							defaultUpdate(scope, update, callBack);
 						});
-						scope.$on("$destroy", function() { destroy(); });
+						scope.$on("$destroy", function () {
+						    userHub.invoke('UnsubscribeFromUpdates');
+						    destroy();
+						});
 						return destroy;
 					}
 				}

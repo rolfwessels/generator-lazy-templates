@@ -1,16 +1,14 @@
 ﻿using System;
 using FizzWare.NBuilder;
 using MainSolutionTemplate.Core.Tests.Managers;
-using MainSolutionTemplate.Core.Vendor;
 using MainSolutionTemplate.Dal.Models;
-using MainSolutionTemplate.Dal.Validation;
 using NUnit.Framework;
 using FluentAssertions;
 
 namespace MainSolutionTemplate.Core.Tests
 {
 	[TestFixture]
-	public class SystemManagerFacadeUserManagerTests : SystemManagerTests
+	public class SystemManagerUserManagerTests : SystemManagerTests
 	{
 		[Test]
 		public void Constructor_WhenCalled_ShouldNotBeNull()

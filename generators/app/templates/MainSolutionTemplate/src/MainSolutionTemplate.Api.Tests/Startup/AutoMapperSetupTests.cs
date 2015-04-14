@@ -26,24 +26,19 @@ namespace MainSolutionTemplate.Api.Tests.Startup
 		public void AutoMapperSetup_WhenConstructed_ShouldContainAutoMapperUserModel()
 		{
 			// assert
-			_types.Select(x => x.Name).Should().Contain("MapUserModel");
+            _types.Select(x => x.Name).Should().Contain("MapApi");
 		}
 
 		[Test]
 		public void AutoMapperSetup_WhenConstructed_ShouldNotBeNull()
 		{
 			// assert
-			_types.Select(x => x.Name).Should().Contain("MapUser");
+            _types.Select(x => x.Name).Should().Contain("MapCore");
 		}
 
-		public AutoMapperSetupTests()
-		{
-			_types = (from t in typeof (MapUser).Assembly.GetTypes()
-					  where t.Name.StartsWith("Map") && t.IsSealed && t.IsAbstract
-			          select t).Union((from t in typeof (MapUserModel).Assembly.GetTypes()
-									   where t.Name.Contains("Map") && t.IsSealed && t.IsAbstract
-			                           select t))
-				;
-		}
+	    public AutoMapperSetupTests()
+	    {
+	        _types = new[] {typeof (MapCore), typeof (MapApi)};
+	    }
 	}
 }

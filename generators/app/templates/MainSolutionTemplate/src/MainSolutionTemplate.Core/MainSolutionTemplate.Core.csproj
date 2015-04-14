@@ -111,11 +111,12 @@
     <Compile Include="Managers\Interfaces\IRoleManager.cs" />
     <Compile Include="Managers\Interfaces\ISystemManager.cs" />
     <Compile Include="Managers\Interfaces\IUserManager.cs" />
+    <Compile Include="Managers\Interfaces\IProjectManager.cs" />
     <Compile Include="Managers\SystemManagerFacade.OAuthDataManager.cs" />
     <Compile Include="Managers\SystemManager.cs" />
     <Compile Include="Managers\SystemManagerFacade.UserManager.cs" />
-    <Compile Include="Mappers\MapApplication.cs" />
-    <Compile Include="Mappers\MapUser.cs" />
+    <Compile Include="Managers\SystemManagerFacade.ProjectManager.cs" />
+    <Compile Include="Mappers\MapCore.cs" />
     <Compile Include="MessageUtil\IMessenger.cs" />
     <Compile Include="MessageUtil\Messenger.cs" />
     <Compile Include="MessageUtil\Models\DalUpdateMessage.cs" />

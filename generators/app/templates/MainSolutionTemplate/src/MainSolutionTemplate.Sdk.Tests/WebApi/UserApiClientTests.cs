@@ -22,7 +22,6 @@ namespace MainSolutionTemplate.Sdk.Tests.WebApi
 	    protected override void Setup()
 		{
             _userApiClient = new UserApiClient(_adminRequestFactory.Value);
-            _log.Debug("Login as " + _adminUser.Value.UserName);
             SetRequiredData(_userApiClient, _userApiClient);
 		}
 

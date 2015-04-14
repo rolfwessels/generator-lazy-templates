@@ -16,6 +16,7 @@ namespace MainSolutionTemplate.Core.Tests.Fakes
             Users = new FakeRepository<User>();
             Roles = new FakeRepository<Role>();
             Applications = new FakeRepository<Application>();
+            Projects = new FakeRepository<Project>();
         }
 
         #region Implementation of IUnitOfWork
@@ -41,6 +42,7 @@ namespace MainSolutionTemplate.Core.Tests.Fakes
         public IRepository<User> Users { get; private set; }
         public IRepository<Role> Roles { get; private set; }
         public IRepository<Application> Applications { get; private set; }
+        public IRepository<Project> Projects { get; private set; }
 
         #endregion
 

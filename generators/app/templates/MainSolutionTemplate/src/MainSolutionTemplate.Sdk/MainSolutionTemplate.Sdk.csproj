@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -92,6 +92,7 @@
     <Compile Include="OAuth\OAuthApiClientBase.cs" />
     <Compile Include="OAuth\RestClientException.cs" />
     <Compile Include="OAuth\UserApiClient.cs" />
+    <Compile Include="OAuth\ProjectApiClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RestApi\RestConnectionFactory.cs" />
     <Compile Include="Sample.cs" />
@@ -99,6 +100,7 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="SignalrClient\UserHubClient.cs" />
+    <Compile Include="SignalrClient\ProjectHubClient.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

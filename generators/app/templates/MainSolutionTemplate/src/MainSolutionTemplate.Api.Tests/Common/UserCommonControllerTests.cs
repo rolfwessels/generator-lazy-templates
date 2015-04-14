@@ -1,14 +1,11 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using FizzWare.NBuilder;
 using FluentAssertions;
 using MainSolutionTemplate.Api.Common;
 using MainSolutionTemplate.Api.Models.Mappers;
 using MainSolutionTemplate.Core.Managers.Interfaces;
 using MainSolutionTemplate.Dal.Models;
-using MainSolutionTemplate.Dal.Models.Reference;
 using MainSolutionTemplate.Shared.Models;
-using MainSolutionTemplate.Shared.Models.Reference;
 using Moq;
 using NUnit.Framework;
 
@@ -115,7 +112,7 @@ namespace MainSolutionTemplate.Api.Tests.Common
             var user = Builder<User>.CreateNew().Build();
             _mockISystemManager.Setup(mc => mc.SaveUser(It.Is<User>(user1 => user1.Email == user.Email.ToLower()), null)).Returns(user);
             // action
-            var result = _userCommonController.Post(user.ToUserModel()).Result;
+            var result = _userCommonController.Post(user.ToModel()).Result;
             // assert
             result.Id.Should().Be(user.Id);
         }

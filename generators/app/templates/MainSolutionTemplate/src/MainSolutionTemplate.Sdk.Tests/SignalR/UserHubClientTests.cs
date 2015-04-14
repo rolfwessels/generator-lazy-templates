@@ -7,6 +7,7 @@ using FizzWare.NBuilder.Generators;
 using FluentAssertions;
 using MainSolutionTemplate.Api.Tests.Helper;
 using MainSolutionTemplate.Dal.Tests.Helpers;
+using MainSolutionTemplate.Utilities.Helpers;
 using log4net;
 using MainSolutionTemplate.Sdk.SignalrClient;
 using MainSolutionTemplate.Sdk.Tests.Shared;
@@ -31,7 +32,7 @@ namespace MainSolutionTemplate.Sdk.Tests.SignalR
 		{	
 			
 			_log.Info(string.Format("Connecting to {0}", SignalRUri));
-			var queryString = new Dictionary<string, string>() { { _adminUser.Value.TokenType, _adminUser.Value.AccessToken } };
+            var queryString = new Dictionary<string, string>() { { AdminToken.TokenType, AdminToken.AccessToken } };
 			_hubConnection = new HubConnection(SignalRUri, queryString);
 			_client = new UserHubClient(_hubConnection);
             SetRequiredData(_client, _client);
@@ -65,7 +66,7 @@ namespace MainSolutionTemplate.Sdk.Tests.SignalR
             
             var updateModels = valueUpdateModels.Where(x => x.Value.Id == post.Id);
             // assert
-            if (updateModels.Count() < 2) Thread.Sleep(100);// ensure that we have waited for all events
+            updateModels.WaitFor(x => x.Count() >= 2);
             updateModels.Should().HaveCount(2);
             updateModels.Select(x=>x.UpdateType).Should().Contain(UpdateTypeCodes.Inserted);
             updateModels.Select(x => x.UpdateType).Should().Contain(UpdateTypeCodes.Updated);

@@ -1,38 +1,38 @@
+using System;
 using System.Threading.Tasks;
+using MainSolutionTemplate.Api.Models.Mappers;
 using MainSolutionTemplate.Api.SignalR.Connection;
+using MainSolutionTemplate.Core.MessageUtil;
+using MainSolutionTemplate.Core.MessageUtil.Models;
+using MainSolutionTemplate.Shared.Models;
 using Microsoft.AspNet.SignalR;
 
 namespace MainSolutionTemplate.Api.SignalR
 {
 	public abstract class BaseHub : Hub
 	{
-		private readonly IConnectionStateMapping _connectionsState;
-		private static bool _isFireOnceDone;
-		private static readonly object _fireOnceLocker = new object();
+		protected readonly IConnectionStateMapping _connectionsState;
+	    private readonly IMessenger _messenger;
 
-
-		protected BaseHub(IConnectionStateMapping connectionStateMapping)
+	    protected BaseHub(IConnectionStateMapping connectionStateMapping)
 		{
-			_connectionsState = connectionStateMapping;
-			FireInitializeOnce();
+		    _connectionsState = connectionStateMapping;
+		    _messenger = Messenger.Default;
 		}
 
-		public override async Task OnConnected()
+	    public override async Task OnConnected()
 		{
 			ConnectionState connectionState = _connectionsState.AddOrGet(Context);
 			await Groups.Add(Context.ConnectionId, connectionState.UserEmail);
 			await base.OnConnected();
 		}
 
-
         public override async Task OnDisconnected(bool stopCalled)
 		{
 			ConnectionState connectionState = _connectionsState.Remove(Context.ConnectionId);
             await Groups.Remove(Context.ConnectionId, connectionState.UserEmail);
-			await base.OnDisconnected(stopCalled);
-            
+			await base.OnDisconnected(stopCalled);    
 		}
-
 
 		public override async Task OnReconnected()
 		{
@@ -41,26 +41,26 @@ namespace MainSolutionTemplate.Api.SignalR
 			await base.OnReconnected();
 		}
 
-		protected virtual void OnInitializeOnce()
-		{
-		}
 
-		#region Private Methods
+        protected void RegisterForDalUpdates<T, T2>(Func<ValueUpdateModel<T2>, Task> onUpdate)
+        {
+            var addOrGet = _connectionsState.AddOrGet(Context);
+            _messenger.Register<DalUpdateMessage<T>>(addOrGet,
+                                                                  r =>
+                                                                  {
+                                                                      onUpdate(r.ToValueUpdateModel<T, T2>())
+                                                                          .Wait();
+                                                                  });
+        }
 
-		private void FireInitializeOnce()
-		{
-			if (_isFireOnceDone) return;
-			lock (_fireOnceLocker)
-			{
-				if (!_isFireOnceDone)
-				{
-					OnInitializeOnce();
-					_isFireOnceDone = true;
-				}
-			}
-		}
 
-		#endregion
+        protected void UnregisterFromDalUpdates<T>()
+        {
+            var addOrGet = _connectionsState.AddOrGet(Context);
+            _messenger.Unregister<DalUpdateMessage<T>>(addOrGet);
+        }
+
+		
 	}
 
 	

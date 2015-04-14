@@ -7,10 +7,10 @@ module.exports = function(grunt) {
             options: { 'separator': ';' },
             scripts: {
                 'src': [
-                    'src/MainSolutionTemplate.Website/scripts/**/*.js',
-                    '!src/MainSolutionTemplate.Website/scripts/dist/*.js',
+                    'MainSolutionTemplate.Website/scripts/**/*.js',
+                    '!MainSolutionTemplate.Website/scripts/dist/*.js',
                 ],
-                'dest': 'src/MainSolutionTemplate.Website/scripts/dist/scripts.js'
+                'dest': 'MainSolutionTemplate.Website/scripts/dist/scripts.js'
             }            
            
         },
@@ -20,22 +20,22 @@ module.exports = function(grunt) {
           },
           // scripts: {
           //   files: {
-          //     'src/MainSolutionTemplate.Website/scripts/dist/scripts.min.js': ['<%= concat.scripts.dest %>']
+          //     'MainSolutionTemplate.Website/scripts/dist/scripts.min.js': ['<%= concat.scripts.dest %>']
           //   }
           // },
           vendor: {
             files: {
-              'src/MainSolutionTemplate.Website/scripts/dist/vendor.min.js': [
+              'MainSolutionTemplate.Website/scripts/dist/vendor.min.js': [
                 [
-                    'src/MainSolutionTemplate.Website/bower_components/angular/angular.js',
-                    'src/MainSolutionTemplate.Website/bower_components/angular-route/angular-route.js',
-                    'src/MainSolutionTemplate.Website/bower_components/angular-aria/angular-aria.js',
-                    'src/MainSolutionTemplate.Website/bower_components/angular-animate/angular-animate.js',
-                    'src/MainSolutionTemplate.Website/bower_components/angular-material/angular-material.js',
-                    'src/MainSolutionTemplate.Website/bower_components/angular-local-storage/dist/angular-local-storage.js',
-                    'src/MainSolutionTemplate.Website/bower_components/angular-loading-bar/src/loading-bar.js',
-                    'src/MainSolutionTemplate.Website/bower_components/jquery/dist/jquery.js',
-                    'src/MainSolutionTemplate.Website/bower_components/signalr/jquery.signalr.js',
+                    'MainSolutionTemplate.Website/bower_components/angular/angular.js',
+                    'MainSolutionTemplate.Website/bower_components/angular-route/angular-route.js',
+                    'MainSolutionTemplate.Website/bower_components/angular-aria/angular-aria.js',
+                    'MainSolutionTemplate.Website/bower_components/angular-animate/angular-animate.js',
+                    'MainSolutionTemplate.Website/bower_components/angular-material/angular-material.js',
+                    'MainSolutionTemplate.Website/bower_components/angular-local-storage/dist/angular-local-storage.js',
+                    'MainSolutionTemplate.Website/bower_components/angular-loading-bar/src/loading-bar.js',
+                    'MainSolutionTemplate.Website/bower_components/jquery/dist/jquery.js',
+                    'MainSolutionTemplate.Website/bower_components/signalr/jquery.signalr.js',
                 ]
               ]
             }
@@ -44,8 +44,8 @@ module.exports = function(grunt) {
         jshint: {
           files: [
             'Gruntfile.js', 
-            'src/MainSolutionTemplate.Website/scripts/**/*.js' , 
-            '!src/MainSolutionTemplate.Website/scripts/dist/*.js'
+            'MainSolutionTemplate.Website/scripts/**/*.js' , 
+            '!MainSolutionTemplate.Website/scripts/dist/*.js'
             ],
           options: {
             // options here to override JSHint defaults

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using MainSolutionTemplate.Api.Models.Mappers;
@@ -23,23 +22,22 @@ namespace MainSolutionTemplate.Api.Common
         public UserCommonController(ISystemManager systemManager)
         {
             _systemManager = systemManager;
-            
         }
 
 
         public Task<IEnumerable<UserReferenceModel>> Get(string query = null)
         {
-            return Task.Run(() => new QueryToODataWrapper<User, UserReferenceModel>(_systemManager.GetUsers(), query, MapUserModel.ToUserReferenceModelList) as IEnumerable<UserReferenceModel>);
+            return Task.Run(() => new QueryToODataWrapper<User, UserReferenceModel>(_systemManager.GetUsers(), query, MapApi.ToReferenceModelList) as IEnumerable<UserReferenceModel>);
         }
 
         public Task<IEnumerable<UserModel>> GetDetail(string query = null)
         {
-            return Task.Run(() => new QueryToODataWrapper<User, UserModel>(_systemManager.GetUsers(), query, MapUserModel.ToUserModelList) as IEnumerable<UserModel>);
+            return Task.Run(() => new QueryToODataWrapper<User, UserModel>(_systemManager.GetUsers(), query, MapApi.ToModelList) as IEnumerable<UserModel>);
         }
 
         public Task<UserModel> Get(Guid id)
         {
-            return Task.Run(() => _systemManager.GetUser(id).ToUserModel());
+            return Task.Run(() => _systemManager.GetUser(id).ToModel());
         }
 
         public Task<UserModel> Put(Guid id, UserDetailModel user)
@@ -48,18 +46,18 @@ namespace MainSolutionTemplate.Api.Common
             {
                 var userFound = _systemManager.GetUser(id);
                 if (userFound == null) throw new Exception(string.Format("Could not find model by id '{0}'", id));
-                var saveUser = _systemManager.SaveUser(user.ToUser(userFound));
-                return saveUser.ToUserModel();
+                var saveUser = _systemManager.SaveUser(user.ToDal(userFound));
+                return saveUser.ToModel();
             });
         }
 
        
         public Task<UserModel> Post(UserDetailModel user)
-        {
+        {   
             return Task.Run(() =>
             {
-                var savedUser = _systemManager.SaveUser(user.ToUser());
-                return savedUser.ToUserModel();
+                var savedUser = _systemManager.SaveUser(user.ToDal());
+                return savedUser.ToModel();
             });
         }
 
@@ -79,10 +77,10 @@ namespace MainSolutionTemplate.Api.Common
         {
             return Task.Run(() =>
             {
-                var user = model.ToUser();
+                var user = model.ToDal();
                 user.Roles.Add(Roles.Guest);
                 var savedUser = _systemManager.SaveUser(user);
-                return savedUser.ToUserModel();
+                return savedUser.ToModel();
             });
         }
 

@@ -19,6 +19,7 @@ namespace MainSolutionTemplate.Dal.Ef
 		public DbSet<User> Users { get; set; }
 		public DbSet<Role> Roles { get; set; }
 		public DbSet<Application> Applications { get; set; }
+		public DbSet<Project> Projects { get; set; }
 
 		protected override void OnModelCreating(DbModelBuilder modelBuilder)
 		{
@@ -28,6 +29,7 @@ namespace MainSolutionTemplate.Dal.Ef
 			modelBuilder.Entity<User>()
 						.HasMany<Role>(s => s.Roles)
 						.WithMany(c => c.Users);
+            modelBuilder.Entity<Project>().Property(x => x.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 			base.OnModelCreating(modelBuilder);
 		}
 	}

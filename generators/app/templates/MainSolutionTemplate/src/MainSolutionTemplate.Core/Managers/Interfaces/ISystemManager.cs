@@ -2,7 +2,7 @@
 
 namespace MainSolutionTemplate.Core.Managers.Interfaces
 {
-	public interface ISystemManager : IOAuthDataManager, IUserManager , IRoleManager
+	public interface ISystemManager : IOAuthDataManager, IUserManager , IRoleManager , IProjectManager
 	{
 		
 	}

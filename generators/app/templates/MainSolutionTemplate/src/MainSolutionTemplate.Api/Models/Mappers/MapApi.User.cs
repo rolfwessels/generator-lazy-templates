@@ -1,18 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using MainSolutionTemplate.Core.MessageUtil.Models;
 using MainSolutionTemplate.Dal.Models;
 using MainSolutionTemplate.Dal.Models.Reference;
 using MainSolutionTemplate.Shared.Models;
-using MainSolutionTemplate.Shared.Models.Enums;
 using MainSolutionTemplate.Shared.Models.Reference;
 
 namespace MainSolutionTemplate.Api.Models.Mappers
 {
-	public static class MapUserModel
+	public static partial class MapApi
 	{
-		static MapUserModel()
+        private static void MapUserModel()
 		{
 			Mapper.CreateMap<User, UserModel>();
             Mapper.CreateMap<User, UserReferenceModel>();
@@ -38,33 +36,27 @@ namespace MainSolutionTemplate.Api.Models.Mappers
 			      .ForMember(x => x.UpdateDate, opt => opt.Ignore());
 		}
 
-		public static User ToUser(this UserDetailModel model, User user = null)
+        public static User ToDal(this UserDetailModel model, User user = null)
 		{
 			return Mapper.Map(model, user);
 		}
 
-		public static User ToUser(this RegisterModel model, User user = null)
+        public static User ToDal(this RegisterModel model, User user = null)
 		{
 			return Mapper.Map(model, user);
 		}
 
-		public static UserModel ToUserModel(this User user, UserModel model = null)
+        public static UserModel ToModel(this User user, UserModel model = null)
 		{
 			return Mapper.Map(user, model);
 		}
 
-		public static ValueUpdateModel<TModel> ToValueUpdateModel<T, TModel>(this DalUpdateMessage<T> updateMessage)
-		{
-			return new ValueUpdateModel<TModel>(Mapper.Map<T, TModel>(updateMessage.Value), (UpdateTypeCodes) updateMessage.UpdateType);
-		}
-
-
-	    public static IEnumerable<UserReferenceModel> ToUserReferenceModelList(IQueryable<User> users)
+	    public static IEnumerable<UserReferenceModel> ToReferenceModelList(IQueryable<User> users)
 	    {
             return Mapper.Map<IQueryable<User>, IEnumerable<UserReferenceModel>>(users);
 	    }
 
-        public static IEnumerable<UserModel> ToUserModelList(IQueryable<User> users)
+        public static IEnumerable<UserModel> ToModelList(IQueryable<User> users)
 	    {
             return Mapper.Map<IQueryable<User>, IEnumerable<UserModel>>(users);
 	    }

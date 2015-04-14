@@ -21,21 +21,33 @@ namespace MainSolutionTemplate.Sdk.Tests.Shared
         private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private static readonly Lazy<string> _hostAddress;
 
-        protected static Lazy<TokenResponseModel> _adminUser;
+        
         protected static Lazy<RestConnectionFactory> _defaultRequestFactory;
         protected static Lazy<RestConnectionFactory> _adminRequestFactory;
+        private static TokenResponseModel _adminToken;
 
         static IntegrationTestsBase()
         {
             _hostAddress = new Lazy<string>(StartHosting);
-            _adminUser = new Lazy<TokenResponseModel>(LoggedInResponse);
             _defaultRequestFactory = new Lazy<RestConnectionFactory>(() => new RestConnectionFactory(_hostAddress.Value));
-            _adminRequestFactory = new Lazy<RestConnectionFactory>(() => new RestConnectionFactory(_hostAddress.Value));
+            _adminRequestFactory = new Lazy<RestConnectionFactory>(CreateAdminRequest);
         }
+
+        
 
         public string SignalRUri
         {
             get { return _defaultRequestFactory.Value.GetClient().BuildUri(new RestRequest("signalr")).ToString(); }
+        }
+
+        public static TokenResponseModel AdminToken
+        {
+            get {
+                if (_adminToken == null)
+                {
+                    _log.Info("Create admin request: " + _adminRequestFactory.Value);
+                }
+                return _adminToken; }
         }
 
         #region Private Methods
@@ -55,15 +67,17 @@ namespace MainSolutionTemplate.Sdk.Tests.Shared
             return address;
         }
 
-        private static TokenResponseModel LoggedInResponse()
+
+        private static RestConnectionFactory CreateAdminRequest()
         {
-            var oAuthConnection = new OAuthApiClient(_adminRequestFactory.Value);
-            return oAuthConnection.GenerateToken(new TokenRequestModel
+            var restConnectionFactory = new RestConnectionFactory(_hostAddress.Value);
+            var oAuthConnection = new OAuthApiClient(restConnectionFactory);
+            _adminToken = oAuthConnection.GenerateToken(new TokenRequestModel
                 {
-                    UserName = AdminUser,
-                    client_id = ClientId,
-                    Password = AdminPassword
+                    UserName = AdminUser, client_id = ClientId, Password = AdminPassword
                 }).Result;
+            
+            return restConnectionFactory;
         }
 
         #endregion

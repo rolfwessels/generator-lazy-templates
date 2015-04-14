@@ -13,6 +13,7 @@ using MainSolutionTemplate.Dal.Models.Enums;
 using MainSolutionTemplate.Shared.Interfaces.Shared;
 using MainSolutionTemplate.Shared.Models;
 using MainSolutionTemplate.Shared.Models.Reference;
+using Microsoft.AspNet.SignalR;
 
 namespace MainSolutionTemplate.Api.SignalR.Hubs
 {
@@ -74,36 +75,26 @@ namespace MainSolutionTemplate.Api.SignalR.Hubs
         [HubAuthorizeActivity(Activity.UserSubscribe)]
         public async Task SubscribeToUpdates()
         {
+            RegisterForDalUpdates<User, UserModel>(OnUpdate);
             await Groups.Add(Context.ConnectionId, UpdateGroupName);
         }
 
         [HubAuthorizeActivity(Activity.UserSubscribe)]
         public async Task OnUpdate(ValueUpdateModel<UserModel> user)
         {
-            await Clients.Group(UpdateGroupName).OnUpdate(user);
+            var context = GlobalHost.ConnectionManager.GetHubContext<UserHub>();
+            await context.Clients.Group(UpdateGroupName).OnUpdate(user);
         }
 
         [HubAuthorizeActivity(Activity.UserSubscribe)]
         public async Task UnsubscribeFromUpdates()
         {
+            UnregisterFromDalUpdates<User>();
             await Groups.Remove(Context.ConnectionId, UpdateGroupName);
         }
 
         #endregion
-
-        #region Overrides of BaseHub
-
-        protected override void OnInitializeOnce()
-        {
-            Messenger.Default.Register<DalUpdateMessage<User>>(this,
-                                                               (r) =>
-                                                                   { 
-                                                                       OnUpdate(r.ToValueUpdateModel<User, UserModel>()).Wait();
-                                                                   });
-        }
-
-        #endregion
-
+        
         [HubAuthorizeActivity(Activity.UserGet)]
         public async Task<IList<UserReferenceModel>> Get()
         {

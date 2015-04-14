@@ -46,6 +46,7 @@ namespace MainSolutionTemplate.Api.AppStartup
 		private void SetupCommonControllers(ContainerBuilder builder)
 		{
 			builder.RegisterType<UserCommonController>();
+			builder.RegisterType<ProjectCommonController>();
 		}
 
 		#region Initialize
@@ -94,13 +95,13 @@ namespace MainSolutionTemplate.Api.AppStartup
 		private void WebApi(ContainerBuilder builder)
 		{
 			builder.RegisterApiControllers(typeof(UserController).Assembly);
-			builder.Register((t) => new AutofacWebApiDependencyResolver(_container)).As<IDependencyResolver>();
+			builder.Register(t => new AutofacWebApiDependencyResolver(_container)).As<IDependencyResolver>();
 		}
 
 		private void SignalRHubs(ContainerBuilder builder)
 		{
 			builder.RegisterHubs(typeof(UserHub).Assembly);
-			builder.Register((t) => new AutofacDependencyResolver(_container)).As<Microsoft.AspNet.SignalR.IDependencyResolver>();
+			builder.Register(t => new AutofacDependencyResolver(_container)).As<Microsoft.AspNet.SignalR.IDependencyResolver>();
 		}
 
 		#endregion

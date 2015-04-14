@@ -181,14 +181,18 @@
     </Compile>
     <Compile Include="AppStartup\BootStrap.cs" />
     <Compile Include="AppStartup\IocApi.cs" />
+    <Compile Include="Models\Mappers\MapApi.cs" />
+    <Compile Include="Models\Mappers\MapperHelper.cs" />
     <Compile Include="SignalR\Modules\HubErrorModule.cs" />
     <Compile Include="SignalR\SignalRSetup.cs" />
     <Compile Include="AppStartup\SimpleFileServer.cs" />
     <Compile Include="Swagger\SwaggerSetup.cs" />
     <Compile Include="WebApi\WebApiSetup.cs" />
     <Compile Include="Common\UserCommonController.cs" />
+    <Compile Include="Common\ProjectCommonController.cs" />
     <Compile Include="Constants.cs" />
-    <Compile Include="Models\Mappers\MapUserModel.cs" />
+    <Compile Include="Models\Mappers\MapApi.User.cs" />
+    <Compile Include="Models\Mappers\MapApi.Project.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -202,11 +206,13 @@
     <Compile Include="SignalR\Connection\IConnectionStateMapping.cs" />
     <Compile Include="SignalR\Attributes\TokenAuthorizeAttribute.cs" />
     <Compile Include="SignalR\Hubs\UserHub.cs" />
+    <Compile Include="SignalR\Hubs\ProjectHub.cs" />
     <Compile Include="WebApi\Attributes\AuthorizeActivityAttribute.cs" />
     <Compile Include="WebApi\Controllers\WebApiHelper.cs" />
     <Compile Include="WebApi\Exceptions\ApiException.cs" />
     <Compile Include="WebApi\Filters\CaptureExceptionFilter.cs" />
     <Compile Include="WebApi\Controllers\UserController.cs" />
+    <Compile Include="WebApi\Controllers\ProjectController.cs" />
     <Compile Include="WebApi\ODataSupport\IQueryToODataWrapper.cs" />
     <Compile Include="WebApi\ODataSupport\ODataPageResult.cs" />
     <Compile Include="WebApi\ODataSupport\QueryToODataFilterAttribute.cs" />

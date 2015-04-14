@@ -1,0 +1,37 @@
+﻿> in RouteHelpers.cs
+
+public const string UserController = ApiPrefix+"User";
+
+> Enums\Activity.cs
+        UserGet = x00 ,
+		UserUpdate = x01 ,
+        UserPost = x02,
+        UserDelete = x03,
+        UserSubscribe = x04,
+
+> ISystemManager :
+    , IUserManager 
+
+> IGeneralUnitOfWork
+		IRepository<User> Users { get;  }
+
+
+> MongoGeneralUnitOfWork
+Users = new MongoRepository<User>(_db);
+public IRepository<User> Users { get; private set; }
+
+> FakeGeneralUnitOfWork
+Projects = new FakeRepository<Project>();
+public IRepository<User> Users { get; private set; }
+
+> EfGeneralUnitOfWork
+Users = new EfRepository<User>(_context.Value.Users, _context.Value);
+public IRepository<User> Users { get; private set; }
+
+> GeneralDbContext
+public DbSet<User> Users { get; set; }
+modelBuilder.Entity<User>().Property(x => x.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+
+>  IocApi :  SetupCommonControllers(ContainerBuilder builder)
+		builder.RegisterType<UserCommonController>();
+			
