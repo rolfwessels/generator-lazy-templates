@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -210,6 +210,10 @@
       <Project>{e2d671f8-b13f-4775-ae1a-eab1dfaa3c78}</Project>
       <Name>MainSolutionTemplate.Api</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MainSolutionTemplate.Core.Tests\MainSolutionTemplate.Core.Tests.csproj">
+      <Project>{54F0B648-DB1E-45A4-BA1B-FEB0AF16023E}</Project>
+      <Name>MainSolutionTemplate.Core.Tests</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MainSolutionTemplate.Core\MainSolutionTemplate.Core.csproj">
       <Project>{6B955EE7-2AC5-42E8-BA94-FE9EA2D49DDF}</Project>
       <Name>MainSolutionTemplate.Core</Name>
@@ -217,6 +221,10 @@
     <ProjectReference Include="..\MainSolutionTemplate.Dal.Tests\MainSolutionTemplate.Dal.Tests.csproj">
       <Project>{1076F621-E398-451F-A9EF-2C379B847FB9}</Project>
       <Name>MainSolutionTemplate.Dal.Tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MainSolutionTemplate.Dal\MainSolutionTemplate.Dal.csproj">
+      <Project>{9a75e778-72a2-4da0-9983-1032c90c515f}</Project>
+      <Name>MainSolutionTemplate.Dal</Name>
     </ProjectReference>
     <ProjectReference Include="..\MainSolutionTemplate.Sdk\MainSolutionTemplate.Sdk.csproj">
       <Project>{01FB8481-2537-4C31-84FB-D402B4EAE20F}</Project>

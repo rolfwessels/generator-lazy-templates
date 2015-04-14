@@ -14,3 +14,4 @@ obj
 *.log
 src/_NCrunch_MainSolutionTemplate/
 **/bower_components
+**/StyleCop.Cache

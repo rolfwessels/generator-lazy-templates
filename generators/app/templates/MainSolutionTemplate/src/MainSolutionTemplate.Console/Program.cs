@@ -13,7 +13,7 @@ namespace MainSolutionTemplate.Console
 
 		public static IEnumerable<ConsoleCommand> GetCommands()
 		{
-			return ConsoleCommandDispatcher.FindCommandsInSameAssemblyAs(typeof (Commands.CommandBase));
+			return ConsoleCommandDispatcher.FindCommandsInSameAssemblyAs(typeof(Commands.CommandBase));
 		}
 
 		#region Private Methods

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -7,6 +6,7 @@ using FizzWare.NBuilder;
 using FizzWare.NBuilder.Generators;
 using FluentAssertions;
 using MainSolutionTemplate.Api.Tests.Helper;
+using MainSolutionTemplate.Core.Tests.Helpers;
 using log4net;
 using MainSolutionTemplate.Sdk.SignalrClient;
 using MainSolutionTemplate.Sdk.Tests.Shared;
@@ -66,7 +66,6 @@ namespace MainSolutionTemplate.Sdk.Tests.SignalR
             var updateModels = valueUpdateModels.Where(x => x.Value.Id == post.Id);
             // assert
             updateModels.WaitFor(x => x.Count() >= 2);
-            if (updateModels.Count() < 2) Thread.Sleep(100);// ensure that we have waited for all events
             updateModels.Should().HaveCount(2);
             updateModels.Select(x=>x.UpdateType).Should().Contain(UpdateTypeCodes.Inserted);
             updateModels.Select(x => x.UpdateType).Should().Contain(UpdateTypeCodes.Updated);
@@ -74,18 +73,4 @@ namespace MainSolutionTemplate.Sdk.Tests.SignalR
 
 
 	}
-
-    public static class TimerHelper
-    {
-        public static void WaitFor<T>(this T updateModels, Func<T, bool> o, int timeOut = 500)
-        {
-            var stopTime = DateTime.Now.AddMilliseconds(timeOut)
-            var result = false;
-
-            do
-            {
-                o(updateModels);
-            } while ();
-        }
-    }
 }

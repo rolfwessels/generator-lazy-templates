@@ -6,6 +6,7 @@ using FizzWare.NBuilder;
 using FizzWare.NBuilder.Generators;
 using FluentAssertions;
 using MainSolutionTemplate.Api.Tests.Helper;
+using MainSolutionTemplate.Core.Tests.Helpers;
 using MainSolutionTemplate.Dal.Tests.Helpers;
 using MainSolutionTemplate.Utilities.Helpers;
 using log4net;

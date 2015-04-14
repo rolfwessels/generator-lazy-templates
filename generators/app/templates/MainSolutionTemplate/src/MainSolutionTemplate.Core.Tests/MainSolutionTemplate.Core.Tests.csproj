@@ -126,6 +126,7 @@
     <Compile Include="Helpers\FakeRepoHelper.cs" />
     <Compile Include="Helpers\ModelHelper.cs" />
     <Compile Include="Helpers\PersistanceTester.cs" />
+    <Compile Include="Helpers\TimerHelper.cs" />
     <Compile Include="Managers\SystemManagerTests.cs" />
     <Compile Include="Managers\SystemManagerRoleManagerTests.cs" />
     <Compile Include="Managers\SystemManagerUserManagerTests.cs" />
