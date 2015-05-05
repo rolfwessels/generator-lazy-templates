@@ -35,7 +35,7 @@ namespace Gaap.Api.SignalR.Attributes
             {
                 _log.Error(string.Format("{0}.{1}({2}) throw exception [{3}]", method.Hub.Name,
                 method.Name,
-                String.Join(", ", invokerContext.Args), exception.Message),
+                string.Join(", ", invokerContext.Args), exception.Message),
                  exception);
                 exceptionContext.Error =
                     new Exception("An internal system error has occurred. The developers have been notified.");
