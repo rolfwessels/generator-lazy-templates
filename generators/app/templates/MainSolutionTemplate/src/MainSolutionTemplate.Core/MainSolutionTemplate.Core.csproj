@@ -105,17 +105,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Managers\AuthorizeManager.cs" />
-    <Compile Include="Managers\SystemManagerFacade.RoleManager.cs" />
-    <Compile Include="Managers\Interfaces\IAuthorizeManager.cs" />
-    <Compile Include="Managers\Interfaces\IRoleManager.cs" />
-    <Compile Include="Managers\Interfaces\ISystemManager.cs" />
-    <Compile Include="Managers\Interfaces\IUserManager.cs" />
-    <Compile Include="Managers\Interfaces\IProjectManager.cs" />
-    <Compile Include="Managers\SystemManagerFacade.OAuthDataManager.cs" />
-    <Compile Include="Managers\SystemManager.cs" />
-    <Compile Include="Managers\SystemManagerFacade.UserManager.cs" />
-    <Compile Include="Managers\SystemManagerFacade.ProjectManager.cs" />
+    <Compile Include="BusinessLogic\Components\AuthorizeManager.cs" />
+    <Compile Include="BusinessLogic\Facade\SystemManager.RoleManager.cs" />
+    <Compile Include="BusinessLogic\Components\Interfaces\IAuthorizeManager.cs" />
+    <Compile Include="BusinessLogic\Components\Interfaces\IRoleManager.cs" />
+    <Compile Include="BusinessLogic\Facade\Interfaces\ISystemManager.cs" />
+    <Compile Include="BusinessLogic\Components\Interfaces\IUserManager.cs" />
+    <Compile Include="BusinessLogic\Components\Interfaces\IProjectManager.cs" />
+    <Compile Include="BusinessLogic\Facade\SystemManager.OAuthDataManager.cs" />
+    <Compile Include="BusinessLogic\Facade\SystemManager.cs" />
+    <Compile Include="BusinessLogic\Facade\SystemManager.UserManager.cs" />
+    <Compile Include="BusinessLogic\Facade\SystemManager.ProjectManager.cs" />
     <Compile Include="Mappers\MapCore.cs" />
     <Compile Include="MessageUtil\IMessenger.cs" />
     <Compile Include="MessageUtil\Messenger.cs" />

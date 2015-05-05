@@ -3,7 +3,7 @@ using FizzWare.NBuilder;
 using FluentAssertions;
 using MainSolutionTemplate.Api.Common;
 using MainSolutionTemplate.Api.Models.Mappers;
-using MainSolutionTemplate.Core.Managers.Interfaces;
+using MainSolutionTemplate.Core.BusinessLogic.Facade.Interfaces;
 using MainSolutionTemplate.Dal.Models;
 using MainSolutionTemplate.Shared.Models;
 using Moq;

@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Linq;
-using MainSolutionTemplate.Core.Managers.Interfaces;
-using MainSolutionTemplate.Core.MessageUtil;
+using MainSolutionTemplate.Core.BusinessLogic.Components.Interfaces;
 using MainSolutionTemplate.Core.MessageUtil.Models;
 using MainSolutionTemplate.Dal.Models;
 using MainSolutionTemplate.Dal.Models.Enums;
 
-namespace MainSolutionTemplate.Core.Managers
+namespace MainSolutionTemplate.Core.BusinessLogic.Facade
 {
 	public partial class SystemManager : IRoleManager
 	{

@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Reflection;
 using System.Threading.Tasks;
 using MainSolutionTemplate.Core.Mappers;
-using MainSolutionTemplate.Core.Vendor;
-using MainSolutionTemplate.Dal.Models;
-using MainSolutionTemplate.Dal.Persistance;
 using MainSolutionTemplate.OAuth2.Dal.Interfaces;
 using System.Linq;
-using log4net;
 
-namespace MainSolutionTemplate.Core.Managers
+namespace MainSolutionTemplate.Core.BusinessLogic.Facade
 {
 	public partial class SystemManager : IOAuthDataManager
 	{

@@ -3,7 +3,7 @@ using System.Linq;
 using MainSolutionTemplate.Dal.Models;
 using MainSolutionTemplate.Dal.Models.Reference;
 
-namespace MainSolutionTemplate.Core.Managers.Interfaces
+namespace MainSolutionTemplate.Core.BusinessLogic.Components.Interfaces
 {
 	public interface IUserManager
 	{

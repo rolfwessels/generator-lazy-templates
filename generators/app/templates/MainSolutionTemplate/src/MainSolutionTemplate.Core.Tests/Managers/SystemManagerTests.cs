@@ -1,5 +1,5 @@
 using FluentAssertions;
-using MainSolutionTemplate.Core.Managers;
+using MainSolutionTemplate.Core.BusinessLogic.Facade;
 using MainSolutionTemplate.Core.MessageUtil;
 using MainSolutionTemplate.Core.Tests.Fakes;
 using MainSolutionTemplate.Dal.Validation;

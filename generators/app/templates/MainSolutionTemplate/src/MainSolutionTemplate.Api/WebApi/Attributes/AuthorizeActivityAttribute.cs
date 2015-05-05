@@ -4,7 +4,7 @@ using System.Security.Claims;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using MainSolutionTemplate.Api.AppStartup;
-using MainSolutionTemplate.Core.Managers.Interfaces;
+using MainSolutionTemplate.Core.BusinessLogic.Components.Interfaces;
 using MainSolutionTemplate.Dal.Models.Enums;
 using log4net;
 

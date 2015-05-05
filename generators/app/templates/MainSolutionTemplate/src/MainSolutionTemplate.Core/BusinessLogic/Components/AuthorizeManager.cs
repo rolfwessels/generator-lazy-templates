@@ -1,10 +1,11 @@
 using System.Linq;
 using System.Reflection;
-using MainSolutionTemplate.Core.Managers.Interfaces;
+using MainSolutionTemplate.Core.BusinessLogic.Components.Interfaces;
+using MainSolutionTemplate.Core.BusinessLogic.Facade.Interfaces;
 using MainSolutionTemplate.Dal.Models.Enums;
 using log4net;
 
-namespace MainSolutionTemplate.Core.Managers
+namespace MainSolutionTemplate.Core.BusinessLogic.Components
 {
 	public class AuthorizeManager : IAuthorizeManager
 	{

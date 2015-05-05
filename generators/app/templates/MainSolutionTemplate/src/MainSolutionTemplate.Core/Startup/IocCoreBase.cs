@@ -2,8 +2,10 @@
 using System.Linq;
 using Autofac;
 using FluentValidation;
-using MainSolutionTemplate.Core.Managers;
-using MainSolutionTemplate.Core.Managers.Interfaces;
+using MainSolutionTemplate.Core.BusinessLogic.Components;
+using MainSolutionTemplate.Core.BusinessLogic.Components.Interfaces;
+using MainSolutionTemplate.Core.BusinessLogic.Facade;
+using MainSolutionTemplate.Core.BusinessLogic.Facade.Interfaces;
 using MainSolutionTemplate.Core.MessageUtil;
 using MainSolutionTemplate.Dal.Models;
 using MainSolutionTemplate.Dal.Persistance;

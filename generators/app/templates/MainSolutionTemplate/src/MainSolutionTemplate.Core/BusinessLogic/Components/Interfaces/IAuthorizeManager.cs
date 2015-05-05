@@ -1,6 +1,6 @@
 using MainSolutionTemplate.Dal.Models.Enums;
 
-namespace MainSolutionTemplate.Core.Managers.Interfaces
+namespace MainSolutionTemplate.Core.BusinessLogic.Components.Interfaces
 {
 	public interface IAuthorizeManager
 	{

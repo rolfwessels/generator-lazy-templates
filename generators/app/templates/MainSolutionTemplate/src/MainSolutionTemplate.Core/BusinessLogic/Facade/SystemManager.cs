@@ -1,11 +1,11 @@
 ﻿using System.Reflection;
-using MainSolutionTemplate.Core.Managers.Interfaces;
+using MainSolutionTemplate.Core.BusinessLogic.Facade.Interfaces;
 using MainSolutionTemplate.Core.MessageUtil;
 using MainSolutionTemplate.Dal.Persistance;
 using MainSolutionTemplate.Dal.Validation;
 using log4net;
 
-namespace MainSolutionTemplate.Core.Managers
+namespace MainSolutionTemplate.Core.BusinessLogic.Facade
 {
 	public partial class SystemManager : ISystemManager
 	{

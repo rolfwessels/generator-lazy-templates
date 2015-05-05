@@ -1,4 +1,4 @@
-﻿using MainSolutionTemplate.Core.Managers.Interfaces;
+﻿using MainSolutionTemplate.Core.BusinessLogic.Facade.Interfaces;
 using MainSolutionTemplate.OAuth2;
 using Owin;
 

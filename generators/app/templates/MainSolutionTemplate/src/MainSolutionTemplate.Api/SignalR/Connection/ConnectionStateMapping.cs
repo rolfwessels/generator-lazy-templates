@@ -1,8 +1,9 @@
 using System.Collections.Concurrent;
 using System.Reflection;
+using MainSolutionTemplate.Core.BusinessLogic.Components.Interfaces;
+using MainSolutionTemplate.Core.BusinessLogic.Facade.Interfaces;
 using log4net;
 using MainSolutionTemplate.Api.SignalR.Attributes;
-using MainSolutionTemplate.Core.Managers.Interfaces;
 using MainSolutionTemplate.Dal.Models.Enums;
 using Microsoft.AspNet.SignalR.Hubs;
 

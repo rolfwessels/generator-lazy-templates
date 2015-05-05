@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using MainSolutionTemplate.Api.Models.Mappers;
 using MainSolutionTemplate.Api.WebApi.ODataSupport;
-using MainSolutionTemplate.Core.Managers.Interfaces;
+using MainSolutionTemplate.Core.BusinessLogic.Facade.Interfaces;
 using MainSolutionTemplate.Dal.Models;
 using MainSolutionTemplate.Shared.Interfaces.Shared;
 using MainSolutionTemplate.Shared.Models;

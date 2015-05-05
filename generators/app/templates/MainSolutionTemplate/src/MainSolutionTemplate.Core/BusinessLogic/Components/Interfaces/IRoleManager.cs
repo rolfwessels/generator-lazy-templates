@@ -2,7 +2,7 @@
 using System.Linq;
 using MainSolutionTemplate.Dal.Models;
 
-namespace MainSolutionTemplate.Core.Managers.Interfaces
+namespace MainSolutionTemplate.Core.BusinessLogic.Components.Interfaces
 {
 	public interface IRoleManager
 	{

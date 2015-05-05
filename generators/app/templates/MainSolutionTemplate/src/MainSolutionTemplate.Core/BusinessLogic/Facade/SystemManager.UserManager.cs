@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Linq;
-using MainSolutionTemplate.Core.Managers.Interfaces;
+using MainSolutionTemplate.Core.BusinessLogic.Components.Interfaces;
 using MainSolutionTemplate.Core.MessageUtil.Models;
 using MainSolutionTemplate.Core.Vendor;
 using MainSolutionTemplate.Dal.Models;
 using MainSolutionTemplate.Dal.Models.Enums;
 using MainSolutionTemplate.Dal.Models.Reference;
-using MainSolutionTemplate.Dal.Validation;
-using MainSolutionTemplate.Utilities.Helpers;
 
-namespace MainSolutionTemplate.Core.Managers
+namespace MainSolutionTemplate.Core.BusinessLogic.Facade
 {
 	public partial class SystemManager : IUserManager
 	{
