@@ -1,0 +1,37 @@
+> in RouteHelpers.cs
+
+public const string ProjectController = ApiPrefix+"Project";
+
+> Enums\Activity.cs
+        ProjectGet = x00 ,
+		ProjectUpdate = x01 ,
+        ProjectPost = x02,
+        ProjectDelete = x03,
+        ProjectSubscribe = x04,
+
+> ISystemManager :
+    , IProjectManager 
+
+> IGeneralUnitOfWork
+		IRepository<Project> Projects { get;  }
+
+
+> MongoGeneralUnitOfWork
+Projects = new MongoRepository<Project>(_db);
+public IRepository<Project> Projects { get; private set; }
+
+> FakeGeneralUnitOfWork
+Projects = new FakeRepository<Project>();
+public IRepository<Project> Projects { get; private set; }
+
+> EfGeneralUnitOfWork
+Projects = new EfRepository<Project>(_context.Value.Projects, _context.Value);
+public IRepository<Project> Projects { get; private set; }
+
+> GeneralDbContext
+public DbSet<Project> Projects { get; set; }
+modelBuilder.Entity<Project>().Property(x => x.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+
+>  IocApi :  SetupCommonControllers(ContainerBuilder builder)
+		builder.RegisterType<ProjectCommonController>();
+			
