@@ -3,6 +3,7 @@ using System.Reflection;
 using FizzWare.NBuilder;
 using FluentAssertions;
 using MainSolutionTemplate.Sdk.OAuth;
+using MainSolutionTemplate.Sdk.RestApi;
 using MainSolutionTemplate.Sdk.Tests.Shared;
 using MainSolutionTemplate.Shared.Models;
 using NUnit.Framework;

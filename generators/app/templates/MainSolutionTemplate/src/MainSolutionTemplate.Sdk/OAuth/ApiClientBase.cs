@@ -3,6 +3,7 @@ using System.Net;
 using System.Threading.Tasks;
 using MainSolutionTemplate.Sdk.Helpers;
 using MainSolutionTemplate.Sdk.RestApi;
+using MainSolutionTemplate.Shared;
 using MainSolutionTemplate.Shared.Models;
 using MainSolutionTemplate.Utilities.Helpers;
 using Newtonsoft.Json;
@@ -13,10 +14,12 @@ namespace MainSolutionTemplate.Sdk.OAuth
     public  abstract class ApiClientBase
     {
         protected RestClient _restClient;
+        protected string _apiPrefix;
 
-        protected ApiClientBase(RestConnectionFactory restConnectionFactory)
+        protected ApiClientBase(RestConnectionFactory restConnectionFactory, string userController)
         {
             _restClient = restConnectionFactory.GetClient();
+            _apiPrefix = userController;
         }
 
         protected virtual void ValidateResponse<T>(IRestResponse<T> result)
@@ -41,6 +44,11 @@ namespace MainSolutionTemplate.Sdk.OAuth
             var response = await _restClient.ExecuteAsyncWithLogging<bool>(request);
             ValidateResponse(response);
             return Convert.ToBoolean(response.Content);
+        }
+
+        protected RestRequest DefaultRequest(string projectController, Method get)
+        {
+            return new RestRequest(projectController, get) { RequestFormat = DataFormat.Json };
         }
     }
 }

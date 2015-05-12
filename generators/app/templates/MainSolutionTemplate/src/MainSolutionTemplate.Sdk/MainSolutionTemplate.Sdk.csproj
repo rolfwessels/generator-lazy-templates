@@ -91,8 +91,10 @@
     <Compile Include="OAuth\OAuthApiClient.cs" />
     <Compile Include="OAuth\OAuthApiClientBase.cs" />
     <Compile Include="OAuth\RestClientException.cs" />
-    <Compile Include="OAuth\UserApiClient.cs" />
-    <Compile Include="OAuth\ProjectApiClient.cs" />
+    <Compile Include="RestApi\Base\BaseCrudApiClient.cs" />
+    <Compile Include="RestApi\Base\BaseGetApiClient.cs" />
+    <Compile Include="RestApi\UserApiClient.cs" />
+    <Compile Include="RestApi\ProjectApiClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RestApi\RestConnectionFactory.cs" />
     <Compile Include="Sample.cs" />
