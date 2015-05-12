@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 using MainSolutionTemplate.Api.Common;
@@ -8,7 +7,6 @@ using MainSolutionTemplate.Api.WebApi.Attributes;
 using MainSolutionTemplate.Api.WebApi.ODataSupport;
 using MainSolutionTemplate.Dal.Models.Enums;
 using MainSolutionTemplate.Shared;
-using MainSolutionTemplate.Shared.Interfaces.Base;
 using MainSolutionTemplate.Shared.Interfaces.Shared;
 using MainSolutionTemplate.Shared.Models;
 using MainSolutionTemplate.Shared.Models.Reference;

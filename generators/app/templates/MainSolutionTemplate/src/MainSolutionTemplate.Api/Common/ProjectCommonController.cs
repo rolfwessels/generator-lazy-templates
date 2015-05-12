@@ -22,6 +22,7 @@ namespace MainSolutionTemplate.Api.Common
             _systemManager = systemManager;
             
         }
+
         public Task<IEnumerable<ProjectReferenceModel>> Get(string query = null)
         {
             return Task.Run(() => new QueryToODataWrapper<Project, ProjectReferenceModel>(_systemManager.GetProjects(), query, MapApi.ToReferenceModelList) as IEnumerable<ProjectReferenceModel>);
