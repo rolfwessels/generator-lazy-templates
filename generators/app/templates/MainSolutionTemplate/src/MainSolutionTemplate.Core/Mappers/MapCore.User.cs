@@ -7,7 +7,7 @@ namespace MainSolutionTemplate.Core.Mappers
 {
     public static partial class MapCore
 	{
-        private static void MapUser()
+        public static void CreateUserMap()
         {
             Mapper.CreateMap<User, UserReference>();
         }

@@ -3,10 +3,10 @@
 	public static partial class MapCore
 	{
 		static MapCore()
-		{
-		    MapUser();
-			MapOAuth();
-            MapProject();
+		{                           
+           CreateProjectMap();               
+           CreateOAuthMap();               
+           CreateUserMap();
 		}
 
 	}

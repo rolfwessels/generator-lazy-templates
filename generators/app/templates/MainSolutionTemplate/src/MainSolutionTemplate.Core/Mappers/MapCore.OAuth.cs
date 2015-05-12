@@ -6,9 +6,9 @@ namespace MainSolutionTemplate.Core.Mappers
 {
 	public static partial class MapCore
 	{
-        private static void MapOAuth()
+        public static void CreateOAuthMap()
 		{
-		    MapUser();
+		    CreateUserMap();
 			Mapper.CreateMap<Application, OAuthClientAdapter>();
             Mapper.CreateMap<User, OAuthClientAddaptor>()
                   .ForMember(x => x.UserId, opt => opt.MapFrom(x => x.Email))

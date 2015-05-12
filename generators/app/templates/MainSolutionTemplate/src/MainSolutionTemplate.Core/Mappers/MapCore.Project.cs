@@ -6,7 +6,7 @@ namespace MainSolutionTemplate.Core.Mappers
 {
     public static partial class MapCore
 	{
-        private static void MapProject()
+        public static void CreateProjectMap()
         {
             Mapper.CreateMap<Project, ProjectReference>();
         }
