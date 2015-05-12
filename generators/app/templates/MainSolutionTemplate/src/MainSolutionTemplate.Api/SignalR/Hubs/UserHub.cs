@@ -39,15 +39,15 @@ namespace MainSolutionTemplate.Api.SignalR.Hubs
         }
 
         [HubAuthorizeActivity(Activity.UserPost)]
-        public Task<UserModel> Post(UserDetailModel user)
+        public Task<UserModel> Post(UserDetailModel model)
         {
-            return _userCommonController.Post(user);
+            return _userCommonController.Post(model);
         }
 
         [HubAuthorizeActivity(Activity.UserUpdate)]
-        public Task<UserModel> Put(Guid id, UserDetailModel user)
+        public Task<UserModel> Put(Guid id, UserDetailModel model)
         {
-            return _userCommonController.Put(id, user);
+            return _userCommonController.Put(id, model);
         }
 
         [HubAuthorizeActivity(Activity.UserDelete)]

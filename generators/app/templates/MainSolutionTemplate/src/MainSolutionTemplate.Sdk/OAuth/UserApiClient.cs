@@ -30,18 +30,18 @@ namespace MainSolutionTemplate.Sdk.OAuth
             return await ExecuteAndValidate<UserModel>(request);
         }
 
-        public async Task<UserModel> Post(UserDetailModel user)
+        public async Task<UserModel> Post(UserDetailModel model)
         {
             var request = DefaultRequest(_apiPrefix, Method.POST); 
-            request.AddBody(user);
+            request.AddBody(model);
             return await ExecuteAndValidate<UserModel>(request);
         }
 
-        public async Task<UserModel> Put(Guid id, UserDetailModel user)
+        public async Task<UserModel> Put(Guid id, UserDetailModel model)
         {
             var request = DefaultRequest(_apiPrefix.UriCombine(RouteHelper.WithId), Method.PUT);
             request.AddUrlSegment("id", id.ToString());
-            request.AddBody(user);
+            request.AddBody(model);
             return await ExecuteAndValidate<UserModel>(request);
         }
 

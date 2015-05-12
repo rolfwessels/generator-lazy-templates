@@ -110,9 +110,10 @@ namespace MainSolutionTemplate.Api.Tests.Common
             // arrange
             Setup();
             var user = Builder<User>.CreateNew().Build();
+            var userDetailModel = Builder<UserDetailModel>.CreateNew().Build();
             _mockISystemManager.Setup(mc => mc.SaveUser(It.Is<User>(user1 => user1.Email == user.Email.ToLower()), null)).Returns(user);
             // action
-            var result = _userCommonController.Post(user.ToModel()).Result;
+            var result = _userCommonController.Post(userDetailModel).Result;
             // assert
             result.Id.Should().Be(user.Id);
         }

@@ -8,12 +8,14 @@ using MainSolutionTemplate.Api.WebApi.Attributes;
 using MainSolutionTemplate.Api.WebApi.ODataSupport;
 using MainSolutionTemplate.Dal.Models.Enums;
 using MainSolutionTemplate.Shared;
+using MainSolutionTemplate.Shared.Interfaces.Base;
 using MainSolutionTemplate.Shared.Interfaces.Shared;
 using MainSolutionTemplate.Shared.Models;
 using MainSolutionTemplate.Shared.Models.Reference;
 
 namespace MainSolutionTemplate.Api.WebApi.Controllers
 {
+
     /// <summary>
 	///     Api controller for managing all the project
 	/// </summary>
@@ -64,25 +66,25 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 	    ///     Updates an instance of the project item.
 	    /// </summary>
 	    /// <param name="id">The identifier.</param>
-	    /// <param name="project">The project.</param>
+	    /// <param name="model">The project.</param>
 	    /// <returns>
 	    /// </returns>
 		[Route(RouteHelper.WithId),AuthorizeActivity(Activity.ProjectUpdate)]
-		public Task<ProjectModel> Put(Guid id, ProjectDetailModel project)
+		public Task<ProjectModel> Put(Guid id, ProjectDetailModel model)
 		{
-            return _projectCommonController.Put(id, project);
+            return _projectCommonController.Put(id, model);
 		}
 
 	    /// <summary>
 	    ///     Add a new project
 	    /// </summary>
-	    /// <param name="project">The project.</param>
+	    /// <param name="model">The project.</param>
 	    /// <returns>
 	    /// </returns>
         [Route,AuthorizeActivity(Activity.ProjectPost)]
-		public Task<ProjectModel> Post(ProjectDetailModel project)
+		public Task<ProjectModel> Post(ProjectDetailModel model)
 		{
-            return _projectCommonController.Post(project);
+            return _projectCommonController.Post(model);
 		}
 
 	    /// <summary>

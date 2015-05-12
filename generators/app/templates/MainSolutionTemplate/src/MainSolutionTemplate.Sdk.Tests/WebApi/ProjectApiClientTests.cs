@@ -14,15 +14,14 @@ namespace MainSolutionTemplate.Sdk.Tests.WebApi
 	[Category("Integration")]
     public class ProjectApiClientTests : ProjectClientBaseTests
 	{
-		private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-	    private ProjectApiClient _projectApiClient;
+		private ProjectApiClient _projectApiClient;
 
 	    #region Setup/Teardown
 
 	    protected override void Setup()
 		{
             _projectApiClient = new ProjectApiClient(_adminRequestFactory.Value);
-            SetRequiredData(_projectApiClient, _projectApiClient);
+            SetRequiredData(_projectApiClient);
 		}
 
 	    [TearDown]

@@ -6,8 +6,8 @@ namespace MainSolutionTemplate.Shared.Interfaces.Base
     public interface ICrudController<TModel, TDetailModel>
     {
         Task<TModel> Get(Guid id);
-        Task<TModel> Post(TDetailModel user);
-        Task<TModel> Put(Guid id, TDetailModel user);
+        Task<TModel> Post(TDetailModel model);
+        Task<TModel> Put(Guid id, TDetailModel model);
         Task<bool> Delete(Guid id);
     }
 }

@@ -37,23 +37,23 @@ namespace MainSolutionTemplate.Api.Common
             return Task.Run(() => _systemManager.GetProject(id).ToModel());
         }
 
-        public Task<ProjectModel> Put(Guid id, ProjectDetailModel project)
+        public Task<ProjectModel> Put(Guid id, ProjectDetailModel model)
         {
             return Task.Run(() =>
             {
                 var projectFound = _systemManager.GetProject(id);
                 if (projectFound == null) throw new Exception(string.Format("Could not find model by id '{0}'", id));
-                var saveProject = _systemManager.SaveProject(project.ToDal(projectFound));
+                var saveProject = _systemManager.SaveProject(model.ToDal(projectFound));
                 return saveProject.ToModel();
             });
         }
 
        
-        public Task<ProjectModel> Post(ProjectDetailModel project)
+        public Task<ProjectModel> Post(ProjectDetailModel model)
         {
             return Task.Run(() =>
             {
-                var savedProject = _systemManager.SaveProject(project.ToDal());
+                var savedProject = _systemManager.SaveProject(model.ToDal());
                 return savedProject.ToModel();
             });
         }

@@ -22,7 +22,7 @@ namespace MainSolutionTemplate.Sdk.Tests.WebApi
 	    protected override void Setup()
 		{
             _userApiClient = new UserApiClient(_adminRequestFactory.Value);
-            SetRequiredData(_userApiClient, _userApiClient);
+            SetRequiredData(_userApiClient);
 		}
 
 	    [TearDown]

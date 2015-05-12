@@ -64,25 +64,25 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 	    ///     Updates an instance of the user item.
 	    /// </summary>
 	    /// <param name="id">The identifier.</param>
-	    /// <param name="user">The user.</param>
+	    /// <param name="model">The user.</param>
 	    /// <returns>
 	    /// </returns>
 		[Route(RouteHelper.WithId),AuthorizeActivity(Activity.UserUpdate)]
-		public Task<UserModel> Put(Guid id, UserDetailModel user)
+		public Task<UserModel> Put(Guid id, UserDetailModel model)
 		{
-            return _userCommonController.Put(id, user);
+            return _userCommonController.Put(id, model);
 		}
 
 	    /// <summary>
 	    ///     Add a new user
 	    /// </summary>
-	    /// <param name="user">The user.</param>
+	    /// <param name="model">The user.</param>
 	    /// <returns>
 	    /// </returns>
         [Route,AuthorizeActivity(Activity.UserPost)]
-		public Task<UserModel> Post(UserDetailModel user)
+		public Task<UserModel> Post(UserDetailModel model)
 		{
-            return _userCommonController.Post(user);
+            return _userCommonController.Post(model);
 		}
 
 	    /// <summary>

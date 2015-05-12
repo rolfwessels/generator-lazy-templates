@@ -40,23 +40,23 @@ namespace MainSolutionTemplate.Api.Common
             return Task.Run(() => _systemManager.GetUser(id).ToModel());
         }
 
-        public Task<UserModel> Put(Guid id, UserDetailModel user)
+        public Task<UserModel> Put(Guid id, UserDetailModel model)
         {
             return Task.Run(() =>
             {
                 var userFound = _systemManager.GetUser(id);
                 if (userFound == null) throw new Exception(string.Format("Could not find model by id '{0}'", id));
-                var saveUser = _systemManager.SaveUser(user.ToDal(userFound));
+                var saveUser = _systemManager.SaveUser(model.ToDal(userFound));
                 return saveUser.ToModel();
             });
         }
 
        
-        public Task<UserModel> Post(UserDetailModel user)
+        public Task<UserModel> Post(UserDetailModel model)
         {   
             return Task.Run(() =>
             {
-                var savedUser = _systemManager.SaveUser(user.ToDal());
+                var savedUser = _systemManager.SaveUser(model.ToDal());
                 return savedUser.ToModel();
             });
         }

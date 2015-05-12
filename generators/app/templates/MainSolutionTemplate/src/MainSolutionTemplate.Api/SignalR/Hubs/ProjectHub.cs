@@ -36,15 +36,15 @@ namespace MainSolutionTemplate.Api.SignalR.Hubs
         }
 
         [HubAuthorizeActivity(Activity.ProjectPost)]
-        public Task<ProjectModel> Post(ProjectDetailModel project)
+        public Task<ProjectModel> Post(ProjectDetailModel model)
         {
-            return _projectCommonController.Post(project);
+            return _projectCommonController.Post(model);
         }
 
         [HubAuthorizeActivity(Activity.ProjectUpdate)]
-        public Task<ProjectModel> Put(Guid id, ProjectDetailModel project)
+        public Task<ProjectModel> Put(Guid id, ProjectDetailModel model)
         {
-            return _projectCommonController.Put(id, project);
+            return _projectCommonController.Put(id, model);
         }
 
         [HubAuthorizeActivity(Activity.ProjectDelete)]

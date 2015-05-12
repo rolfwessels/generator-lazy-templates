@@ -110,9 +110,10 @@ namespace MainSolutionTemplate.Api.Tests.Common
             // arrange
             Setup();
             var project = Builder<Project>.CreateNew().Build();
+            var projectDetailModel = Builder<ProjectDetailModel>.CreateNew().Build();
             _mockISystemManager.Setup(mc => mc.SaveProject(It.Is<Project>(project1 => project1.Name == project.Name))).Returns(project);
             // action
-            var result = _projectCommonController.Post(project.ToModel()).Result;
+            var result = _projectCommonController.Post(projectDetailModel).Result;
             // assert
             result.Id.Should().Be(project.Id);
         }

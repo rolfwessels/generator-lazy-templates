@@ -1,11 +1,9 @@
-using System;
+using MainSolutionTemplate.Shared.Models.Base;
 
 namespace MainSolutionTemplate.Shared.Models
 {
-    public class ProjectModel : ProjectDetailModel
+    public class ProjectModel : BaseModel
     {
-        public Guid Id { get; set; }
-
        
     }
 }

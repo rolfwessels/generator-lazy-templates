@@ -36,18 +36,18 @@ namespace MainSolutionTemplate.Sdk.OAuth
             return await ExecuteAndValidate<ProjectModel>(request);
         }
 
-        public async Task<ProjectModel> Post(ProjectDetailModel project)
+        public async Task<ProjectModel> Post(ProjectDetailModel model)
         {
             var request = DefaultRequest(_apiPrefix, Method.POST); 
-            request.AddBody(project);
+            request.AddBody(model);
             return await ExecuteAndValidate<ProjectModel>(request);
         }
 
-        public async Task<ProjectModel> Put(Guid id, ProjectDetailModel project)
+        public async Task<ProjectModel> Put(Guid id, ProjectDetailModel model)
         {
             var request = DefaultRequest(_apiPrefix.UriCombine(RouteHelper.WithId), Method.PUT);
             request.AddUrlSegment("id", id.ToString());
-            request.AddBody(project);
+            request.AddBody(model);
             return await ExecuteAndValidate<ProjectModel>(request);
         }
 

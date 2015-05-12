@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -87,10 +87,12 @@
     <Compile Include="Interfaces\Shared\IUserControllerStandardLookups.cs" />
     <Compile Include="Interfaces\Shared\IProjectControllerStandardLookups.cs" />
     <Compile Include="Interfaces\Shared\IEventUpdateEvent.cs" />
+    <Compile Include="Models\Base\BaseModel.cs" />
     <Compile Include="Models\Base\BaseReferenceModel.cs" />
     <Compile Include="Models\Base\BaseReferenceModelWithName.cs" />
     <Compile Include="Models\Enums\UpdateTypeCodes.cs" />
     <Compile Include="Models\ErrorMessage.cs" />
+    <Compile Include="Models\Interfaces\IBaseModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\Reference\UserReferenceModel.cs" />
     <Compile Include="Models\Reference\ProjectReferenceModel.cs" />
