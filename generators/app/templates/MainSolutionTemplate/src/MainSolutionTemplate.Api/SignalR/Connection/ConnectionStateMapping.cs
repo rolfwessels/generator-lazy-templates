@@ -1,7 +1,6 @@
 using System.Collections.Concurrent;
 using System.Reflection;
 using MainSolutionTemplate.Core.BusinessLogic.Components.Interfaces;
-using MainSolutionTemplate.Core.BusinessLogic.Facade.Interfaces;
 using log4net;
 using MainSolutionTemplate.Api.SignalR.Attributes;
 using MainSolutionTemplate.Dal.Models.Enums;
@@ -12,13 +11,12 @@ namespace MainSolutionTemplate.Api.SignalR.Connection
 	public class ConnectionStateMapping : IConnectionStateMapping
 	{
 		private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-		private readonly ISystemManager _systemManager;
+		private readonly IUserManager _userManager;
 		private ConcurrentDictionary<string, ConnectionState> _connections;
-		private IAuthorizeManager _authorizeManager;
-		public ConnectionStateMapping(ISystemManager systemManager, IAuthorizeManager authorizeManager)
+		
+		public ConnectionStateMapping(IUserManager userManager)
 		{
-			_systemManager = systemManager;
-			_authorizeManager = authorizeManager;
+			_userManager = userManager;
 			_connections = new ConcurrentDictionary<string, ConnectionState>();
 		}
 
@@ -34,7 +32,7 @@ namespace MainSolutionTemplate.Api.SignalR.Connection
 			return _connections.GetOrAdd(context.ConnectionId, (t) =>
 				{
 					var principal = context.Request.GetPrincipal();
-					var userByEmail = _systemManager.GetUserByEmail(principal.Identity.Name);
+					var userByEmail = _userManager.GetUserByEmail(principal.Identity.Name);
 					var connectionState = new ConnectionState(context.ConnectionId, principal, userByEmail);
 					return connectionState;
 				});

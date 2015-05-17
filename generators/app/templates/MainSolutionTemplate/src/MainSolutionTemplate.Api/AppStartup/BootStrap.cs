@@ -1,5 +1,5 @@
-﻿using MainSolutionTemplate.Core.BusinessLogic.Facade.Interfaces;
-using MainSolutionTemplate.OAuth2;
+﻿using MainSolutionTemplate.OAuth2;
+using MainSolutionTemplate.OAuth2.Dal.Interfaces;
 using Owin;
 
 namespace MainSolutionTemplate.Api.AppStartup
@@ -12,7 +12,7 @@ namespace MainSolutionTemplate.Api.AppStartup
 
 	    protected BootStrap(IAppBuilder appBuilder)
 	    {
-			OathAuthorizationSetup.Initialize(appBuilder, IocApi.Instance.Resolve<ISystemManager>());
+            OathAuthorizationSetup.Initialize(appBuilder, IocApi.Instance.Resolve<IOAuthDataManager>());
 	    }
 
 	    #region Initialize

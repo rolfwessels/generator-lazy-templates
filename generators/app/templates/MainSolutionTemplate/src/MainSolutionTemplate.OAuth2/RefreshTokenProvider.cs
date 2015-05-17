@@ -8,11 +8,11 @@ namespace MainSolutionTemplate.OAuth2
 	public class RefreshTokenProvider : IAuthenticationTokenProvider
 	{
 		private readonly IOAuthSecurity _authSecurity;
-		private readonly IOAuthDataManager _ioAuthDataManager;
+        private readonly IRefreshTokenManager _tokenManager;
 
-		public RefreshTokenProvider(IOAuthDataManager ioAuthDataManager, IOAuthSecurity authSecurity)
+        public RefreshTokenProvider(IRefreshTokenManager tokenManager, IOAuthSecurity authSecurity)
 		{
-			_ioAuthDataManager = ioAuthDataManager;
+			_tokenManager = tokenManager;
 			_authSecurity = authSecurity;
 		}
 
@@ -30,7 +30,7 @@ namespace MainSolutionTemplate.OAuth2
 			string refreshTokenId = Guid.NewGuid().ToString("n");
 			var refreshTokenLifeTime = context.OwinContext.Get<string>("as:clientRefreshTokenLifeTime");
 
-			var token = _ioAuthDataManager.CreateRefresherToken();
+		    var token = _tokenManager.CreateRefresherToken();
 			token.Id = _authSecurity.GetHash(refreshTokenId);
 			token.ClientId = clientid;
 			token.Subject = context.Ticket.Identity.Name;
@@ -42,18 +42,18 @@ namespace MainSolutionTemplate.OAuth2
 
 			token.ProtectedTicket = context.SerializeTicket();
 
-			await _ioAuthDataManager.SaveRefreshToken(token);
+			await _tokenManager.SaveRefreshToken(token);
 			context.SetToken(refreshTokenId);
 		}
 
 		public async Task ReceiveAsync(AuthenticationTokenReceiveContext context)
 		{
 			var hashedTokenId = _authSecurity.GetHash(context.Token);
-			var refreshToken = await _ioAuthDataManager.GetRefreshToken(hashedTokenId);
+			var refreshToken = await _tokenManager.GetRefreshToken(hashedTokenId);
 			if (refreshToken != null)
 			{
 				context.DeserializeTicket(refreshToken.ProtectedTicket);
-				await _ioAuthDataManager.DeleteRefreshToken(hashedTokenId);
+				await _tokenManager.DeleteRefreshToken(hashedTokenId);
 			}
 		}
 

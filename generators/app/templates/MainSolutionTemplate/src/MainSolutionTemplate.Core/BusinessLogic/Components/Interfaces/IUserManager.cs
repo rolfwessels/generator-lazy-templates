@@ -14,6 +14,7 @@ namespace MainSolutionTemplate.Core.BusinessLogic.Components.Interfaces
 		User DeleteUser(Guid id);
 		User GetUserByEmailAndPassword(string email, string password);
 		User GetUserByEmail(string email);
+	    void UpdateLastLoginDate(string email);
 	}
 
     

@@ -1,6 +1,7 @@
 using System.Linq;
 using FizzWare.NBuilder;
 using FluentAssertions;
+using MainSolutionTemplate.Core.BusinessLogic.Components;
 using MainSolutionTemplate.Core.MessageUtil.Models;
 using MainSolutionTemplate.Core.Tests.Helpers;
 using MainSolutionTemplate.Dal.Models;
@@ -11,9 +12,21 @@ using NUnit.Framework;
 namespace MainSolutionTemplate.Core.Tests.Managers
 {
     [TestFixture]
-    public class SystemManagerProjectManagerTests : SystemManagerTests
+    public class ProjectManagerTests : BaseManagerTests
     {
-        
+        private ProjectManager _systemManager;
+
+        #region Overrides of SystemManagerTests
+
+        public override void Setup()
+        {
+            base.Setup();
+            _systemManager = new ProjectManager(_fakeGeneralUnitOfWork, _mockIMessenger.Object,
+                                             _mockIValidatorFactory.Object);
+        }
+
+        #endregion
+
         [Test]
         public void GetProjects_WhenCalled_ShouldReturnProjects()
         {

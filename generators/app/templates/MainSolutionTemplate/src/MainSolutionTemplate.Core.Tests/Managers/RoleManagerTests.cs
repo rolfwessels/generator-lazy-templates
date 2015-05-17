@@ -1,6 +1,7 @@
 using System.Linq;
 using FizzWare.NBuilder;
 using FluentAssertions;
+using MainSolutionTemplate.Core.BusinessLogic.Components;
 using MainSolutionTemplate.Core.MessageUtil.Models;
 using MainSolutionTemplate.Core.Tests.Helpers;
 using MainSolutionTemplate.Dal.Models;
@@ -11,9 +12,21 @@ using NUnit.Framework;
 namespace MainSolutionTemplate.Core.Tests.Managers
 {
     [TestFixture]
-    public class SystemManagerRoleManagerTests : SystemManagerTests
+    public class RoleManagerTests : BaseManagerTests
     {
-        
+        private RoleManager _roleManager;
+
+        #region Overrides of BaseManagerTests
+
+        public override void Setup()
+        {
+            base.Setup();
+            _roleManager = new RoleManager(_fakeGeneralUnitOfWork, _mockIMessenger.Object,
+                                             _mockIValidatorFactory.Object);
+        }
+
+        #endregion
+
         [Test]
         public void GetRoles_WhenCalled_ShouldReturnRoles()
         {
@@ -22,7 +35,7 @@ namespace MainSolutionTemplate.Core.Tests.Managers
             const int expected = 2;
             _fakeGeneralUnitOfWork.Roles.AddFake(expected);
             // action
-            var result = _systemManager.GetRoles();
+            var result = _roleManager.GetRoles();
             // assert
             result.Should().HaveCount(expected);
         }
@@ -35,7 +48,7 @@ namespace MainSolutionTemplate.Core.Tests.Managers
             var addFake = _fakeGeneralUnitOfWork.Roles.AddFake();
             var guid = addFake.First().Id;
             // action
-            var result = _systemManager.GetRole(guid);
+            var result = _roleManager.GetRole(guid);
             // assert
             result.Id.Should().Be(guid);
         }
@@ -47,10 +60,10 @@ namespace MainSolutionTemplate.Core.Tests.Managers
             Setup();
             var role = Builder<Role>.CreateNew().Build();
             // action
-            var result = _systemManager.SaveRole(role);
+            var result = _roleManager.SaveRole(role);
             // assert
             _fakeGeneralUnitOfWork.Roles.Should().HaveCount(1);
-
+            result.Should().NotBeNull();
         }
 
         [Test]
@@ -60,7 +73,7 @@ namespace MainSolutionTemplate.Core.Tests.Managers
             Setup();
             var role = Builder<Role>.CreateNew().Build();
             // action
-            var result = _systemManager.SaveRole(role);
+            var result = _roleManager.SaveRole(role);
             // assert
             result.Name.Should().Be(role.Name);
         }
@@ -72,7 +85,7 @@ namespace MainSolutionTemplate.Core.Tests.Managers
             Setup();
             var role = Builder<Role>.CreateNew().Build();
             // action
-            _systemManager.SaveRole(role);
+            _roleManager.SaveRole(role);
             // assert
             _mockIMessenger.Verify(mc => mc.Send(It.Is<DalUpdateMessage<Role>>(m=>m.UpdateType == UpdateTypes.Inserted)),Times.Once);
             _mockIMessenger.Verify(mc => mc.Send(It.Is<DalUpdateMessage<Role>>(m => m.UpdateType == UpdateTypes.Updated)), Times.Never);
@@ -86,7 +99,7 @@ namespace MainSolutionTemplate.Core.Tests.Managers
             Setup();
             var role = _fakeGeneralUnitOfWork.Roles.AddFake().First();
             // action
-            _systemManager.SaveRole(role);
+            _roleManager.SaveRole(role);
             // assert
             _mockIMessenger.Verify(mc => mc.Send(It.Is<DalUpdateMessage<Role>>(m=>m.UpdateType == UpdateTypes.Updated)),Times.Once);
             _mockIMessenger.Verify(mc => mc.Send(It.Is<DalUpdateMessage<Role>>(m => m.UpdateType == UpdateTypes.Inserted)), Times.Never);
@@ -99,10 +112,10 @@ namespace MainSolutionTemplate.Core.Tests.Managers
             Setup();
             var role = _fakeGeneralUnitOfWork.Roles.AddFake().First();
             // action
-            _systemManager.DeleteRole(role.Id);
+            _roleManager.DeleteRole(role.Id);
             // assert
             _mockIMessenger.Verify(mc => mc.Send(It.Is<DalUpdateMessage<Role>>(m=>m.UpdateType == UpdateTypes.Removed)),Times.Once);
-            _systemManager.GetRole(role.Id).Should().BeNull();
+            _roleManager.GetRole(role.Id).Should().BeNull();
         }
         
        

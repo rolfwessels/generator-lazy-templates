@@ -1,5 +1,4 @@
 using FluentAssertions;
-using MainSolutionTemplate.Core.BusinessLogic.Facade;
 using MainSolutionTemplate.Core.MessageUtil;
 using MainSolutionTemplate.Core.Tests.Fakes;
 using MainSolutionTemplate.Dal.Validation;
@@ -9,9 +8,9 @@ using NUnit.Framework;
 namespace MainSolutionTemplate.Core.Tests.Managers
 {
     [TestFixture]
-    public class SystemManagerTests
+    public class BaseManagerTests
     {
-        protected SystemManager _systemManager;
+        
         protected FakeGeneralUnitOfWork _fakeGeneralUnitOfWork;
         protected Mock<IMessenger> _mockIMessenger;
         protected Mock<IValidatorFactory> _mockIValidatorFactory;
@@ -23,7 +22,7 @@ namespace MainSolutionTemplate.Core.Tests.Managers
             _mockIMessenger = new Mock<IMessenger>();
             _mockIValidatorFactory = new Mock<IValidatorFactory>();
             _fakeGeneralUnitOfWork = new FakeGeneralUnitOfWork();
-            _systemManager = new SystemManager(_fakeGeneralUnitOfWork, _mockIMessenger.Object, _mockIValidatorFactory.Object);
+            
         }
 
         [TearDown]
@@ -34,15 +33,6 @@ namespace MainSolutionTemplate.Core.Tests.Managers
         }
 
         #endregion
-
-        [Test]
-        public void Constructor_WhenCalled_ShouldNotFail()
-        {
-            // arrange
-            Setup();
-            // assert
-            _systemManager.Should().NotBeNull();
-        }
 
 
     }

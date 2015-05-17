@@ -48,9 +48,7 @@ namespace MainSolutionTemplate.OAuth2
 						};
 					if (settings.RefresherTokenEnabled)
 					{
-						_oAuthOptions.RefreshTokenProvider = new RefreshTokenProvider(oauthDataManager, oauthSecurity);
-						
-						
+                        _oAuthOptions.RefreshTokenProvider = new RefreshTokenProvider((IRefreshTokenManager)oauthDataManager, oauthSecurity);
 					}
 					_oAuthBearerAuthenticationOptions = new OAuthBearerAuthenticationOptions() { };
 

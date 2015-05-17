@@ -7,6 +7,7 @@
 string  _location = @"..\..\src";
 string  _template = @"Project";
 string  _toName = @"Project123";
+string  _filter = "Man"
 string[]  _fileTypes = new [] { @".cs",".js",".txt"};
 string[]  _exclude = new [] { @"bower_components" ,".OAuth2.","RequestClientDetailsHelper","Mappers\\MapClient.cs" , "Enums\\"};
 

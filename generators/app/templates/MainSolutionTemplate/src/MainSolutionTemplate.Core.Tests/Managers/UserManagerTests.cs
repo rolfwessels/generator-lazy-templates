@@ -1,22 +1,32 @@
-using System;
 using System.Linq;
-using AutoMapper;
 using FizzWare.NBuilder;
 using FluentAssertions;
+using MainSolutionTemplate.Core.BusinessLogic.Components;
 using MainSolutionTemplate.Core.MessageUtil.Models;
 using MainSolutionTemplate.Core.Tests.Helpers;
 using MainSolutionTemplate.Core.Vendor;
 using MainSolutionTemplate.Dal.Models;
 using MainSolutionTemplate.Dal.Models.Enums;
-using MainSolutionTemplate.Utilities.Helpers;
 using Moq;
 using NUnit.Framework;
 
 namespace MainSolutionTemplate.Core.Tests.Managers
 {
     [TestFixture]
-    public class SystemManagerUserManagerTests : SystemManagerTests
+    public class UserManagerTests : BaseManagerTests
     {
+        private UserManager _userManager;
+
+        #region Overrides of BaseManagerTests
+
+        public override void Setup()
+        {
+            base.Setup();
+            _userManager = new UserManager(_fakeGeneralUnitOfWork, _mockIMessenger.Object,
+                                             _mockIValidatorFactory.Object);
+        }
+
+        #endregion
         
         [Test]
         public void GetUsers_WhenCalled_ShouldReturnUsers()
@@ -26,7 +36,7 @@ namespace MainSolutionTemplate.Core.Tests.Managers
             const int expected = 2;
             _fakeGeneralUnitOfWork.Users.AddFake(expected);
             // action
-            var result = _systemManager.GetUsers();
+            var result = _userManager.GetUsers();
             // assert
             result.Should().HaveCount(expected);
         }
@@ -39,7 +49,7 @@ namespace MainSolutionTemplate.Core.Tests.Managers
             var addFake = _fakeGeneralUnitOfWork.Users.AddFake();
             var guid = addFake.First().Id;
             // action
-            var result = _systemManager.GetUser(guid);
+            var result = _userManager.GetUser(guid);
             // assert
             result.Id.Should().Be(guid);
         }
@@ -51,10 +61,10 @@ namespace MainSolutionTemplate.Core.Tests.Managers
             Setup();
             var user = Builder<User>.CreateNew().Build();
             // action
-            var result = _systemManager.SaveUser(user);
+            var result = _userManager.SaveUser(user);
             // assert
             _fakeGeneralUnitOfWork.Users.Should().HaveCount(1);
-
+            result.Should().NotBeNull();
         }
 
         [Test]
@@ -64,7 +74,7 @@ namespace MainSolutionTemplate.Core.Tests.Managers
             Setup();
             var user = Builder<User>.CreateNew().Build();
             // action
-            var result = _systemManager.SaveUser(user);
+            var result = _userManager.SaveUser(user);
             // assert
             result.Email.Should().Be(user.Email);
         }
@@ -76,7 +86,7 @@ namespace MainSolutionTemplate.Core.Tests.Managers
             Setup();
             var user = Builder<User>.CreateNew().Build();
             // action
-            _systemManager.SaveUser(user);
+            _userManager.SaveUser(user);
             // assert
             _mockIMessenger.Verify(mc => mc.Send(It.Is<DalUpdateMessage<User>>(m=>m.UpdateType == UpdateTypes.Inserted)),Times.Once);
             _mockIMessenger.Verify(mc => mc.Send(It.Is<DalUpdateMessage<User>>(m => m.UpdateType == UpdateTypes.Updated)), Times.Never);
@@ -90,7 +100,7 @@ namespace MainSolutionTemplate.Core.Tests.Managers
             Setup();
             var user = _fakeGeneralUnitOfWork.Users.AddFake().First();
             // action
-            _systemManager.SaveUser(user);
+            _userManager.SaveUser(user);
             // assert
             _mockIMessenger.Verify(mc => mc.Send(It.Is<DalUpdateMessage<User>>(m=>m.UpdateType == UpdateTypes.Updated)),Times.Once);
             _mockIMessenger.Verify(mc => mc.Send(It.Is<DalUpdateMessage<User>>(m => m.UpdateType == UpdateTypes.Inserted)), Times.Never);
@@ -103,10 +113,10 @@ namespace MainSolutionTemplate.Core.Tests.Managers
             Setup();
             var user = _fakeGeneralUnitOfWork.Users.AddFake().First();
             // action
-            _systemManager.DeleteUser(user.Id);
+            _userManager.DeleteUser(user.Id);
             // assert
             _mockIMessenger.Verify(mc => mc.Send(It.Is<DalUpdateMessage<User>>(m=>m.UpdateType == UpdateTypes.Removed)),Times.Once);
-            _systemManager.GetUser(user.Id).Should().BeNull();
+            _userManager.GetUser(user.Id).Should().BeNull();
         }
         
         
@@ -119,7 +129,7 @@ namespace MainSolutionTemplate.Core.Tests.Managers
             const string password = "sample";
             user.HashedPassword = PasswordHash.CreateHash(password);
             // action
-            var userFound = _systemManager.GetUserByEmailAndPassword(user.Email, password);
+            var userFound = _userManager.GetUserByEmailAndPassword(user.Email, password);
             // assert
             userFound.Should().NotBeNull();
         }
@@ -133,7 +143,7 @@ namespace MainSolutionTemplate.Core.Tests.Managers
             const string password = "sample";
             user.HashedPassword = PasswordHash.CreateHash(password);
             // action
-            var userFound = _systemManager.GetUserByEmailAndPassword(user.Email, password+123);
+            var userFound = _userManager.GetUserByEmailAndPassword(user.Email, password+123);
             // assert
             userFound.Should().BeNull();
         }
@@ -147,7 +157,7 @@ namespace MainSolutionTemplate.Core.Tests.Managers
             const string password = "sample";
             user.HashedPassword = PasswordHash.CreateHash(password);
             // action
-            var userFound = _systemManager.GetUserByEmailAndPassword(user.Email+"123", password);
+            var userFound = _userManager.GetUserByEmailAndPassword(user.Email+"123", password);
             // assert
             userFound.Should().BeNull();
         }
@@ -159,7 +169,7 @@ namespace MainSolutionTemplate.Core.Tests.Managers
             Setup();    
             var user = _fakeGeneralUnitOfWork.Users.AddFake().First();
             // action
-            var userFound = _systemManager.GetUserByEmail(user.Email);
+            var userFound = _userManager.GetUserByEmail(user.Email);
             // assert
             userFound.Should().NotBeNull();
         }
@@ -172,7 +182,7 @@ namespace MainSolutionTemplate.Core.Tests.Managers
             Setup();    
             var user = _fakeGeneralUnitOfWork.Users.AddFake().First();
             // action
-            var userFound = _systemManager.GetUserByEmail(user.Email+"123");
+            var userFound = _userManager.GetUserByEmail(user.Email+"123");
             // assert
             userFound.Should().BeNull();
         }

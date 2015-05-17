@@ -4,12 +4,11 @@ using Autofac;
 using FluentValidation;
 using MainSolutionTemplate.Core.BusinessLogic.Components;
 using MainSolutionTemplate.Core.BusinessLogic.Components.Interfaces;
-using MainSolutionTemplate.Core.BusinessLogic.Facade;
-using MainSolutionTemplate.Core.BusinessLogic.Facade.Interfaces;
 using MainSolutionTemplate.Core.MessageUtil;
 using MainSolutionTemplate.Dal.Models;
 using MainSolutionTemplate.Dal.Persistance;
 using MainSolutionTemplate.Dal.Validation;
+using MainSolutionTemplate.OAuth2.Dal.Interfaces;
 using IValidatorFactory = MainSolutionTemplate.Dal.Validation.IValidatorFactory;
 
 namespace MainSolutionTemplate.Core.Startup
@@ -22,20 +21,16 @@ namespace MainSolutionTemplate.Core.Startup
 			SetupManagers(builder);
 			SetupTools(builder);
             builder.RegisterType<UserValidator>().As<IValidator<User>>();
-//            builder.RegisterAssemblyTypes(typeof(UserValidator).Assembly)
-//            .Where(t => t.IsSubclassOf(typeof(IValidator<>)))
-//            .As(typeof(IValidator<>))
-//            .InstancePerDependency();
-
-//		    builder.RegisterGeneric(typeof (AbstractValidator<>))
-//		           .As(typeof (IValidator<>))
-//		           .InstancePerDependency();
 		}
 
 		private static void SetupManagers(ContainerBuilder builder)
 		{
-			builder.RegisterType<SystemManager>().As<ISystemManager>();
-			builder.RegisterType<AuthorizeManager>().As<IAuthorizeManager>();
+            builder.RegisterType<ApplicationManager>().As<IApplicationManager>();
+            builder.RegisterType<AuthorizeManager>().As<IAuthorizeManager>();
+            builder.RegisterType<OAuthDataManager>().As<IOAuthDataManager>();
+            builder.RegisterType<ProjectManager>().As<IProjectManager>();
+            builder.RegisterType<RoleManager>().As<IRoleManager>();
+            builder.RegisterType<UserManager>().As<IUserManager>();
 
             builder.RegisterType<ValidatorFactory>().As<IValidatorFactory>();
 		}

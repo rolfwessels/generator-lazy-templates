@@ -1,7 +1,6 @@
 using System.Linq;
 using System.Reflection;
 using MainSolutionTemplate.Core.BusinessLogic.Components.Interfaces;
-using MainSolutionTemplate.Core.BusinessLogic.Facade.Interfaces;
 using MainSolutionTemplate.Dal.Models.Enums;
 using log4net;
 
@@ -12,9 +11,9 @@ namespace MainSolutionTemplate.Core.BusinessLogic.Components
 		public const string AdministratorRoleName = "Admin";
 
 		private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-		private readonly ISystemManager _systemManager;
+        private readonly IRoleManager _systemManager;
 
-		public AuthorizeManager(ISystemManager systemManager)
+		public AuthorizeManager(IRoleManager systemManager)
 		{
 			_systemManager = systemManager;
 		}

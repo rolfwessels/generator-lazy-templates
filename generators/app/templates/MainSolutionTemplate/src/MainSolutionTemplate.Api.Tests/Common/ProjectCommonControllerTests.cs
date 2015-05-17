@@ -2,8 +2,7 @@ using System.Linq;
 using FizzWare.NBuilder;
 using FluentAssertions;
 using MainSolutionTemplate.Api.Common;
-using MainSolutionTemplate.Api.Models.Mappers;
-using MainSolutionTemplate.Core.BusinessLogic.Facade.Interfaces;
+using MainSolutionTemplate.Core.BusinessLogic.Components.Interfaces;
 using MainSolutionTemplate.Dal.Models;
 using MainSolutionTemplate.Shared.Models;
 using Moq;
@@ -16,13 +15,13 @@ namespace MainSolutionTemplate.Api.Tests.Common
     {
 
         private ProjectCommonController _projectCommonController;
-        private Mock<ISystemManager> _mockISystemManager;
+        private Mock<IProjectManager> _mockISystemManager;
 
         #region Setup/Teardown
 
         public void Setup()
         {
-            _mockISystemManager = new Mock<ISystemManager>(MockBehavior.Strict);
+            _mockISystemManager = new Mock<IProjectManager>(MockBehavior.Strict);
             _projectCommonController = new ProjectCommonController(_mockISystemManager.Object);
         }
 

@@ -13,6 +13,4 @@ namespace MainSolutionTemplate.Core.BusinessLogic.Components.Interfaces
         Project SaveProject(Project project);
 		Project DeleteProject(Guid id);
 	}
-
-    
 }

@@ -2,7 +2,7 @@
 
 namespace MainSolutionTemplate.OAuth2.Dal.Interfaces
 {
-	public interface IOAuthDataManager : IRefreshTokenManager
+	public interface IOAuthDataManager 
 	{
 		Task<IOAuthClient> GetApplication(string clientId);
 		Task<IAuthorizedUser> GetUserByUserIdAndPassword(string userName, string password);

@@ -1,50 +1,48 @@
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Threading.Tasks;
 using MainSolutionTemplate.Api.Models.Mappers;
 using MainSolutionTemplate.Api.WebApi.ODataSupport;
-using MainSolutionTemplate.Core.BusinessLogic.Facade.Interfaces;
+using MainSolutionTemplate.Core.BusinessLogic.Components.Interfaces;
 using MainSolutionTemplate.Dal.Models;
 using MainSolutionTemplate.Shared.Interfaces.Shared;
 using MainSolutionTemplate.Shared.Models;
 using MainSolutionTemplate.Shared.Models.Reference;
-using log4net;
 
 namespace MainSolutionTemplate.Api.Common
 {
     public class ProjectCommonController : IProjectControllerActions
     {
-        private readonly ISystemManager _systemManager;
+        private readonly IProjectManager _projectManager;
 
-        public ProjectCommonController(ISystemManager systemManager)
+        public ProjectCommonController(IProjectManager projectManager)
         {
-            _systemManager = systemManager;
+            _projectManager = projectManager;
             
         }
 
         public Task<IEnumerable<ProjectReferenceModel>> Get(string query = null)
         {
-            return Task.Run(() => new QueryToODataWrapper<Project, ProjectReferenceModel>(_systemManager.GetProjects(), query, MapApi.ToReferenceModelList) as IEnumerable<ProjectReferenceModel>);
+            return Task.Run(() => new QueryToODataWrapper<Project, ProjectReferenceModel>(_projectManager.GetProjects(), query, MapApi.ToReferenceModelList) as IEnumerable<ProjectReferenceModel>);
         }
 
         public Task<IEnumerable<ProjectModel>> GetDetail(string query = null)
         {
-            return Task.Run(() => new QueryToODataWrapper<Project, ProjectModel>(_systemManager.GetProjects(), query, MapApi.ToModelList) as IEnumerable<ProjectModel>);
+            return Task.Run(() => new QueryToODataWrapper<Project, ProjectModel>(_projectManager.GetProjects(), query, MapApi.ToModelList) as IEnumerable<ProjectModel>);
         }
 
         public Task<ProjectModel> Get(Guid id)
         {
-            return Task.Run(() => _systemManager.GetProject(id).ToModel());
+            return Task.Run(() => _projectManager.GetProject(id).ToModel());
         }
 
         public Task<ProjectModel> Put(Guid id, ProjectDetailModel model)
         {
             return Task.Run(() =>
             {
-                var projectFound = _systemManager.GetProject(id);
+                var projectFound = _projectManager.GetProject(id);
                 if (projectFound == null) throw new Exception(string.Format("Could not find model by id '{0}'", id));
-                var saveProject = _systemManager.SaveProject(model.ToDal(projectFound));
+                var saveProject = _projectManager.SaveProject(model.ToDal(projectFound));
                 return saveProject.ToModel();
             });
         }
@@ -54,7 +52,7 @@ namespace MainSolutionTemplate.Api.Common
         {
             return Task.Run(() =>
             {
-                var savedProject = _systemManager.SaveProject(model.ToDal());
+                var savedProject = _projectManager.SaveProject(model.ToDal());
                 return savedProject.ToModel();
             });
         }
@@ -63,7 +61,7 @@ namespace MainSolutionTemplate.Api.Common
         {
             return Task.Run(() =>
             {
-                var deleteProject = _systemManager.DeleteProject(id);
+                var deleteProject = _projectManager.DeleteProject(id);
                 return deleteProject != null;
             });
         }
