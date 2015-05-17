@@ -18,6 +18,7 @@
 	<property name="msbuild.bin.folder" value="bin\${src.sln.configuration}" dynamic="true"/>
   <property name="test.minimum.coverage" value="60" />
 
+
 	<!-- Version -->
 	<property name="version.buildFile" value="MainSolutionTemplate.build"/>
 	<property name="version.assembly" value="${src.folder}/MainSolutionTemplate.Core/Properties/CommonAssemblyInfo.cs" />
@@ -36,20 +37,31 @@
 	<property name="version.build" value="${build.number}" if="${property::exists('build.number')}"/>
 	<property name="version.build" value="${environment::get-variable('BUILD_NUMBER')}" if="${environment::variable-exists('BUILD_NUMBER')}"/>
 
-	<!-- User targets -->
+  <!-- Default deploy -->
+  <property name="deploy.workingDir" value="./"/>
+  <property name="deploy.location" value="Default Web Site/MainSolutionTemplate.Api.${src.sln.configuration}" dynamic="true"/>
+  <property name="deploy.auth" value="computerName='localhost'"/>
+  <property name="deploy.pack" value="${directory::get-current-directory()}\build\Deploy\MainSolutionTemplate.Api.${src.sln.configuration}.v${project.fullversion}.zip" dynamic="true"/>
+  <property name="deploy.proj" value="${src.folder}\MainSolutionTemplate.Api\MainSolutionTemplate.Api.csproj"/>
+
+  <!-- User targets -->
 	<target name="build" depends="clean compile" description="Compile and Run Tests" />
 	<target name="test" depends="build, run.tests" description="Compile and Run Tests" />
   <target name="cover" depends="build, run.codecover.tests" description="Compile and Run Tests" />
 	<target name="full" depends="version, cover, dist , version.update"	description="Compiles, tests, and produces distributions" />
 	<target name="ci.tests" depends="compile, run.codecover.tests" description="Compile and Run Tests" />
-	<target name="ci.deploy" depends="version build" description="Compile and Run Tests" />
+	<target name="ci.deploy" depends="version build deploy.msdeploy" description="Compile and Run Tests" />
 	<target name="ci.deploy.qa" depends="config.qa ci.deploy" description="Compile and Run Tests" />
 	<target name="ci.deploy.staging" depends="config.staging ci.deploy" description="Compile and Run Tests" />
 	<target name="ci.deploy.release" depends="config.release ci.deploy" description="Compile and Run Tests" />
 
-	<!-- Configuration -->
+
+
+  <!-- Configuration -->
 	<target name="config.qa" description="Set qa settings">
 		<property name="src.sln.configuration" value="Qa"/>
+    <property name="deploy.auth" value="computerName='xxxx',userName='xxxx',password='xxxx',"/>
+    <property name="deploy.location" value="IIAB.Release"/>
 	</target>
 
 	<target name="config.staging" description="Set staging settings">
@@ -117,7 +129,6 @@
             <include name="bower_components/angular-material/angular-material.css"/>
         </fileset>
     </copy>
-
 	</target>
 
 	<target name="version" description="Generate AssemblyInfo">
@@ -264,4 +275,48 @@
 			</do>
 		</foreach>
 	</target>
+
+  <target name="deploy.mspackage" >
+    <exec program="${msbuild.executeable}"  workingdir="${deploy.workingDir}">
+      <arg value="/v:q" />
+      <arg value="/t:restorepackages" />
+      <arg value="/T:Package"/>
+      <arg value="/p:Configuration=${src.sln.configuration};Platform=AnyCPU;AutoParameterizationWebConfigConnectionStrings=false;PackageLocation=&quot;${deploy.pack}&quot;;EnableNuGetPackageRestore=true"/>
+      <arg value="/p:PackageTempRootDir=c:\temp"/>
+      <arg value="${deploy.proj}"/>
+    </exec>
+    <delete dir="c:\temp\PackageTmp" />
+<!--    <call target="deploy.addtopackage" />-->
+  </target>
+  <target name="deploy.addtopackage">
+     <copy file="${deploy.pack}" tofile="${deploy.pack}_old.zip"/>
+    <unzip zipfile="${deploy.pack}" todir="build\tmp" />
+    <copy todir="build\tmp\Content\c_C\temp\PackageTmp\static" overwrite="true">
+        <fileset basedir="${build.config.dir}\MainSolutionTemplate.Api\static">
+            <include name="**\*"/>
+        </fileset>
+    </copy>
+
+    <zip zipfile="${deploy.pack}">
+        <fileset basedir="build\tmp\">
+            <include name="**/*" />
+        </fileset>
+    </zip>
+     <delete dir="build\tmp" />
+  </target>
+  <target name="deploy.msdeploy" depends="deploy.mspackage" >
+    <exec program="msdeploy.exe" failonerror="true" basedir="C:\Program Files\IIS\Microsoft Web Deploy V3\"  workingdir="${deploy.workingDir}" verbose="true" >
+      <arg value="-source:package=&quot;${deploy.pack}&quot;" />
+      <arg value="-dest:auto,includeAcls=&quot;False&quot;,tempAgent=&quot;false&quot;" if="${string::get-length(deploy.auth) &lt;=  0}" />
+      <arg value="-dest:auto,${deploy.auth},includeAcls=&quot;False&quot;,tempAgent=&quot;false&quot;" if="${string::get-length(deploy.auth) > 0}" />
+      <arg value="-verb:sync" />
+      <arg value="-disableLink:AppPoolExtension" />
+      <arg value="-disableLink:ContentExtension" />
+      <arg value="-disableLink:CertificateExtension" />
+      <arg value="-skip:skipAction=Delete,objectName=filePath,absolutePath=Logs" />
+      <arg value="-setParam:&quot;IIS Web Application Name&quot;=&quot;${deploy.location}&quot;" />
+      <arg value="-useCheckSum" />
+    </exec>
+  </target>
+
 </project>
