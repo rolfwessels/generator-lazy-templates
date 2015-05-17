@@ -25,6 +25,7 @@ namespace MainSolutionTemplate.Core.Startup
 
 		private static void SetupManagers(ContainerBuilder builder)
 		{
+            builder.RegisterType<BaseManagerArguments>();
             builder.RegisterType<ApplicationManager>().As<IApplicationManager>();
             builder.RegisterType<AuthorizeManager>().As<IAuthorizeManager>();
             builder.RegisterType<OAuthDataManager>().As<IOAuthDataManager>();

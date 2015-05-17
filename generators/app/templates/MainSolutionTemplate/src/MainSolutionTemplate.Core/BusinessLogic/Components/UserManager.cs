@@ -2,31 +2,21 @@
 using System.Linq;
 using System.Reflection;
 using MainSolutionTemplate.Core.BusinessLogic.Components.Interfaces;
-using MainSolutionTemplate.Core.MessageUtil;
 using MainSolutionTemplate.Core.MessageUtil.Models;
 using MainSolutionTemplate.Core.Vendor;
 using MainSolutionTemplate.Dal.Models;
 using MainSolutionTemplate.Dal.Models.Enums;
 using MainSolutionTemplate.Dal.Models.Reference;
-using MainSolutionTemplate.Dal.Persistance;
-using MainSolutionTemplate.Dal.Validation;
 using log4net;
 
 namespace MainSolutionTemplate.Core.BusinessLogic.Components
 {
-    public class UserManager : IUserManager
+    public class UserManager : BaseManager, IUserManager
     {
         private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        private readonly IGeneralUnitOfWork _generalUnitOfWork;
-        private readonly IMessenger _messenger;
-        private readonly IValidatorFactory _validationFactory;
 
-        public UserManager(IGeneralUnitOfWork generalUnitOfWork, IMessenger messenger,
-                           IValidatorFactory validationFactory)
+        public UserManager(BaseManagerArguments maseManager) : base(maseManager)
         {
-            _generalUnitOfWork = generalUnitOfWork;
-            _messenger = messenger;
-            _validationFactory = validationFactory;
         }
 
         #region IUserManager Members
@@ -88,7 +78,6 @@ namespace MainSolutionTemplate.Core.BusinessLogic.Components
                 if (!PasswordHash.ValidatePassword(password, user.HashedPassword))
                 {
                     user = null;
-                    _log.Debug(string.Format("SystemManager:GetUserByEmailAndPassword {0}", password));
                     _log.Info(string.Format("Invalid password for user '{0}'", email));
                 }
             }

@@ -2,31 +2,23 @@ using System;
 using System.Linq;
 using System.Reflection;
 using MainSolutionTemplate.Core.BusinessLogic.Components.Interfaces;
-using MainSolutionTemplate.Core.MessageUtil;
 using MainSolutionTemplate.Core.MessageUtil.Models;
 using MainSolutionTemplate.Dal.Models;
 using MainSolutionTemplate.Dal.Models.Enums;
-using MainSolutionTemplate.Dal.Persistance;
-using MainSolutionTemplate.Dal.Validation;
 using log4net;
 
 namespace MainSolutionTemplate.Core.BusinessLogic.Components
 {
-	public class ApplicationManager : IApplicationManager
+	public class ApplicationManager : BaseManager, IApplicationManager
 	{
         private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        private readonly IMessenger _messenger;
-        private readonly IGeneralUnitOfWork _generalUnitOfWork;
-        private readonly IValidatorFactory _validationFactory;
 
-        public ApplicationManager(IGeneralUnitOfWork generalUnitOfWork, IMessenger messenger, IValidatorFactory validationFactory)
-        {
-            _generalUnitOfWork = generalUnitOfWork;
-            _messenger = messenger;
-            _validationFactory = validationFactory;
-        }
-		
-		public IQueryable<Application> GetApplications()
+
+	    public ApplicationManager(BaseManagerArguments baseManagerArguments) : base(baseManagerArguments)
+	    {
+	    }
+
+	    public IQueryable<Application> GetApplications()
 		{
 			return _generalUnitOfWork.Applications;
 		}

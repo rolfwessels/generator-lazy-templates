@@ -9,7 +9,7 @@ using log4net;
 
 namespace MainSolutionTemplate.Core.BusinessLogic.Components
 {
-    public class OAuthDataManager : IOAuthDataManager
+    public class OAuthDataManager :  IOAuthDataManager
 	{
          private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private readonly IUserManager _userManager;
