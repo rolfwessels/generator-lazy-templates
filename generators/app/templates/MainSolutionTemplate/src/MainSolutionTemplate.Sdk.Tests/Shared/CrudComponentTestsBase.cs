@@ -36,9 +36,9 @@ namespace MainSolutionTemplate.Sdk.Tests.Shared
             IList<TDetailModel> projectModel = GetExampleData();
 
             // action
-            TModel projectModels = _crudController.Post(projectModel[0]).Result;
+            TModel projectModels = _crudController.Insert(projectModel[0]).Result;
             TModel savedProject = _crudController.Get(projectModels.Id).Result;
-            TModel projectModelLoad = _crudController.Put(projectModels.Id, projectModel[1]).Result;
+            TModel projectModelLoad = _crudController.Update(projectModels.Id, projectModel[1]).Result;
             bool removed = _crudController.Delete(projectModels.Id).Result;
             bool removedSecond = _crudController.Delete(projectModels.Id).Result;
             TModel removedProject = _crudController.Get(projectModels.Id).Result;
@@ -83,8 +83,8 @@ namespace MainSolutionTemplate.Sdk.Tests.Shared
             var client = _crudController as IEventUpdateEventSubSubscription<TModel>;
             client.OnUpdate(valueUpdateModels.Add).Wait();
             // action
-            TModel post = _crudController.Post(projectDetailModel).Result;
-            _crudController.Put(post.Id, projectDetailModel).Wait();
+            TModel post = _crudController.Insert(projectDetailModel).Result;
+            _crudController.Update(post.Id, projectDetailModel).Wait();
             client.UnsubscribeFromUpdates().Wait();
             _crudController.Delete(post.Id);
 

@@ -2,17 +2,17 @@
 {
 	public enum Activity
 	{
-		UserGet = 100 ,
-		UserUpdate = 101 ,
-        UserPost = 102,
-        UserDelete = 103,
-        UserSubscribe = 104,
+		ReadUsers = 100 ,
+		UpdateUsers = 101 ,
+        InsertUsers = 102,
+        DeleteUser = 103,
+        SubscribeUser = 104,
 
-        ProjectGet = 100,
-        ProjectUpdate = 101,
-        ProjectPost = 102,
-        ProjectDelete = 103,
-        ProjectSubscribe = 104,
+        GetProject = 100,
+        UpdateProject = 101,
+        InsertProject = 102,
+        DeleteProject = 103,
+        SubscribeProject = 104,
 	    
 	}
 }

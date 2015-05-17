@@ -32,25 +32,25 @@ namespace MainSolutionTemplate.Api.SignalR.Hubs
 
         #region IUserControllerActions Members
 
-        [HubAuthorizeActivity(Activity.UserGet)]
+        [HubAuthorizeActivity(Activity.ReadUsers)]
         public Task<UserModel> Get(Guid id)
         {
             return _userCommonController.Get(id);
         }
 
-        [HubAuthorizeActivity(Activity.UserPost)]
-        public Task<UserModel> Post(UserDetailModel model)
+        [HubAuthorizeActivity(Activity.InsertUsers)]
+        public Task<UserModel> Insert(UserDetailModel model)
         {
-            return _userCommonController.Post(model);
+            return _userCommonController.Insert(model);
         }
 
-        [HubAuthorizeActivity(Activity.UserUpdate)]
-        public Task<UserModel> Put(Guid id, UserDetailModel model)
+        [HubAuthorizeActivity(Activity.UpdateUsers)]
+        public Task<UserModel> Update(Guid id, UserDetailModel model)
         {
-            return _userCommonController.Put(id, model);
+            return _userCommonController.Update(id, model);
         }
 
-        [HubAuthorizeActivity(Activity.UserDelete)]
+        [HubAuthorizeActivity(Activity.DeleteUser)]
         public Task<bool> Delete(Guid id)
         {
             return _userCommonController.Delete(id);
@@ -72,21 +72,21 @@ namespace MainSolutionTemplate.Api.SignalR.Hubs
 
         #region IEventUpdateEvent Members
 
-        [HubAuthorizeActivity(Activity.UserSubscribe)]
+        [HubAuthorizeActivity(Activity.SubscribeUser)]
         public async Task SubscribeToUpdates()
         {
             RegisterForDalUpdates<User, UserModel>(OnUpdate);
             await Groups.Add(Context.ConnectionId, UpdateGroupName);
         }
 
-        [HubAuthorizeActivity(Activity.UserSubscribe)]
+        [HubAuthorizeActivity(Activity.SubscribeUser)]
         public async Task OnUpdate(ValueUpdateModel<UserModel> user)
         {
             var context = GlobalHost.ConnectionManager.GetHubContext<UserHub>();
             await context.Clients.Group(UpdateGroupName).OnUpdate(user);
         }
 
-        [HubAuthorizeActivity(Activity.UserSubscribe)]
+        [HubAuthorizeActivity(Activity.SubscribeUser)]
         public async Task UnsubscribeFromUpdates()
         {
             UnregisterFromDalUpdates<User>();
@@ -95,14 +95,14 @@ namespace MainSolutionTemplate.Api.SignalR.Hubs
 
         #endregion
         
-        [HubAuthorizeActivity(Activity.UserGet)]
+        [HubAuthorizeActivity(Activity.ReadUsers)]
         public async Task<IList<UserReferenceModel>> Get()
         {
             var task = await _userCommonController.Get();
             return task.ToList();
         }
 
-        [HubAuthorizeActivity(Activity.UserGet)]
+        [HubAuthorizeActivity(Activity.ReadUsers)]
         public async Task<IList<UserModel>> GetDetail()
         {
             var task = await _userCommonController.GetDetail();

@@ -2,10 +2,12 @@ using System;
 using System.Threading.Tasks;
 using AutoMapper;
 using MainSolutionTemplate.Core.BusinessLogic.Components.Interfaces;
+using MainSolutionTemplate.Shared.Interfaces.Base;
+using MainSolutionTemplate.Shared.Models;
 
 namespace MainSolutionTemplate.Api.Common
 {
-    public abstract class BaseCommonController<TDal,TModel , TReferenceModel, TDetailModel> : ReadOnlyCommonControllerBase<TDal, TModel, TReferenceModel>
+    public abstract class BaseCommonController<TDal, TModel, TReferenceModel, TDetailModel> : ReadOnlyCommonControllerBase<TDal, TModel, TReferenceModel>, ICrudController<TModel, TDetailModel>
     {
         protected BaseCommonController()
         {
@@ -17,7 +19,7 @@ namespace MainSolutionTemplate.Api.Common
         }
 
 
-        public Task<TModel> Put(Guid id, TDetailModel model)
+        public Task<TModel> Update(Guid id, TDetailModel model)
         {
             return Task.Run(() =>
                 {
@@ -30,7 +32,7 @@ namespace MainSolutionTemplate.Api.Common
         }
 
 
-        public Task<TModel> Post(TDetailModel model)
+        public Task<TModel> Insert(TDetailModel model)
         {
             return Task.Run(() =>
                 {

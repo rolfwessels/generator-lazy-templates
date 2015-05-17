@@ -32,7 +32,7 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
         /// </summary>
         /// <returns>
         /// </returns>
-        [Route,AuthorizeActivity(Activity.UserGet) , QueryToODataFilter]
+        [Route,AuthorizeActivity(Activity.ReadUsers) , QueryToODataFilter]
         public Task<IEnumerable<UserReferenceModel>> Get()
         {   
             return _userCommonController.Get(Request.GetQuery());
@@ -42,7 +42,7 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
         /// Gets all users with their detail.
         /// </summary>
         /// <returns></returns>
-        [Route(RouteHelper.WithDetail),AuthorizeActivity(Activity.UserGet), QueryToODataFilter]
+        [Route(RouteHelper.WithDetail),AuthorizeActivity(Activity.ReadUsers), QueryToODataFilter]
         public Task<IEnumerable<UserModel>> GetDetail()
 		{
 		    return _userCommonController.GetDetail(Request.GetQuery());
@@ -54,7 +54,7 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 		/// </summary>
 		/// <returns>
 		/// </returns>
-		[Route(RouteHelper.WithId),AuthorizeActivity(Activity.UserGet)]
+		[Route(RouteHelper.WithId),AuthorizeActivity(Activity.ReadUsers)]
 		public Task<UserModel> Get(Guid id)
 		{
             return _userCommonController.Get(id);
@@ -67,10 +67,10 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 	    /// <param name="model">The user.</param>
 	    /// <returns>
 	    /// </returns>
-		[Route(RouteHelper.WithId),AuthorizeActivity(Activity.UserUpdate)]
-		public Task<UserModel> Put(Guid id, UserDetailModel model)
+        [Route(RouteHelper.WithId), AuthorizeActivity(Activity.UpdateUsers), HttpPut]
+		public Task<UserModel> Update(Guid id, UserDetailModel model)
 		{
-            return _userCommonController.Put(id, model);
+            return _userCommonController.Update(id, model);
 		}
 
 	    /// <summary>
@@ -79,10 +79,10 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 	    /// <param name="model">The user.</param>
 	    /// <returns>
 	    /// </returns>
-        [Route,AuthorizeActivity(Activity.UserPost)]
-		public Task<UserModel> Post(UserDetailModel model)
+        [Route, AuthorizeActivity(Activity.InsertUsers), HttpPost]
+		public Task<UserModel> Insert(UserDetailModel model)
 		{
-            return _userCommonController.Post(model);
+            return _userCommonController.Insert(model);
 		}
 
 	    /// <summary>
@@ -91,7 +91,7 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 	    /// <param name="id">The identifier.</param>
 	    /// <returns>
 	    /// </returns>
-		[Route(RouteHelper.WithId),AuthorizeActivity(Activity.UserDelete)]
+		[Route(RouteHelper.WithId),AuthorizeActivity(Activity.DeleteUser)]
 		public Task<bool> Delete(Guid id)
 		{
             return _userCommonController.Delete(id);

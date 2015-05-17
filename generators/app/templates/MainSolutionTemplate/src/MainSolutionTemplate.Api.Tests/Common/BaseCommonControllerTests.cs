@@ -110,7 +110,7 @@ namespace MainSolutionTemplate.Api.Tests.Common
                                .Returns(project);
             var projectDetailModel = Builder<TDetailModel>.CreateNew().Build();
             // action
-            var result = _commonController.Put(project.Id, projectDetailModel).Result;
+            var result = _commonController.Update(project.Id, projectDetailModel).Result;
             // assert
             result.Id.Should().Be(project.Id);
         }
@@ -124,7 +124,7 @@ namespace MainSolutionTemplate.Api.Tests.Common
             var projectDetailModel = Builder<TDetailModel>.CreateNew().Build();
             _mockManager.Setup(mc => mc.Save(It.IsAny<TDal>())).Returns(project);
             // action
-            var result = _commonController.Post(projectDetailModel).Result;
+            var result = _commonController.Insert(projectDetailModel).Result;
             // assert
             result.Id.Should().Be(project.Id);
         }

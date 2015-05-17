@@ -32,7 +32,7 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
         /// </summary>
         /// <returns>
         /// </returns>
-        [Route,AuthorizeActivity(Activity.ProjectGet) , QueryToODataFilter]
+        [Route,AuthorizeActivity(Activity.GetProject) , QueryToODataFilter]
         public Task<IEnumerable<ProjectReferenceModel>> Get()
         {   
             return _projectCommonController.Get(Request.GetQuery());
@@ -42,7 +42,7 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
         /// Gets all projects with their detail.
         /// </summary>
         /// <returns></returns>
-        [Route(RouteHelper.WithDetail),AuthorizeActivity(Activity.ProjectGet), QueryToODataFilter]
+        [Route(RouteHelper.WithDetail),AuthorizeActivity(Activity.GetProject), QueryToODataFilter]
         public Task<IEnumerable<ProjectModel>> GetDetail()
 		{
 		    return _projectCommonController.GetDetail(Request.GetQuery());
@@ -54,7 +54,7 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 		/// </summary>
 		/// <returns>
 		/// </returns>
-		[Route(RouteHelper.WithId),AuthorizeActivity(Activity.ProjectGet)]
+		[Route(RouteHelper.WithId),AuthorizeActivity(Activity.GetProject)]
 		public Task<ProjectModel> Get(Guid id)
 		{
             return _projectCommonController.Get(id);
@@ -67,10 +67,10 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 	    /// <param name="model">The project.</param>
 	    /// <returns>
 	    /// </returns>
-		[Route(RouteHelper.WithId),AuthorizeActivity(Activity.ProjectUpdate)]
-		public Task<ProjectModel> Put(Guid id, ProjectDetailModel model)
+		[Route(RouteHelper.WithId),AuthorizeActivity(Activity.UpdateProject) , HttpPut]
+		public Task<ProjectModel> Update(Guid id, ProjectDetailModel model)
 		{
-            return _projectCommonController.Put(id, model);
+            return _projectCommonController.Update(id, model);
 		}
 
 	    /// <summary>
@@ -79,10 +79,10 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 	    /// <param name="model">The project.</param>
 	    /// <returns>
 	    /// </returns>
-        [Route,AuthorizeActivity(Activity.ProjectPost)]
-		public Task<ProjectModel> Post(ProjectDetailModel model)
+        [Route, AuthorizeActivity(Activity.InsertProject), HttpPost]
+		public Task<ProjectModel> Insert(ProjectDetailModel model)
 		{
-            return _projectCommonController.Post(model);
+            return _projectCommonController.Insert(model);
 		}
 
 	    /// <summary>
@@ -91,7 +91,7 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 	    /// <param name="id">The identifier.</param>
 	    /// <returns>
 	    /// </returns>
-		[Route(RouteHelper.WithId),AuthorizeActivity(Activity.ProjectDelete)]
+		[Route(RouteHelper.WithId),AuthorizeActivity(Activity.DeleteProject)]
 		public Task<bool> Delete(Guid id)
 		{
             return _projectCommonController.Delete(id);

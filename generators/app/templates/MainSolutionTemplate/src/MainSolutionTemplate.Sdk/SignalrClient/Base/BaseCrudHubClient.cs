@@ -19,14 +19,14 @@ namespace MainSolutionTemplate.Sdk.SignalrClient.Base
             return _userHub.Invoke<TModel>("Get", id);
         }
 
-        public Task<TModel> Post(TDetailModel model)
+        public Task<TModel> Insert(TDetailModel model)
         {
-            return _userHub.Invoke<TModel>("Post", model);
+            return _userHub.Invoke<TModel>("Insert", model);
         }
 
-        public Task<TModel> Put(Guid id, TDetailModel model)
+        public Task<TModel> Update(Guid id, TDetailModel model)
         {
-            return _userHub.Invoke<TModel>("Put", id, model);
+            return _userHub.Invoke<TModel>("Update", id, model);
         }
 
         public Task<bool> Delete(Guid id)

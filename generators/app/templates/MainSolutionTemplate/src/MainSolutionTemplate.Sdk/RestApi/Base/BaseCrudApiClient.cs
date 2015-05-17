@@ -26,14 +26,14 @@ namespace MainSolutionTemplate.Sdk.RestApi.Base
             return await ExecuteAndValidate<TModel>(request);
         }
 
-        public async Task<TModel> Post(TDetailModel model)
+        public async Task<TModel> Insert(TDetailModel model)
         {
             RestRequest request = DefaultRequest(_apiPrefix, Method.POST);
             request.AddBody(model);
             return await ExecuteAndValidate<TModel>(request);
         }
 
-        public async Task<TModel> Put(Guid id, TDetailModel model)
+        public async Task<TModel> Update(Guid id, TDetailModel model)
         {
             RestRequest request = DefaultRequest(_apiPrefix.UriCombine(RouteHelper.WithId), Method.PUT);
             request.AddUrlSegment("id", id.ToString());

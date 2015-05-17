@@ -29,25 +29,25 @@ namespace MainSolutionTemplate.Api.SignalR.Hubs
 
         #region IProjectControllerActions Members
 
-        [HubAuthorizeActivity(Activity.ProjectGet)]
+        [HubAuthorizeActivity(Activity.GetProject)]
         public Task<ProjectModel> Get(Guid id)
         {
             return _projectCommonController.Get(id);
         }
 
-        [HubAuthorizeActivity(Activity.ProjectPost)]
-        public Task<ProjectModel> Post(ProjectDetailModel model)
+        [HubAuthorizeActivity(Activity.InsertProject)]
+        public Task<ProjectModel> Insert(ProjectDetailModel model)
         {
-            return _projectCommonController.Post(model);
+            return _projectCommonController.Insert(model);
         }
 
-        [HubAuthorizeActivity(Activity.ProjectUpdate)]
-        public Task<ProjectModel> Put(Guid id, ProjectDetailModel model)
+        [HubAuthorizeActivity(Activity.UpdateProject)]
+        public Task<ProjectModel> Update(Guid id, ProjectDetailModel model)
         {
-            return _projectCommonController.Put(id, model);
+            return _projectCommonController.Update(id, model);
         }
 
-        [HubAuthorizeActivity(Activity.ProjectDelete)]
+        [HubAuthorizeActivity(Activity.DeleteProject)]
         public Task<bool> Delete(Guid id)
         {
             return _projectCommonController.Delete(id);
@@ -57,7 +57,7 @@ namespace MainSolutionTemplate.Api.SignalR.Hubs
 
         #region IEventUpdateEvent Members
 
-        [HubAuthorizeActivity(Activity.ProjectSubscribe)]
+        [HubAuthorizeActivity(Activity.SubscribeProject)]
         public async Task SubscribeToUpdates()
         {
             RegisterForDalUpdates<Project, ProjectModel>(OnUpdate);
@@ -65,14 +65,14 @@ namespace MainSolutionTemplate.Api.SignalR.Hubs
         }
 
 
-        [HubAuthorizeActivity(Activity.ProjectSubscribe)]
+        [HubAuthorizeActivity(Activity.SubscribeProject)]
         public async Task OnUpdate(ValueUpdateModel<ProjectModel> project)
         {
             var context = GlobalHost.ConnectionManager.GetHubContext<ProjectHub>();
             await context.Clients.Group(UpdateGroupName).OnUpdate(project);
         }
 
-        [HubAuthorizeActivity(Activity.ProjectSubscribe)]
+        [HubAuthorizeActivity(Activity.SubscribeProject)]
         public async Task UnsubscribeFromUpdates()
         {
             UnregisterFromDalUpdates<Project>();
@@ -81,14 +81,14 @@ namespace MainSolutionTemplate.Api.SignalR.Hubs
 
         #endregion
         
-        [HubAuthorizeActivity(Activity.ProjectGet)]
+        [HubAuthorizeActivity(Activity.GetProject)]
         public async Task<IList<ProjectReferenceModel>> Get()
         {
             var task = await _projectCommonController.Get();
             return task.ToList();
         }
 
-        [HubAuthorizeActivity(Activity.ProjectGet)]
+        [HubAuthorizeActivity(Activity.GetProject)]
         public async Task<IList<ProjectModel>> GetDetail()
         {
             var task = await _projectCommonController.GetDetail();

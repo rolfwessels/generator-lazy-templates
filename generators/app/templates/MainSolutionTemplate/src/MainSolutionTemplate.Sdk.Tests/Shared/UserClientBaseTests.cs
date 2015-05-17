@@ -21,13 +21,13 @@ namespace MainSolutionTemplate.Sdk.Tests.Shared
             // action
             try
             {
-                _crudController.Post(userDetailModel).Wait();
+                _crudController.Insert(userDetailModel).Wait();
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
             }
-            Action testCall = () => { _crudController.Post(userDetailModel).Wait(); };
+            Action testCall = () => { _crudController.Insert(userDetailModel).Wait(); };
             // assert
             testCall.ShouldThrow<Exception>().WithMessage("'Email' is not a valid email address.");
         }

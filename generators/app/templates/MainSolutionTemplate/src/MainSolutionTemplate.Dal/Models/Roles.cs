@@ -19,7 +19,7 @@ namespace MainSolutionTemplate.Dal.Models
 		{
 			get
 			{
-				return new Role() { Name = "Guest", Activities = new List<Activity>() { Activity.UserGet, Activity.UserSubscribe } };
+				return new Role() { Name = "Guest", Activities = new List<Activity>() { Activity.ReadUsers, Activity.SubscribeUser } };
 			}
 		}
 
