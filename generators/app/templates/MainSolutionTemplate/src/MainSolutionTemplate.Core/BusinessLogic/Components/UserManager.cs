@@ -7,11 +7,12 @@ using MainSolutionTemplate.Core.Vendor;
 using MainSolutionTemplate.Dal.Models;
 using MainSolutionTemplate.Dal.Models.Enums;
 using MainSolutionTemplate.Dal.Models.Reference;
+using MainSolutionTemplate.Dal.Persistance;
 using log4net;
 
 namespace MainSolutionTemplate.Core.BusinessLogic.Components
 {
-    public class UserManager : BaseManager, IUserManager
+    public class UserManager : BaseManager<User>, IUserManager
     {
         private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -21,53 +22,42 @@ namespace MainSolutionTemplate.Core.BusinessLogic.Components
 
         #region IUserManager Members
 
-        public IQueryable<User> GetUsers()
-        {
-            return _generalUnitOfWork.Users;
-        }
+       
 
         public IQueryable<UserReference> GetUsersAsReference()
         {
             return _generalUnitOfWork.Users.Select(x => new UserReference {Id = x.Id, Name = x.Name, Email = x.Email});
         }
 
-        public User GetUser(Guid id)
+        #region Overrides of BaseManager<User>
+
+        public override User Save(User project)
         {
-            return _generalUnitOfWork.Users.FirstOrDefault(x => x.Id == id);
+            return Save(project,null);
         }
 
-        public User SaveUser(User user, string password = null)
+        #endregion
+
+        public User Save(User user, string password)
         {
-            user.Email = user.Email.ToLower();
-            User userFound = _generalUnitOfWork.Users.FirstOrDefault(x => x.Id == user.Id);
-            user.HashedPassword = password != null || userFound == null
+            var found = Get(user.Id);
+            DefaultModelNormalize(user);
+            user.HashedPassword = password != null || found == null
                                       ? PasswordHash.CreateHash(password ??
                                                                 user.HashedPassword ?? DateTime.Now.ToString())
-                                      : userFound.HashedPassword;
+                                      : found.HashedPassword;
             _validationFactory.ValidateAndThrow(user);
-            if (userFound == null)
+            if (found == null)
             {
-                _log.Info(string.Format("Adding user [{0}]", user));
-                _generalUnitOfWork.Users.Add(user);
-                _messenger.Send(new DalUpdateMessage<User>(user, UpdateTypes.Inserted));
-                return user;
+                return Insert(user);
             }
-            _log.Info(string.Format("Update user [{0}]", user));
-            _generalUnitOfWork.Users.Update(user);
-            _messenger.Send(new DalUpdateMessage<User>(user, UpdateTypes.Updated));
+            Update(user);
             return user;
         }
 
-        public User DeleteUser(Guid id)
+        protected override void DefaultModelNormalize(User user)
         {
-            User user = _generalUnitOfWork.Users.FirstOrDefault(x => x.Id == id);
-            if (user != null)
-            {
-                _log.Info(string.Format("Remove user [{0}]", user));
-                _generalUnitOfWork.Users.Remove(user);
-                _messenger.Send(new DalUpdateMessage<User>(user, UpdateTypes.Removed));
-            }
-            return user;
+            user.Email = user.Email.ToLower();
         }
 
         public User GetUserByEmailAndPassword(string email, string password)
@@ -99,6 +89,15 @@ namespace MainSolutionTemplate.Core.BusinessLogic.Components
             if (userFound == null) throw new ArgumentException("Invalid email address.");
             userFound.LastLoginDate = DateTime.Now;
             _generalUnitOfWork.Users.Update(userFound);
+        }
+
+        #endregion
+
+        #region Overrides of BaseManager<User>
+
+        protected override IRepository<User> Repository
+        {
+            get { return _generalUnitOfWork.Users; }
         }
 
         #endregion

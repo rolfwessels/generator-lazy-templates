@@ -35,7 +35,7 @@ namespace MainSolutionTemplate.Core.Tests.Managers
             const int expected = 2;
             _fakeGeneralUnitOfWork.Users.AddFake(expected);
             // action
-            var result = _userManager.GetUsers();
+            var result = _userManager.Get();
             // assert
             result.Should().HaveCount(expected);
         }
@@ -48,7 +48,7 @@ namespace MainSolutionTemplate.Core.Tests.Managers
             var addFake = _fakeGeneralUnitOfWork.Users.AddFake();
             var guid = addFake.First().Id;
             // action
-            var result = _userManager.GetUser(guid);
+            var result = _userManager.Get(guid);
             // assert
             result.Id.Should().Be(guid);
         }
@@ -60,7 +60,7 @@ namespace MainSolutionTemplate.Core.Tests.Managers
             Setup();
             var user = Builder<User>.CreateNew().Build();
             // action
-            var result = _userManager.SaveUser(user);
+            var result = _userManager.Save(user);
             // assert
             _fakeGeneralUnitOfWork.Users.Should().HaveCount(1);
             result.Should().NotBeNull();
@@ -73,7 +73,7 @@ namespace MainSolutionTemplate.Core.Tests.Managers
             Setup();
             var user = Builder<User>.CreateNew().Build();
             // action
-            var result = _userManager.SaveUser(user);
+            var result = _userManager.Save(user);
             // assert
             result.Email.Should().Be(user.Email);
         }
@@ -85,7 +85,7 @@ namespace MainSolutionTemplate.Core.Tests.Managers
             Setup();
             var user = Builder<User>.CreateNew().Build();
             // action
-            _userManager.SaveUser(user);
+            _userManager.Save(user);
             // assert
             _mockIMessenger.Verify(mc => mc.Send(It.Is<DalUpdateMessage<User>>(m=>m.UpdateType == UpdateTypes.Inserted)),Times.Once);
             _mockIMessenger.Verify(mc => mc.Send(It.Is<DalUpdateMessage<User>>(m => m.UpdateType == UpdateTypes.Updated)), Times.Never);
@@ -99,7 +99,7 @@ namespace MainSolutionTemplate.Core.Tests.Managers
             Setup();
             var user = _fakeGeneralUnitOfWork.Users.AddFake().First();
             // action
-            _userManager.SaveUser(user);
+            _userManager.Save(user);
             // assert
             _mockIMessenger.Verify(mc => mc.Send(It.Is<DalUpdateMessage<User>>(m=>m.UpdateType == UpdateTypes.Updated)),Times.Once);
             _mockIMessenger.Verify(mc => mc.Send(It.Is<DalUpdateMessage<User>>(m => m.UpdateType == UpdateTypes.Inserted)), Times.Never);
@@ -112,10 +112,10 @@ namespace MainSolutionTemplate.Core.Tests.Managers
             Setup();
             var user = _fakeGeneralUnitOfWork.Users.AddFake().First();
             // action
-            _userManager.DeleteUser(user.Id);
+            _userManager.Delete(user.Id);
             // assert
             _mockIMessenger.Verify(mc => mc.Send(It.Is<DalUpdateMessage<User>>(m=>m.UpdateType == UpdateTypes.Removed)),Times.Once);
-            _userManager.GetUser(user.Id).Should().BeNull();
+            _userManager.Get(user.Id).Should().BeNull();
         }
         
         

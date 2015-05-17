@@ -37,36 +37,47 @@ namespace MainSolutionTemplate.Core.BusinessLogic.Components
             _name = typeof(T).Name;
         }
         
-        public virtual IQueryable<T> GetProjects()
+        public virtual IQueryable<T> Get()
         {
             return Repository;
         }
 
-        public virtual T GetProject(Guid id)
+        public virtual T Get(Guid id)
         {
 
             return Repository.FirstOrDefault(x => x.Id == id);
         }
 
-        public virtual  T SaveProject(T project)
+        public virtual  T Save(T project)
         {
             var projectFound = Repository.FirstOrDefault(x => x.Id == project.Id);
+            DefaultModelNormalize(project);
             _validationFactory.ValidateAndThrow(project);
             if (projectFound == null)
             {
-                _log.Info(string.Format("Adding {1} [{0}]", project, _name));
-                Repository.Add(project);
-                _messenger.Send(new DalUpdateMessage<T>(project, UpdateTypes.Inserted));
-                return project;
+                return Insert(project);
             }
-            _log.Info(string.Format("Update {1} [{0}]", project, _name));
-            Repository.Update(project);
-            _messenger.Send(new DalUpdateMessage<T>(project, UpdateTypes.Updated));
+            Update(project);
             return project;
-
         }
 
-        public virtual T DeleteProject(Guid id)
+        protected T Update(T project)
+        {
+            _log.Info(string.Format("Update {1} [{0}]", project, _name));
+            var update = Repository.Update(project);
+            _messenger.Send(new DalUpdateMessage<T>(project, UpdateTypes.Updated));
+            return update;
+        }
+
+        protected T Insert(T project)
+        {
+            _log.Info(string.Format("Adding {1} [{0}]", project, _name));
+            Repository.Add(project);
+            _messenger.Send(new DalUpdateMessage<T>(project, UpdateTypes.Inserted));
+            return project;
+        }
+
+        public virtual T Delete(Guid id)
         {
             var project = Repository.FirstOrDefault(x => x.Id == id);
             if (project != null)
@@ -79,5 +90,9 @@ namespace MainSolutionTemplate.Core.BusinessLogic.Components
         }
 
         protected abstract IRepository<T> Repository { get; }
+
+        protected virtual void DefaultModelNormalize(T user)
+        {
+        }
     }
 }

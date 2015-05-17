@@ -41,7 +41,7 @@ namespace MainSolutionTemplate.Core.Tests
 	        var user = Builder<User>.CreateNew().Build();
 	        _fakeGeneralUnitOfWork.Users.Add(user);
 	        // action
-	        var users = _userManager.GetUsers();
+	        var users = _userManager.Get();
 	        // assert
 	        users.Should().Contain(user);
 	    }
@@ -54,7 +54,7 @@ namespace MainSolutionTemplate.Core.Tests
 	        var userAdd = Builder<User>.CreateNew().Build();
 	        _fakeGeneralUnitOfWork.Users.Add(userAdd);
 	        // action
-            var user = _userManager.GetUser(userAdd.Id);
+            var user = _userManager.Get(userAdd.Id);
 	        // assert
             user.Id.Should().Be(userAdd.Id);
 	    }
@@ -67,7 +67,7 @@ namespace MainSolutionTemplate.Core.Tests
 	        Setup();
 	        var userAdd = Builder<User>.CreateNew().Build();
 	        // action
-            var user = _userManager.SaveUser(userAdd);
+            var user = _userManager.Save(userAdd);
 	        // assert
             _fakeGeneralUnitOfWork.Users.Should().Contain(user);
 	    }
@@ -82,7 +82,7 @@ namespace MainSolutionTemplate.Core.Tests
 	        _mockIValidatorFactory.Setup(mc => mc.ValidateAndThrow(userAdd))
                                   .Throws(new Exception("Where is the Name"));
 	        // action
-	        Action testCall = () => { _userManager.SaveUser(userAdd); };
+	        Action testCall = () => { _userManager.Save(userAdd); };
 	        // assert
 	        testCall.ShouldThrow<Exception>().WithMessage("Where is the Name");
 	        _fakeGeneralUnitOfWork.Users.Should().NotContain(userAdd);
@@ -96,7 +96,7 @@ namespace MainSolutionTemplate.Core.Tests
             var userAdd = Builder<User>.CreateNew().Build();
             _fakeGeneralUnitOfWork.Users.Add(userAdd);
 	        // action
-	        var deleteUser = _userManager.DeleteUser(userAdd.Id);
+	        var deleteUser = _userManager.Delete(userAdd.Id);
 	        // assert
 	        deleteUser.Should().NotBeNull();
 	    }
@@ -108,7 +108,7 @@ namespace MainSolutionTemplate.Core.Tests
 	        Setup();
             var userAdd = Builder<User>.CreateNew().Build();
 	        // action
-	        var deleteUser = _userManager.DeleteUser(userAdd.Id);
+	        var deleteUser = _userManager.Delete(userAdd.Id);
 	        // assert
 	        deleteUser.Should().BeNull();
 	    }
@@ -120,7 +120,7 @@ namespace MainSolutionTemplate.Core.Tests
 	        // arrange
 	        Setup();
             var userAdd = Builder<User>.CreateNew().Build();
-            _userManager.SaveUser(userAdd);
+            _userManager.Save(userAdd);
 	        // action
 	        var deleteUser = _userManager.GetUserByEmail(userAdd.Email);
 	        // assert
@@ -157,7 +157,7 @@ namespace MainSolutionTemplate.Core.Tests
 	        // arrange
 	        Setup();
 	        var userAdd = Builder<User>.CreateNew().Build();
-            _userManager.SaveUser(userAdd, "Password");
+            _userManager.Save(userAdd, "Password");
 	        // action
             var user = _userManager.GetUserByEmailAndPassword(userAdd.Email, "Password");
 	        // assert

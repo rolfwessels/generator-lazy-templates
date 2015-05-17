@@ -48,7 +48,7 @@ namespace MainSolutionTemplate.Api.Tests.Common
             // arrange
             Setup();
             var projectReference = Builder<Project>.CreateListOfSize(2).Build();
-            _mockISystemManager.Setup(mc => mc.GetProjects())
+            _mockISystemManager.Setup(mc => mc.Get())
                 .Returns(projectReference.AsQueryable);
             // action
             var result = _projectCommonController.Get().Result;
@@ -63,7 +63,7 @@ namespace MainSolutionTemplate.Api.Tests.Common
             // arrange
             Setup();
             var projectReference = Builder<Project>.CreateListOfSize(2).Build();
-            _mockISystemManager.Setup(mc => mc.GetProjects())
+            _mockISystemManager.Setup(mc => mc.Get())
                 .Returns(projectReference.AsQueryable);
             // action
             var result = _projectCommonController.GetDetail().Result;
@@ -78,7 +78,7 @@ namespace MainSolutionTemplate.Api.Tests.Common
             // arrange
             Setup();
             var project = Builder<Project>.CreateNew().Build();
-            _mockISystemManager.Setup(mc => mc.GetProject(project.Id))
+            _mockISystemManager.Setup(mc => mc.Get(project.Id))
                 .Returns(project);
             // action
             var result = _projectCommonController.Get(project.Id).Result;
@@ -92,9 +92,9 @@ namespace MainSolutionTemplate.Api.Tests.Common
             // arrange
             Setup();
             var project = Builder<Project>.CreateNew().Build();
-            _mockISystemManager.Setup(mc => mc.GetProject(project.Id))
+            _mockISystemManager.Setup(mc => mc.Get(project.Id))
                 .Returns(project);
-            _mockISystemManager.Setup(mc => mc.SaveProject(project))
+            _mockISystemManager.Setup(mc => mc.Save(project))
                 .Returns(project);
             var projectDetailModel = new ProjectDetailModel();
             // action
@@ -110,7 +110,7 @@ namespace MainSolutionTemplate.Api.Tests.Common
             Setup();
             var project = Builder<Project>.CreateNew().Build();
             var projectDetailModel = Builder<ProjectDetailModel>.CreateNew().Build();
-            _mockISystemManager.Setup(mc => mc.SaveProject(It.Is<Project>(project1 => project1.Name == project.Name))).Returns(project);
+            _mockISystemManager.Setup(mc => mc.Save(It.Is<Project>(project1 => project1.Name == project.Name))).Returns(project);
             // action
             var result = _projectCommonController.Post(projectDetailModel).Result;
             // assert
@@ -124,7 +124,7 @@ namespace MainSolutionTemplate.Api.Tests.Common
             // arrange
             Setup();
             var project = Builder<Project>.CreateNew().Build();
-            _mockISystemManager.Setup(mc => mc.DeleteProject(project.Id)).Returns(project);
+            _mockISystemManager.Setup(mc => mc.Delete(project.Id)).Returns(project);
             // action
             var result = _projectCommonController.Delete(project.Id).Result;
             // assert

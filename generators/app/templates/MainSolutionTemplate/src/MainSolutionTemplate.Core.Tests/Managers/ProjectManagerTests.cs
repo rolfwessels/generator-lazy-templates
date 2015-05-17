@@ -34,7 +34,7 @@ namespace MainSolutionTemplate.Core.Tests.Managers
             const int expected = 2;
             _fakeGeneralUnitOfWork.Projects.AddFake(expected);
             // action
-            var result = _systemManager.GetProjects();
+            var result = _systemManager.Get();
             // assert
             result.Should().HaveCount(expected);
         }
@@ -47,7 +47,7 @@ namespace MainSolutionTemplate.Core.Tests.Managers
             var addFake = _fakeGeneralUnitOfWork.Projects.AddFake();
             var guid = addFake.First().Id;
             // action
-            var result = _systemManager.GetProject(guid);
+            var result = _systemManager.Get(guid);
             // assert
             result.Id.Should().Be(guid);
         }
@@ -59,7 +59,7 @@ namespace MainSolutionTemplate.Core.Tests.Managers
             Setup();
             var project = Builder<Project>.CreateNew().Build();
             // action
-            var result = _systemManager.SaveProject(project);
+            var result = _systemManager.Save(project);
             // assert
             _fakeGeneralUnitOfWork.Projects.Should().HaveCount(1);
             result.Should().NotBeNull();
@@ -72,7 +72,7 @@ namespace MainSolutionTemplate.Core.Tests.Managers
             Setup();
             var project = Builder<Project>.CreateNew().Build();
             // action
-            var result = _systemManager.SaveProject(project);
+            var result = _systemManager.Save(project);
             // assert
             result.Id.Should().Be(project.Id);
         }
@@ -84,7 +84,7 @@ namespace MainSolutionTemplate.Core.Tests.Managers
             Setup();
             var project = Builder<Project>.CreateNew().Build();
             // action
-            _systemManager.SaveProject(project);
+            _systemManager.Save(project);
             // assert
             _mockIMessenger.Verify(mc => mc.Send(It.Is<DalUpdateMessage<Project>>(m=>m.UpdateType == UpdateTypes.Inserted)),Times.Once);
             _mockIMessenger.Verify(mc => mc.Send(It.Is<DalUpdateMessage<Project>>(m => m.UpdateType == UpdateTypes.Updated)), Times.Never);
@@ -98,7 +98,7 @@ namespace MainSolutionTemplate.Core.Tests.Managers
             Setup();
             var project = _fakeGeneralUnitOfWork.Projects.AddFake().First();
             // action
-            _systemManager.SaveProject(project);
+            _systemManager.Save(project);
             // assert
             _mockIMessenger.Verify(mc => mc.Send(It.Is<DalUpdateMessage<Project>>(m=>m.UpdateType == UpdateTypes.Updated)),Times.Once);
             _mockIMessenger.Verify(mc => mc.Send(It.Is<DalUpdateMessage<Project>>(m => m.UpdateType == UpdateTypes.Inserted)), Times.Never);
@@ -111,10 +111,10 @@ namespace MainSolutionTemplate.Core.Tests.Managers
             Setup();
             var project = _fakeGeneralUnitOfWork.Projects.AddFake().First();
             // action
-            _systemManager.DeleteProject(project.Id);
+            _systemManager.Delete(project.Id);
             // assert
             _mockIMessenger.Verify(mc => mc.Send(It.Is<DalUpdateMessage<Project>>(m=>m.UpdateType == UpdateTypes.Removed)),Times.Once);
-            _systemManager.GetProject(project.Id).Should().BeNull();
+            _systemManager.Get(project.Id).Should().BeNull();
         }
         
         

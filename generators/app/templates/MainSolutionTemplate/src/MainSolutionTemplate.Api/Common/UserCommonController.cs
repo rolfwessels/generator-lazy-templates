@@ -26,26 +26,26 @@ namespace MainSolutionTemplate.Api.Common
 
         public Task<IEnumerable<UserReferenceModel>> Get(string query = null)
         {
-            return Task.Run(() => new QueryToODataWrapper<User, UserReferenceModel>(_userManager.GetUsers(), query, MapApi.ToReferenceModelList) as IEnumerable<UserReferenceModel>);
+            return Task.Run(() => new QueryToODataWrapper<User, UserReferenceModel>(_userManager.Get(), query, MapApi.ToReferenceModelList) as IEnumerable<UserReferenceModel>);
         }
 
         public Task<IEnumerable<UserModel>> GetDetail(string query = null)
         {
-            return Task.Run(() => new QueryToODataWrapper<User, UserModel>(_userManager.GetUsers(), query, MapApi.ToModelList) as IEnumerable<UserModel>);
+            return Task.Run(() => new QueryToODataWrapper<User, UserModel>(_userManager.Get(), query, MapApi.ToModelList) as IEnumerable<UserModel>);
         }
 
         public Task<UserModel> Get(Guid id)
         {
-            return Task.Run(() => _userManager.GetUser(id).ToModel());
+            return Task.Run(() => _userManager.Get(id).ToModel());
         }
 
         public Task<UserModel> Put(Guid id, UserDetailModel model)
         {
             return Task.Run(() =>
             {
-                var userFound = _userManager.GetUser(id);
+                var userFound = _userManager.Get(id);
                 if (userFound == null) throw new Exception(string.Format("Could not find model by id '{0}'", id));
-                var saveUser = _userManager.SaveUser(model.ToDal(userFound));
+                var saveUser = _userManager.Save(model.ToDal(userFound));
                 return saveUser.ToModel();
             });
         }
@@ -55,7 +55,7 @@ namespace MainSolutionTemplate.Api.Common
         {   
             return Task.Run(() =>
             {
-                var savedUser = _userManager.SaveUser(model.ToDal());
+                var savedUser = _userManager.Save(model.ToDal());
                 return savedUser.ToModel();
             });
         }
@@ -65,7 +65,7 @@ namespace MainSolutionTemplate.Api.Common
         {
             return Task.Run(() =>
             {
-                var deleteUser = _userManager.DeleteUser(id);
+                var deleteUser = _userManager.Delete(id);
                 return deleteUser != null;
             });
         }
@@ -78,7 +78,7 @@ namespace MainSolutionTemplate.Api.Common
             {
                 var user = model.ToDal();
                 user.Roles.Add(Roles.Guest);
-                var savedUser = _userManager.SaveUser(user);
+                var savedUser = _userManager.Save(user);
                 return savedUser.ToModel();
             });
         }

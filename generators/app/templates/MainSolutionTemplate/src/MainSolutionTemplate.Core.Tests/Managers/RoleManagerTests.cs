@@ -34,7 +34,7 @@ namespace MainSolutionTemplate.Core.Tests.Managers
             const int expected = 2;
             _fakeGeneralUnitOfWork.Roles.AddFake(expected);
             // action
-            var result = _roleManager.GetRoles();
+            var result = _roleManager.Get();
             // assert
             result.Should().HaveCount(expected);
         }
@@ -47,7 +47,7 @@ namespace MainSolutionTemplate.Core.Tests.Managers
             var addFake = _fakeGeneralUnitOfWork.Roles.AddFake();
             var guid = addFake.First().Id;
             // action
-            var result = _roleManager.GetRole(guid);
+            var result = _roleManager.Get(guid);
             // assert
             result.Id.Should().Be(guid);
         }
@@ -59,7 +59,7 @@ namespace MainSolutionTemplate.Core.Tests.Managers
             Setup();
             var role = Builder<Role>.CreateNew().Build();
             // action
-            var result = _roleManager.SaveRole(role);
+            var result = _roleManager.Save(role);
             // assert
             _fakeGeneralUnitOfWork.Roles.Should().HaveCount(1);
             result.Should().NotBeNull();
@@ -72,7 +72,7 @@ namespace MainSolutionTemplate.Core.Tests.Managers
             Setup();
             var role = Builder<Role>.CreateNew().Build();
             // action
-            var result = _roleManager.SaveRole(role);
+            var result = _roleManager.Save(role);
             // assert
             result.Name.Should().Be(role.Name);
         }
@@ -84,7 +84,7 @@ namespace MainSolutionTemplate.Core.Tests.Managers
             Setup();
             var role = Builder<Role>.CreateNew().Build();
             // action
-            _roleManager.SaveRole(role);
+            _roleManager.Save(role);
             // assert
             _mockIMessenger.Verify(mc => mc.Send(It.Is<DalUpdateMessage<Role>>(m=>m.UpdateType == UpdateTypes.Inserted)),Times.Once);
             _mockIMessenger.Verify(mc => mc.Send(It.Is<DalUpdateMessage<Role>>(m => m.UpdateType == UpdateTypes.Updated)), Times.Never);
@@ -98,7 +98,7 @@ namespace MainSolutionTemplate.Core.Tests.Managers
             Setup();
             var role = _fakeGeneralUnitOfWork.Roles.AddFake().First();
             // action
-            _roleManager.SaveRole(role);
+            _roleManager.Save(role);
             // assert
             _mockIMessenger.Verify(mc => mc.Send(It.Is<DalUpdateMessage<Role>>(m=>m.UpdateType == UpdateTypes.Updated)),Times.Once);
             _mockIMessenger.Verify(mc => mc.Send(It.Is<DalUpdateMessage<Role>>(m => m.UpdateType == UpdateTypes.Inserted)), Times.Never);
@@ -111,10 +111,10 @@ namespace MainSolutionTemplate.Core.Tests.Managers
             Setup();
             var role = _fakeGeneralUnitOfWork.Roles.AddFake().First();
             // action
-            _roleManager.DeleteRole(role.Id);
+            _roleManager.Delete(role.Id);
             // assert
             _mockIMessenger.Verify(mc => mc.Send(It.Is<DalUpdateMessage<Role>>(m=>m.UpdateType == UpdateTypes.Removed)),Times.Once);
-            _roleManager.GetRole(role.Id).Should().BeNull();
+            _roleManager.Get(role.Id).Should().BeNull();
         }
         
        

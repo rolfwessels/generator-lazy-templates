@@ -23,26 +23,26 @@ namespace MainSolutionTemplate.Api.Common
 
         public Task<IEnumerable<ProjectReferenceModel>> Get(string query = null)
         {
-            return Task.Run(() => new QueryToODataWrapper<Project, ProjectReferenceModel>(_projectManager.GetProjects(), query, MapApi.ToReferenceModelList) as IEnumerable<ProjectReferenceModel>);
+            return Task.Run(() => new QueryToODataWrapper<Project, ProjectReferenceModel>(_projectManager.Get(), query, MapApi.ToReferenceModelList) as IEnumerable<ProjectReferenceModel>);
         }
 
         public Task<IEnumerable<ProjectModel>> GetDetail(string query = null)
         {
-            return Task.Run(() => new QueryToODataWrapper<Project, ProjectModel>(_projectManager.GetProjects(), query, MapApi.ToModelList) as IEnumerable<ProjectModel>);
+            return Task.Run(() => new QueryToODataWrapper<Project, ProjectModel>(_projectManager.Get(), query, MapApi.ToModelList) as IEnumerable<ProjectModel>);
         }
 
         public Task<ProjectModel> Get(Guid id)
         {
-            return Task.Run(() => _projectManager.GetProject(id).ToModel());
+            return Task.Run(() => _projectManager.Get(id).ToModel());
         }
 
         public Task<ProjectModel> Put(Guid id, ProjectDetailModel model)
         {
             return Task.Run(() =>
             {
-                var projectFound = _projectManager.GetProject(id);
+                var projectFound = _projectManager.Get(id);
                 if (projectFound == null) throw new Exception(string.Format("Could not find model by id '{0}'", id));
-                var saveProject = _projectManager.SaveProject(model.ToDal(projectFound));
+                var saveProject = _projectManager.Save(model.ToDal(projectFound));
                 return saveProject.ToModel();
             });
         }
@@ -52,7 +52,7 @@ namespace MainSolutionTemplate.Api.Common
         {
             return Task.Run(() =>
             {
-                var savedProject = _projectManager.SaveProject(model.ToDal());
+                var savedProject = _projectManager.Save(model.ToDal());
                 return savedProject.ToModel();
             });
         }
@@ -61,7 +61,7 @@ namespace MainSolutionTemplate.Api.Common
         {
             return Task.Run(() =>
             {
-                var deleteProject = _projectManager.DeleteProject(id);
+                var deleteProject = _projectManager.Delete(id);
                 return deleteProject != null;
             });
         }

@@ -48,7 +48,7 @@ namespace MainSolutionTemplate.Api.Tests.Common
             // arrange
             Setup();
             var userReference = Builder<User>.CreateListOfSize(2).Build();
-            _mockISystemManager.Setup(mc => mc.GetUsers())
+            _mockISystemManager.Setup(mc => mc.Get())
                 .Returns(userReference.AsQueryable);
             // action
             var result = _userCommonController.Get().Result;
@@ -63,7 +63,7 @@ namespace MainSolutionTemplate.Api.Tests.Common
             // arrange
             Setup();
             var userReference = Builder<User>.CreateListOfSize(2).Build();
-            _mockISystemManager.Setup(mc => mc.GetUsers())
+            _mockISystemManager.Setup(mc => mc.Get())
                 .Returns(userReference.AsQueryable);
             // action
             var result = _userCommonController.GetDetail().Result;
@@ -78,7 +78,7 @@ namespace MainSolutionTemplate.Api.Tests.Common
             // arrange
             Setup();
             var user = Builder<User>.CreateNew().Build();
-            _mockISystemManager.Setup(mc => mc.GetUser(user.Id))
+            _mockISystemManager.Setup(mc => mc.Get(user.Id))
                 .Returns(user);
             // action
             var result = _userCommonController.Get(user.Id).Result;
@@ -92,9 +92,9 @@ namespace MainSolutionTemplate.Api.Tests.Common
             // arrange
             Setup();
             var user = Builder<User>.CreateNew().Build();
-            _mockISystemManager.Setup(mc => mc.GetUser(user.Id))
+            _mockISystemManager.Setup(mc => mc.Get(user.Id))
                 .Returns(user);
-            _mockISystemManager.Setup(mc => mc.SaveUser(user,null))
+            _mockISystemManager.Setup(mc => mc.Save(user,null))
                 .Returns(user);
             var userDetailModel = new UserDetailModel();
             // action
@@ -110,7 +110,7 @@ namespace MainSolutionTemplate.Api.Tests.Common
             Setup();
             var user = Builder<User>.CreateNew().Build();
             var userDetailModel = Builder<UserDetailModel>.CreateNew().Build();
-            _mockISystemManager.Setup(mc => mc.SaveUser(It.Is<User>(user1 => user1.Email == user.Email.ToLower()), null)).Returns(user);
+            _mockISystemManager.Setup(mc => mc.Save(It.Is<User>(user1 => user1.Email == user.Email.ToLower()), null)).Returns(user);
             // action
             var result = _userCommonController.Post(userDetailModel).Result;
             // assert
@@ -124,7 +124,7 @@ namespace MainSolutionTemplate.Api.Tests.Common
             // arrange
             Setup();
             var user = Builder<User>.CreateNew().Build();
-            _mockISystemManager.Setup(mc => mc.DeleteUser(user.Id)).Returns(user);
+            _mockISystemManager.Setup(mc => mc.Delete(user.Id)).Returns(user);
             // action
             var result = _userCommonController.Delete(user.Id).Result;
             // assert
@@ -139,7 +139,7 @@ namespace MainSolutionTemplate.Api.Tests.Common
             Setup();
             var registerModel = Builder<RegisterModel>.CreateNew().Build();
             var user = Builder<User>.CreateNew().Build();
-            _mockISystemManager.Setup(mc => mc.SaveUser(It.Is<User>(x => x.Name == registerModel.Name && x.Roles.Any(r => r.Name == Roles.Guest.Name)), null)).Returns(user);
+            _mockISystemManager.Setup(mc => mc.Save(It.Is<User>(x => x.Name == registerModel.Name && x.Roles.Any(r => r.Name == Roles.Guest.Name)), null)).Returns(user);
             // action
             var result = _userCommonController.Register(registerModel).Result;
             // assert

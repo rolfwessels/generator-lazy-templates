@@ -40,7 +40,7 @@ namespace MainSolutionTemplate.Core.Tests
 	        var project = Builder<Project>.CreateNew().Build();
 	        _fakeGeneralUnitOfWork.Projects.Add(project);
 	        // action
-	        var projects = _projectManager.GetProjects();
+	        var projects = _projectManager.Get();
 	        // assert
 	        projects.Should().Contain(project);
 	    }
@@ -53,7 +53,7 @@ namespace MainSolutionTemplate.Core.Tests
 	        var projectAdd = Builder<Project>.CreateNew().Build();
 	        _fakeGeneralUnitOfWork.Projects.Add(projectAdd);
 	        // action
-            var project = _projectManager.GetProject(projectAdd.Id);
+            var project = _projectManager.Get(projectAdd.Id);
 	        // assert
             project.Id.Should().Be(projectAdd.Id);
 	    }
@@ -66,7 +66,7 @@ namespace MainSolutionTemplate.Core.Tests
 	        Setup();
 	        var projectAdd = Builder<Project>.CreateNew().Build();
 	        // action
-            var project = _projectManager.SaveProject(projectAdd);
+            var project = _projectManager.Save(projectAdd);
 	        // assert
             _fakeGeneralUnitOfWork.Projects.Should().Contain(project);
 	    }
@@ -81,7 +81,7 @@ namespace MainSolutionTemplate.Core.Tests
 	        _mockIValidatorFactory.Setup(mc => mc.ValidateAndThrow(projectAdd))
                                   .Throws(new Exception("Where is the Name"));
 	        // action
-	        Action testCall = () => { _projectManager.SaveProject(projectAdd); };
+	        Action testCall = () => { _projectManager.Save(projectAdd); };
 	        // assert
 	        testCall.ShouldThrow<Exception>().WithMessage("Where is the Name");
 	        _fakeGeneralUnitOfWork.Projects.Should().NotContain(projectAdd);
@@ -95,7 +95,7 @@ namespace MainSolutionTemplate.Core.Tests
             var projectAdd = Builder<Project>.CreateNew().Build();
             _fakeGeneralUnitOfWork.Projects.Add(projectAdd);
 	        // action
-	        var deleteProject = _projectManager.DeleteProject(projectAdd.Id);
+	        var deleteProject = _projectManager.Delete(projectAdd.Id);
 	        // assert
 	        deleteProject.Should().NotBeNull();
 	    }
@@ -107,7 +107,7 @@ namespace MainSolutionTemplate.Core.Tests
 	        Setup();
             var projectAdd = Builder<Project>.CreateNew().Build();
 	        // action
-	        var deleteProject = _projectManager.DeleteProject(projectAdd.Id);
+	        var deleteProject = _projectManager.Delete(projectAdd.Id);
 	        // assert
 	        deleteProject.Should().BeNull();
 	    }

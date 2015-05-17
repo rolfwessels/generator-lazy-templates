@@ -5,16 +5,13 @@ using MainSolutionTemplate.Dal.Models.Reference;
 
 namespace MainSolutionTemplate.Core.BusinessLogic.Components.Interfaces
 {
-	public interface IUserManager
+	public interface IUserManager : IBaseManager<User>
 	{
-		IQueryable<User> GetUsers();
-        IQueryable<UserReference> GetUsersAsReference();
-		User GetUser(Guid id);
-        User SaveUser(User user, string password = null);
-		User DeleteUser(Guid id);
-		User GetUserByEmailAndPassword(string email, string password);
-		User GetUserByEmail(string email);
+	    User Save(User user, string password = null);
+	    User GetUserByEmailAndPassword(string email, string password);
+	    User GetUserByEmail(string email);
 	    void UpdateLastLoginDate(string email);
+	    IQueryable<UserReference> GetUsersAsReference();
 	}
 
     
