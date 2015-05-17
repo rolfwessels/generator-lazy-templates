@@ -10,7 +10,12 @@ namespace MainSolutionTemplate.Api.Models.Mappers
 {
 	public static partial class MapApi
 	{
-        private static void MapUserModel()
+	    public static void Initialize()
+	    {
+
+	    }
+
+	    private static void MapUserModel()
 		{
 			Mapper.CreateMap<User, UserModel>();
             Mapper.CreateMap<User, UserReferenceModel>();

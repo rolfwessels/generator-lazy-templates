@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Threading.Tasks;
 using MainSolutionTemplate.Api.Models.Mappers;
-using MainSolutionTemplate.Api.WebApi.ODataSupport;
 using MainSolutionTemplate.Core.BusinessLogic.Components.Interfaces;
 using MainSolutionTemplate.Dal.Models;
 using MainSolutionTemplate.Shared.Interfaces.Shared;
@@ -13,88 +10,41 @@ using log4net;
 
 namespace MainSolutionTemplate.Api.Common
 {
-    
-    public class UserCommonController : IUserControllerActions
+    public class UserCommonController : BaseCommonController<User, UserModel, UserReferenceModel, UserDetailModel>,
+                                        IUserControllerActions
     {
         private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private readonly IUserManager _userManager;
 
-        public UserCommonController(IUserManager userManager)
+        public UserCommonController(IUserManager userManager) : base(userManager)
         {
             _userManager = userManager;
         }
 
-        public Task<IEnumerable<UserReferenceModel>> Get(string query = null)
-        {
-            return Task.Run(() => new QueryToODataWrapper<User, UserReferenceModel>(_userManager.Get(), query, MapApi.ToReferenceModelList) as IEnumerable<UserReferenceModel>);
-        }
-
-        public Task<IEnumerable<UserModel>> GetDetail(string query = null)
-        {
-            return Task.Run(() => new QueryToODataWrapper<User, UserModel>(_userManager.Get(), query, MapApi.ToModelList) as IEnumerable<UserModel>);
-        }
-
-        public Task<UserModel> Get(Guid id)
-        {
-            return Task.Run(() => _userManager.Get(id).ToModel());
-        }
-
-        public Task<UserModel> Put(Guid id, UserDetailModel model)
-        {
-            return Task.Run(() =>
-            {
-                var userFound = _userManager.Get(id);
-                if (userFound == null) throw new Exception(string.Format("Could not find model by id '{0}'", id));
-                var saveUser = _userManager.Save(model.ToDal(userFound));
-                return saveUser.ToModel();
-            });
-        }
-
-       
-        public Task<UserModel> Post(UserDetailModel model)
-        {   
-            return Task.Run(() =>
-            {
-                var savedUser = _userManager.Save(model.ToDal());
-                return savedUser.ToModel();
-            });
-        }
-
-        
-        public Task<bool> Delete(Guid id)
-        {
-            return Task.Run(() =>
-            {
-                var deleteUser = _userManager.Delete(id);
-                return deleteUser != null;
-            });
-        }
-
-        #region Other actions
+        #region IUserControllerActions Members
 
         public Task<UserModel> Register(RegisterModel model)
         {
             return Task.Run(() =>
-            {
-                var user = model.ToDal();
-                user.Roles.Add(Roles.Guest);
-                var savedUser = _userManager.Save(user);
-                return savedUser.ToModel();
-            });
+                {
+                    User user = model.ToDal();
+                    user.Roles.Add(Roles.Guest);
+                    User savedUser = _userManager.Save(user,model.Password);
+                    return savedUser.ToModel();
+                });
         }
 
         public Task<bool> ForgotPassword(string email)
         {
             return Task.Run(() =>
-            {
-                _log.Warn(string.Format("User has called forgot password. We should send him and email to [{0}].", email));
-                // todo: Forgot password
-                return true;
-            });
+                {
+                    _log.Warn(string.Format("User has called forgot password. We should send him and email to [{0}].",
+                                            email));
+                    // todo: Forgot password
+                    return true;
+                });
         }
 
         #endregion
     }
-
-   
 }

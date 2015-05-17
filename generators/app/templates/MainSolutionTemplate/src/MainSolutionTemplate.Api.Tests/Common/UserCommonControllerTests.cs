@@ -5,132 +5,41 @@ using MainSolutionTemplate.Api.Common;
 using MainSolutionTemplate.Core.BusinessLogic.Components.Interfaces;
 using MainSolutionTemplate.Dal.Models;
 using MainSolutionTemplate.Shared.Models;
+using MainSolutionTemplate.Shared.Models.Reference;
 using Moq;
 using NUnit.Framework;
 
 namespace MainSolutionTemplate.Api.Tests.Common
 {
     [TestFixture]
-    public class UserCommonControllerTests
+    public class UserCommonControllerTests:BaseCommonControllerTests<User, UserModel, UserReferenceModel, UserDetailModel, IUserManager>
     {
+        private Mock<IUserManager> _mockIUserManager;
+        private new UserCommonController _projectCommonController;
 
-        private UserCommonController _userCommonController;
-        private Mock<IUserManager> _mockISystemManager;
 
-        #region Setup/Teardown
+        #region Overrides of BaseCommonControllerTests
 
-        public void Setup()
+        public override void Setup()
         {
-            _mockISystemManager = new Mock<IUserManager>(MockBehavior.Strict);
-            _userCommonController = new UserCommonController(_mockISystemManager.Object);
+            _mockIUserManager = new Mock<IUserManager>(MockBehavior.Strict);
+            _projectCommonController = new UserCommonController(_mockIUserManager.Object);
+            _mockIUserManager.VerifyAll();
+            base.Setup();
         }
 
-        [TearDown]
-        public void TearDown()
+        protected override Mock<IUserManager> GetManager()
         {
-            _mockISystemManager.VerifyAll();
+            return _mockIUserManager;
+        }
+
+        protected override BaseCommonController<User, UserModel, UserReferenceModel, UserDetailModel> GetCommonController()
+        {
+            return _projectCommonController;
         }
 
         #endregion
-
-        [Test]
-        public void Constructor_WhenCalled_ShouldNotBeNull()
-        {
-            // arrange
-            Setup();
-            // assert
-            _userCommonController.Should().NotBeNull();
-        }
-
-        [Test]
-        public void Get_GivenRequest_ShouldReturnUserReferenceModels()
-        {
-            // arrange
-            Setup();
-            var userReference = Builder<User>.CreateListOfSize(2).Build();
-            _mockISystemManager.Setup(mc => mc.Get())
-                .Returns(userReference.AsQueryable);
-            // action
-            var result = _userCommonController.Get().Result;
-            // assert
-            result.Count().Should().Be(2);
-        }
-
-
-        [Test]
-        public void GetDetail_GivenRequest_ShouldReturnUserModel()
-        {
-            // arrange
-            Setup();
-            var userReference = Builder<User>.CreateListOfSize(2).Build();
-            _mockISystemManager.Setup(mc => mc.Get())
-                .Returns(userReference.AsQueryable);
-            // action
-            var result = _userCommonController.GetDetail().Result;
-            // assert
-            result.Count().Should().Be(2);
-        }
-
-
-        [Test]
-        public void Get_GivenUserId_ShouldCallGetUser()
-        {
-            // arrange
-            Setup();
-            var user = Builder<User>.CreateNew().Build();
-            _mockISystemManager.Setup(mc => mc.Get(user.Id))
-                .Returns(user);
-            // action
-            var result = _userCommonController.Get(user.Id).Result;
-            // assert
-            result.Id.Should().Be(user.Id);
-        }
-
-        [Test]
-        public void Put_GivenUserId_ShouldUpdateAGivenUser()
-        {
-            // arrange
-            Setup();
-            var user = Builder<User>.CreateNew().Build();
-            _mockISystemManager.Setup(mc => mc.Get(user.Id))
-                .Returns(user);
-            _mockISystemManager.Setup(mc => mc.Save(user,null))
-                .Returns(user);
-            var userDetailModel = new UserDetailModel();
-            // action
-            var result = _userCommonController.Put(user.Id, userDetailModel).Result;
-            // assert
-            result.Id.Should().Be(user.Id);
-        }
-
-        [Test]
-        public void Post_GivenUserId_ShouldAddAUser()
-        {
-            // arrange
-            Setup();
-            var user = Builder<User>.CreateNew().Build();
-            var userDetailModel = Builder<UserDetailModel>.CreateNew().Build();
-            _mockISystemManager.Setup(mc => mc.Save(It.Is<User>(user1 => user1.Email == user.Email.ToLower()), null)).Returns(user);
-            // action
-            var result = _userCommonController.Post(userDetailModel).Result;
-            // assert
-            result.Id.Should().Be(user.Id);
-        }
-
-
-        [Test]
-        public void Delete_GivenUserId_ShouldRemoveUser()
-        {
-            // arrange
-            Setup();
-            var user = Builder<User>.CreateNew().Build();
-            _mockISystemManager.Setup(mc => mc.Delete(user.Id)).Returns(user);
-            // action
-            var result = _userCommonController.Delete(user.Id).Result;
-            // assert
-            result.Should().Be(true);
-        }
-
+        
 
         [Test]
         public void Register_GivenRegisterModel_ShouldAddUser()
@@ -139,9 +48,9 @@ namespace MainSolutionTemplate.Api.Tests.Common
             Setup();
             var registerModel = Builder<RegisterModel>.CreateNew().Build();
             var user = Builder<User>.CreateNew().Build();
-            _mockISystemManager.Setup(mc => mc.Save(It.Is<User>(x => x.Name == registerModel.Name && x.Roles.Any(r => r.Name == Roles.Guest.Name)), null)).Returns(user);
+            _mockIUserManager.Setup(mc => mc.Save(It.Is<User>(x => x.Name == registerModel.Name && x.Roles.Any(r => r.Name == Roles.Guest.Name)), registerModel.Password)).Returns(user);
             // action
-            var result = _userCommonController.Register(registerModel).Result;
+            var result = _projectCommonController.Register(registerModel).Result;
             // assert
             result.Name.Should().Be(registerModel.Name);
             
@@ -154,7 +63,7 @@ namespace MainSolutionTemplate.Api.Tests.Common
             Setup();
             var user = Builder<User>.CreateNew().Build();
             // action
-            var result = _userCommonController.ForgotPassword(user.Email).Result;
+            var result = _projectCommonController.ForgotPassword(user.Email).Result;
             // assert
             result.Should().BeTrue();
 
