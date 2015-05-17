@@ -20,24 +20,27 @@ namespace MainSolutionTemplate.Core.BusinessLogic.Components
         {
         }
 
-        #region IUserManager Members
-
-       
-
-        public IQueryable<UserReference> GetUsersAsReference()
-        {
-            return _generalUnitOfWork.Users.Select(x => new UserReference {Id = x.Id, Name = x.Name, Email = x.Email});
-        }
-
         #region Overrides of BaseManager<User>
 
         public override User Save(User project)
         {
-            return Save(project,null);
+            return Save(project, null);
+        }
+
+        protected override void DefaultModelNormalize(User user)
+        {
+            user.Email = user.Email.ToLower();
         }
 
         #endregion
 
+        #region IUserManager Members
+        
+        public IQueryable<UserReference> GetUsersAsReference()
+        {
+            return _generalUnitOfWork.Users.Select(x => new UserReference {Id = x.Id, Name = x.Name, Email = x.Email});
+        }
+        
         public User Save(User user, string password)
         {
             var found = Get(user.Id);
@@ -55,10 +58,7 @@ namespace MainSolutionTemplate.Core.BusinessLogic.Components
             return user;
         }
 
-        protected override void DefaultModelNormalize(User user)
-        {
-            user.Email = user.Email.ToLower();
-        }
+   
 
         public User GetUserByEmailAndPassword(string email, string password)
         {
