@@ -2,10 +2,8 @@
 using System.Linq;
 using System.Reflection;
 using MainSolutionTemplate.Core.BusinessLogic.Components.Interfaces;
-using MainSolutionTemplate.Core.MessageUtil.Models;
 using MainSolutionTemplate.Core.Vendor;
 using MainSolutionTemplate.Dal.Models;
-using MainSolutionTemplate.Dal.Models.Enums;
 using MainSolutionTemplate.Dal.Models.Reference;
 using MainSolutionTemplate.Dal.Persistance;
 using log4net;
@@ -57,9 +55,7 @@ namespace MainSolutionTemplate.Core.BusinessLogic.Components
             Update(user);
             return user;
         }
-
-   
-
+        
         public User GetUserByEmailAndPassword(string email, string password)
         {
             User user = GetUserByEmail(email);
