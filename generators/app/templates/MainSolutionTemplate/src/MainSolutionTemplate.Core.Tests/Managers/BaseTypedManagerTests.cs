@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using FizzWare.NBuilder;
 using FluentAssertions;
@@ -14,11 +16,19 @@ namespace MainSolutionTemplate.Core.Tests.Managers
 {
     public abstract class BaseTypedManagerTests<T> : BaseManagerTests where T : BaseDalModelWithId
     {
-        protected abstract IRepository<T> Repository { get; }
-        protected virtual T SampleObject {
-            get { return Builder<T>.CreateNew().Build(); }
+        [Test]
+        public virtual void Delete_WhenCalledWithExisting_ShouldCallMessageThatDataWasRemoved()
+        {
+            // arrange
+            Setup();
+            T project = Repository.AddFake().First();
+            // action
+            Manager.Delete(project.Id);
+            // assert
+            _mockIMessenger.Verify(mc => mc.Send(It.Is<DalUpdateMessage<T>>(m => m.UpdateType == UpdateTypes.Removed)),
+                                   Times.Once);
+            Manager.Get(project.Id).Should().BeNull();
         }
-        protected abstract BaseManager<T> Manager { get; }
 
         [Test]
         public virtual void GetRecords_WhenCalled_ShouldReturnRecords()
@@ -28,7 +38,7 @@ namespace MainSolutionTemplate.Core.Tests.Managers
             const int expected = 2;
             Repository.AddFake(expected);
             // action
-            var result = Manager.Get();
+            IQueryable<T> result = Manager.Get();
             // assert
             result.Should().HaveCount(expected);
         }
@@ -38,12 +48,42 @@ namespace MainSolutionTemplate.Core.Tests.Managers
         {
             // arrange
             Setup();
-            var addFake = Repository.AddFake();
-            var guid = addFake.First().Id;
+            IList<T> addFake = Repository.AddFake();
+            Guid guid = addFake.First().Id;
             // action
-            var result = Manager.Get(guid);
+            T result = Manager.Get(guid);
             // assert
             result.Id.Should().Be(guid);
+        }
+
+        [Test]
+        public virtual void Save_WhenCalledWithExisting_ShouldCallMessageThatDataWasUpdated()
+        {
+            // arrange
+            Setup();
+            T project = Repository.AddFake().First();
+            // action
+            Manager.Save(project);
+            // assert
+            _mockIMessenger.Verify(mc => mc.Send(It.Is<DalUpdateMessage<T>>(m => m.UpdateType == UpdateTypes.Updated)),
+                                   Times.Once);
+            _mockIMessenger.Verify(
+                mc => mc.Send(It.Is<DalUpdateMessage<T>>(m => m.UpdateType == UpdateTypes.Inserted)), Times.Never);
+        }
+
+        [Test]
+        public virtual void Save_WhenCalledWith_ShouldCallMessageThatDataWasInserted()
+        {
+            // arrange
+            Setup();
+            T project = SampleObject;
+            // action
+            Manager.Save(project);
+            // assert
+            _mockIMessenger.Verify(
+                mc => mc.Send(It.Is<DalUpdateMessage<T>>(m => m.UpdateType == UpdateTypes.Inserted)), Times.Once);
+            _mockIMessenger.Verify(mc => mc.Send(It.Is<DalUpdateMessage<T>>(m => m.UpdateType == UpdateTypes.Updated)),
+                                   Times.Never);
         }
 
         [Test]
@@ -51,9 +91,9 @@ namespace MainSolutionTemplate.Core.Tests.Managers
         {
             // arrange
             Setup();
-            var project = SampleObject;
+            T project = SampleObject;
             // action
-            var result = Manager.Save(project);
+            T result = Manager.Save(project);
             // assert
             Repository.Should().HaveCount(1);
             result.Should().NotBeNull();
@@ -64,53 +104,20 @@ namespace MainSolutionTemplate.Core.Tests.Managers
         {
             // arrange
             Setup();
-            var project = SampleObject;
+            T project = SampleObject;
             // action
-            var result = Manager.Save(project);
+            T result = Manager.Save(project);
             // assert
             result.Id.Should().Be(project.Id);
         }
 
-        [Test]
-        public virtual void Save_WhenCalledWith_ShouldCallMessageThatDataWasInserted()
+        protected abstract IRepository<T> Repository { get; }
+
+        protected virtual T SampleObject
         {
-            // arrange
-            Setup();
-            var project = SampleObject;
-            // action
-            Manager.Save(project);
-            // assert
-            _mockIMessenger.Verify(mc => mc.Send(It.Is<DalUpdateMessage<T>>(m => m.UpdateType == UpdateTypes.Inserted)), Times.Once);
-            _mockIMessenger.Verify(mc => mc.Send(It.Is<DalUpdateMessage<T>>(m => m.UpdateType == UpdateTypes.Updated)), Times.Never);
+            get { return Builder<T>.CreateNew().Build(); }
         }
 
-
-        [Test]
-        public virtual void Save_WhenCalledWithExisting_ShouldCallMessageThatDataWasUpdated()
-        {
-            // arrange
-            Setup();
-            var project = Repository.AddFake().First();
-            // action
-            Manager.Save(project);
-            // assert
-            _mockIMessenger.Verify(mc => mc.Send(It.Is<DalUpdateMessage<T>>(m => m.UpdateType == UpdateTypes.Updated)), Times.Once);
-            _mockIMessenger.Verify(mc => mc.Send(It.Is<DalUpdateMessage<T>>(m => m.UpdateType == UpdateTypes.Inserted)), Times.Never);
-        }
-
-        [Test]
-        public virtual void Delete_WhenCalledWithExisting_ShouldCallMessageThatDataWasRemoved()
-        {
-            // arrange
-            Setup();
-            var project = Repository.AddFake().First();
-            // action
-            Manager.Delete(project.Id);
-            // assert
-            _mockIMessenger.Verify(mc => mc.Send(It.Is<DalUpdateMessage<T>>(m => m.UpdateType == UpdateTypes.Removed)), Times.Once);
-            Manager.Get(project.Id).Should().BeNull();
-        }
-        
-        
+        protected abstract BaseManager<T> Manager { get; }
     }
 }

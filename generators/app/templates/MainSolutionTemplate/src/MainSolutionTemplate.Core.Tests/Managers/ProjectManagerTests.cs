@@ -11,7 +11,7 @@ namespace MainSolutionTemplate.Core.Tests.Managers
     {
         private ProjectManager _projectManager;
 
-        #region Overrides of SystemManagerTests
+        #region Setup/Teardown
 
         public override void Setup()
         {
@@ -20,8 +20,6 @@ namespace MainSolutionTemplate.Core.Tests.Managers
         }
 
         #endregion
-
-        #region Overrides of BaseTypedManagerTests<Project>
 
         protected override IRepository<Project> Repository
         {
@@ -37,7 +35,5 @@ namespace MainSolutionTemplate.Core.Tests.Managers
         {
             get { return _projectManager; }
         }
-
-        #endregion
     }
 }

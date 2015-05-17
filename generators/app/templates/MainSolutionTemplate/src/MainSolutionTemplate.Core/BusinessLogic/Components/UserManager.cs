@@ -4,7 +4,6 @@ using System.Reflection;
 using MainSolutionTemplate.Core.BusinessLogic.Components.Interfaces;
 using MainSolutionTemplate.Core.Vendor;
 using MainSolutionTemplate.Dal.Models;
-using MainSolutionTemplate.Dal.Models.Reference;
 using MainSolutionTemplate.Dal.Persistance;
 using log4net;
 
@@ -33,10 +32,10 @@ namespace MainSolutionTemplate.Core.BusinessLogic.Components
         #endregion
 
         #region IUserManager Members
-        
+
         public User Save(User user, string password)
         {
-            var found = Get(user.Id);
+            User found = Get(user.Id);
             DefaultModelNormalize(user);
             user.HashedPassword = password != null || found == null
                                       ? PasswordHash.CreateHash(password ??
@@ -50,7 +49,7 @@ namespace MainSolutionTemplate.Core.BusinessLogic.Components
             Update(user);
             return user;
         }
-        
+
         public User GetUserByEmailAndPassword(string email, string password)
         {
             User user = GetUserByEmail(email);

@@ -1,5 +1,4 @@
 using FizzWare.NBuilder;
-using FizzWare.NBuilder.Generators;
 using MainSolutionTemplate.Core.BusinessLogic.Components;
 using MainSolutionTemplate.Dal.Models;
 using MainSolutionTemplate.Dal.Persistance;
@@ -12,7 +11,7 @@ namespace MainSolutionTemplate.Core.Tests.Managers
     {
         private ApplicationManager _userManager;
 
-        #region Overrides of BaseManagerTests
+        #region Setup/Teardown
 
         public override void Setup()
         {
@@ -21,8 +20,6 @@ namespace MainSolutionTemplate.Core.Tests.Managers
         }
 
         #endregion
-
-        #region Overrides of BaseTypedManagerTests<Project>
 
         protected override IRepository<Application> Repository
         {
@@ -38,9 +35,5 @@ namespace MainSolutionTemplate.Core.Tests.Managers
         {
             get { return _userManager; }
         }
-
-        #endregion
-        
-
     }
 }

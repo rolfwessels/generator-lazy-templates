@@ -6,24 +6,23 @@ using MainSolutionTemplate.Dal.Persistance;
 namespace MainSolutionTemplate.Core.BusinessLogic.Components
 {
     public class RoleManager : BaseManager<Role>, IRoleManager
-	{
-        
+    {
         public RoleManager(BaseManagerArguments baseManagerArguments) : base(baseManagerArguments)
         {
         }
-
-        #region IRoleManager Members
-
-		public Role GetRoleByName(string name)
-		{
-			return _generalUnitOfWork.Roles.FirstOrDefault(x => x.Name == name);
-		}
-
-        #endregion
 
         protected override IRepository<Role> Repository
         {
             get { return _generalUnitOfWork.Roles; }
         }
-	}
+
+        #region IRoleManager Members
+
+        public Role GetRoleByName(string name)
+        {
+            return _generalUnitOfWork.Roles.FirstOrDefault(x => x.Name == name);
+        }
+
+        #endregion
+    }
 }

@@ -11,7 +11,7 @@ namespace MainSolutionTemplate.Core.Tests.Managers
     {
         private RoleManager _roleManager;
 
-        #region Overrides of BaseManagerTests
+        #region Setup/Teardown
 
         public override void Setup()
         {
@@ -20,8 +20,6 @@ namespace MainSolutionTemplate.Core.Tests.Managers
         }
 
         #endregion
-
-        #region Overrides of BaseTypedManagerTests<Project>
 
         protected override IRepository<Role> Repository
         {
@@ -37,8 +35,5 @@ namespace MainSolutionTemplate.Core.Tests.Managers
         {
             get { return _roleManager; }
         }
-
-        #endregion
-
     }
 }

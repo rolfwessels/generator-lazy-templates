@@ -11,7 +11,7 @@ namespace MainSolutionTemplate.Core.BusinessLogic.Components
         protected readonly IValidatorFactory _validationFactory;
 
         public BaseManagerArguments(IGeneralUnitOfWork generalUnitOfWork, IMessenger messenger,
-                                       IValidatorFactory validationFactory)
+                                    IValidatorFactory validationFactory)
         {
             _generalUnitOfWork = generalUnitOfWork;
             _messenger = messenger;

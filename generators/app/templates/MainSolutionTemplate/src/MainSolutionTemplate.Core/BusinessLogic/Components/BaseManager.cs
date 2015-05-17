@@ -6,7 +6,6 @@ using MainSolutionTemplate.Core.MessageUtil;
 using MainSolutionTemplate.Core.MessageUtil.Models;
 using MainSolutionTemplate.Dal.Models;
 using MainSolutionTemplate.Dal.Models.Enums;
-using MainSolutionTemplate.Dal.Models.Reference;
 using MainSolutionTemplate.Dal.Persistance;
 using MainSolutionTemplate.Dal.Validation;
 using log4net;
@@ -34,9 +33,13 @@ namespace MainSolutionTemplate.Core.BusinessLogic.Components
 
         protected BaseManager(BaseManagerArguments baseManagerArguments) : base(baseManagerArguments)
         {
-            _name = typeof(T).Name;
+            _name = typeof (T).Name;
         }
-        
+
+        protected abstract IRepository<T> Repository { get; }
+
+        #region IBaseManager<T> Members
+
         public virtual IQueryable<T> Get()
         {
             return Repository;
@@ -44,13 +47,12 @@ namespace MainSolutionTemplate.Core.BusinessLogic.Components
 
         public virtual T Get(Guid id)
         {
-
             return Repository.FirstOrDefault(x => x.Id == id);
         }
 
-        public virtual  T Save(T project)
+        public virtual T Save(T project)
         {
-            var projectFound = Repository.FirstOrDefault(x => x.Id == project.Id);
+            T projectFound = Repository.FirstOrDefault(x => x.Id == project.Id);
             DefaultModelNormalize(project);
             _validationFactory.ValidateAndThrow(project);
             if (projectFound == null)
@@ -61,10 +63,24 @@ namespace MainSolutionTemplate.Core.BusinessLogic.Components
             return project;
         }
 
+        public virtual T Delete(Guid id)
+        {
+            T project = Repository.FirstOrDefault(x => x.Id == id);
+            if (project != null)
+            {
+                _log.Info(string.Format("Remove {1} [{0}]", project, _name));
+                Repository.Remove(project);
+                _messenger.Send(new DalUpdateMessage<T>(project, UpdateTypes.Removed));
+            }
+            return project;
+        }
+
+        #endregion
+
         protected T Update(T project)
         {
             _log.Info(string.Format("Update {1} [{0}]", project, _name));
-            var update = Repository.Update(project);
+            T update = Repository.Update(project);
             _messenger.Send(new DalUpdateMessage<T>(project, UpdateTypes.Updated));
             return update;
         }
@@ -76,20 +92,6 @@ namespace MainSolutionTemplate.Core.BusinessLogic.Components
             _messenger.Send(new DalUpdateMessage<T>(project, UpdateTypes.Inserted));
             return project;
         }
-
-        public virtual T Delete(Guid id)
-        {
-            var project = Repository.FirstOrDefault(x => x.Id == id);
-            if (project != null)
-            {
-                _log.Info(string.Format("Remove {1} [{0}]", project,_name));
-                Repository.Remove(project);
-                _messenger.Send(new DalUpdateMessage<T>(project, UpdateTypes.Removed));
-            }
-            return project;
-        }
-
-        protected abstract IRepository<T> Repository { get; }
 
         protected virtual void DefaultModelNormalize(T user)
         {
