@@ -127,7 +127,9 @@
     <Compile Include="Helpers\ModelHelper.cs" />
     <Compile Include="Helpers\PersistanceTester.cs" />
     <Compile Include="Helpers\TimerHelper.cs" />
+    <Compile Include="Managers\ApplicationManagerTests.cs" />
     <Compile Include="Managers\BaseManagerTests.cs" />
+    <Compile Include="Managers\BaseTypedManagerTests.cs" />
     <Compile Include="Managers\RoleManagerTests.cs" />
     <Compile Include="Managers\UserManagerTests.cs" />
     <Compile Include="Managers\ProjectManagerTests.cs" />

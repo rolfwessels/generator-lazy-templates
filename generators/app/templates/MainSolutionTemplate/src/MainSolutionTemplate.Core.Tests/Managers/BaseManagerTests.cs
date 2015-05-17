@@ -1,4 +1,3 @@
-using FluentAssertions;
 using MainSolutionTemplate.Core.BusinessLogic.Components;
 using MainSolutionTemplate.Core.MessageUtil;
 using MainSolutionTemplate.Core.Tests.Fakes;
@@ -35,6 +34,8 @@ namespace MainSolutionTemplate.Core.Tests.Managers
         }
 
         #endregion
+
+
 
 
     }

@@ -1,123 +1,43 @@
-using System.Linq;
 using FizzWare.NBuilder;
-using FluentAssertions;
 using MainSolutionTemplate.Core.BusinessLogic.Components;
-using MainSolutionTemplate.Core.MessageUtil.Models;
-using MainSolutionTemplate.Core.Tests.Helpers;
 using MainSolutionTemplate.Dal.Models;
-using MainSolutionTemplate.Dal.Models.Enums;
-using Moq;
+using MainSolutionTemplate.Dal.Persistance;
 using NUnit.Framework;
 
 namespace MainSolutionTemplate.Core.Tests.Managers
 {
     [TestFixture]
-    public class ProjectManagerTests : BaseManagerTests
+    public class ProjectManagerTests : BaseTypedManagerTests<Project>
     {
-        private ProjectManager _systemManager;
+        private ProjectManager _projectManager;
 
         #region Overrides of SystemManagerTests
 
         public override void Setup()
         {
             base.Setup();
-            _systemManager = new ProjectManager(_baseManagerArguments);
+            _projectManager = new ProjectManager(_baseManagerArguments);
         }
 
         #endregion
 
-        [Test]
-        public void GetProjects_WhenCalled_ShouldReturnProjects()
+        #region Overrides of BaseTypedManagerTests<Project>
+
+        protected override IRepository<Project> Repository
         {
-            // arrange
-            Setup();
-            const int expected = 2;
-            _fakeGeneralUnitOfWork.Projects.AddFake(expected);
-            // action
-            var result = _systemManager.Get();
-            // assert
-            result.Should().HaveCount(expected);
+            get { return _fakeGeneralUnitOfWork.Projects; }
         }
 
-        [Test]
-        public void GetProject_WhenCalledWithId_ShouldReturnSingleProject()
+        protected override Project SampleObject
         {
-            // arrange
-            Setup();
-            var addFake = _fakeGeneralUnitOfWork.Projects.AddFake();
-            var guid = addFake.First().Id;
-            // action
-            var result = _systemManager.Get(guid);
-            // assert
-            result.Id.Should().Be(guid);
+            get { return Builder<Project>.CreateNew().Build(); }
         }
 
-        [Test]
-        public void SaveProject_WhenCalledWithProject_ShouldSaveTheProject()
+        protected override BaseManager<Project> Manager
         {
-            // arrange
-            Setup();
-            var project = Builder<Project>.CreateNew().Build();
-            // action
-            var result = _systemManager.Save(project);
-            // assert
-            _fakeGeneralUnitOfWork.Projects.Should().HaveCount(1);
-            result.Should().NotBeNull();
+            get { return _projectManager; }
         }
 
-        [Test]
-        public void SaveProject_WhenCalledWithProject_ShouldToLowerTheEmail()
-        {
-            // arrange
-            Setup();
-            var project = Builder<Project>.CreateNew().Build();
-            // action
-            var result = _systemManager.Save(project);
-            // assert
-            result.Id.Should().Be(project.Id);
-        }
-
-        [Test]
-        public void SaveProject_WhenCalledWithProject_ShouldCallMessageThatDataWasInserted()
-        {
-            // arrange
-            Setup();
-            var project = Builder<Project>.CreateNew().Build();
-            // action
-            _systemManager.Save(project);
-            // assert
-            _mockIMessenger.Verify(mc => mc.Send(It.Is<DalUpdateMessage<Project>>(m=>m.UpdateType == UpdateTypes.Inserted)),Times.Once);
-            _mockIMessenger.Verify(mc => mc.Send(It.Is<DalUpdateMessage<Project>>(m => m.UpdateType == UpdateTypes.Updated)), Times.Never);
-        }
-
-
-        [Test]
-        public void SaveProject_WhenCalledWithExistingProject_ShouldCallMessageThatDataWasUpdated()
-        {
-            // arrange
-            Setup();
-            var project = _fakeGeneralUnitOfWork.Projects.AddFake().First();
-            // action
-            _systemManager.Save(project);
-            // assert
-            _mockIMessenger.Verify(mc => mc.Send(It.Is<DalUpdateMessage<Project>>(m=>m.UpdateType == UpdateTypes.Updated)),Times.Once);
-            _mockIMessenger.Verify(mc => mc.Send(It.Is<DalUpdateMessage<Project>>(m => m.UpdateType == UpdateTypes.Inserted)), Times.Never);
-        }
-
-        [Test]
-        public void DeleteProject_WhenCalledWithExistingProject_ShouldCallMessageThatDataWasRemoved()
-        {
-            // arrange
-            Setup();
-            var project = _fakeGeneralUnitOfWork.Projects.AddFake().First();
-            // action
-            _systemManager.Delete(project.Id);
-            // assert
-            _mockIMessenger.Verify(mc => mc.Send(It.Is<DalUpdateMessage<Project>>(m=>m.UpdateType == UpdateTypes.Removed)),Times.Once);
-            _systemManager.Get(project.Id).Should().BeNull();
-        }
-        
-        
-
+        #endregion
     }
 }

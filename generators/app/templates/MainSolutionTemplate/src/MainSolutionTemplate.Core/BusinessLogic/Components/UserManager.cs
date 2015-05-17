@@ -34,11 +34,6 @@ namespace MainSolutionTemplate.Core.BusinessLogic.Components
 
         #region IUserManager Members
         
-        public IQueryable<UserReference> GetUsersAsReference()
-        {
-            return _generalUnitOfWork.Users.Select(x => new UserReference {Id = x.Id, Name = x.Name, Email = x.Email});
-        }
-        
         public User Save(User user, string password)
         {
             var found = Get(user.Id);

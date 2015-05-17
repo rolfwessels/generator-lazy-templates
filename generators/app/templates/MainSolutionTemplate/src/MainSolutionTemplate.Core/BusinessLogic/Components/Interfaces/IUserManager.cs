@@ -11,7 +11,6 @@ namespace MainSolutionTemplate.Core.BusinessLogic.Components.Interfaces
 	    User GetUserByEmailAndPassword(string email, string password);
 	    User GetUserByEmail(string email);
 	    void UpdateLastLoginDate(string email);
-	    IQueryable<UserReference> GetUsersAsReference();
 	}
 
     

@@ -1,5 +1,6 @@
 using System.Linq;
 using FizzWare.NBuilder;
+using FizzWare.NBuilder.Generators;
 using FluentAssertions;
 using MainSolutionTemplate.Core.BusinessLogic.Components;
 using MainSolutionTemplate.Core.MessageUtil.Models;
@@ -7,13 +8,14 @@ using MainSolutionTemplate.Core.Tests.Helpers;
 using MainSolutionTemplate.Core.Vendor;
 using MainSolutionTemplate.Dal.Models;
 using MainSolutionTemplate.Dal.Models.Enums;
+using MainSolutionTemplate.Dal.Persistance;
 using Moq;
 using NUnit.Framework;
 
 namespace MainSolutionTemplate.Core.Tests.Managers
 {
     [TestFixture]
-    public class UserManagerTests : BaseManagerTests
+    public class UserManagerTests : BaseTypedManagerTests<User>
     {
         private UserManager _userManager;
 
@@ -26,99 +28,39 @@ namespace MainSolutionTemplate.Core.Tests.Managers
         }
 
         #endregion
+
+        #region Overrides of BaseTypedManagerTests<Project>
+
+        protected override IRepository<User> Repository
+        {
+            get { return _fakeGeneralUnitOfWork.Users; }
+        }
+
+        protected override User SampleObject
+        {
+            get { return Builder<User>.CreateNew().With(x=>x.Email = GetRandom.Email()).Build(); }
+        }
+
+        protected override BaseManager<User> Manager
+        {
+            get { return _userManager; }
+        }
+
+        #endregion
         
-        [Test]
-        public void GetUsers_WhenCalled_ShouldReturnUsers()
-        {
-            // arrange
-            Setup();
-            const int expected = 2;
-            _fakeGeneralUnitOfWork.Users.AddFake(expected);
-            // action
-            var result = _userManager.Get();
-            // assert
-            result.Should().HaveCount(expected);
-        }
-
-        [Test]
-        public void GetUser_WhenCalledWithId_ShouldReturnSingleUser()
-        {
-            // arrange
-            Setup();
-            var addFake = _fakeGeneralUnitOfWork.Users.AddFake();
-            var guid = addFake.First().Id;
-            // action
-            var result = _userManager.Get(guid);
-            // assert
-            result.Id.Should().Be(guid);
-        }
-
-        [Test]
-        public void SaveUser_WhenCalledWithUser_ShouldSaveTheUser()
-        {
-            // arrange
-            Setup();
-            var user = Builder<User>.CreateNew().Build();
-            // action
-            var result = _userManager.Save(user);
-            // assert
-            _fakeGeneralUnitOfWork.Users.Should().HaveCount(1);
-            result.Should().NotBeNull();
-        }
 
         [Test]
         public void SaveUser_WhenCalledWithUser_ShouldToLowerTheEmail()
         {
             // arrange
             Setup();
-            var user = Builder<User>.CreateNew().Build();
+            var user = Builder<User>.CreateNew().With(x=>x.Email = "asdf@GMAIL.com").Build();
             // action
             var result = _userManager.Save(user);
             // assert
-            result.Email.Should().Be(user.Email);
+            result.Email.Should().Be("asdf@gmail.com");
         }
 
-        [Test]
-        public void SaveUser_WhenCalledWithUser_ShouldCallMessageThatDataWasInserted()
-        {
-            // arrange
-            Setup();
-            var user = Builder<User>.CreateNew().Build();
-            // action
-            _userManager.Save(user);
-            // assert
-            _mockIMessenger.Verify(mc => mc.Send(It.Is<DalUpdateMessage<User>>(m=>m.UpdateType == UpdateTypes.Inserted)),Times.Once);
-            _mockIMessenger.Verify(mc => mc.Send(It.Is<DalUpdateMessage<User>>(m => m.UpdateType == UpdateTypes.Updated)), Times.Never);
-        }
-
-
-        [Test]
-        public void SaveUser_WhenCalledWithExistingUser_ShouldCallMessageThatDataWasUpdated()
-        {
-            // arrange
-            Setup();
-            var user = _fakeGeneralUnitOfWork.Users.AddFake().First();
-            // action
-            _userManager.Save(user);
-            // assert
-            _mockIMessenger.Verify(mc => mc.Send(It.Is<DalUpdateMessage<User>>(m=>m.UpdateType == UpdateTypes.Updated)),Times.Once);
-            _mockIMessenger.Verify(mc => mc.Send(It.Is<DalUpdateMessage<User>>(m => m.UpdateType == UpdateTypes.Inserted)), Times.Never);
-        }
-
-        [Test]
-        public void DeleteUser_WhenCalledWithExistingUser_ShouldCallMessageThatDataWasRemoved()
-        {
-            // arrange
-            Setup();
-            var user = _fakeGeneralUnitOfWork.Users.AddFake().First();
-            // action
-            _userManager.Delete(user.Id);
-            // assert
-            _mockIMessenger.Verify(mc => mc.Send(It.Is<DalUpdateMessage<User>>(m=>m.UpdateType == UpdateTypes.Removed)),Times.Once);
-            _userManager.Get(user.Id).Should().BeNull();
-        }
-        
-        
         [Test]
         public void GetUserByEmailAndPassword_WhenCalledWithExistingUsernameAndPassword_ShouldReturnTheUser()
         {
