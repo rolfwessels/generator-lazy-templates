@@ -21,8 +21,7 @@ namespace MainSolutionTemplate.Core.Tests.Managers
         public override void Setup()
         {
             base.Setup();
-            _roleManager = new RoleManager(_fakeGeneralUnitOfWork, _mockIMessenger.Object,
-                                             _mockIValidatorFactory.Object);
+            _roleManager = new RoleManager(_baseManagerArguments);
         }
 
         #endregion

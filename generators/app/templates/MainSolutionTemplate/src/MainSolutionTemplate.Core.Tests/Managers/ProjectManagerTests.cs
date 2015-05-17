@@ -21,8 +21,7 @@ namespace MainSolutionTemplate.Core.Tests.Managers
         public override void Setup()
         {
             base.Setup();
-            _systemManager = new ProjectManager(_fakeGeneralUnitOfWork, _mockIMessenger.Object,
-                                             _mockIValidatorFactory.Object);
+            _systemManager = new ProjectManager(_baseManagerArguments);
         }
 
         #endregion

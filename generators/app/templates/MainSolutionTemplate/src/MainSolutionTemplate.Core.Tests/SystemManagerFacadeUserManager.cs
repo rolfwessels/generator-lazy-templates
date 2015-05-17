@@ -18,8 +18,7 @@ namespace MainSolutionTemplate.Core.Tests
         public override void Setup()
         {
             base.Setup();
-            _userManager = new UserManager(_fakeGeneralUnitOfWork, _mockIMessenger.Object,
-                                             _mockIValidatorFactory.Object);
+            _userManager = new UserManager(_baseManagerArguments);
         }
 
         #endregion

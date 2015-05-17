@@ -13,21 +13,16 @@ using log4net;
 
 namespace MainSolutionTemplate.Core.BusinessLogic.Components
 {
-	public class ProjectManager : IProjectManager
+    public class ProjectManager : BaseManager, IProjectManager
 	{
         private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        private readonly IMessenger _messenger;
-        private readonly IGeneralUnitOfWork _generalUnitOfWork;
-        private readonly IValidatorFactory _validationFactory;
 
-        public ProjectManager(IGeneralUnitOfWork generalUnitOfWork, IMessenger messenger, IValidatorFactory validationFactory)
+
+        public ProjectManager(BaseManagerArguments baseManagerArguments) : base(baseManagerArguments)
         {
-            _generalUnitOfWork = generalUnitOfWork;
-            _messenger = messenger;
-            _validationFactory = validationFactory;
         }
-		
-		public IQueryable<Project> GetProjects()
+
+        public IQueryable<Project> GetProjects()
 		{
 			return _generalUnitOfWork.Projects;
 		}
