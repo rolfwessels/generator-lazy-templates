@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using MainSolutionTemplate.Dal.Models;
 using MainSolutionTemplate.Dal.Models.Reference;
-using MainSolutionTemplate.OAuth2.Dal.Interfaces;
 
 namespace MainSolutionTemplate.Core.Mappers
 {
