@@ -110,6 +110,7 @@
     <Compile Include="BusinessLogic\Components\BaseManagerArguments.cs" />
     <Compile Include="BusinessLogic\Components\Interfaces\IApplicationManager.cs" />
     <Compile Include="BusinessLogic\Components\ApplicationManager.cs" />
+    <Compile Include="BusinessLogic\Components\Interfaces\IBaseManager.cs" />
     <Compile Include="BusinessLogic\Components\RoleManager.cs" />
     <Compile Include="BusinessLogic\Components\Interfaces\IAuthorizeManager.cs" />
     <Compile Include="BusinessLogic\Components\Interfaces\IRoleManager.cs" />
