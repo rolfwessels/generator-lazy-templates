@@ -15,7 +15,7 @@ namespace MainSolutionTemplate.Api.Tests.Common
     public class UserCommonControllerTests:BaseCommonControllerTests<User, UserModel, UserReferenceModel, UserDetailModel, IUserManager>
     {
         private Mock<IUserManager> _mockIUserManager;
-        private new UserCommonController _projectCommonController;
+        private UserCommonController _projectCommonController;
 
 
         #region Overrides of BaseCommonControllerTests

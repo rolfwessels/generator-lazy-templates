@@ -12,7 +12,7 @@ namespace MainSolutionTemplate.Sdk.SignalrClient.Base
                                                                       IBaseStandardLookups<TModel, TReferenceModel>,
                                                                       IEventUpdateEventSubSubscription<TModel>
     {
-        protected BaseGetHubClient(HubConnection hubConnection) : base(hubConnection)
+        protected BaseGetHubClient(HubConnection hubConnection, string hubName) : base(hubConnection, hubName)
         {
         }
 

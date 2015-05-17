@@ -12,7 +12,7 @@ namespace MainSolutionTemplate.Api.Tests.Common
     public class ProjectCommonControllerTests : BaseCommonControllerTests<Project, ProjectModel, ProjectReferenceModel, ProjectDetailModel, IProjectManager>
     {
         private Mock<IProjectManager> _mockIProjectManager;
-        private new ProjectCommonController _projectCommonController;
+        private ProjectCommonController _projectCommonController;
 
 
         #region Overrides of BaseCommonControllerTests

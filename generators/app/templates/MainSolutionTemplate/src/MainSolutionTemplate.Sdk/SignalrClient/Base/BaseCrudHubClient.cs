@@ -8,7 +8,7 @@ namespace MainSolutionTemplate.Sdk.SignalrClient.Base
     public abstract class BaseCrudHubClient<TModel, TReferenceModel, TDetailModel> :
         BaseGetHubClient<TModel, TReferenceModel>, ICrudController<TModel, TDetailModel>
     {
-        protected BaseCrudHubClient(HubConnection hubConnection) : base(hubConnection)
+        protected BaseCrudHubClient(HubConnection hubConnection, string hubName) : base(hubConnection,hubName)
         {
         }
 

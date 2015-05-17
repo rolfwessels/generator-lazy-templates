@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using MainSolutionTemplate.Sdk.SignalrClient.Base;
 using MainSolutionTemplate.Shared.Interfaces.Shared;
 using MainSolutionTemplate.Shared.Models;
@@ -11,17 +8,10 @@ namespace MainSolutionTemplate.Sdk.SignalrClient
 {
     public class ProjectHubClient : BaseCrudHubClient<ProjectModel, ProjectReferenceModel, ProjectDetailModel>, IProjectControllerActions, IProjectControllerStandardLookups, IEventUpdateEventSubSubscription<ProjectModel>
 	{
-        public ProjectHubClient(HubConnection hubConnection) : base(hubConnection)
+        public ProjectHubClient(HubConnection hubConnection)
+            : base(hubConnection, "ProjectHub")
         {
         }
 
-        #region Overrides of BaseHubClient
-
-        protected override string HubName()
-        {
-            return "ProjectHub";
-        }
-
-        #endregion
 	}
 }

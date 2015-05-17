@@ -10,15 +10,12 @@ namespace MainSolutionTemplate.Sdk.SignalrClient
     public class UserHubClient : BaseCrudHubClient<UserModel, UserReferenceModel, UserDetailModel>,
                                  IUserControllerActions, IUserControllerStandardLookups
     {
-        public UserHubClient(HubConnection hubConnection) : base(hubConnection)
+        public UserHubClient(HubConnection hubConnection)
+            : base(hubConnection, "UserHub")
         {
         }
 
-        protected override string HubName()
-        {
-            return "UserHub";
-        }
-
+      
         #region Implementation of IUserHub
 
         public Task<UserModel> Register(RegisterModel user)

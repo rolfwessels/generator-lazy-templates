@@ -6,11 +6,10 @@ namespace MainSolutionTemplate.Sdk.SignalrClient.Base
     {
         protected readonly IHubProxy _userHub;
 
-        public BaseHubClient(HubConnection hubConnection)
+        public BaseHubClient(HubConnection hubConnection, string hubName)
         {
-            _userHub = hubConnection.CreateHubProxy(HubName());
+            _userHub = hubConnection.CreateHubProxy(hubName);
         }
 
-        protected abstract string HubName();
     }
 }
