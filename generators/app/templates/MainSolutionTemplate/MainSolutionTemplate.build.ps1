@@ -7,7 +7,6 @@ Framework "4.0"
 properties {
     $buildConfiguration = 'debug'
     $buildDirectory = 'build'
-    $buildConfigDirectory = Join-Path $buildDirectory $buildConfiguration
     $buildReportsDirectory =  Join-Path $buildDirectory 'reports'
     $buildPackageDirectory =  Join-Path $buildDirectory 'packages'
     $buildDistDirectory =  Join-Path $buildDirectory 'dist'
@@ -16,7 +15,7 @@ properties {
 
     $srcDirectory = 'src'
     $srcSolution = Join-Path $srcDirectory 'MainSolutionTemplate.sln'    
-    $srcBinFolder = Join-Path bin $buildConfiguration
+    
     $codeCoverRequired = 70
 
     $versionMajor = 0
@@ -34,25 +33,12 @@ properties {
 # 
 
 task default -depends build  -Description "By default it just builds"
-task clean -depends build.clean -Description "Removes bin/object and build folder"
-task build -depends clean,build.compile,build.publish,build.copy -Description "Cleans and builds the project placing binaries in build directory"
+task clean -depends build.clean -Description "Removes build folder"
+task build -depends build.cleanbin,version,build.compile,build.publish,build.copy -Description "Cleans bin/object and builds the project placing binaries in build directory"
 task test -depends build,test.run  -Description "Builds and runs part cover tests"
-task full -depends version,test,deploy.zip -Description "Versions builds and creates distributions"
+task full -depends test,deploy.zip -Description "Versions builds and creates distributions"
 task package -depends version,build,deploy.package -Description "Creates packages that could be user for deployments"
 task deploy -depends version,build,deploy.api,deploy.service -Description "Deploy the files to webserver using msdeploy"
-
-# /*
-#     <target name="build" depends="clean compile" description="Compile and Run Tests" />
-#     <target name="test" depends="build, run.tests" description="Compile and Run Tests" />
-#   <target name="cover" depends="build, run.codecover.tests" description="Compile and Run Tests" />
-#     <target name="full" depends="version, cover, dist , version.update" description="Compiles, tests, and produces distributions" />
-#     <target name="ci.tests" depends="compile, run.codecover.tests" description="Compile and Run Tests" />
-#     <target name="ci.deploy" depends="version build deploy.msdeploy" description="Compile and Run Tests" />
-#     <target name="ci.deploy.qa" depends="config.qa ci.deploy" description="Compile and Run Tests" />
-#     <target name="ci.deploy.staging" depends="config.staging ci.deploy" description="Compile and Run Tests" />
-#     <target name="ci.deploy.release" depends="config.release ci.deploy" description="Compile and Run Tests" />
-
-# */
 
 # 
 # task depends
@@ -67,7 +53,18 @@ task build.clean {
     }
 }
 
+task build.cleanbin { 
+    remove-item -force -recurse $buildReportsDirectory -ErrorAction SilentlyContinue
+    remove-item -force -recurse (buildConfigDirectory) -ErrorAction SilentlyContinue
+    $binFolders = Get-ChildItem $srcDirectory -include bin,obj -Recurse | Foreach-Object {$_.fullname}  
+    if ($binFolders -ne $null)
+    {
+        remove-item $binFolders -force -recurse -ErrorAction SilentlyContinue   
+    }
+}
+
 task build.compile { 
+    'Compile '+$buildConfiguration+' version '+(srcBinFolder)
     msbuild  $srcSolution /t:rebuild /p:Configuration=$buildConfiguration /v:q
 }
 
@@ -82,12 +79,12 @@ task version {
 
 task build.copy { 
     'Copy the console'
-    $fromFolder =  Join-Path $srcDirectory (Join-Path 'MainSolutionTemplate.Console' $srcBinFolder )
-    $toFolder =  Join-Path $buildConfigDirectory 'MainSolutionTemplate.Console'
+    $fromFolder =  Join-Path $srcDirectory (Join-Path 'MainSolutionTemplate.Console' (srcBinFolder) )
+    $toFolder =  Join-Path (buildConfigDirectory) 'MainSolutionTemplate.Console'
     copy-files $fromFolder $toFolder
     'Copy the static files'
     $fromFolder =  Join-Path $srcDirectory 'MainSolutionTemplate.Website' 
-    $toFolder =  Join-Path $buildConfigDirectory 'MainSolutionTemplate.Api\static'
+    $toFolder =  Join-Path (buildConfigDirectory) 'MainSolutionTemplate.Api\static'
     copy-files $fromFolder $toFolder index.html,avicon.ico,robots.txt
     copy-files (Join-Path $fromFolder 'views') (Join-Path $toFolder 'views')
     copy-files (Join-Path $fromFolder 'assets') (Join-Path $toFolder 'assets')
@@ -95,7 +92,7 @@ task build.copy {
 }
 
 task build.publish { 
-    $toFolder = Join-Path ( Join-Path (resolve-path .)$buildConfigDirectory) 'MainSolutionTemplate.Api'
+    $toFolder = Join-Path ( Join-Path (resolve-path .)(buildConfigDirectory)) 'MainSolutionTemplate.Api'
     $project = Join-Path $srcDirectory 'MainSolutionTemplate.Api\MainSolutionTemplate.Api.csproj'
     $publishProfile = "Publish - $buildConfiguration.pubxml";
     msbuild  $project /p:DeployOnBuild=true /p:publishurl=$toFolder /p:DefineConstants=$buildContants /p:Configuration=$buildConfiguration /p:PublishProfile=$publishProfile /p:VisualStudioVersion=11.0 /v:q
@@ -105,13 +102,13 @@ task nuget.restore {
     ./src/.nuget/NuGet.exe install src\.nuget\packages.config -OutputDirectory lib
 }
 
-task test.run -depends nuget.restore { 
+task test.run -depends nuget.restore -precondition { return $buildConfiguration -eq 'debug' } { 
     mkdir $buildReportsDirectory -ErrorAction SilentlyContinue
     
     $currentPath = resolve-path '.'
     $partcoverDirectory = resolve-path 'lib\OpenCover.4.5.3723\'
     $partcoverExe = Join-Path $partcoverDirectory 'OpenCover.Console.exe'
-    $nunitDirectory =  resolve-path 'tools/nunit/nunit-console.exe'
+    $nunitDirectory =  resolve-path 'lib\NUnit.Runners.2.6.4\tools\nunit-console.exe'
 
     $runTestsTimeout = '60000'
     $runTestsDirectory = '.Tests'
@@ -122,7 +119,7 @@ task test.run -depends nuget.restore {
     $testFolders = Get-ChildItem $srcDirectory '*.Tests' -Directory
     foreach ($testFolder in $testFolders) {
         
-        $runTestsFolder = Join-Path $testFolder.FullName $srcBinFolder 
+        $runTestsFolder = Join-Path $testFolder.FullName (srcBinFolder) 
         $runTestsFolderDll = Join-Path $runTestsFolder ($testFolder.Name + '.dll')
         
         $buildReportsDirectoryResolved = '..\..\'+ $buildReportsDirectory;
@@ -172,10 +169,10 @@ task test.run -depends nuget.restore {
 
 task deploy.zip { 
     mkdir $buildDistDirectory -ErrorAction SilentlyContinue
-    $folders = Get-ChildItem $buildConfigDirectory -Directory
+    $folders = Get-ChildItem (buildConfigDirectory) -Directory
     foreach ($folder in $folders) {
         $version = fullversion
-        $zipname = Join-Path $buildDistDirectory ($folder.name + '.v.'+ $version  +'.zip' )
+        $zipname = Join-Path $buildDistDirectory ($folder.name + '.v.'+ $version+'.'+$buildConfiguration+'.zip' )
         write-host ('Create '+$zipname) 
         ZipFiles $zipname $folder.fullname
     }
@@ -191,7 +188,7 @@ task deploy.package {
 }
 
 
-task deploy.api {
+task deploy.api -depends deploy.package {
     $deployWebsiteName = 'Default Web Site/MainSolutionTemplate.Api.'+$buildConfiguration
     $version = fullversion
     $toFolder = Join-Path ( resolve-path $buildPackageDirectory ) "$buildConfiguration.MainSolutionTemplate.Api.v.$version.zip"
@@ -201,7 +198,7 @@ task deploy.api {
 }
 
 task deploy.service {
-    $source = 'dirPath='+( resolve-path (Join-Path $buildConfigDirectory 'MainSolutionTemplate.Console'))
+    $source = 'dirPath='+( resolve-path (Join-Path (buildConfigDirectory) 'MainSolutionTemplate.Console'))
     &($msdeploy) -verb:sync -allowUntrusted -source:$source -dest:$deployServiceDest
     # &($msdeploy) -verb:sync -preSync:runCommand='D:\Dir\on\remote\server\stop-service.cmd',waitInterval=30000 -source:dirPath='C:\dir\of\files\to\be\copied\on\build\server ' -dest:computerName='xx.xx.xx.xx',userName='xx.xx.xx.xx',password='xxxxxxxxxxxxxxx',includeAcls='False',tempAgent='false',dirPath='D:\Dir\on\remote\server\'  -allowUntrusted -postSync:runCommand='D:\Dir\on\remote\server\start-service.cmd',waitInterval=30000
 }
@@ -225,6 +222,17 @@ function fullversion() {
 function fullversionrev() {
     return  (fullversion) + ".$versionRevision"
 }
+
+
+function srcBinFolder() {
+    return  Join-Path bin $buildConfiguration
+}
+
+function buildConfigDirectory() {
+    Join-Path $buildDirectory $buildConfiguration
+}
+
+
 
 function global:copy-files($source,$destination,$include=@(),$exclude=@()){    
     $sourceFullName = resolve-path $source
@@ -257,7 +265,7 @@ function WriteDocumentation() {
     }
 
     $docs = $currentContext.tasks.Keys | foreach-object {
-        if ($_ -eq "default") {
+        if ($_ -eq "default" -or $_ -eq "?") {
             return
         }
 
@@ -271,8 +279,21 @@ function WriteDocumentation() {
             Description = $task.Description;
         }
     }
-    $docs | sort 'Name' | format-table -autoSize -wrap -property Name,Description
-    'Examples'
-    'go build -properties @{"buildConfiguration"="Qa"}'
+
+    $docs | where {-not [string]::IsNullOrEmpty($_.Description)} | sort 'Name' | sort 'Description' -Descending | format-table -autoSize -wrap -property Name,Description
+
+    'Examples:'
+    '----------'
+    ''
+    'Clean build directory before executing build:'
+    'go clean,build'
+    ''
+    ''
+    'Qa build:'
+    'go build -properties @{''buildConfiguration''=''Qa''}'
+    ''
+    'Staging deploy to sepecified folder:'
+    'go deploy -properties @{buildConfiguration=''Staging'';deployServiceDest =''computerName=''''xxxx'''',userName=''''xxx'''',password=''''xxxx'''',includeAcls=''''False'''',tempAgent=''''false'''',dirPath=''''d:\server\temp'''''' }'
 
 }
+
