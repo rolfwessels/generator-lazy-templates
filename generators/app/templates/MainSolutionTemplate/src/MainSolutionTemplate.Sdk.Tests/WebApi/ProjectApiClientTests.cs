@@ -33,65 +33,6 @@ namespace MainSolutionTemplate.Sdk.Tests.WebApi
 
 		#endregion
         
-		[Test]
-		public void Get_WhenCalledWithTopAndSomeFilter_ShouldDisplayOnlySelectedRecords()
-		{
-			// arrange
-			Setup();
-			// action
-            var restResponse = _projectApiClient.Get("$top=1&$orderby=Name desc&$filter=not startswith(tolower(Name),'new')").Result;
-			// assert
-            restResponse.Count.Should().Be(1);
-		}  
-
-		[Test]
-		public void GetDetail_WhenCalledWithTopAndSomeFilter_ShouldDisplayOnlySelectedRecords()
-		{
-			// arrange
-			Setup();
-			// action
-            var restResponse = _projectApiClient.GetDetail("$top=1&$orderby=Name desc&$filter=not startswith(tolower(Name),'new')").Result;
-			// assert
-            restResponse.Count.Should().Be(1);
-		}  
-
-		[Test]
-        public void GetPaged_WhenCalledWithInlineCountAllpages_ShouldDisplayOnlySelectedRecordsButWithACount()
-		{
-			// arrange
-			Setup();
-			// action
-            var restResponse = _projectApiClient.GetPaged("$top=1").Result;
-			// assert
-		    restResponse.Should().NotBeNull();
-		    restResponse.Items.Should().HaveCount(1);
-            restResponse.Count.Should().BeGreaterThan(0);
-		}
-        
-        [Test]
-        public void GetDetailPaged_WhenCalledWithInlineCountAllpages_ShouldDisplayOnlySelectedRecordsButWithACount()
-		{
-			// arrange
-			Setup();
-			// action
-            var restResponse = _projectApiClient.GetDetailPaged("$top=1").Result;
-			// assert
-		    restResponse.Should().NotBeNull();
-		    restResponse.Items.Should().HaveCount(1);
-            restResponse.Count.Should().BeGreaterThan(0);
-		}
-
-		[Test]
-		public void Get_WhenCalled_ShouldHaveSomeContent()
-		{
-            // arrange
-            Setup();
-            // action
-            var restResponse = _projectApiClient.GetDetail().Result;
-            // assert
-            restResponse.Count.Should().BeGreaterThan(0);
-		}
-
     
 
 	}

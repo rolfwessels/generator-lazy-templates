@@ -1,4 +1,5 @@
 /build
+build/packages
 /lib
 /src/packages/
 /tools/nunit
@@ -15,3 +16,6 @@ obj
 src/_NCrunch_MainSolutionTemplate/
 **/bower_components
 **/StyleCop.Cache
+
+**/_NCrunch*
+**/nCrunchTemp*
