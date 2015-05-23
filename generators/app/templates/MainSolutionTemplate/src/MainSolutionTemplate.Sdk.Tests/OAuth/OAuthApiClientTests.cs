@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Reflection;
 using FluentAssertions;
-using log4net;
 using MainSolutionTemplate.Sdk.OAuth;
 using MainSolutionTemplate.Sdk.Tests.Shared;
 using MainSolutionTemplate.Shared.Models;
@@ -13,8 +11,7 @@ namespace MainSolutionTemplate.Sdk.Tests.OAuth
 	[Category("Integration")]
 	public class OAuthApiClientTests : IntegrationTestsBase
 	{
-		private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-	    private OAuthApiClient _oAuthApiClient;
+		private OAuthApiClient _oAuthApiClient;
 	    private readonly TokenRequestModel _tokenRequestModel;
 
 	    public OAuthApiClientTests()

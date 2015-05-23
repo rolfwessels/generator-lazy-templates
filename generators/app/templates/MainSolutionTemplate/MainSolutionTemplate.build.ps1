@@ -1,8 +1,8 @@
 Framework "4.0"
 
-# 
+#
 # properties
-# 
+#
 
 properties {
     $buildConfiguration = 'debug'
@@ -10,12 +10,12 @@ properties {
     $buildReportsDirectory =  Join-Path $buildDirectory 'reports'
     $buildPackageDirectory =  Join-Path $buildDirectory 'packages'
     $buildDistDirectory =  Join-Path $buildDirectory 'dist'
-    
+
     $buildContants = ''
 
     $srcDirectory = 'src'
-    $srcSolution = Join-Path $srcDirectory 'MainSolutionTemplate.sln'    
-    
+    $srcSolution = Join-Path $srcDirectory 'MainSolutionTemplate.sln'
+
     $codeCoverRequired = 70
 
     $versionMajor = 0
@@ -28,42 +28,42 @@ properties {
     $deployApiDest = 'auto,includeAcls="False",tempAgent="false"'
 }
 
-# 
+#
 # task
-# 
+#
 
 task default -depends build  -Description "By default it just builds"
-task clean -depends build.clean -Description "Removes build folder"
+task clean -depends build.clean,build.cleanbin -Description "Removes build folder"
 task build -depends build.cleanbin,version,build.compile,build.publish,build.copy -Description "Cleans bin/object and builds the project placing binaries in build directory"
 task test -depends build,test.run  -Description "Builds and runs part cover tests"
 task full -depends test,deploy.zip -Description "Versions builds and creates distributions"
 task package -depends version,build,deploy.package -Description "Creates packages that could be user for deployments"
 task deploy -depends version,build,deploy.api,deploy.service -Description "Deploy the files to webserver using msdeploy"
 
-# 
+#
 # task depends
-# 
+#
 
-task build.clean { 
+task build.clean {
     remove-item -force -recurse $buildDirectory -ErrorAction SilentlyContinue
-    $binFolders = Get-ChildItem $srcDirectory -include bin,obj -Recurse | Foreach-Object {$_.fullname}  
+    $binFolders = Get-ChildItem ($srcDirectory + '\*\*') | where { $_.name -eq 'bin' -or $_.name -eq 'obj'} | Foreach-Object {$_.fullname}
     if ($binFolders -ne $null)
     {
-        remove-item $binFolders -force -recurse -ErrorAction SilentlyContinue   
+        remove-item $binFolders -force -recurse -ErrorAction SilentlyContinue
     }
 }
 
-task build.cleanbin { 
+task build.cleanbin {
     remove-item -force -recurse $buildReportsDirectory -ErrorAction SilentlyContinue
     remove-item -force -recurse (buildConfigDirectory) -ErrorAction SilentlyContinue
-    $binFolders = Get-ChildItem $srcDirectory -include bin,obj -Recurse | Foreach-Object {$_.fullname}  
+    $binFolders = Get-ChildItem $srcDirectory -include bin,obj  | Foreach-Object {$_.fullname}
     if ($binFolders -ne $null)
     {
-        remove-item $binFolders -force -recurse -ErrorAction SilentlyContinue   
+        remove-item $binFolders -force -recurse -ErrorAction SilentlyContinue
     }
 }
 
-task build.compile { 
+task build.compile {
     'Compile '+$buildConfiguration+' version '+(srcBinFolder)
     msbuild  $srcSolution /t:rebuild /p:Configuration=$buildConfiguration /v:q
 }
@@ -74,16 +74,16 @@ task version {
     $replace = 'AssemblyVersion("' + (fullversionrev) + '")'
     $replace
     'Set the version in ' +$commonAssemblyInfo
-    (gc  $commonAssemblyInfo )  -replace $regEx, $replace |sc $commonAssemblyInfo 
+    (gc  $commonAssemblyInfo )  -replace $regEx, $replace |sc $commonAssemblyInfo
 }
 
-task build.copy { 
+task build.copy {
     'Copy the console'
     $fromFolder =  Join-Path $srcDirectory (Join-Path 'MainSolutionTemplate.Console' (srcBinFolder) )
     $toFolder =  Join-Path (buildConfigDirectory) 'MainSolutionTemplate.Console'
     copy-files $fromFolder $toFolder
     'Copy the static files'
-    $fromFolder =  Join-Path $srcDirectory 'MainSolutionTemplate.Website' 
+    $fromFolder =  Join-Path $srcDirectory 'MainSolutionTemplate.Website'
     $toFolder =  Join-Path (buildConfigDirectory) 'MainSolutionTemplate.Api\static'
     copy-files $fromFolder $toFolder index.html,avicon.ico,robots.txt
     copy-files (Join-Path $fromFolder 'views') (Join-Path $toFolder 'views')
@@ -91,20 +91,20 @@ task build.copy {
     copy-files (Join-Path $fromFolder 'scripts\dist') (Join-Path $toFolder 'scripts\dist')
 }
 
-task build.publish { 
+task build.publish {
     $toFolder = Join-Path ( Join-Path (resolve-path .)(buildConfigDirectory)) 'MainSolutionTemplate.Api'
     $project = Join-Path $srcDirectory 'MainSolutionTemplate.Api\MainSolutionTemplate.Api.csproj'
     $publishProfile = "Publish - $buildConfiguration.pubxml";
     msbuild  $project /p:DeployOnBuild=true /p:publishurl=$toFolder /p:DefineConstants=$buildContants /p:Configuration=$buildConfiguration /p:PublishProfile=$publishProfile /p:VisualStudioVersion=11.0 /v:q
 }
 
-task nuget.restore { 
+task nuget.restore {
     ./src/.nuget/NuGet.exe install src\.nuget\packages.config -OutputDirectory lib
 }
 
-task test.run -depends nuget.restore -precondition { return $buildConfiguration -eq 'debug' } { 
+task test.run -depends nuget.restore -precondition { return $buildConfiguration -eq 'debug' } {
     mkdir $buildReportsDirectory -ErrorAction SilentlyContinue
-    
+
     $currentPath = resolve-path '.'
     $partcoverDirectory = resolve-path 'lib\OpenCover.4.5.3723\'
     $partcoverExe = Join-Path $partcoverDirectory 'OpenCover.Console.exe'
@@ -118,10 +118,10 @@ task test.run -depends nuget.restore -precondition { return $buildConfiguration 
     $hasFailure = false
     $testFolders = Get-ChildItem $srcDirectory '*.Tests' -Directory
     foreach ($testFolder in $testFolders) {
-        
-        $runTestsFolder = Join-Path $testFolder.FullName (srcBinFolder) 
+
+        $runTestsFolder = Join-Path $testFolder.FullName (srcBinFolder)
         $runTestsFolderDll = Join-Path $runTestsFolder ($testFolder.Name + '.dll')
-        
+
         $buildReportsDirectoryResolved = '..\..\'+ $buildReportsDirectory;
         $runTestsFolderResult =  Join-Path $buildReportsDirectoryResolved ($testFolder.Name + '.xml')
         $runTestsFolderOut =  Join-Path $buildReportsDirectoryResolved ($testFolder.Name + '.txt')
@@ -130,14 +130,14 @@ task test.run -depends nuget.restore -precondition { return $buildConfiguration 
         $testFolder.Name
 
         Set-Location $partcoverDirectory
-        
+
         $target = '-targetargs:'+$runTestsFolderDll+' /nologo /noshadow /out:'+$runTestsFolderOut +' /xml:'+$runTestsFolderResult
         $runTestsFolder
 
-        ./OpenCover.Console.exe -target:$nunitDirectory $target   -register:user -output:$runTestsFolderPartResult -log:Warn  
+        ./OpenCover.Console.exe -target:$nunitDirectory $target   -register:user -output:$runTestsFolderPartResult -log:Warn
         [xml]$Xml = Get-Content $runTestsFolderResult
         [int]$result= $Xml.'test-results'.failures
-        $hasFailure =  $hasFailure -or $result -gt 0       
+        $hasFailure =  $hasFailure -or $result -gt 0
 
     }
 
@@ -145,7 +145,7 @@ task test.run -depends nuget.restore -precondition { return $buildConfiguration 
     {
         throw "Tests have failed"
     }
-    
+
     write-host 'Generate report' -foreground "magenta"
     Set-Location $currentPath
     Set-Location 'lib\ReportGenerator.2.1.1.0'
@@ -167,13 +167,13 @@ task test.run -depends nuget.restore -precondition { return $buildConfiguration 
     }
 }
 
-task deploy.zip { 
+task deploy.zip {
     mkdir $buildDistDirectory -ErrorAction SilentlyContinue
     $folders = Get-ChildItem (buildConfigDirectory) -Directory
     foreach ($folder in $folders) {
         $version = fullversion
         $zipname = Join-Path $buildDistDirectory ($folder.name + '.v.'+ $version+'.'+$buildConfiguration+'.zip' )
-        write-host ('Create '+$zipname) 
+        write-host ('Create '+$zipname)
         ZipFiles $zipname $folder.fullname
     }
 }
@@ -207,9 +207,9 @@ task ? -Description "Helper to display task info" {
 	WriteDocumentation
 }
 
-# 
+#
 # functions
-# 
+#
 
 function fullversion() {
     $version = $versionBuild
@@ -232,9 +232,7 @@ function buildConfigDirectory() {
     Join-Path $buildDirectory $buildConfiguration
 }
 
-
-
-function global:copy-files($source,$destination,$include=@(),$exclude=@()){    
+function global:copy-files($source,$destination,$include=@(),$exclude=@()){
     $sourceFullName = resolve-path $source
     $relativePath = Get-Item $source | Resolve-Path -Relative
     $mkdirResult = mkdir $destination -ErrorAction SilentlyContinue
