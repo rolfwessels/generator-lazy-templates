@@ -22,7 +22,7 @@ namespace MainSolutionTemplate.Core.Tests
         }
 
         #endregion
-        
+
 
 		[Test]
 		public void Constructor_WhenCalled_ShouldNotBeNull()
