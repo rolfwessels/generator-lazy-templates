@@ -1,28 +1,16 @@
-<div layout="column" layout-fill>
-    <md-toolbar md-scroll-shrink class="md-hue-1">
-        <div class="md-toolbar-tools ">
-            <h2>
-        		<span>List of users</span>
-      		</h2>
-      		<md-button class="action actionBtn" ng-click="showActions($event)">
-            <span class="visuallyhidden">Actions</span>
-        </md-button>
-        </div>
-    </md-toolbar>
-    <md-content layout="column" flex class="md-padding">
-        
-
-
-        <md-list>
-            <md-item ng-repeat="user in users">
-                <md-item-content>
-                    <div class="md-tile-content">
-                        <md-whiteframe class="md-whiteframe-z1" layout layout-align="center center">
-                            <span style="margin:10px"> {{user.Name}} ({{user.Email}})</span>
-                        </md-whiteframe>
-                    </div>
-                </md-item-content>
-            </md-item>
-        </md-list>
-    </md-content>
+<div class="row">
+    <h2 class="header">Dashboard</h2>
+    
+    <div class="card" ng-repeat="user in users">
+            
+            <div class="card-content">
+              <span class="card-title activator grey-text text-darken-4">{{user.Name}}<i class="mdi-navigation-more-vert right"></i></span>
+              <p><a href="mailto:{{user.Email}}">{{user.Email}}</a></p>
+            </div>
+            <div class="card-reveal">
+              <span class="card-title grey-text text-darken-4">Card Title <i class="mdi-navigation-close right"></i></span>
+              <p>{{user}}</p>
+            </div>
+      </div>
 </div>
+

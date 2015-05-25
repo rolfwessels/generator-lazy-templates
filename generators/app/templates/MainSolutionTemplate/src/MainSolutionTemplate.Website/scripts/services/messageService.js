@@ -1,49 +1,32 @@
-/* authorizationService */
+/* messageService */
 
 angular.module('webapp.services')
-    .service('messageService', ['$log', '$mdToast',
-        function($log, $mdToast) {
-
-            var toastPosition = "top left right";
+    .service('messageService', ['$log',
+        function($log) {
 
             /*
              * Private methods
              */
-
+            var timeSpan = 4000;
             /* 
              * Service
              */
             return {
                 info: function(message) {
                     $log.info(message);
-                    $mdToast.show(
-                        $mdToast.simple()
-                        .content(message)
-                        .position(toastPosition)
-                        .hideDelay(3000)
-                    );
+                    Materialize.toast(message, timeSpan);
                 },
                 warn: function(message) {
                     $log.warn(message);
-                    $mdToast.show(
-                        $mdToast.simple()
-                        .content(message)
-                        .position(toastPosition)
-                        .hideDelay(3000)
-                    );
+                    Materialize.toast(message, timeSpan);
                 },
                 error: function(message) {
                     $log.error(message);
-                    $mdToast.show(
-                        $mdToast.simple()
-                        .content(message)
-                        .position(toastPosition)
-                        .hideDelay(3000)
-                    );
+                    Materialize.toast(message, timeSpan);
                 },
                 debug: function(message) {
                     $log.debug(message);
-
+                    Materialize.toast(message, timeSpan);
                 }
 
             };

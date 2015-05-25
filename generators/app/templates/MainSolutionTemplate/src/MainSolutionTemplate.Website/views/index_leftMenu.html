@@ -1,17 +1,3 @@
-<md-list id="menu">
-  <md-item >
-    <md-item-content>
-      <md-button ng-click="navigateHome()" ng-class="{'selected' : it === selected }">
-         Home
-      </md-button>
-    </md-item-content>
-  </md-item>
-  <md-item >
-    <md-item-content>
-      <md-button ng-click="logout('left')" >
-        logout
-      </md-button>
-    </md-item-content>
-  </md-item>
-</md-list>
-
+<li  ng-if="isAuthenticated" ><a ng-click="navigateHome()">Home</a></li>
+<li  ng-if="isAuthenticated" ><a ng-click="logout()">Logout</a></li>
+<li  ng-if="!isAuthenticated" ><a ng-click="login()">Login</a></li>

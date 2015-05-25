@@ -1,3 +1,3 @@
 /* Controllers */
 
-angular.module('webapp.controllers', ['ngMaterial']);
+angular.module('webapp.controllers', []);

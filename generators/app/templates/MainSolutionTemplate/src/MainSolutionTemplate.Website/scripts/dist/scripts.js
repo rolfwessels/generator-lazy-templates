@@ -1,7 +1,7 @@
 angular
     .module('webapp', [
-        'ngMaterial',
-				'angular-loading-bar',
+		'angular-loading-bar',
+        'ui.materialize',
         'webapp.routes',
         'webapp.controllers',
         'webapp.directives',
@@ -11,11 +11,12 @@ angular
     .value('tokenUrl', 'http://localhost:8081/token')
     .value('apiUrlBase', 'http://localhost:8081/api')
     .value('signalrBase', 'http://localhost:8081/signalr')    
-    .config(function($mdThemingProvider) {
-        $mdThemingProvider.theme('default')
-            .primaryPalette('light-green')
-            .accentPalette('amber');
-
+    .config(function() {
+        $(".button-collapse").sideNav({
+          menuWidth: 300, // Default is 240
+          edge: 'left', // Choose the horizontal origin
+          closeOnClick: true // Closes side-nav on <a> clicks, useful for Angular/Meteor
+        });
     })
     .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
       cfpLoadingBarProvider.includeSpinner = false;
@@ -25,14 +26,11 @@ angular
     }]);
 ;/* Controllers */
 
-angular.module('webapp.controllers', ['ngMaterial']);;/* dashboardCtrl */
+angular.module('webapp.controllers', []);;/* dashboardCtrl */
 
 angular.module('webapp.controllers')
-    .controller('dashboardCtrl', ['$scope', '$mdSidenav', '$mdBottomSheet', '$log', 'dataService', 'messageService',
-        function($scope, $mdSidenav, $mdBottomSheet, $log, dataService, messageService) {
-
-            $scope.showActions = showActions;
-
+    .controller('dashboardCtrl', ['$scope',  '$log', 'dataService', 'messageService',
+        function($scope, $log, dataService, messageService) {
             $scope.users = [];
             dataService.whenConnected().then(function() {
                 dataService.users.getAll().then(function(data) {
@@ -45,75 +43,6 @@ angular.module('webapp.controllers')
                 });
                 dataService.users.onUpdate($scope, $scope.users);
             }, messageService.error,messageService.debug);
-
-            
-
-            /**
-             * Select the current avatars
-             * @param menuId
-             */
-
-            function showActions($event) {
-
-                $mdBottomSheet.show({
-                    parent: angular.element(document.getElementById('content')),
-                    templateUrl: 'views/dashboard_bottom.html',
-                   
-                    bindToController: true,
-                    controllerAs: "vm",
-                    controller: ['$mdBottomSheet', AvatarSheetController],
-                    targetEvent: $event
-                }).then(function(clickedItem) {
-                    var data =  null;
-                    $log.debug(clickedItem.name + ' clicked!');
-                    if (clickedItem.name == "Add") {
-                        var result = dataService.users.post({ Name : ("Sample "+new Date()), Email : "Sample" });
-                        console.log(result);
-                        result.fail(messageService.error);
-
-                    }
-                    else if (clickedItem.name == "Delete") {
-                        
-                        angular.forEach($scope.users, function(value, key) {
-                          data = value;
-                        });
-                        if (data !== null) {
-                            dataService.users.delete(data.Id);
-                        }
-                    }
-                    else if (clickedItem.name == "Update") {
-                        
-                        angular.forEach($scope.users, function(value, key) {
-                          data = value;
-                        });
-                        if (data !== null) {
-                            dataService.users.put(data.Id,{ Name : ("Sample "+new Date()), Email : "Sample312" });
-                        }
-                    }
-                });
-
-                /**
-                 * Bottom Sheet controller for the Avatar Actions
-                 */
-               
-
-                function AvatarSheetController($mdBottomSheet) {
-                    this.items = [{
-                        name: 'Add',
-                        icon: 'add'
-                    }, {  
-                        name: 'Update',
-                        icon: 'update'
-                    }, {
-                        name: 'Delete',
-                        icon: 'delete'
-                    }];
-                    this.performAction = function(action) {
-
-                        $mdBottomSheet.hide(action);
-                    };
-                }
-            }
 
         }
     ]);
@@ -157,7 +86,7 @@ angular.module('webapp.controllers')
              */
             var  currentUser = authorizationService.currentSession();
             $scope.model = {
-                email: currentUser.email,
+                email: currentUser.email||'asdf',
                 password: ''
             };
             $scope.login = login;
@@ -187,42 +116,33 @@ angular.module('webapp.controllers')
 ;/* dashboardCtrl */
 
 angular.module('webapp.controllers')
-  .controller('navigationCtrl', ['$scope','$rootScope', '$mdSidenav', 'authorizationService', '$timeout', '$location',
-		function ($scope,$rootScope, $mdSidenav, authorizationService, $timeout, $location) {
+  .controller('navigationCtrl', ['$scope','$rootScope', 'authorizationService', '$timeout', '$location',
+		function ($scope,$rootScope, authorizationService, $timeout, $location) {
     
-    $scope.toggleSidenav = toggleSideNav;
+    
     $scope.logout = logout;
+    $scope.navigateHome = navigateHome;
+    $scope.login = login;
     $rootScope.$watch("isAuthenticated", function(newValue) {
       if (!newValue) {
           $timeout(function() {
-          	$mdSidenav('left').close();
+
           },500);           
         }
       }
     );
-    
-
-  	/**
-		 * Hide or Show the sideNav area
-		 * @param menuId
-		 */
-
-  	function toggleSideNav(name) {
-  		$mdSidenav(name).toggle();
-  	}
-
-
+      
     function navigateHome() {
       $location.path("/");
     }
 
-
-    function logout(name) {
-      authorizationService.logout();
-      $mdSidenav(name).toggle();
+    function login() {
+      $location.path("/login");
     }
 
-
+    function logout() {
+      authorizationService.logout();
+    }
   }]);
 ;/* Directives */
 
@@ -488,52 +408,35 @@ angular.module('webapp.services')
 			};
 
 		}
-	]);;/* authorizationService */
+	]);;/* messageService */
 
 angular.module('webapp.services')
-    .service('messageService', ['$log', '$mdToast',
-        function($log, $mdToast) {
-
-            var toastPosition = "top left right";
+    .service('messageService', ['$log',
+        function($log) {
 
             /*
              * Private methods
              */
-
+            var timeSpan = 4000;
             /* 
              * Service
              */
             return {
                 info: function(message) {
                     $log.info(message);
-                    $mdToast.show(
-                        $mdToast.simple()
-                        .content(message)
-                        .position(toastPosition)
-                        .hideDelay(3000)
-                    );
+                    Materialize.toast(message, timeSpan);
                 },
                 warn: function(message) {
                     $log.warn(message);
-                    $mdToast.show(
-                        $mdToast.simple()
-                        .content(message)
-                        .position(toastPosition)
-                        .hideDelay(3000)
-                    );
+                    Materialize.toast(message, timeSpan);
                 },
                 error: function(message) {
                     $log.error(message);
-                    $mdToast.show(
-                        $mdToast.simple()
-                        .content(message)
-                        .position(toastPosition)
-                        .hideDelay(3000)
-                    );
+                    Materialize.toast(message, timeSpan);
                 },
                 debug: function(message) {
                     $log.debug(message);
-
+                    Materialize.toast(message, timeSpan);
                 }
 
             };

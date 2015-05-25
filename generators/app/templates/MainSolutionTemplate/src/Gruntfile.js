@@ -27,17 +27,32 @@ module.exports = function(grunt) {
             files: {
               'MainSolutionTemplate.Website/scripts/dist/vendor.min.js': [
                 [
+                    'MainSolutionTemplate.Website/bower_components/jquery/dist/jquery.js',
                     'MainSolutionTemplate.Website/bower_components/angular/angular.js',
                     'MainSolutionTemplate.Website/bower_components/angular-route/angular-route.js',
-                    'MainSolutionTemplate.Website/bower_components/angular-aria/angular-aria.js',
                     'MainSolutionTemplate.Website/bower_components/angular-animate/angular-animate.js',
-                    'MainSolutionTemplate.Website/bower_components/angular-material/angular-material.js',
                     'MainSolutionTemplate.Website/bower_components/angular-local-storage/dist/angular-local-storage.js',
-                    'MainSolutionTemplate.Website/bower_components/angular-loading-bar/src/loading-bar.js',
-                    'MainSolutionTemplate.Website/bower_components/jquery/dist/jquery.js',
+                    'MainSolutionTemplate.Website/bower_components/angular-loading-bar/src/loading-bar.js',                    
                     'MainSolutionTemplate.Website/bower_components/signalr/jquery.signalr.js',
+                    'MainSolutionTemplate.Website/bower_components/materialize/bin/materialize.js',
+                    'MainSolutionTemplate.Website/bower_components/angular-materialize/src/angular-materialize.js'
                 ]
               ]
+            }
+          }
+        },
+        cssmin: {
+          options: {
+            shorthandCompacting: false,
+            roundingPrecision: -1
+          },
+          target: {
+            files: {
+              'MainSolutionTemplate.Website/assets/css/app.min.css': [
+                'MainSolutionTemplate.Website/bower_components/materialize/bin/materialize.css',
+                'MainSolutionTemplate.Website/assets/css/app.css',
+
+                ]
             }
           }
         },
@@ -59,8 +74,8 @@ module.exports = function(grunt) {
           }
         },
         watch: {
-          files: ['<%= jshint.files %>'],
-          tasks: ['concat', 'jshint']
+          files: ['<%= jshint.files %>' ,'MainSolutionTemplate.Website/assets/css/app.css' ],
+          tasks: ['concat','cssmin','jshint']
         }
     });
 
@@ -69,9 +84,10 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-contrib-cssmin');
 
     // Task definitions
     grunt.registerTask('launch', ['watch']);
     grunt.registerTask('test', ['jshint']);
-    grunt.registerTask('default', ['concat','uglify','jshint']);
+    grunt.registerTask('default', ['concat','cssmin','uglify','jshint']);
 };

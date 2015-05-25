@@ -1,7 +1,7 @@
 angular
     .module('webapp', [
-        'ngMaterial',
-				'angular-loading-bar',
+		'angular-loading-bar',
+        'ui.materialize',
         'webapp.routes',
         'webapp.controllers',
         'webapp.directives',
@@ -11,11 +11,12 @@ angular
     .value('tokenUrl', 'http://localhost:8081/token')
     .value('apiUrlBase', 'http://localhost:8081/api')
     .value('signalrBase', 'http://localhost:8081/signalr')    
-    .config(function($mdThemingProvider) {
-        $mdThemingProvider.theme('default')
-            .primaryPalette('light-green')
-            .accentPalette('amber');
-
+    .config(function() {
+        $(".button-collapse").sideNav({
+          menuWidth: 300, // Default is 240
+          edge: 'left', // Choose the horizontal origin
+          closeOnClick: true // Closes side-nav on <a> clicks, useful for Angular/Meteor
+        });
     })
     .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
       cfpLoadingBarProvider.includeSpinner = false;

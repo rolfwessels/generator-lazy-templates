@@ -1,47 +1,40 @@
 <!DOCTYPE html>
-<html lang="en" class="no-js">
-	<head>
-		<title>MainSolution Website</title>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+  <title>MainSolutionTemplate</title>
+  <!-- CSS  -->
+  <link rel="stylesheet" href="./assets/css/app.min.css" >
+</head>
+<body ng-app="webapp" ng-controller="navigationCtrl" >
+  <nav class="light-blue lighten-1" role="navigation">
+    <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">MainSolutionTemplate</a>
+      <ul class="right hide-on-med-and-down" ng-include="'/views/index_leftMenu.html'">
+      </ul>
+      <ul id="nav-mobile" class="right side-nav" >
+      <div ng-include="'/views/index_leftMenu.html'" />
+      </ul>
+      <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
+    </div>
+  </nav>
+  <div class="section no-pad-bot" id="index-banner">
+    <div class="container">
+    	<div ng-view></div>
+    </div>
+  </div>
 
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="description" content="">
-		<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <footer class="page-footer orange">
+    <div class="footer-copyright">
+      <div class="container">
+      Made by <a class="orange-text text-lighten-3" href="http://materializecss.com">Materialize</a>
+      </div>
+    </div>
+  </footer>
 
-		<link rel="stylesheet" href="./bower_components/angular-material/angular-material.css">
-		<link rel="stylesheet" href="./bower_components/angular-loading-bar/build/loading-bar.min.css"></script>
-		<link rel="stylesheet" href="./assets/css/app.css" >
-	</head>
+  <script src="./scripts/dist/vendor.min.js"> </script>
+  <script src="./scripts/dist/scripts.js"> </script>
+  
 
-	<body ng-app="webapp" layout="column" ng-controller="navigationCtrl" >
-
-		<md-toolbar  class="md-tall" >
-			<button ng-if="isAuthenticated" ng-click="toggleSidenav('left')" hide-gt-sm class="menuBtn" >
-				<span class="visuallyhidden">Menu</span>
-			</button>
-			<div layout="row" layout-align="center center">
-				<h2 class="md-padding" >
-					MainSolution Website
-				</h2>
-			</div>     
-		</md-toolbar>
-
-
-		<div layout="row" flex>
-			
-			<md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$media('gt-sm') && isAuthenticated"
-			            ng-include="'/views/index_leftMenu.html'"
-			            >
-			</md-sidenav>
-
-			<div layout="column" flex class="content-wrapper" id="content" >
-				<div ng-view></div>
-			</div>
-		</div>
-
-		
-    	<script src="./scripts/dist/vendor.min.js"> </script>
-    	<script src="./scripts/dist/scripts.js"> </script>
-		
-	</body>
+  </body>
 </html>
