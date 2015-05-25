@@ -1,0 +1,15 @@
+<div class="row">
+    <h2 class="header">User</h2>
+    
+    <div class="card" ng-repeat="user in users">
+            <div class="card-content">
+              <span class="card-title activator grey-text text-darken-4">{{user.name}}<i class="mdi-navigation-more-vert right"></i></span>
+              <p><a href="mailto:{{user.Email}}">{{user.email}}</a></p>
+            </div>
+            <div class="card-reveal">
+              <span class="card-title grey-text text-darken-4">{{user.name}}<i class="mdi-navigation-close right"></i></span>
+               <p>{{user.email}}</p>
+            </div>
+      </div>
+</div>
+

@@ -1,1 +1,11 @@
 Type script ?
+
+Add /node_modules/
+Remove avatar css
+Validation
+Add BuilderHelper WithValidData
+Add the connection factory stuff
+Cleanup TokenResponseModel LoggedInResponse()
+Play with psake
+Add some WPF and maybe some android build stuff.
+Add just normal boot strap

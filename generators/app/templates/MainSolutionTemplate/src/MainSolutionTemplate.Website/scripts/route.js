@@ -8,7 +8,11 @@ angular
         .when('/', {
               templateUrl: 'views/dashboard.html',
               controller: 'dashboardCtrl'
-            })
+        })
+        .when('/user', {
+            templateUrl: 'views/user.html',
+            controller: 'userCtrl'
+        })
         .when('/login', {
               templateUrl: 'views/login.html',
               controller: 'loginCtrl'

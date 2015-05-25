@@ -31,19 +31,7 @@ angular.module('webapp.controllers', []);;/* dashboardCtrl */
 angular.module('webapp.controllers')
     .controller('dashboardCtrl', ['$scope',  '$log', 'dataService', 'messageService',
         function($scope, $log, dataService, messageService) {
-            $scope.users = [];
-            dataService.whenConnected().then(function() {
-                dataService.users.getAll().then(function(data) {
-                    angular.forEach(data, function(value, key) {
-                      $scope.users.push(value);
-                    });
-                    
-                },function(error) {
-                  $log.error(error);
-                });
-                dataService.users.onUpdate($scope, $scope.users);
-            }, messageService.error,messageService.debug);
-
+            
         }
     ]);
 ;/* dashboardCtrl */
@@ -144,6 +132,41 @@ angular.module('webapp.controllers')
       authorizationService.logout();
     }
   }]);
+;/* userCtrl */
+
+angular.module('webapp.controllers')
+    .controller('userCtrl', ['$scope',  '$log', 'dataService', 'messageService',
+        function($scope, $log, dataService, messageService) {
+            $scope.users = [];
+            $scope.add = add;
+            $scope.update = update;
+            $scope.remove = remove;
+
+            // initialize data
+            dataService.whenConnected().then(function () {
+                dataService.users.onUpdate($scope, $scope.users);
+            }, messageService.error, messageService.debug);
+            dataService.users.getAll().then(function (data) {
+                console.log("data: ", data);
+                $scope.users = data;
+            }, function (error) {
+                $log.error(error);
+            });
+
+            function add(user) {
+                
+            }
+
+            function update(user) {
+                
+            }
+            
+            function remove(user) {
+
+            }
+
+        }
+    ]);
 ;/* Directives */
 
 angular.module('webapp.directives', []);
@@ -160,7 +183,11 @@ angular
         .when('/', {
               templateUrl: 'views/dashboard.html',
               controller: 'dashboardCtrl'
-            })
+        })
+        .when('/user', {
+            templateUrl: 'views/user.html',
+            controller: 'userCtrl'
+        })
         .when('/login', {
               templateUrl: 'views/login.html',
               controller: 'loginCtrl'
@@ -172,8 +199,7 @@ angular
         .otherwise({ redirectTo: '/' });
 
       }
-    ]);
-;/* Services */
+    ]);;/* Services */
 
 angular.module('webapp.services', ['LocalStorageModule']);
 ;/* authorizationService */
@@ -285,87 +311,20 @@ angular.module('webapp.services')
 	]);;/* authorizationService */
 
 angular.module('webapp.services')
-	.service('dataService', ['$log', 'signalrBase', 'authorizationService', '$q', '$rootScope',
-		function($log, signalrBase, authorizationService, $q, $rootScope) {
+	.service('dataService', ['$log', 'signalrBase', 'authorizationService', '$q', '$rootScope', 'endPointService',
+		function ($log, signalrBase, authorizationService, $q, $rootScope, endPointService) {
 
 			var currentConnectionString = null;
 			var currentConnectionDefer = null;
 			var connection = null;
 			var userHub = {};
 
-			/*
-             * Private methods
-             */
-
-			function createConnection() {
-				currentConnectionString = authorizationService.currentSession().accessToken;
-				var connectionDefer = $q.defer();
-				console.log("Authenticated:" + authorizationService.isAuthenticate());
-				$.connection.hub.url = signalrBase;
-
-				connection = $.hubConnection();
-				connection.qs = { "bearer": authorizationService.currentSession().accessToken };
-				userHub = connection.createHubProxy('UserHub');
-
-				/*
-                 * Register events
-                 */
-				userHub.on('OnUpdate', function(data) {
-					$rootScope.$emit("userHub.OnUpdate", data);
-				});
-
-
-				var start = connection.start();
-
-
-				start.done(function() {
-					connectionDefer.resolve(connection);
-				});
-				start.fail(function(result) {
-					$log.error("signalRFail:" + result.message);
-					connectionDefer.reject(result.message);
-				});
-				return connectionDefer.promise;
-			}
-
-			function defaultUpdate(scope, update, callBack) {
-				if (angular.isArray(callBack)) {
-
-					scope.$apply(function() {
-						if (update.UpdateType === 0) {
-							callBack.push(update.Value);
-						}
-							//delete
-						else if (update.UpdateType == 2) {
-
-							angular.forEach(callBack, function(value, key) {
-
-								if (update.Value.Id == value.Id) {
-									callBack.splice(key);
-								}
-							});
-
-						}
-							//update
-						else if (update.UpdateType == 1) {
-							angular.forEach(callBack, function(value, key) {
-								if (update.Value.Id == value.Id) {
-									angular.copy(update.Value, value);
-								}
-							});
-
-						}
-					});
-
-				} else {
-					callBack(update);
-				}
-			}
+			
 
 			/* 
              * Service
              */
-			return {
+			var returnService =  {
 				whenConnected: function() {
 					if (currentConnectionString != authorizationService.currentSession().accessToken) {
 						if (connection) {							
@@ -376,36 +335,164 @@ angular.module('webapp.services')
 					}
 					return currentConnectionDefer;
 				},
-				users: {
-					getAll: function() {
-						return userHub.invoke('Get');
-					},
-					get: function(id) {
-						return userHub.invoke('Get', id);
-					},
-					post: function(user) {
-						return userHub.invoke('Post', user);
-					},
-					put: function(id, user) {
-						return userHub.invoke('Put', id, user);
-					},
-					delete: function(id) {
-						return userHub.invoke('Delete', id);
-					},
-					onUpdate: function(scope, callBack) {
-						userHub.invoke('SubscribeToUpdates');
-						
-						var destroy = $rootScope.$on("userHub.OnUpdate", function(onId, update) {
-							defaultUpdate(scope, update, callBack);
-						});
-						scope.$on("$destroy", function () {
-						    userHub.invoke('UnsubscribeFromUpdates');
-						    destroy();
-						});
-						return destroy;
-					}
-				}
+				users: endPointService('user',userHub)
 			};
+
+		    /*
+             * Private methods
+             */
+
+			function createConnection() {
+			    currentConnectionString = authorizationService.currentSession().accessToken;
+			    var connectionDefer = $q.defer();
+			    console.log("Authenticated:" + authorizationService.isAuthenticate());
+			    $.connection.hub.url = signalrBase;
+
+			    connection = $.hubConnection();
+			    connection.qs = { "bearer": authorizationService.currentSession().accessToken };
+			    userHub = connection.createHubProxy('UserHub');
+
+			    /*
+                 * Register events
+                 */
+			    userHub.on('OnUpdate', function (data) {
+			        $rootScope.$emit("userHub.OnUpdate", data);
+			    });
+
+
+			    var start = connection.start();
+
+
+			    start.done(function () {
+			        connectionDefer.resolve(connection);
+			    });
+			    start.fail(function (result) {
+			        $log.error("signalRFail:" + result.message);
+			        connectionDefer.reject(result.message);
+			    });
+			    return connectionDefer.promise;
+			}
+
+			
+
+		    return returnService;
+
+		}
+	]);;/* endPointService */
+
+angular.module('webapp.services')
+	.service('endPointService', ['$log', 'signalrBase', 'authorizationService', '$q', '$rootScope', 'apiUrlBase', '$http',
+		function ($log, signalrBase, authorizationService, $q, $rootScope, apiUrlBase, $http) {
+
+			/* 
+             * Service
+             */
+		    var returnService = function (basePath, userHub) {
+
+		        return {
+		            getAll: function () {
+		                return httpCall('GET', pathCombine(apiUrlBase, basePath));
+		            },
+		            get: function(id) {
+		                return httpCall('GET', pathCombine(apiUrlBase, basePath,id));
+		            },
+		            post: function(user) {
+		                return httpCall('POST', pathCombine(apiUrlBase, basePath),user);
+		            },
+		            put: function(id, user) {
+		                return httpCall('PUT', pathCombine(apiUrlBase, basePath,id), user);
+		            },
+		            delete: function (id) {
+		                return httpCall('DELETE', pathCombine(apiUrlBase, basePath, id));
+		            },
+		            onUpdate: function(scope, callBack) {
+		                userHub.invoke('SubscribeToUpdates');
+
+		                var destroy = $rootScope.$on("userHub.OnUpdate", function(onId, update) {
+		                    defaultUpdate(scope, update, callBack);
+		                });
+		                scope.$on("$destroy", function() {
+		                    userHub.invoke('UnsubscribeFromUpdates');
+		                    destroy();
+		                });
+		                return destroy;
+		            }
+		        };
+		    };
+
+		    /* 
+             * Private
+             */
+		    function pathCombine() {
+		        var path = arguments[0];
+		        for (var i = 1; i < arguments.length; i++) {
+		            path += '/' + arguments[i];
+		        }
+		        return path;
+		    }
+
+		    function httpCall(method, url, data) {
+		        var deferred = $q.defer();
+
+		        var config = {
+		            method: method,
+		            url: url,
+		            headers: {
+		                'Authorization': 'bearer ' + authorizationService.currentSession().accessToken,
+		            },
+                    data : data
+		        };
+
+		        $http(config)
+                    .success(function (data) {
+                        deferred.resolve(data);
+                    })
+                    .error(function (data) {
+                        $log.error("Request ERROR: ", data);
+                        if (data && data.error_description) {
+                            deferred.reject(data.error_description);
+                        } else {
+                            deferred.reject('Unable to contact server; please, try again later.');
+                        }
+                    });
+		        return deferred.promise;
+		    }
+
+			function defaultUpdate(scope, update, callBack) {
+			    if (angular.isArray(callBack)) {
+
+			        scope.$apply(function () {
+			            if (update.UpdateType === 0) {
+			                callBack.push(update.Value);
+			            }
+			                //delete
+			            else if (update.UpdateType == 2) {
+
+			                angular.forEach(callBack, function (value, key) {
+
+			                    if (update.Value.Id == value.Id) {
+			                        callBack.splice(key);
+			                    }
+			                });
+
+			            }
+			                //update
+			            else if (update.UpdateType == 1) {
+			                angular.forEach(callBack, function (value, key) {
+			                    if (update.Value.Id == value.Id) {
+			                        angular.copy(update.Value, value);
+			                    }
+			                });
+
+			            }
+			        });
+
+			    } else {
+			        callBack(update);
+			    }
+			}
+
+		    return returnService;
 
 		}
 	]);;/* messageService */
