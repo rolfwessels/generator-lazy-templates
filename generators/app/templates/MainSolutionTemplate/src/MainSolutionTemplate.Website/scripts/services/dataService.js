@@ -25,7 +25,8 @@ angular.module('webapp.services')
 					}
 					return currentConnectionDefer;
 				},
-				users: endPointService('user',userHub)
+				users: endPointService('user', userHub),
+				projects: endPointService('project', userHub)
 			};
 
 		    /*

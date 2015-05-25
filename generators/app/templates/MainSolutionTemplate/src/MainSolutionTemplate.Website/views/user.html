@@ -1,15 +1,22 @@
 <div class="row">
-    <h2 class="header">User</h2>
+    <h3 class="header">User</h3>
     
-    <div class="card" ng-repeat="user in users">
-            <div class="card-content">
-              <span class="card-title activator grey-text text-darken-4">{{user.name}}<i class="mdi-navigation-more-vert right"></i></span>
-              <p><a href="mailto:{{user.Email}}">{{user.email}}</a></p>
-            </div>
-            <div class="card-reveal">
-              <span class="card-title grey-text text-darken-4">{{user.name}}<i class="mdi-navigation-close right"></i></span>
-               <p>{{user.email}}</p>
-            </div>
-      </div>
+    <ul class="collection">
+        <li ng-repeat="user in users.items">
+            <a href="#/user/{{user.id}}" class="collection-item">
+                <div>{{user.name}}</div>
+                <div>{{user.email}}</div>
+            </a>
+        </li>
+    </ul>
+    <div class="fixed-action-btn" >
+        <a class="btn-floating btn-large green">
+            <i class="large mdi-content-add"></i>
+        </a>
+        <ul>
+            <li><a class="btn-floating blue"><i class="large mdi-editor-mode-edit"></i></a></li>
+            <li><a class="btn-floating red darken-1"><i class="mdi-action-delete"></i></a></li>
+        </ul>
+    </div>
 </div>
 

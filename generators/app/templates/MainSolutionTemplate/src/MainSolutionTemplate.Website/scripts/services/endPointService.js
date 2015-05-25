@@ -10,8 +10,17 @@ angular.module('webapp.services')
 		    var returnService = function (basePath, userHub) {
 
 		        return {
-		            getAll: function () {
-		                return httpCall('GET', pathCombine(apiUrlBase, basePath));
+		            getAll: function (filter) {
+		                return httpCall('GET', pathCombine(apiUrlBase, basePath) + "?" + filter);
+		            },
+		            getAllPaged: function (filter) {
+		                return httpCall('GET', pathCombine(apiUrlBase, basePath) + "?" + filter + '&$inlinecount=allpages');
+		            },
+		            getDetailAll: function (filter) {
+		                return httpCall('GET', pathCombine(apiUrlBase, basePath, 'Detail') + "?" + filter);
+		            },
+		            getDetailAllPaged: function (filter) {
+		                return httpCall('GET', pathCombine(apiUrlBase, basePath, 'Detail') + "?" + filter + '&$inlinecount=allpages');
 		            },
 		            get: function(id) {
 		                return httpCall('GET', pathCombine(apiUrlBase, basePath,id));

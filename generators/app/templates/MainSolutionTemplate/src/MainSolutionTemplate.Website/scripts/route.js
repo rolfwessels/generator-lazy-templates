@@ -9,11 +9,12 @@ angular
               templateUrl: 'views/dashboard.html',
               controller: 'dashboardCtrl'
         })
-        .when('/user', {
+        .when('/user/:id?', {
             templateUrl: 'views/user.html',
             controller: 'userCtrl'
         })
-        .when('/login', {
+          
+        .when('/login/', {
               templateUrl: 'views/login.html',
               controller: 'loginCtrl'
             })

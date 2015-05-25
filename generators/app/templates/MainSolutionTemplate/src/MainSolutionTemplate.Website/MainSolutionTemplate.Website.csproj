@@ -72,6 +72,7 @@
     <Content Include="robots.txt" />
     <Content Include="scripts\app.js" />
     <Content Include="scripts\controllers.js" />
+    <Content Include="scripts\controllers\forgotPasswordCtrl.js" />
     <Content Include="scripts\controllers\userCtrl.js" />
     <Content Include="scripts\controllers\dashboardCtrl.js" />
     <Content Include="scripts\controllers\loginCtrl.js" />
@@ -80,8 +81,12 @@
     <Content Include="scripts\filters.js" />
     <Content Include="scripts\route.js" />
     <Content Include="scripts\services.js" />
+    <Content Include="scripts\services\authorizationService.js" />
     <Content Include="scripts\services\endPointService.js" />
     <Content Include="scripts\services\dataService.js" />
+    <Content Include="scripts\services\messageService.js" />
+    <Content Include="views\dashboard_bottom.html" />
+    <Content Include="views\forgotPassword.html" />
     <Content Include="views\user.html" />
     <Content Include="views\dashboard.html" />
     <Content Include="views\index_leftMenu.html" />
@@ -96,6 +101,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+    <Content Include="bower.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

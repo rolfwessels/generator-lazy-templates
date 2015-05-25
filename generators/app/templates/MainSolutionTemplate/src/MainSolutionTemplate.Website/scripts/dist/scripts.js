@@ -30,8 +30,22 @@ angular.module('webapp.controllers', []);;/* dashboardCtrl */
 
 angular.module('webapp.controllers')
     .controller('dashboardCtrl', ['$scope',  '$log', 'dataService', 'messageService',
-        function($scope, $log, dataService, messageService) {
+        function ($scope, $log, dataService, messageService) {
+
+            $scope.allCounter = [];
+
+            mapData(dataService.users, 'users','#/user');
+            mapData(dataService.projects, 'projects', '#/project');
             
+            function mapData(service,onScope,link) {
+                var counter = { name: onScope, items: [], count: 0 , link : link};
+                $scope.allCounter.push(counter);
+                service.getAllPaged('$top=5').then(function (data) {
+                    counter.count = data.count;
+                    counter.items = data.items;
+                }, messageService.error, messageService.debug);
+
+            }
         }
     ]);
 ;/* dashboardCtrl */
@@ -137,7 +151,7 @@ angular.module('webapp.controllers')
 angular.module('webapp.controllers')
     .controller('userCtrl', ['$scope',  '$log', 'dataService', 'messageService',
         function($scope, $log, dataService, messageService) {
-            $scope.users = [];
+            $scope.users = {count:0};
             $scope.add = add;
             $scope.update = update;
             $scope.remove = remove;
@@ -146,8 +160,7 @@ angular.module('webapp.controllers')
             dataService.whenConnected().then(function () {
                 dataService.users.onUpdate($scope, $scope.users);
             }, messageService.error, messageService.debug);
-            dataService.users.getAll().then(function (data) {
-                console.log("data: ", data);
+            dataService.users.getAllPaged().then(function (data) {
                 $scope.users = data;
             }, function (error) {
                 $log.error(error);
@@ -184,11 +197,12 @@ angular
               templateUrl: 'views/dashboard.html',
               controller: 'dashboardCtrl'
         })
-        .when('/user', {
+        .when('/user/:id?', {
             templateUrl: 'views/user.html',
             controller: 'userCtrl'
         })
-        .when('/login', {
+          
+        .when('/login/', {
               templateUrl: 'views/login.html',
               controller: 'loginCtrl'
             })
@@ -335,7 +349,8 @@ angular.module('webapp.services')
 					}
 					return currentConnectionDefer;
 				},
-				users: endPointService('user',userHub)
+				users: endPointService('user', userHub),
+				projects: endPointService('project', userHub)
 			};
 
 		    /*
@@ -390,8 +405,17 @@ angular.module('webapp.services')
 		    var returnService = function (basePath, userHub) {
 
 		        return {
-		            getAll: function () {
-		                return httpCall('GET', pathCombine(apiUrlBase, basePath));
+		            getAll: function (filter) {
+		                return httpCall('GET', pathCombine(apiUrlBase, basePath) + "?" + filter);
+		            },
+		            getAllPaged: function (filter) {
+		                return httpCall('GET', pathCombine(apiUrlBase, basePath) + "?" + filter + '&$inlinecount=allpages');
+		            },
+		            getDetailAll: function (filter) {
+		                return httpCall('GET', pathCombine(apiUrlBase, basePath, 'Detail') + "?" + filter);
+		            },
+		            getDetailAllPaged: function (filter) {
+		                return httpCall('GET', pathCombine(apiUrlBase, basePath, 'Detail') + "?" + filter + '&$inlinecount=allpages');
 		            },
 		            get: function(id) {
 		                return httpCall('GET', pathCombine(apiUrlBase, basePath,id));
