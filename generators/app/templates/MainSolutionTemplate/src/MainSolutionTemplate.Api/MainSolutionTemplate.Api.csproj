@@ -70,6 +70,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\FluentValidation.5.5.0.0\lib\Net40\FluentValidation.dll</HintPath>
     </Reference>
+    <Reference Include="GoogleAnalyticsTracker.Core">
+      <HintPath>..\..\lib\GoogleAnalyticsTracker.Core.3.2.0\lib\portable-net45+win+wp80\GoogleAnalyticsTracker.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="GoogleAnalyticsTracker.WebAPI2">
+      <HintPath>..\..\lib\GoogleAnalyticsTracker.WebAPI2.3.2.0\lib\net45\GoogleAnalyticsTracker.WebAPI2.dll</HintPath>
+    </Reference>
     <Reference Include="LinqToQuerystring">
       <HintPath>..\..\lib\LinqToQuerystring.0.7.0.8\lib\net35\LinqToQuerystring.dll</HintPath>
       <Private>True</Private>
@@ -148,6 +154,7 @@
       <HintPath>..\..\lib\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Net.Http.WebRequest" />
     <Reference Include="System.Spatial, Version=5.6.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\System.Spatial.5.6.3\lib\net40\System.Spatial.dll</HintPath>

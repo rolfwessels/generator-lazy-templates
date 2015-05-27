@@ -4,6 +4,7 @@ using System.Net.Http.Formatting;
 using System.Web.Http;
 using System.Web.Http.Dependencies;
 using System.Web.Http.OData.Extensions;
+using GoogleAnalyticsTracker.WebApi2;
 using MainSolutionTemplate.Api.WebApi.Filters;
 using Microsoft.Owin.Cors;
 using Newtonsoft.Json.Serialization;
@@ -59,12 +60,16 @@ namespace MainSolutionTemplate.Api.AppStartup
 			configuration.MapHttpAttributeRoutes();
 		}
 
-		private static void SetupGlobalFilters(HttpConfiguration configuration)
-		{
-			configuration.Filters.Add(new CaptureExceptionFilter());
-		}
+	    private static void SetupGlobalFilters(HttpConfiguration configuration)
+	    {
+	        configuration.Filters.Add(new CaptureExceptionFilter());
+	        configuration.Filters.Add(new ActionTrackingAttribute(
+	                                      "UA-21679277-4", "www.MainSolutionTemplate.org",
+	                                      action => true)
+	            );
+	    }
 
-		#endregion
+	    #endregion
 
 		#region Initialize
 
