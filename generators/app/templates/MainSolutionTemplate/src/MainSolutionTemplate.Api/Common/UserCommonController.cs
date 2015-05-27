@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using System.Threading.Tasks;
 using MainSolutionTemplate.Api.Models.Mappers;
 using MainSolutionTemplate.Core.BusinessLogic.Components.Interfaces;
@@ -38,10 +39,11 @@ namespace MainSolutionTemplate.Api.Common
         {
             return Task.Run(() =>
                 {
+
                     _log.Warn(string.Format("User has called forgot password. We should send him and email to [{0}].",
                                             email));
-                    // todo: Forgot password
                     return true;
+                    
                 });
         }
 

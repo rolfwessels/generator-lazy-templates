@@ -5,6 +5,7 @@ using System.Web.Http;
 using System.Web.Http.Dependencies;
 using System.Web.Http.OData.Extensions;
 using GoogleAnalyticsTracker.WebApi2;
+using MainSolutionTemplate.Api.Properties;
 using MainSolutionTemplate.Api.WebApi.Filters;
 using Microsoft.Owin.Cors;
 using Newtonsoft.Json.Serialization;
@@ -64,7 +65,7 @@ namespace MainSolutionTemplate.Api.AppStartup
 	    {
 	        configuration.Filters.Add(new CaptureExceptionFilter());
 	        configuration.Filters.Add(new ActionTrackingAttribute(
-	                                      "UA-21679277-4", "www.MainSolutionTemplate.org",
+	                                      Settings.Default.GoogleAnyliticsId, Settings.Default.GoogleAnyliticsDomain,
 	                                      action => true)
 	            );
 	    }

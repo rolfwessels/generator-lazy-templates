@@ -4,7 +4,9 @@ using Autofac;
 using Autofac.Integration.SignalR;
 using Autofac.Integration.WebApi;
 using FluentValidation;
+using GoogleAnalyticsTracker.WebApi2;
 using MainSolutionTemplate.Api.Common;
+using MainSolutionTemplate.Api.Properties;
 using MainSolutionTemplate.Api.SignalR.Connection;
 using MainSolutionTemplate.Api.SignalR.Hubs;
 using MainSolutionTemplate.Api.WebApi.Controllers;
@@ -29,6 +31,7 @@ namespace MainSolutionTemplate.Api.AppStartup
 			SetupCore(builder);
 			SetupSignalr(builder);
             SetupCommonControllers(builder);
+		    SetupTools(builder);
 			WebApi(builder);
 			SignalRHubs(builder);
 			_container = builder.Build();
@@ -43,10 +46,16 @@ namespace MainSolutionTemplate.Api.AppStartup
 		{
 			builder.RegisterType<ConnectionStateMapping>().As<IConnectionStateMapping>().SingleInstance();
 		}
+
 		private void SetupCommonControllers(ContainerBuilder builder)
 		{
 			builder.RegisterType<UserCommonController>();
 			builder.RegisterType<ProjectCommonController>();
+		}
+
+        private void SetupTools(ContainerBuilder builder)
+		{
+            builder.Register(t => new Tracker(Settings.Default.GoogleAnyliticsId, Settings.Default.GoogleAnyliticsDomain));
 		}
 
 		#region Initialize
