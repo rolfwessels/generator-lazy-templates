@@ -8,7 +8,7 @@ angular.module('webapp.services')
 			var currentConnectionDefer = null;
 			var connection = null;
 			var userHub = {};
-
+			var projectHub = {};
 			
 
 			/* 
@@ -26,7 +26,7 @@ angular.module('webapp.services')
 					return currentConnectionDefer;
 				},
 				users: endPointService('user', userHub),
-				projects: endPointService('project', userHub)
+				projects: endPointService('project', projectHub)
 			};
 
 		    /*
@@ -36,18 +36,22 @@ angular.module('webapp.services')
 			function createConnection() {
 			    currentConnectionString = authorizationService.currentSession().accessToken;
 			    var connectionDefer = $q.defer();
-			    console.log("Authenticated:" + authorizationService.isAuthenticate());
-			    $.connection.hub.url = signalrBase;
+			    console.log("Authenticated:" + signalrBase);
 
-			    connection = $.hubConnection();
+			    connection = $.hubConnection(signalrBase);
 			    connection.qs = { "bearer": authorizationService.currentSession().accessToken };
-			    userHub = connection.createHubProxy('UserHub');
 
 			    /*
-                 * Register events
-                 */
+                * Register events
+                */
+			    userHub = connection.createHubProxy('UserHub');
 			    userHub.on('OnUpdate', function (data) {
 			        $rootScope.$emit("userHub.OnUpdate", data);
+			    });
+
+			    projectHub = connection.createHubProxy('ProjectHub');
+			    projectHub.on('OnUpdate', function (data) {
+			        $rootScope.$emit("projectHub.OnUpdate", data);
 			    });
 
 

@@ -1,0 +1,43 @@
+<div ng-if="!data.display">
+    <ul ng-if="data.list.items" class="collection">
+        <li ng-repeat="item in data.list.items">
+            <div class="collection-item" >
+                <span>{{item.name}}</span></br>
+                <span>{{item.email}}</span>
+<a class="secondary-content" ng-click="data.showEdit(item)"><i class="mdi-editor-mode-edit"></i></a>
+<a class="secondary-content" ng-click="data.removeItem(item)"><i class="mdi-action-delete"></i></a>
+            </div>
+            
+        </li>
+    </ul>
+    <a class="btn-floating btn-large waves-effect waves-light red" ng-click="data.showAdd()"><i class="mdi-content-add"></i></a>
+
+</div>
+<div ng-if="data.display">
+    <div class="card">
+
+        <div class="card-content">
+            <!-- form -->
+            <form id="inputForm" novalidate>
+                <div class="row">
+                    <div input-field>
+                        <input id="name" type="text" class="validate" ng-model="data.currentItem.name">
+                        <label for="name">Name</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div input-field>
+                        <input id="email" type="email" class="validate" ng-model="data.currentItem.email">
+                        <label for="email">Email</label>
+                    </div>
+                </div>
+                <div>
+                    <a class="waves-effect waves-teal btn-flat" ng-click="data.cancel()">Cancel</a>
+                    <button class="btn waves-effect waves-light" type="submit" name="action" ng-click="data.save()">Save
+                        <i class="mdi-content-send right"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

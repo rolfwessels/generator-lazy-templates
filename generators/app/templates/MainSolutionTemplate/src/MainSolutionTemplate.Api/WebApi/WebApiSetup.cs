@@ -28,7 +28,7 @@ namespace MainSolutionTemplate.Api.AppStartup
 			SetupRoutes(configuration);
 			SetupGlobalFilters(configuration);
 			SetApiCamelCase(configuration);
-			appBuilder.UseCors(CorsOptions.AllowAll);
+		    CrossOrginSetupp.Setup(configuration);
 			appBuilder.UseWebApi(configuration);
 			configuration.DependencyResolver = dependencyResolver;
 			_configuration = configuration;

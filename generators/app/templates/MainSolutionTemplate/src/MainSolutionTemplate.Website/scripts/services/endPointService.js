@@ -34,7 +34,7 @@ angular.module('webapp.services')
 		            delete: function (id) {
 		                return httpCall('DELETE', pathCombine(apiUrlBase, basePath, id));
 		            },
-		            onUpdate: function(scope, callBack) {
+		            onUpdate: function (scope, callBack) {
 		                userHub.invoke('SubscribeToUpdates');
 
 		                var destroy = $rootScope.$on("userHub.OnUpdate", function(onId, update) {

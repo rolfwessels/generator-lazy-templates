@@ -1,22 +1,9 @@
 <div class="row">
-    <h3 class="header">User</h3>
-    
-    <ul class="collection">
-        <li ng-repeat="user in users.items">
-            <a href="#/user/{{user.id}}" class="collection-item">
-                <div>{{user.name}}</div>
-                <div>{{user.email}}</div>
-            </a>
-        </li>
-    </ul>
-    <div class="fixed-action-btn" >
-        <a class="btn-floating btn-large green">
-            <i class="large mdi-content-add"></i>
-        </a>
-        <ul>
-            <li><a class="btn-floating blue"><i class="large mdi-editor-mode-edit"></i></a></li>
-            <li><a class="btn-floating red darken-1"><i class="mdi-action-delete"></i></a></li>
-        </ul>
+    <h3 class="header">Users</h3>
+
+<div>
+    <crud-panel data="crudUser" />
     </div>
+    
 </div>
 
