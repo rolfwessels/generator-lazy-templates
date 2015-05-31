@@ -5,6 +5,7 @@ var minifyCss = require('gulp-minify-css');
 var jshint = require('gulp-jshint');
 var del = require('del');
 var runSequence = require('run-sequence');
+var argv = require('yargs').argv;
 
 config = {
     src: {
@@ -28,17 +29,17 @@ config = {
             'MainSolutionTemplate.Website/assets/css/app.css',
         ],
         dist: [
-                'MainSolutionTemplate.Website/views/**/*',
-                'MainSolutionTemplate.Website/*.html',
-                'MainSolutionTemplate.Website/assets/**/*',
-                'MainSolutionTemplate.Website/scripts/dist/**/*',
-                'MainSolutionTemplate.Website/*.ico'
+            'MainSolutionTemplate.Website/views/**/*',
+            'MainSolutionTemplate.Website/*.html',
+            'MainSolutionTemplate.Website/assets/**/*',
+            'MainSolutionTemplate.Website/scripts/dist/**/*',
+            'MainSolutionTemplate.Website/*.ico'
         ]
     },
     dest: {
         js: 'MainSolutionTemplate.Website/scripts/dist/',
         css: 'MainSolutionTemplate.Website/assets/css/',
-        dist: 'MainSolutionTemplate.Website/dist/'
+        dist: argv.output || 'MainSolutionTemplate.Website/dist/'
     }
 };
 
@@ -46,42 +47,43 @@ config = {
 // Main tasks
 //
 
+gulp.task('default', ['scripts', 'vendor', 'minify-css']);
+
 gulp.task('watch', function() {
-    gulp.watch(config.src.js, ['scripts','jshint']);
+    gulp.watch(config.src.js, ['scripts', 'jshint']);
     gulp.watch(config.src.css, ['minify-css']);
 });
 
-
-gulp.task('default', ['scripts', 'vendor', 'minify-css']);
 gulp.task('dist', function() {
-        return runSequence('default', 'dist.clean', 'dist.copy');
-    });
-
-
-//
-// Main tasks
-//
-gulp.task('dist.clean', function (cb) {
-        return del(config.dest.dist,cb);
+    return runSequence('default', 'dist.clean', 'dist.copy');
 });
 
-gulp.task('dist.copy', function () {
-    return gulp.src(config.src.dist, {base:"./MainSolutionTemplate.Website"})
+
+//
+// sub tasks
+//
+
+gulp.task('dist.clean', function(cb) {
+    return del(config.dest.dist, cb);
+});
+
+gulp.task('dist.copy', function() {
+    return gulp.src(config.src.dist, {
+            base: "./MainSolutionTemplate.Website"
+        })
         .pipe(gulp.dest(config.dest.dist));
 });
 
 gulp.task('scripts', function() {
     return gulp.src(config.src.js)
         .pipe(concat('scripts.js'))
-        .pipe(gulp.dest(config.dest.js))
-        // .pipe(uglify())
-        // .pipe(gulp.dest(config.dest.js+'.min.js'))
+        .pipe(gulp.dest(config.dest.js));
 });
 
 gulp.task('jshint', function() {
-  return gulp.src(config.src.js)
-    .pipe(jshint('.jshintrc'))
-    .pipe(jshint.reporter('default'));
+    return gulp.src(config.src.js)
+        .pipe(jshint('.jshintrc'))
+        .pipe(jshint.reporter('default'));
 });
 
 gulp.task('vendor', function() {
@@ -92,8 +94,10 @@ gulp.task('vendor', function() {
 });
 
 gulp.task('minify-css', function() {
-  return gulp.src(config.src.css)
-    .pipe(concat('app.min.css'))
-    .pipe(minifyCss({compatibility: 'ie8'}))
-    .pipe(gulp.dest(config.dest.css));
+    return gulp.src(config.src.css)
+        .pipe(concat('app.min.css'))
+        .pipe(minifyCss({
+            compatibility: 'ie8'
+        }))
+        .pipe(gulp.dest(config.dest.css));
 });

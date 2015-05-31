@@ -34,7 +34,7 @@ properties {
 
 task default -depends build  -Description "By default it just builds"
 task clean -depends build.clean,build.cleanbin -Description "Removes build folder"
-task build -depends build.cleanbin,version,build.compile,build.publish,build.copy -Description "Cleans bin/object and builds the project placing binaries in build directory"
+task build -depends build.cleanbin,version,build.compile,build.publish,build.copy,build.website -Description "Cleans bin/object and builds the project placing binaries in build directory"
 task test -depends build,test.run  -Description "Builds and runs part cover tests"
 task full -depends test,deploy.zip -Description "Versions builds and creates distributions"
 task package -depends version,build,deploy.package -Description "Creates packages that could be user for deployments"
@@ -82,13 +82,26 @@ task build.copy {
     $fromFolder =  Join-Path $srcDirectory (Join-Path 'MainSolutionTemplate.Console' (srcBinFolder) )
     $toFolder =  Join-Path (buildConfigDirectory) 'MainSolutionTemplate.Console'
     copy-files $fromFolder $toFolder
-    'Copy the static files'
-    $fromFolder =  Join-Path $srcDirectory 'MainSolutionTemplate.Website'
-    $toFolder =  Join-Path (buildConfigDirectory) 'MainSolutionTemplate.Api\static'
-    copy-files $fromFolder $toFolder index.html,avicon.ico,robots.txt
-    copy-files (Join-Path $fromFolder 'views') (Join-Path $toFolder 'views')
-    copy-files (Join-Path $fromFolder 'assets') (Join-Path $toFolder 'assets')
-    copy-files (Join-Path $fromFolder 'scripts\dist') (Join-Path $toFolder 'scripts\dist')
+}
+
+task build.website {
+    
+    if(!(Test-Path -Path (Join-Path $srcDirectory 'node_modules'))) { 
+        'Npm install'
+        pushd $srcDirectory 
+        npm install
+        popd
+    }
+    if(!(Test-Path -Path (Join-Path $srcDirectory 'node_modules'))) { 
+        pushd (Join-Path $srcDirectory 'MainSolutionTemplate.Website/bower_components')
+        'Bower install'
+        bower install
+        popd
+    }
+    pushd $srcDirectory 
+    $toFolder =  Join-Path '../' (Join-Path (buildConfigDirectory) 'MainSolutionTemplate.Api/static')
+    gulp dist --output $toFolder
+    popd
 }
 
 task build.publish {
