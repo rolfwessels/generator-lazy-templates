@@ -35,11 +35,7 @@ namespace MainSolutionTemplate.Api.AppStartup
 			WebApi(builder);
 			SignalRHubs(builder);
 			_container = builder.Build();
-		    var validationRules = _container.Resolve<IValidator<User>>();
-		    if (validationRules == null)
-		    {
-		        throw new Exception("asdfasdn");
-		    }
+		    
 		}
 
 		private void SetupSignalr(ContainerBuilder builder)

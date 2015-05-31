@@ -19,6 +19,7 @@ namespace MainSolutionTemplate.Api
 			SignalRSetup.Initialize(appBuilder, IocApi.Instance.Resolve<Microsoft.AspNet.SignalR.IDependencyResolver>());
 			SwaggerSetup.Initialize(webApiSetup.Configuration);
             SimpleFileServer.Initialize(appBuilder);
+            webApiSetup.Configuration.EnsureInitialized();
 		}
 	}
 }

@@ -32,6 +32,7 @@ namespace MainSolutionTemplate.Api.AppStartup
 			appBuilder.UseWebApi(configuration);
 			configuration.DependencyResolver = dependencyResolver;
 			_configuration = configuration;
+            
 		}
 
 		private static void SetApiCamelCase(HttpConfiguration configuration)

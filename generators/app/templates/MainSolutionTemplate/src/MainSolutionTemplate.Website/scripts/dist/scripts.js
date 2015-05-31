@@ -1,3 +1,14 @@
+/* Filters */
+
+angular.module('webapp.filters', []);
+
+/* Services */
+
+angular.module('webapp.services', ['LocalStorageModule']);
+
+/* Controllers */
+
+angular.module('webapp.controllers', []);
 angular
     .module('webapp', [
 		'angular-loading-bar',
@@ -24,60 +35,72 @@ angular
     .run(['authorizationService', function(authorizationService) {
       authorizationService.isAuthenticatedOrRedirect();
     }]);
-;/* Controllers */
 
-angular.module('webapp.controllers', []);;/* dashboardCtrl */
+/* routes */
+
+angular
+	.module('webapp.routes', ['ngRoute'])
+	.config(['$routeProvider', function($routeProvider) {
+
+        $routeProvider
+        .when('/', {
+              templateUrl: 'views/dashboard.html',
+              controller: 'dashboardCtrl'
+        })
+        .when('/user/:id?', {
+            templateUrl: 'views/user.html',
+            controller: 'userCtrl'
+        })
+          
+        .when('/login/', {
+              templateUrl: 'views/login.html',
+              controller: 'loginCtrl'
+            })
+        .when('/forgotPassword', {
+              templateUrl: 'views/forgotPassword.html',
+              controller: 'forgotPasswordCtrl'
+            })
+        .otherwise({ redirectTo: '/' });
+
+      }
+    ]);
+/* Directives */
+
+angular.module('webapp.directives', []);
+
+/* dashboardCtrl */
 
 angular.module('webapp.controllers')
-    .controller('dashboardCtrl', ['$scope',  '$log', 'dataService', 'messageService',
-        function ($scope, $log, dataService, messageService) {
+  .controller('navigationCtrl', ['$scope','$rootScope', 'authorizationService', '$timeout', '$location',
+		function ($scope,$rootScope, authorizationService, $timeout, $location) {
+    
+    
+    $scope.logout = logout;
+    $scope.navigateHome = navigateHome;
+    $scope.login = login;
+    $rootScope.$watch("isAuthenticated", function(newValue) {
+      if (!newValue) {
+          $timeout(function() {
 
-            $scope.allCounter = [];
-
-            mapData(dataService.users, 'users','#/user');
-            mapData(dataService.projects, 'projects', '#/project');
-            
-            function mapData(service,onScope,link) {
-                var counter = { name: onScope, items: [], count: 0 , link : link};
-                $scope.allCounter.push(counter);
-                service.getAllPaged('$top=5').then(function (data) {
-                    counter.count = data.count;
-                    counter.items = data.items;
-                }, messageService.error, messageService.debug);
-
-            }
+          },500);           
         }
-    ]);
-;/* dashboardCtrl */
+      }
+    );
+      
+    function navigateHome() {
+      $location.path("/");
+    }
 
-angular.module('webapp.controllers')
-    .controller('forgotPasswordCtrl', ['$scope', '$log', 'messageService', 'authorizationService','$location',
-        function($scope, $log, messageService, authorizationService,$location) {
+    function login() {
+      $location.path("/login");
+    }
 
-            /*
-             * Scope
-             */
-			var  currentUser = authorizationService.currentSession();
+    function logout() {
+      authorizationService.logout();
+    }
+  }]);
 
-            $scope.model = { email: currentUser.email };
-            $scope.forgotPassword = forgotPassword;
-
-            /*
-             * Functions
-             */
-
-            function forgotPassword() {
-               var authenticate = authorizationService.forgotPassword($scope.model.email);
-                authenticate.then(function() {
-                	messageService.info('Your password has been sent to your email');
-                    $location.path("/login");
-                },messageService.error);
-
-            }
-
-        }
-    ]);
-;/* dashboardCtrl */
+/* dashboardCtrl */
 
 angular.module('webapp.controllers')
     .controller('loginCtrl', ['$scope', '$log', 'messageService', 'authorizationService','$location',
@@ -115,108 +138,98 @@ angular.module('webapp.controllers')
 
         }
     ]);
-;/* dashboardCtrl */
+
+/* dashboardCtrl */
 
 angular.module('webapp.controllers')
-  .controller('navigationCtrl', ['$scope','$rootScope', 'authorizationService', '$timeout', '$location',
-		function ($scope,$rootScope, authorizationService, $timeout, $location) {
-    
-    
-    $scope.logout = logout;
-    $scope.navigateHome = navigateHome;
-    $scope.login = login;
-    $rootScope.$watch("isAuthenticated", function(newValue) {
-      if (!newValue) {
-          $timeout(function() {
+    .controller('dashboardCtrl', ['$scope',  '$log', 'dataService', 'messageService',
+        function ($scope, $log, dataService, messageService) {
 
-          },500);           
+            $scope.allCounter = [];
+
+            mapData(dataService.users, 'users','#/user');
+            mapData(dataService.projects, 'projects', '#/project');
+            
+            function mapData(service,onScope,link) {
+                var counter = { name: onScope, items: [], count: 0 , link : link};
+                $scope.allCounter.push(counter);
+                service.getAllPaged('$top=5').then(function (data) {
+                    counter.count = data.count;
+                    counter.items = data.items;
+                }, messageService.error, messageService.debug);
+
+            }
         }
-      }
-    );
-      
-    function navigateHome() {
-      $location.path("/");
-    }
+    ]);
 
-    function login() {
-      $location.path("/login");
-    }
-
-    function logout() {
-      authorizationService.logout();
-    }
-  }]);
-;/* userCtrl */
+/* userCtrl */
 
 angular.module('webapp.controllers')
-    .controller('userCtrl', ['$scope',  '$log', 'dataService', 'messageService',
+    .controller('userCtrl', ['$scope', '$log', 'dataService', 'messageService',
         function($scope, $log, dataService, messageService) {
-            $scope.users = {count:0};
+            $scope.users = {
+                count: 0
+            };
             $scope.add = add;
             $scope.update = update;
             $scope.remove = remove;
 
             // initialize data
-            dataService.whenConnected().then(function () {
+            dataService.whenConnected().then(function() {
                 dataService.users.onUpdate($scope, $scope.users);
             }, messageService.error, messageService.debug);
-            dataService.users.getAllPaged().then(function (data) {
+            dataService.users.getAllPaged().then(function(data) {
                 $scope.users = data;
-            }, function (error) {
+            }, function(error) {
                 $log.error(error);
             });
 
             function add(user) {
-                
+                    
             }
 
             function update(user) {
-                
+
             }
-            
+
             function remove(user) {
 
             }
 
         }
     ]);
-;/* Directives */
 
-angular.module('webapp.directives', []);
-;/* Filters */
+/* dashboardCtrl */
 
-angular.module('webapp.filters', []);
-;/* routes */
+angular.module('webapp.controllers')
+    .controller('forgotPasswordCtrl', ['$scope', '$log', 'messageService', 'authorizationService','$location',
+        function($scope, $log, messageService, authorizationService,$location) {
 
-angular
-	.module('webapp.routes', ['ngRoute'])
-	.config(['$routeProvider', function($routeProvider) {
+            /*
+             * Scope
+             */
+			var  currentUser = authorizationService.currentSession();
 
-        $routeProvider
-        .when('/', {
-              templateUrl: 'views/dashboard.html',
-              controller: 'dashboardCtrl'
-        })
-        .when('/user/:id?', {
-            templateUrl: 'views/user.html',
-            controller: 'userCtrl'
-        })
-          
-        .when('/login/', {
-              templateUrl: 'views/login.html',
-              controller: 'loginCtrl'
-            })
-        .when('/forgotPassword', {
-              templateUrl: 'views/forgotPassword.html',
-              controller: 'forgotPasswordCtrl'
-            })
-        .otherwise({ redirectTo: '/' });
+            $scope.model = { email: currentUser.email };
+            $scope.forgotPassword = forgotPassword;
+            
+            /*
+             * Functions
+             */
 
-      }
-    ]);;/* Services */
+            function forgotPassword() {
+               var authenticate = authorizationService.forgotPassword($scope.model.email);
+                authenticate.then(function() {
+                	messageService.info('Your password has been sent to your email');
+                    $location.path("/login");
+                },messageService.error);
 
-angular.module('webapp.services', ['LocalStorageModule']);
-;/* authorizationService */
+            }
+
+        }
+    ]);
+
+/* authorizationService */
 
 angular.module('webapp.services')
 	.service('authorizationService', ['$log', '$http', 'localStorageService', 'tokenUrl', 'apiUrlBase', '$q', '$location', '$rootScope',
@@ -322,7 +335,44 @@ angular.module('webapp.services')
 			};
 
 		}
-	]);;/* authorizationService */
+	]);
+/* messageService */
+
+angular.module('webapp.services')
+    .service('messageService', ['$log',
+        function($log) {
+
+            /*
+             * Private methods
+             */
+            var timeSpan = 4000;
+            /* 
+             * Service
+             */
+            return {
+                info: function(message) {
+                    $log.info(message);
+                    Materialize.toast(message, timeSpan);
+                },
+                warn: function(message) {
+                    $log.warn(message);
+                    Materialize.toast(message, timeSpan);
+                },
+                error: function(message) {
+                    $log.error(message);
+                    Materialize.toast(message, timeSpan);
+                },
+                debug: function(message) {
+                    $log.debug(message);
+                    Materialize.toast(message, timeSpan);
+                }
+
+            };
+
+        }
+    ]);
+
+/* authorizationService */
 
 angular.module('webapp.services')
 	.service('dataService', ['$log', 'signalrBase', 'authorizationService', '$q', '$rootScope', 'endPointService',
@@ -393,7 +443,8 @@ angular.module('webapp.services')
 		    return returnService;
 
 		}
-	]);;/* endPointService */
+	]);
+/* endPointService */
 
 angular.module('webapp.services')
 	.service('endPointService', ['$log', 'signalrBase', 'authorizationService', '$q', '$rootScope', 'apiUrlBase', '$http',
@@ -473,8 +524,8 @@ angular.module('webapp.services')
                     })
                     .error(function (data) {
                         $log.error("Request ERROR: ", data);
-                        if (data && data.error_description) {
-                            deferred.reject(data.error_description);
+                        if (data && data.message) {
+                            deferred.reject(data.message);
                         } else {
                             deferred.reject('Unable to contact server; please, try again later.');
                         }
@@ -493,7 +544,6 @@ angular.module('webapp.services')
 			            else if (update.UpdateType == 2) {
 
 			                angular.forEach(callBack, function (value, key) {
-
 			                    if (update.Value.Id == value.Id) {
 			                        callBack.splice(key);
 			                    }
@@ -502,7 +552,7 @@ angular.module('webapp.services')
 			            }
 			                //update
 			            else if (update.UpdateType == 1) {
-			                angular.forEach(callBack, function (value, key) {
+			                angular.forEach(callBack, function (value) {
 			                    if (update.Value.Id == value.Id) {
 			                        angular.copy(update.Value, value);
 			                    }
@@ -519,38 +569,4 @@ angular.module('webapp.services')
 		    return returnService;
 
 		}
-	]);;/* messageService */
-
-angular.module('webapp.services')
-    .service('messageService', ['$log',
-        function($log) {
-
-            /*
-             * Private methods
-             */
-            var timeSpan = 4000;
-            /* 
-             * Service
-             */
-            return {
-                info: function(message) {
-                    $log.info(message);
-                    Materialize.toast(message, timeSpan);
-                },
-                warn: function(message) {
-                    $log.warn(message);
-                    Materialize.toast(message, timeSpan);
-                },
-                error: function(message) {
-                    $log.error(message);
-                    Materialize.toast(message, timeSpan);
-                },
-                debug: function(message) {
-                    $log.debug(message);
-                    Materialize.toast(message, timeSpan);
-                }
-
-            };
-
-        }
-    ]);
+	]);
