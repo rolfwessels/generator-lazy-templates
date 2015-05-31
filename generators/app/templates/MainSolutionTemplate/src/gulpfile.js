@@ -6,9 +6,11 @@ var jshint = require('gulp-jshint');
 var del = require('del');
 var runSequence = require('run-sequence');
 var argv = require('yargs').argv;
+var browserSync = require('browser-sync');
 
 config = {
     src: {
+        site: 'MainSolutionTemplate.Website',
         js: [
             'MainSolutionTemplate.Website/scripts/**/*.js',
             '!MainSolutionTemplate.Website/scripts/dist/*.js',
@@ -54,6 +56,12 @@ gulp.task('watch', function() {
     gulp.watch(config.src.css, ['minify-css']);
 });
 
+
+gulp.task('serve', function() {
+  return runSequence(['serve.site','watch']);
+});
+
+
 gulp.task('dist', function() {
     return runSequence('default', 'dist.clean', 'dist.copy');
 });
@@ -72,6 +80,16 @@ gulp.task('dist.copy', function() {
             base: "./MainSolutionTemplate.Website"
         })
         .pipe(gulp.dest(config.dest.dist));
+});
+
+gulp.task('serve.site', function() {
+  browserSync({
+    server: {
+      baseDir: config.src.site
+    }
+  });
+
+  gulp.watch(['views/**/*.html','*.html', 'assets/css/**/*.css', 'scripts/dist/**/*.js'], {cwd: config.src.site}, browserSync.reload);
 });
 
 gulp.task('scripts', function() {
