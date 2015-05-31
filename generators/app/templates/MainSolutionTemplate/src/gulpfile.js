@@ -4,6 +4,7 @@ var concat = require('gulp-concat');
 var minifyCss = require('gulp-minify-css');
 var jshint = require('gulp-jshint');
 var del = require('del');
+var runSequence = require('run-sequence');
 
 config = {
     src: {
@@ -47,22 +48,33 @@ gulp.task('watch', function() {
 
 
 gulp.task('default', ['scripts', 'vendor', 'minify-css']);
-gulp.task('default', ['dist.clean']);
+gulp.task('dist', function() {
+        return runSequence('dist.clean','dist.copy');
+    });
 
 
 //
 // Main tasks
 //
 gulp.task('dist.clean', function (cb) {
-    del(['dist/assets/css', 'dist/assets/js', 'dist/assets/img','Content/Sass/.sass-cache'], cb);
+        return del(config.dist.base,cb);
 });
 
-gulp.task('copyfiles', function () {
-    gulp.src('app/partials/**/*')
-        .pipe(gulp.dest('dist/app/partials'));
+gulp.task('dist.copy', function () {
 
-    gulp.src('Data/**/*')
-        .pipe(gulp.dest('dist/Data'));
+   
+
+    return gulp.src(
+                [
+                'MainSolutionTemplate.Website/views/**/*',
+                'MainSolutionTemplate.Website/*.html',
+                'MainSolutionTemplate.Website/assets/**/*',
+                'MainSolutionTemplate.Website/scripts/dist/**/*',
+                'MainSolutionTemplate.Website/*.ico'
+        ], {base:"./MainSolutionTemplate.Website"})
+        .pipe(gulp.dest(config.dist.base));
+        // .pipe(gulp.dest('D:/Dropbox/Public/dist'));
+        
 
 
 });
