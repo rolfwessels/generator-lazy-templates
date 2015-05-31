@@ -78,8 +78,8 @@ angular.module('webapp.services')
                     })
                     .error(function (data) {
                         $log.error("Request ERROR: ", data);
-                        if (data && data.error_description) {
-                            deferred.reject(data.error_description);
+                        if (data && data.message) {
+                            deferred.reject(data.message);
                         } else {
                             deferred.reject('Unable to contact server; please, try again later.');
                         }
@@ -98,7 +98,6 @@ angular.module('webapp.services')
 			            else if (update.UpdateType == 2) {
 
 			                angular.forEach(callBack, function (value, key) {
-
 			                    if (update.Value.Id == value.Id) {
 			                        callBack.splice(key);
 			                    }
@@ -107,7 +106,7 @@ angular.module('webapp.services')
 			            }
 			                //update
 			            else if (update.UpdateType == 1) {
-			                angular.forEach(callBack, function (value, key) {
+			                angular.forEach(callBack, function (value) {
 			                    if (update.Value.Id == value.Id) {
 			                        angular.copy(update.Value, value);
 			                    }

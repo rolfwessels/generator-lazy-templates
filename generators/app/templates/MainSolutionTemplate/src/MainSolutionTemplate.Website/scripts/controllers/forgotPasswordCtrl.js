@@ -11,7 +11,7 @@ angular.module('webapp.controllers')
 
             $scope.model = { email: currentUser.email };
             $scope.forgotPassword = forgotPassword;
-
+            
             /*
              * Functions
              */
