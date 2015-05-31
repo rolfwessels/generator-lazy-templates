@@ -26,14 +26,19 @@ config = {
         css: [
             'MainSolutionTemplate.Website/bower_components/materialize/bin/materialize.css',
             'MainSolutionTemplate.Website/assets/css/app.css',
+        ],
+        dist: [
+                'MainSolutionTemplate.Website/views/**/*',
+                'MainSolutionTemplate.Website/*.html',
+                'MainSolutionTemplate.Website/assets/**/*',
+                'MainSolutionTemplate.Website/scripts/dist/**/*',
+                'MainSolutionTemplate.Website/*.ico'
         ]
     },
     dest: {
         js: 'MainSolutionTemplate.Website/scripts/dist/',
-        css: 'MainSolutionTemplate.Website/assets/css/'
-    },
-    dist: {
-        base: 'MainSolutionTemplate.Website/dist/'
+        css: 'MainSolutionTemplate.Website/assets/css/',
+        dist: 'MainSolutionTemplate.Website/dist/'
     }
 };
 
@@ -49,7 +54,7 @@ gulp.task('watch', function() {
 
 gulp.task('default', ['scripts', 'vendor', 'minify-css']);
 gulp.task('dist', function() {
-        return runSequence('dist.clean','dist.copy');
+        return runSequence('default', 'dist.clean', 'dist.copy');
     });
 
 
@@ -57,26 +62,12 @@ gulp.task('dist', function() {
 // Main tasks
 //
 gulp.task('dist.clean', function (cb) {
-        return del(config.dist.base,cb);
+        return del(config.dest.dist,cb);
 });
 
 gulp.task('dist.copy', function () {
-
-   
-
-    return gulp.src(
-                [
-                'MainSolutionTemplate.Website/views/**/*',
-                'MainSolutionTemplate.Website/*.html',
-                'MainSolutionTemplate.Website/assets/**/*',
-                'MainSolutionTemplate.Website/scripts/dist/**/*',
-                'MainSolutionTemplate.Website/*.ico'
-        ], {base:"./MainSolutionTemplate.Website"})
-        .pipe(gulp.dest(config.dist.base));
-        // .pipe(gulp.dest('D:/Dropbox/Public/dist'));
-        
-
-
+    return gulp.src(config.src.dist, {base:"./MainSolutionTemplate.Website"})
+        .pipe(gulp.dest(config.dest.dist));
 });
 
 gulp.task('scripts', function() {
