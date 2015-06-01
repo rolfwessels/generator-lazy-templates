@@ -9,3 +9,4 @@ Cleanup TokenResponseModel LoggedInResponse()
 Play with psake
 Add some WPF and maybe some android build stuff.
 Add just normal boot strap
+ServiceInstaller.InstallAndStart(_serviceName, null, String.Format(@"{0} {1} {2}", location, Command, AsServiceArgument));
