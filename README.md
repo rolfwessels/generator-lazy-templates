@@ -22,6 +22,7 @@ Create a new template
 
 ```bash
 mkdir New.ProjectName
+cd New.ProjectName
 yo lazy-templates
 ```
 To add a library call
