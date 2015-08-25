@@ -9,7 +9,7 @@
 
 ```bash
 npm install -g yo
-git clone http://obelix.armorica.gk:8888/global-kinetic/generator-lazy-templates.git
+git clone https://github.com/rolfwessels/generator-lazy-templates.git
 cd generator-lazy-templates
 npm link
 ```
