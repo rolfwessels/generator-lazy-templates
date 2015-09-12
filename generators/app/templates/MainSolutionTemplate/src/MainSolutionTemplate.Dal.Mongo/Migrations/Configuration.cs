@@ -1,4 +1,5 @@
-﻿using MainSolutionTemplate.Dal.Models;
+﻿using System.Security.Cryptography.X509Certificates;
+using MainSolutionTemplate.Dal.Models;
 using MongoDB.Driver;
 using System.Linq;
 
@@ -13,7 +14,7 @@ namespace MainSolutionTemplate.Dal.Mongo.Migrations
 		protected Configuration(IMongoDatabase db)
 		{
 		    // todo: Rolf add mutex 
-// todo: Rolf Add versions to array 
+            // todo: Rolf Add versions to array 
 
 			var mongoRepository = new MongoRepository<DbVersion>(db);
 			var dbVersion = mongoRepository.FirstOrDefault() ?? new DbVersion() {Name = "General"};
@@ -28,7 +29,7 @@ namespace MainSolutionTemplate.Dal.Mongo.Migrations
 			}
 			finally 
 			{
-				mongoRepository.Update(dbVersion, TODO);
+				mongoRepository.Update(x=>x.Id == dbVersion.Id,dbVersion);
 			}
 		}
 

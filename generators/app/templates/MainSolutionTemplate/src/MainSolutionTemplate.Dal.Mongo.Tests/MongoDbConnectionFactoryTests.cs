@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using MainSolutionTemplate.Dal.Mongo.Properties;
+using NUnit.Framework;
 using FluentAssertions;
 
 namespace MainSolutionTemplate.Dal.Mongo.Tests
@@ -13,7 +14,7 @@ namespace MainSolutionTemplate.Dal.Mongo.Tests
 
         public void Setup()
         {
-            _mongoDbConnectionFactory = new MongoDbConnectionFactory();
+            _mongoDbConnectionFactory = new MongoDbConnectionFactory(Settings.Default.Connection);
         }
 
         [TearDown]

@@ -39,7 +39,7 @@ namespace MainSolutionTemplate.Core.Tests.Helpers
 			add.Should().NotBeNull("Saving should return the saved value");
 			int count = repository.Count();
 			count.Should().Be(countOld + 1, "One record should be added");
-			repository.Remove(add).Should().BeTrue("Remove record should return true");
+            repository.Remove(x => x.Id == add.Id).Should().BeTrue("Remove record should return true");
 			repository.Count().Should().Be(countOld, "One record should be removed");
 			T afterDelete = repository.ToList().FirstOrDefault(x => x.Id == user.Id);
 			afterDelete.Should().BeNull("Item removed but could still be found");

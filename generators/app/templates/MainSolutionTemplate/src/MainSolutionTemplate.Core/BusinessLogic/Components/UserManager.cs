@@ -78,7 +78,7 @@ namespace MainSolutionTemplate.Core.BusinessLogic.Components
             User userFound = GetUserByEmail(email);
             if (userFound == null) throw new ArgumentException("Invalid email address.");
             userFound.LastLoginDate = DateTime.Now;
-            _generalUnitOfWork.Users.Update(userFound, TODO);
+            Update(userFound);
         }
 
         #endregion

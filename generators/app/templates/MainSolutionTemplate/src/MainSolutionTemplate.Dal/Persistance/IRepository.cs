@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using MainSolutionTemplate.Dal.Models.Interfaces;
 
 namespace MainSolutionTemplate.Dal.Persistance
@@ -8,7 +10,7 @@ namespace MainSolutionTemplate.Dal.Persistance
 	{
 		T Add(T entity);
 		IEnumerable<T> AddRange(IEnumerable<T> entities);
-		bool Remove(T entity);
-		T Update(T entity, object t);
+	    T Update(Expression<Func<T, bool>> filter, T entity);
+	    bool Remove(Expression<Func<T, bool>> filter);
 	}
 }

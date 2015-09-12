@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 using MainSolutionTemplate.Dal.Models;
 using MainSolutionTemplate.Dal.Models.Interfaces;
 using MainSolutionTemplate.Dal.Persistance;
+using MainSolutionTemplate.Utilities.Helpers;
 
 namespace MainSolutionTemplate.Core.Tests.Fakes
 {
@@ -86,11 +87,12 @@ namespace MainSolutionTemplate.Core.Tests.Fakes
 
             public T Add(T entity)
             {
-                _list.Add(entity);
-                entity.UpdateDate = DateTime.Now;
+                entity.CreateDate = DateTime.Now;
+                AddAndSetUpdateDate(entity);
                 return entity;
             }
 
+         
             public IEnumerable<T> AddRange(IEnumerable<T> entities)
             {
                 foreach (var entity in entities)
@@ -98,6 +100,21 @@ namespace MainSolutionTemplate.Core.Tests.Fakes
                     Add(entity);
                 }
                 return entities;
+            }
+
+            public bool Remove(Expression<Func<T, bool>> filter)
+            {
+                T[] array = _list.Where(filter.Compile()).ToArray();
+                array.ForEach(x => _list.Remove(x));
+                return array.Length > 0;
+            }
+
+            public T Update(Expression<Func<T, bool>> filter, T entity)
+            {
+                Remove(filter);
+                AddAndSetUpdateDate(entity);
+                return entity;
+
             }
 
             public bool Remove(T entity)
@@ -120,12 +137,18 @@ namespace MainSolutionTemplate.Core.Tests.Fakes
             public T Update(T entity, object t)
             {
                 Remove(entity);
-                _list.Add(entity);
-                entity.UpdateDate = DateTime.Now;
+                AddAndSetUpdateDate(entity);
                 return entity;
             }
 
             #endregion
+
+            private void AddAndSetUpdateDate(T entity)
+            {
+                _list.Add(entity);
+                entity.UpdateDate = DateTime.Now;
+            }
+
         }
     }
 }

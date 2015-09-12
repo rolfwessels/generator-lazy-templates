@@ -90,7 +90,7 @@ namespace MainSolutionTemplate.Api.AppStartup
 
 		protected override IGeneralUnitOfWork GetGeneralUnitOfWork(IComponentContext arg)
 		{
-			return new MongoGeneralUnitOfWork();
+		    return new MongoDbConnectionFactory(Dal.Mongo.Properties.Settings.Default.Connection).GetConnection();
 		}
 
 		#endregion

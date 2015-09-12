@@ -39,27 +39,28 @@ namespace MainSolutionTemplate.Dal.Mongo
 
 		public IEnumerable<T> AddRange(IEnumerable<T> entities)
 		{
-			return entities.Select(Add);
+		    var enumerable = entities as IList<T> ?? entities.ToList();
+		    foreach (var entity in enumerable)
+		    {
+                entity.CreateDate = DateTime.Now;
+                entity.UpdateDate = DateTime.Now;
+		    }
+		    _mongoCollection.InsertManyAsync(enumerable);
+		    return enumerable;
 		}
 
-		public bool Remove(T entity)
-		{
-            var deleteResult = _mongoCollection.DeleteOneAsync(GetKeyFilter(entity)).Result;
-		    return deleteResult.DeletedCount > 0;
-		}
+	    public bool Remove(Expression<Func<T, bool>> filter)
+	    {
+            var deleteResult = _mongoCollection.DeleteOneAsync(filter).Result;
+            return deleteResult.DeletedCount > 0;
+	    }
 
 
-
-        public T Update(Expression<Func<T, bool>> where, T entity)
+	    public T Update(Expression<Func<T, bool>> filter, T entity)
 		{
 			entity.UpdateDate = DateTime.Now; 
-	        _mongoCollection.ReplaceOneAsync(Builders<T>.Filter.Where(where),entity).Wait();
+	        _mongoCollection.ReplaceOneAsync(Builders<T>.Filter.Where(filter),entity).Wait();
 			return entity;
-		}
-
-		public int RemoveRange(IEnumerable<T> entities)
-		{
-			return entities.Where(Remove).Count();
 		}
 
 		#endregion

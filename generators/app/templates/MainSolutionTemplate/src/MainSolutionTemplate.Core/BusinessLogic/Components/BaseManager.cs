@@ -70,7 +70,7 @@ namespace MainSolutionTemplate.Core.BusinessLogic.Components
             if (project != null)
             {
                 _log.Info(string.Format("Remove {1} [{0}]", project, _name));
-                Repository.Remove(project);
+                Repository.Remove(x => x.Id == id);
                 _messenger.Send(new DalUpdateMessage<T>(project, UpdateTypes.Removed));
             }
             return project;
@@ -81,7 +81,7 @@ namespace MainSolutionTemplate.Core.BusinessLogic.Components
         protected T Update(T project)
         {
             _log.Info(string.Format("Update {1} [{0}]", project, _name));
-            T update = Repository.Update(project, TODO);
+            T update = Repository.Update(x => x.Id == project.Id, project);
             _messenger.Send(new DalUpdateMessage<T>(project, UpdateTypes.Updated));
             return update;
         }

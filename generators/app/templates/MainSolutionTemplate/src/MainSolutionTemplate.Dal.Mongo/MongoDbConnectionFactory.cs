@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using MainSolutionTemplate.Dal.Mongo.Properties;
 using MainSolutionTemplate.Dal.Persistance;
 using MongoDB.Driver;
 
@@ -10,11 +11,15 @@ namespace MainSolutionTemplate.Dal.Mongo
         private string _connectionString;
         private string _databaseName;
 
-        public MongoDbConnectionFactory()
+        public MongoDbConnectionFactory(string connectionString)
         {
-            _connectionString = "mongodb://localhost/MainSolutionTemplate_Develop";
+            _connectionString = connectionString;
             _databaseName = new Uri(_connectionString).Segments.Skip(1).FirstOrDefault() ?? "MainSolutionTemplate";
 
+        }
+
+        public static IGeneralUnitOfWork New {
+            get { return new MongoDbConnectionFactory(Settings.Default.Connection).GetConnection(); }
         }
 
         public IGeneralUnitOfWork GetConnection()
