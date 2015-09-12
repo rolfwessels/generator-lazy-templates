@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using MainSolutionTemplate.Core.BusinessLogic.Components.Interfaces;
@@ -44,6 +46,16 @@ namespace MainSolutionTemplate.Core.BusinessLogic.Components
         public virtual IQueryable<T> Get()
         {
             return Repository.Find(x=>true).Result.AsQueryable();
+        }
+
+        public List<T> Get(Expression<Func<T, bool>> filter)
+        {
+            return Repository.Find(filter).Result;
+        }
+
+        List<T> IBaseManager<T>.Get()
+        {
+            return Repository.Find(x => true).Result;
         }
 
         public virtual T Get(Guid id)

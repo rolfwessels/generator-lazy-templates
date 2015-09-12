@@ -9,8 +9,6 @@ using MongoDB.Driver;
 
 namespace MainSolutionTemplate.Dal.Mongo
 {
-
-
     public class MongoRepository<T> : IRepository<T> where T : IBaseDalModel
 	{
         private readonly IMongoCollection<T> _mongoCollection;
@@ -32,9 +30,7 @@ namespace MainSolutionTemplate.Dal.Mongo
 		    await _mongoCollection.InsertOneAsync(entity);
 		    return entity;
 		}
-
         
-
         public IEnumerable<T> AddRange(IEnumerable<T> entities)
 		{
 		    var enumerable = entities as IList<T> ?? entities.ToList();

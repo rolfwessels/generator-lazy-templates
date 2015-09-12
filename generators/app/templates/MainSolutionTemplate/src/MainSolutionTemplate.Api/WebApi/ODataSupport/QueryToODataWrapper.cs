@@ -6,6 +6,7 @@ using System.Web;
 using Antlr.Runtime.Misc;
 using LinqToQuerystring;
 using MainSolutionTemplate.Api.Properties;
+using MainSolutionTemplate.Core.BusinessLogic.Components.Interfaces;
 
 namespace MainSolutionTemplate.Api.WebApi.ODataSupport
 {
@@ -17,16 +18,16 @@ namespace MainSolutionTemplate.Api.WebApi.ODataSupport
         private string _originalDataQuery;
 
 
-        public QueryToODataWrapper(IQueryable<TDto> queryable, string query,
+        public QueryToODataWrapper(IBaseManager<TDto> queryable, string query,
             Func<IQueryable<TDto>, IEnumerable<TModel>> map)
         {
             _originalDataQuery = "";
             
-            _queryable = queryable;
+            _queryable = queryable.Get().AsQueryable();
             _map = map;
             if (string.IsNullOrEmpty(query))
             {
-                _filtered = queryable;
+                _filtered = _queryable;
 
             }
             else
