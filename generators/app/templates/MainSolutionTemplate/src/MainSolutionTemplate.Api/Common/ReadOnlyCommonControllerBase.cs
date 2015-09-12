@@ -16,13 +16,13 @@ namespace MainSolutionTemplate.Api.Common
             return
                 Task.Run(
                     () =>
-                    new QueryToODataWrapper<TDal, TReferenceModel>(_projectManager.Get(), query, ToReferenceModelList)
+                    new QueryToODataWrapper<TDal, TReferenceModel>(_projectManager, query, ToReferenceModelList)
                     as IEnumerable<TReferenceModel>);
         }
 
         public Task<IEnumerable<TModel>> GetDetail(string query = null)
         {
-            return Task.Run(() => new QueryToODataWrapper<TDal, TModel>(_projectManager.Get(), query, ToModelList) as IEnumerable<TModel>);
+            return Task.Run(() => new QueryToODataWrapper<TDal, TModel>(_projectManager, query, ToModelList) as IEnumerable<TModel>);
         }
 
         public Task<TModel> Get(Guid id)
