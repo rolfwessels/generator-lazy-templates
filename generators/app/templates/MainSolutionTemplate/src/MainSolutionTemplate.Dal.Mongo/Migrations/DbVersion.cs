@@ -3,19 +3,18 @@ using MainSolutionTemplate.Dal.Models.Interfaces;
 
 namespace MainSolutionTemplate.Dal.Mongo.Migrations
 {
-	public class DbVersion : IBaseDalModelWithId
-	{
+	public class DbVersion : IBaseDalModel
+    {
 		public DbVersion()
 		{
 			CreateDate = DateTime.Now;
 			UpdateDate = DateTime.Now;
 		}
 
-		public Guid Id { get; set; }
-		public string Name { get; set; }
-		public int Version { get; set; }
+	    public int Id { get; set; }
+	    public string Name { get; set; }
 
-		#region Implementation of IBaseDalModel
+	    #region Implementation of IBaseDalModel
 
 		public DateTime CreateDate { get; set; }
 		public DateTime UpdateDate { get; set; }

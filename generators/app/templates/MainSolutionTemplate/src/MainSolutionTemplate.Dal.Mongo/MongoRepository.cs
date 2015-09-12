@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using MainSolutionTemplate.Dal.Models.Interfaces;
 using MainSolutionTemplate.Dal.Persistance;
 using MongoDB.Bson;
@@ -86,5 +87,15 @@ namespace MainSolutionTemplate.Dal.Mongo
 	    public IQueryProvider Provider { get; private set; }
 
 	    #endregion
+
+	    public Task<List<T>> Find(Expression<Func<T, bool>> filter)
+	    {
+	        return _mongoCollection.Find(Builders<T>.Filter.Where(filter)).ToListAsync();
+	    }
+
+	    public Task<T> FindOne(Expression<Func<T, bool>> filter)
+	    {
+            return _mongoCollection.Find(Builders<T>.Filter.Where(filter)).FirstOrDefaultAsync();
+	    }
 	}
 }
