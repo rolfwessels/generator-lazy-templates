@@ -25,18 +25,14 @@ namespace MainSolutionTemplate.Core.Tests.Helpers
 			_repo = repo;
 		}
 
-		public void ValidateCrud(T user)
-		{
-		    GetValue(user).Wait();
-		}
-
-	    private async Task GetValue(T user)
+	    public async Task ValidateCrud(T user)
 	    {
 	        _log.Info(string.Format("Checking persistance of {0}", typeof (T)));
 	        IRepository<T> repository = _repo(_unitOfWork);
-	        
-            long countOld = await repository.Count();
-	        T add = repository.Add(user);
+
+            T findFirst = await repository.FindOne(x => x.Id == user.Id);
+            findFirst.Should().BeNull("Could not load the value");
+            T add = await repository.Add(user);
 	        foreach (var action in _testSaved)
 	        {
 	            T firstOrDefault = await repository.FindOne(x => x.Id == user.Id);
@@ -44,12 +40,17 @@ namespace MainSolutionTemplate.Core.Tests.Helpers
 	            action(user, firstOrDefault);
 	        }
 	        add.Should().NotBeNull("Saving should return the saved value");
-	        long count = await repository.Count();
-	        count.Should().Be(countOld + 1, "One record should be added");
-	        repository.Remove(x => x.Id == add.Id).Should().BeTrue("Remove record should return true");
-	        repository.Count().Result.Should().Be(countOld, "One record should be removed");
+	        var remove =  await repository.Remove(x => x.Id == add.Id);
+	        remove.Should().BeTrue("Remove record should return true");
+
+         
+
             T afterDelete = await repository.FindOne(x => x.Id == user.Id);
 	        afterDelete.Should().BeNull("Item removed but could still be found");
+
+            var removeTest = await repository.Remove(x => x.Id == add.Id);
+            removeTest.Should().BeFalse("Remove record not be removed");
+
 	    }
 
 	    public void ValueValidate<TType>(Expression<Func<T, TType>> func, TType value, TType value2)

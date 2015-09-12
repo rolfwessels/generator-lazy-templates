@@ -38,7 +38,7 @@ namespace MainSolutionTemplate.Dal.Mongo.Tests.Persistance
             {
                 var persistanceTester = new PersistanceTester<Role>(dataContext, work => work.Roles);
                 persistanceTester.ValueValidate(x => x.Name, role.Name, GetRandom.String(30));
-                persistanceTester.ValidateCrud(role);
+                persistanceTester.ValidateCrud(role).Wait();
             }
         }
 

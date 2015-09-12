@@ -36,7 +36,7 @@ namespace MainSolutionTemplate.Dal.Mongo.Tests.Persistance
                 var project = Builder<Project>.CreateNew().WithValidData().Build();
                 var persistanceTester = new PersistanceTester<Project>(dataContext, work => work.Projects);
                 persistanceTester.ValueValidate(x => x.Name, project.Name, GetRandom.String(30));
-                persistanceTester.ValidateCrud(project);
+                persistanceTester.ValidateCrud(project).Wait();
             }
         }
 

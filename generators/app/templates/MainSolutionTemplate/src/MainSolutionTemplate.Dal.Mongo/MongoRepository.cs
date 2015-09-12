@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using MainSolutionTemplate.Dal.Models.Interfaces;
 using MainSolutionTemplate.Dal.Persistance;
-using MongoDB.Bson;
 using MongoDB.Driver;
-using MongoDB.Driver.Linq;
 
 namespace MainSolutionTemplate.Dal.Mongo
 {
@@ -16,31 +13,29 @@ namespace MainSolutionTemplate.Dal.Mongo
 
     public class MongoRepository<T> : IRepository<T> where T : IBaseDalModel
 	{
-		private readonly IMongoDatabase _db;
-		private readonly IMongoCollection<T> _mongoCollection;
-	    private FilterDefinition<T> _keyFilter;
-	    private IMongoCollection<BsonDocument> _mongoCollectionUnTyped;
+        private readonly IMongoCollection<T> _mongoCollection;
 
-	    public MongoRepository(IMongoDatabase db)
+        public MongoRepository(IMongoDatabase database)
 		{
-			_db = db;
-			_mongoCollection = _db.GetCollection<T>(typeof(T).Name);
-            _mongoCollectionUnTyped = _db.GetCollection<BsonDocument>(typeof(T).Name);
+	        
+	        _mongoCollection = database.GetCollection<T>(typeof(T).Name);
             
 		}
 
 		#region Implementation of IRepository<T>
 
 
-		public T Add(T entity)
+		public async Task<T> Add(T entity)
 		{
 			entity.CreateDate = DateTime.Now;
 			entity.UpdateDate = DateTime.Now;
-		    _mongoCollection.InsertOneAsync(entity).Wait();
+		    await _mongoCollection.InsertOneAsync(entity);
 		    return entity;
 		}
 
-		public IEnumerable<T> AddRange(IEnumerable<T> entities)
+        
+
+        public IEnumerable<T> AddRange(IEnumerable<T> entities)
 		{
 		    var enumerable = entities as IList<T> ?? entities.ToList();
 		    foreach (var entity in enumerable)
@@ -52,17 +47,17 @@ namespace MainSolutionTemplate.Dal.Mongo
 		    return enumerable;
 		}
 
-	    public bool Remove(Expression<Func<T, bool>> filter)
+	    public async Task<bool> Remove(Expression<Func<T, bool>> filter)
 	    {
-            var deleteResult = _mongoCollection.DeleteOneAsync(filter).Result;
+            var deleteResult = await _mongoCollection.DeleteOneAsync(filter);
             return deleteResult.DeletedCount > 0;
 	    }
 
 
-	    public T Update(Expression<Func<T, bool>> filter, T entity)
+	    public async Task<T> Update(Expression<Func<T, bool>> filter, T entity)
 		{
-			entity.UpdateDate = DateTime.Now; 
-	        _mongoCollection.ReplaceOneAsync(Builders<T>.Filter.Where(filter),entity).Wait();
+			entity.UpdateDate = DateTime.Now;
+	        await _mongoCollection.ReplaceOneAsync(Builders<T>.Filter.Where(filter), entity);
 			return entity;
 		}
 

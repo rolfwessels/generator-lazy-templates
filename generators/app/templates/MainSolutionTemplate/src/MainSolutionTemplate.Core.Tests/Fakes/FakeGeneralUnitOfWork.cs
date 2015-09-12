@@ -61,11 +61,11 @@ namespace MainSolutionTemplate.Core.Tests.Fakes
 
             #region Implementation of IRepository<T>
 
-            public T Add(T entity)
+            public Task<T> Add(T entity)
             {
                 entity.CreateDate = DateTime.Now;
                 AddAndSetUpdateDate(entity);
-                return entity;
+                return Task.FromResult(entity);
             }
 
          
@@ -78,11 +78,11 @@ namespace MainSolutionTemplate.Core.Tests.Fakes
                 return entities;
             }
 
-            public bool Remove(Expression<Func<T, bool>> filter)
+            public Task<bool> Remove(Expression<Func<T, bool>> filter)
             {
                 T[] array = _list.Where(filter.Compile()).ToArray();
                 array.ForEach(x => _list.Remove(x));
-                return array.Length > 0;
+                return Task.FromResult(array.Length > 0);
             }
 
             public Task<List<T>> Find(Expression<Func<T, bool>> filter)
@@ -105,11 +105,11 @@ namespace MainSolutionTemplate.Core.Tests.Fakes
                 return Task.FromResult(_list.Where(filter.Compile()).LongCount());
             }
 
-            public T Update(Expression<Func<T, bool>> filter, T entity)
+            public Task<T> Update(Expression<Func<T, bool>> filter, T entity)
             {
                 Remove(filter);
                 AddAndSetUpdateDate(entity);
-                return entity;
+                return Task.FromResult(entity);
 
             }
 
