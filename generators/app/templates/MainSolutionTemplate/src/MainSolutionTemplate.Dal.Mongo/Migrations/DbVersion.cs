@@ -3,7 +3,7 @@ using MainSolutionTemplate.Dal.Models.Interfaces;
 
 namespace MainSolutionTemplate.Dal.Mongo.Migrations
 {
-	public class DbVersion : IBaseDalModel
+	public class DbVersion : IBaseDalModelWithId
 	{
 		public DbVersion()
 		{
@@ -11,7 +11,7 @@ namespace MainSolutionTemplate.Dal.Mongo.Migrations
 			UpdateDate = DateTime.Now;
 		}
 
-		public int Id { get; set; }
+		public Guid Id { get; set; }
 		public string Name { get; set; }
 		public int Version { get; set; }
 

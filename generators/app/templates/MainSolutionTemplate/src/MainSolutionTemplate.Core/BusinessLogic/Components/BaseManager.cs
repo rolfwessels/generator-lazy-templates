@@ -81,7 +81,7 @@ namespace MainSolutionTemplate.Core.BusinessLogic.Components
         protected T Update(T project)
         {
             _log.Info(string.Format("Update {1} [{0}]", project, _name));
-            T update = Repository.Update(project);
+            T update = Repository.Update(project, TODO);
             _messenger.Send(new DalUpdateMessage<T>(project, UpdateTypes.Updated));
             return update;
         }

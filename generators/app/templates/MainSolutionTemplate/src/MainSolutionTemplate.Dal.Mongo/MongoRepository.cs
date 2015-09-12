@@ -13,29 +13,28 @@ namespace MainSolutionTemplate.Dal.Mongo
 {
 	public class MongoRepository<T> : IRepository<T> where T : IBaseDalModel
 	{
-		private readonly MongoDatabase _db;
-		private readonly MongoCollection<T> _mongoCollection;
+		private readonly IMongoDatabase _db;
+		private readonly IMongoCollection<T> _mongoCollection;
+	    private FilterDefinition<T> _keyFilter;
+	    private IMongoCollection<BsonDocument> _mongoCollectionUnTyped;
 
-		public MongoRepository(MongoDatabase db)
+	    public MongoRepository(IMongoDatabase db)
 		{
 			_db = db;
 			_mongoCollection = _db.GetCollection<T>(typeof(T).Name);
+            _mongoCollectionUnTyped = _db.GetCollection<BsonDocument>(typeof(T).Name);
+            
 		}
 
 		#region Implementation of IRepository<T>
 
-        public IQueryable<T> All
-        {
-            get { return _mongoCollection.AsQueryable(); }
-
-        }
 
 		public T Add(T entity)
 		{
 			entity.CreateDate = DateTime.Now;
 			entity.UpdateDate = DateTime.Now;
-			_mongoCollection.Save(entity);
-			return entity;
+		    _mongoCollection.InsertOneAsync(entity).Wait();
+		    return entity;
 		}
 
 		public IEnumerable<T> AddRange(IEnumerable<T> entities)
@@ -45,20 +44,16 @@ namespace MainSolutionTemplate.Dal.Mongo
 
 		public bool Remove(T entity)
 		{
-			var baseDalModelWithId = entity as IBaseDalModelWithId;
-			if (baseDalModelWithId != null)
-			{
-				var query = new QueryDocument("_id", BsonValue.Create(baseDalModelWithId.Id));
-				WriteConcernResult writeConcernResult = _mongoCollection.Remove(query);
-				return writeConcernResult.Ok;
-			}
-			throw new Exception(string.Format("Entity {0} must have known id to be removed", typeof(T).Name));
+            var deleteResult = _mongoCollection.DeleteOneAsync(GetKeyFilter(entity)).Result;
+		    return deleteResult.DeletedCount > 0;
 		}
 
-		public T Update(T entity)
+
+
+        public T Update(Expression<Func<T, bool>> where, T entity)
 		{
-			entity.UpdateDate = DateTime.Now;
-			_mongoCollection.Save(entity);
+			entity.UpdateDate = DateTime.Now; 
+	        _mongoCollection.ReplaceOneAsync(Builders<T>.Filter.Where(where),entity).Wait();
 			return entity;
 		}
 
@@ -69,38 +64,26 @@ namespace MainSolutionTemplate.Dal.Mongo
 
 		#endregion
 
-		#region Implementation of IEnumerable
+	    #region Implementation of IEnumerable
 
-		public IEnumerator<T> GetEnumerator()
-		{
-			return _mongoCollection.AsQueryable().GetEnumerator();
-		}
+	    public IEnumerator<T> GetEnumerator()
+	    {
+	        throw new NotImplementedException();
+	    }
 
-		IEnumerator IEnumerable.GetEnumerator()
-		{
-			return GetEnumerator();
-		}
+	    IEnumerator IEnumerable.GetEnumerator()
+	    {
+	        return GetEnumerator();
+	    }
 
-		#endregion
+	    #endregion
 
-		#region Implementation of IQueryable
+	    #region Implementation of IQueryable
 
-        public Expression Expression
-        {
-            get { return _mongoCollection.AsQueryable().Expression; }
+	    public Expression Expression { get; private set; }
+	    public Type ElementType { get; private set; }
+	    public IQueryProvider Provider { get; private set; }
 
-        }
-        public Type ElementType
-        {
-            get { return _mongoCollection.AsQueryable().ElementType; }
-
-        }
-        public IQueryProvider Provider
-        {
-            get { return _mongoCollection.AsQueryable().Provider; }
-
-        }
-
-		#endregion
+	    #endregion
 	}
 }

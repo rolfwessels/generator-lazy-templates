@@ -117,7 +117,7 @@ namespace MainSolutionTemplate.Core.Tests.Fakes
                 return _list.Remove(entity);
             }
 
-            public T Update(T entity)
+            public T Update(T entity, object t)
             {
                 Remove(entity);
                 _list.Add(entity);

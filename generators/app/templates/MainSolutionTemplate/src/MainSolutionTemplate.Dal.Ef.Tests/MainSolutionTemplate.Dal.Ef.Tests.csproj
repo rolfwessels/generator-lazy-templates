@@ -128,10 +128,6 @@
       <Project>{6B955EE7-2AC5-42E8-BA94-FE9EA2D49DDF}</Project>
       <Name>MainSolutionTemplate.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MainSolutionTemplate.Dal.Ef\MainSolutionTemplate.Dal.Ef.csproj">
-      <Project>{110dff89-33b1-4189-b89f-b522a6b2b088}</Project>
-      <Name>MainSolutionTemplate.Dal.Ef</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MainSolutionTemplate.Dal\MainSolutionTemplate.Dal.csproj">
       <Project>{9A75E778-72A2-4DA0-9983-1032C90C515F}</Project>
       <Name>MainSolutionTemplate.Dal</Name>

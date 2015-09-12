@@ -10,8 +10,11 @@ namespace MainSolutionTemplate.Dal.Mongo.Migrations
 		private static readonly object _locker = new object();
 		private static Configuration _instance;
 
-		protected Configuration(MongoDatabase db)
+		protected Configuration(IMongoDatabase db)
 		{
+		    // todo: Rolf add mutex 
+// todo: Rolf Add versions to array 
+
 			var mongoRepository = new MongoRepository<DbVersion>(db);
 			var dbVersion = mongoRepository.FirstOrDefault() ?? new DbVersion() {Name = "General"};
 			try
@@ -25,7 +28,7 @@ namespace MainSolutionTemplate.Dal.Mongo.Migrations
 			}
 			finally 
 			{
-				mongoRepository.Update(dbVersion);
+				mongoRepository.Update(dbVersion, TODO);
 			}
 		}
 
@@ -33,7 +36,7 @@ namespace MainSolutionTemplate.Dal.Mongo.Migrations
 
 		
 
-		public static void Initialize(MongoDatabase db)
+		public static void Initialize(IMongoDatabase db)
 		{
 			if (_isInitialized) return;
 			lock (_locker)

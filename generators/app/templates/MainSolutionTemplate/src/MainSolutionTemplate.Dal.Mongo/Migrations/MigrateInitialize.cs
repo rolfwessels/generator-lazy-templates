@@ -6,13 +6,13 @@ namespace MainSolutionTemplate.Dal.Mongo.Migrations
 {
 	public class MigrateInitialize
 	{
-		public MigrateInitialize(MongoDatabase db)
+		public MigrateInitialize(IMongoDatabase db)
 		{
 			AddApplications(db);
 			AddUsers(db);
 		}
 
-		private static void AddUsers(MongoDatabase db)
+        private static void AddUsers(IMongoDatabase db)
 		{
 			var users = new MongoRepository<User>(db);
 			var admin = new User() {Name = "Admin user", Email = "admin", HashedPassword = PasswordHash.CreateHash("admin!")};
@@ -24,7 +24,7 @@ namespace MainSolutionTemplate.Dal.Mongo.Migrations
 			users.Add(guest);
 		}
 
-		private static void AddApplications(MongoDatabase db)
+        private static void AddApplications(IMongoDatabase db)
 		{
 			new MongoRepository<Application>(db)
 				{

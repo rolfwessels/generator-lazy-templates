@@ -9,6 +9,6 @@ namespace MainSolutionTemplate.Dal.Persistance
 		T Add(T entity);
 		IEnumerable<T> AddRange(IEnumerable<T> entities);
 		bool Remove(T entity);
-		T Update(T entity);
+		T Update(T entity, object t);
 	}
 }
