@@ -40,8 +40,9 @@ namespace MainSolutionTemplate.Dal.Mongo.Tests
             // arrange
             Setup();
             // action
-            
+            var generalUnitOfWork = _mongoDbConnectionFactory.GetConnection();
             // assert
+            generalUnitOfWork.Should().NotBeNull();
         }
 
 
