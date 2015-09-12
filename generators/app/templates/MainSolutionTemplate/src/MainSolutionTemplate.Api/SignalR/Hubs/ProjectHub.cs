@@ -29,7 +29,7 @@ namespace MainSolutionTemplate.Api.SignalR.Hubs
 
         #region IProjectControllerActions Members
 
-        [HubAuthorizeActivity(Activity.GetProject)]
+        [HubAuthorizeActivity(Activity.ReadProject)]
         public Task<ProjectModel> Get(Guid id)
         {
             return _projectCommonController.Get(id);
@@ -81,14 +81,14 @@ namespace MainSolutionTemplate.Api.SignalR.Hubs
 
         #endregion
         
-        [HubAuthorizeActivity(Activity.GetProject)]
+        [HubAuthorizeActivity(Activity.ReadProject)]
         public async Task<IList<ProjectReferenceModel>> Get()
         {
             var task = await _projectCommonController.Get();
             return task.ToList();
         }
 
-        [HubAuthorizeActivity(Activity.GetProject)]
+        [HubAuthorizeActivity(Activity.ReadProject)]
         public async Task<IList<ProjectModel>> GetDetail()
         {
             var task = await _projectCommonController.GetDetail();

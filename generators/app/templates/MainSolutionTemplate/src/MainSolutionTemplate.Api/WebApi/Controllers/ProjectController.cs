@@ -32,7 +32,7 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
         /// </summary>
         /// <returns>
         /// </returns>
-        [Route,AuthorizeActivity(Activity.GetProject) , QueryToODataFilter]
+        [Route,AuthorizeActivity(Activity.ReadProject) , QueryToODataFilter]
         public Task<IEnumerable<ProjectReferenceModel>> Get()
         {   
             return _projectCommonController.Get(Request.GetQuery());
@@ -42,7 +42,7 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
         /// Gets all projects with their detail.
         /// </summary>
         /// <returns></returns>
-        [Route(RouteHelper.WithDetail),AuthorizeActivity(Activity.GetProject), QueryToODataFilter]
+        [Route(RouteHelper.WithDetail),AuthorizeActivity(Activity.ReadProject), QueryToODataFilter]
         public Task<IEnumerable<ProjectModel>> GetDetail()
 		{
 		    return _projectCommonController.GetDetail(Request.GetQuery());
@@ -54,7 +54,7 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 		/// </summary>
 		/// <returns>
 		/// </returns>
-		[Route(RouteHelper.WithId),AuthorizeActivity(Activity.GetProject)]
+		[Route(RouteHelper.WithId),AuthorizeActivity(Activity.ReadProject)]
 		public Task<ProjectModel> Get(Guid id)
 		{
             return _projectCommonController.Get(id);

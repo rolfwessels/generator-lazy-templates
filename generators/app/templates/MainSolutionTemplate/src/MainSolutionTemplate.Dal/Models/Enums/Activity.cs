@@ -8,7 +8,7 @@
         DeleteUser = 103,
         SubscribeUser = 104,
 
-        GetProject = 100,
+        ReadProject = 100,
         UpdateProject = 101,
         InsertProject = 102,
         DeleteProject = 103,

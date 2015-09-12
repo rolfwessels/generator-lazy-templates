@@ -1,9 +1,27 @@
 <div class="row">
     <h3 class="header">Users</h3>
 
-<div>
-    <crud-panel data="crudUser" />
-    </div>
-    
-</div>
+    <div>
+        <crud-panel data="crudUser">
+            <span>{{item.name}}</span>
+            </br>
+            <span>{{item.email}}</span>
+        </crud-panel>
+        <crud-form data="crudUser">
+            <div class="row">
+                <div input-field>
+                    <input id="name" type="text" class="validate" ng-model="data.currentItem.name">
+                    <label for="name">Name</label>
+                </div>
+            </div>
+            <div class="row">
+                <div input-field>
+                    <input id="email" type="email" class="validate" ng-model="data.currentItem.email">
+                    <label for="email">Email</label>
+                </div>
+            </div>
+        </crud-form>
 
+
+    </div>
+</div>

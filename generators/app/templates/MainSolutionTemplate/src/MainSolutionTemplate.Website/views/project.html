@@ -1,0 +1,19 @@
+<div class="row">
+    <h3 class="header">Projects</h3>
+
+    <div>
+        <crud-panel data="crudProject">
+            <span>{{item.name}}</span>
+        </crud-panel>
+        <crud-form data="crudProject">
+            <div class="row">
+                <div input-field>
+                    <input id="name" type="text" class="validate" ng-model="data.currentItem.name">
+                    <label for="name">Name</label>
+                </div>
+            </div>
+        </crud-form>
+
+
+    </div>
+</div>

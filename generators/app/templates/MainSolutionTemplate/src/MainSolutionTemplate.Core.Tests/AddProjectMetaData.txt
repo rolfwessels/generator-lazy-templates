@@ -3,14 +3,14 @@
 public const string ProjectController = ApiPrefix+"Project";
 
 > Enums\Activity.cs
-        ProjectGet = x00 ,
-		ProjectUpdate = x01 ,
-        ProjectPost = x02,
-        ProjectDelete = x03,
-        ProjectSubscribe = x04,
+        ReadProject = 100,
+        UpdateProject = 101,
+        InsertProject = 102,
+        DeleteProject = 103,
+        SubscribeProject = 104,
 
-> ISystemManager :
-    , IProjectManager 
+> IocCoreBase
+    builder.RegisterType<ProjectManager>().As<IProjectManager>();
 
 > IGeneralUnitOfWork
 		IRepository<Project> Projects { get;  }
@@ -35,3 +35,8 @@ modelBuilder.Entity<Project>().Property(x => x.Id).HasDatabaseGeneratedOption(Da
 >  IocApi :  SetupCommonControllers(ContainerBuilder builder)
 		builder.RegisterType<ProjectCommonController>();
 			
+>  IocApi :  SetupCommonControllers(ContainerBuilder builder)
+		builder.RegisterType<ProjectCommonController>();
+       
+>  MapApi 
+		MapProjectModel();

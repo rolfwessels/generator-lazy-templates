@@ -5,16 +5,15 @@
 </Query>
 
 string  _location = @"..\..\src";
-string  _template = @"Project";
-string  _toName = @"Project123";
-string  _filter = "Man"
-string[]  _fileTypes = new [] { @".cs",".js",".txt"};
+string  _template = @"PlaceOrder";
+string  _toName = @"SelectItem";
+string  _filter = "Man";
+string[]  _fileTypes = new [] { @".cs",".js",".html",".txt"};
 string[]  _exclude = new [] { @"bower_components" ,".OAuth2.","RequestClientDetailsHelper","Mappers\\MapClient.cs" , "Enums\\"};
 
 void Main()
 {
-	_location = Path.GetFullPath(Path.Combine(Path.GetDirectoryName (Util.CurrentQueryPath),_location)).Dump();
-	
+	_location = Path.GetFullPath(Path.Combine(Path.GetDirectoryName (Util.CurrentQueryPath),_location)).Dump();	
 	var files =  Directory.GetFiles(_location,"*"+_template+"*",SearchOption.AllDirectories).Where(file => _fileTypes.Contains(Path.GetExtension(file)) && !_exclude.Any(x=> file.Contains(x)));
 	foreach (var file in files)
 	{
@@ -31,11 +30,7 @@ void Main()
 				else {
 					newFile.Dump("Skip");
 				}
-				
-				
 			}
-			
-		
 	}
 }
 
@@ -51,9 +46,10 @@ public string AddFileToProject(string fileName, string oldFile) {
 		var projectFile = File.ReadAllLines(projectName).ToList();
 		for (int i = 0; i < projectFile.Count; i++)	
 		{
-			if (projectFile[i].Contains(Path.GetFileName(oldFile))) {
+			
+			if (projectFile[i].Contains("\\"+Path.GetFileName(oldFile))) {
 				
-				projectFile.Insert(i+1,ReplaceAll(projectFile[i]));
+				projectFile.Insert(i+1,ReplaceAll(projectFile[i]).Dump());
 			}
 		}
 		File.WriteAllLines(projectName,projectFile.ToArray());

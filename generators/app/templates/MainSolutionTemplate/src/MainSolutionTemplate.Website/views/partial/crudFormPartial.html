@@ -1,0 +1,17 @@
+<div ng-if="data.display" >
+    <div class="card">
+
+        <div class="card-content">
+            <!-- form -->
+            <form id="inputForm" novalidate>
+                <div transpose="parent"/>
+                <div>
+                    <a class="waves-effect waves-teal btn-flat" ng-click="data.cancel()">Cancel</a>
+                    <button class="btn waves-effect waves-light" type="submit" name="action" ng-click="data.save()">Save
+                        <i class="mdi-content-send right"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
