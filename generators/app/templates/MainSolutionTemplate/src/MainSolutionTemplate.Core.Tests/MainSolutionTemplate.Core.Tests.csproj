@@ -135,8 +135,6 @@
     <Compile Include="Managers\ProjectManagerTests.cs" />
     <Compile Include="MessageUtil\MessengerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SystemManagerFacadeUserManager.cs" />
-    <Compile Include="SystemManagerProjectManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MainSolutionTemplate.Core\MainSolutionTemplate.Core.csproj">

@@ -79,7 +79,9 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="MongoDbConnectionFactoryTests.cs" />
-    <Compile Include="MongoGeneralUnitOfWorkTests.cs" />
+    <Compile Include="Persistance\ProjectCollectionTests.cs" />
+    <Compile Include="Persistance\RoleCollectionTests.cs" />
+    <Compile Include="Persistance\UserCollectionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -100,6 +102,10 @@
     <ProjectReference Include="..\MainSolutionTemplate.Dal.Mongo\MainSolutionTemplate.Dal.Mongo.csproj">
       <Project>{070F8D6F-737B-4503-8022-13954D52E752}</Project>
       <Name>MainSolutionTemplate.Dal.Mongo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MainSolutionTemplate.Dal.Tests\MainSolutionTemplate.Dal.Tests.csproj">
+      <Project>{1076F621-E398-451F-A9EF-2C379B847FB9}</Project>
+      <Name>MainSolutionTemplate.Dal.Tests</Name>
     </ProjectReference>
     <ProjectReference Include="..\MainSolutionTemplate.Dal\MainSolutionTemplate.Dal.csproj">
       <Project>{9A75E778-72A2-4DA0-9983-1032C90C515F}</Project>
