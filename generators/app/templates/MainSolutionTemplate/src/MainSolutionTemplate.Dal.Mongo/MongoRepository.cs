@@ -12,7 +12,9 @@ using MongoDB.Driver.Linq;
 
 namespace MainSolutionTemplate.Dal.Mongo
 {
-	public class MongoRepository<T> : IRepository<T> where T : IBaseDalModel
+
+
+    public class MongoRepository<T> : IRepository<T> where T : IBaseDalModel
 	{
 		private readonly IMongoDatabase _db;
 		private readonly IMongoCollection<T> _mongoCollection;
@@ -64,38 +66,27 @@ namespace MainSolutionTemplate.Dal.Mongo
 			return entity;
 		}
 
-		#endregion
-
-	    #region Implementation of IEnumerable
-
-	    public IEnumerator<T> GetEnumerator()
-	    {
-	        throw new NotImplementedException();
-	    }
-
-	    IEnumerator IEnumerable.GetEnumerator()
-	    {
-	        return GetEnumerator();
-	    }
-
-	    #endregion
-
-	    #region Implementation of IQueryable
-
-	    public Expression Expression { get; private set; }
-	    public Type ElementType { get; private set; }
-	    public IQueryProvider Provider { get; private set; }
-
-	    #endregion
-
-	    public Task<List<T>> Find(Expression<Func<T, bool>> filter)
+        public Task<List<T>> Find(Expression<Func<T, bool>> filter)
 	    {
 	        return _mongoCollection.Find(Builders<T>.Filter.Where(filter)).ToListAsync();
 	    }
 
-	    public Task<T> FindOne(Expression<Func<T, bool>> filter)
+        public Task<T> FindOne(Expression<Func<T, bool>> filter)
 	    {
             return _mongoCollection.Find(Builders<T>.Filter.Where(filter)).FirstOrDefaultAsync();
 	    }
+
+
+        public Task<long> Count()
+        {
+            return Count((x)=>true);
+        }
+
+        public Task<long> Count(Expression<Func<T, bool>> filter)
+        {
+            return _mongoCollection.CountAsync(Builders<T>.Filter.Where(filter));
+        }
+
+        #endregion
 	}
 }

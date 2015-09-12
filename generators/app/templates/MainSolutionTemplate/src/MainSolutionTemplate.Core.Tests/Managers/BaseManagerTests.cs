@@ -1,7 +1,14 @@
+using System;
+using FizzWare.NBuilder;
+using FluentAssertions;
 using MainSolutionTemplate.Core.BusinessLogic.Components;
+using MainSolutionTemplate.Core.BusinessLogic.Components.Interfaces;
 using MainSolutionTemplate.Core.MessageUtil;
 using MainSolutionTemplate.Core.Tests.Fakes;
+using MainSolutionTemplate.Dal.Models;
+using MainSolutionTemplate.Dal.Persistance;
 using MainSolutionTemplate.Dal.Validation;
+using MainSolutionTemplate.Utilities.Helpers;
 using Moq;
 using NUnit.Framework;
 
@@ -35,4 +42,5 @@ namespace MainSolutionTemplate.Core.Tests.Managers
 
         #endregion
     }
+
 }

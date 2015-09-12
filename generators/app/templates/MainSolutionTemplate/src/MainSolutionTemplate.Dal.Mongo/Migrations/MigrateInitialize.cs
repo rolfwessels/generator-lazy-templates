@@ -25,13 +25,11 @@ namespace MainSolutionTemplate.Dal.Mongo.Migrations
 		}
 
         private static void AddApplications(IMongoDatabase db)
-		{
-			new MongoRepository<Application>(db)
-				{
-					new Application() {Active = true, AllowedOrigin = "*", ClientId = "MainSolutionTemplate.Api"},
-					new Application() {Active = true, AllowedOrigin = "*", ClientId = "MainSolutionTemplate.Console"},
-					new Application() {Active = true, AllowedOrigin = "*", ClientId = "MainSolutionTemplate.App"}
-				};
-		}
+        {
+            var mongoRepository = new MongoRepository<Application>(db);
+            mongoRepository.Add(new Application() {Active = true, AllowedOrigin = "*", ClientId = "MainSolutionTemplate.Api"});
+            mongoRepository.Add(new Application() {Active = true, AllowedOrigin = "*", ClientId = "MainSolutionTemplate.Console"});
+            mongoRepository.Add(new Application() {Active = true, AllowedOrigin = "*", ClientId = "MainSolutionTemplate.App"});
+        }
 	}
 }

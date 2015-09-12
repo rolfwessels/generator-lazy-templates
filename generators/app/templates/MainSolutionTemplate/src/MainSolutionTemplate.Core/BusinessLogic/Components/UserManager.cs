@@ -70,7 +70,7 @@ namespace MainSolutionTemplate.Core.BusinessLogic.Components
 
         public User GetUserByEmail(string email)
         {
-            return _generalUnitOfWork.Users.FirstOrDefault(x => x.Email == email.ToLower());
+            return _generalUnitOfWork.Users.FindOne(x => x.Email == email.ToLower()).Result;
         }
 
         public void UpdateLastLoginDate(string email)

@@ -20,7 +20,7 @@ namespace MainSolutionTemplate.Core.BusinessLogic.Components
 
         public Role GetRoleByName(string name)
         {
-            return _generalUnitOfWork.Roles.FirstOrDefault(x => x.Name == name);
+            return _generalUnitOfWork.Roles.FindOne(x => x.Name == name).Result;
         }
 
         #endregion

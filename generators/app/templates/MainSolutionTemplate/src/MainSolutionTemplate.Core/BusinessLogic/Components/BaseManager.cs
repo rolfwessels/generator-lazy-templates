@@ -43,17 +43,17 @@ namespace MainSolutionTemplate.Core.BusinessLogic.Components
 
         public virtual IQueryable<T> Get()
         {
-            return Repository;
+            return Repository.Find(x=>true).Result.AsQueryable();
         }
 
         public virtual T Get(Guid id)
         {
-            return Repository.FirstOrDefault(x => x.Id == id);
+            return Repository.FindOne(x => x.Id == id).Result;
         }
 
         public virtual T Save(T project)
         {
-            T projectFound = Repository.FirstOrDefault(x => x.Id == project.Id);
+            T projectFound = Get(project.Id);
             DefaultModelNormalize(project);
             _validationFactory.ValidateAndThrow(project);
             if (projectFound == null)
@@ -66,7 +66,7 @@ namespace MainSolutionTemplate.Core.BusinessLogic.Components
 
         public virtual T Delete(Guid id)
         {
-            T project = Repository.FirstOrDefault(x => x.Id == id);
+            T project = Get(id);
             if (project != null)
             {
                 _log.Info(string.Format("Remove {1} [{0}]", project, _name));

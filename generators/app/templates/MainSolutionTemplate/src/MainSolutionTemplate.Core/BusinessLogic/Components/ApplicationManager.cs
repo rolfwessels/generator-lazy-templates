@@ -20,7 +20,7 @@ namespace MainSolutionTemplate.Core.BusinessLogic.Components
 
         public Application GetApplicationById(string clientId)
         {
-            return _generalUnitOfWork.Applications.FirstOrDefault(x => x.ClientId == clientId);
+            return _generalUnitOfWork.Applications.FindOne(x => x.ClientId == clientId).Result;
         }
 
         #endregion

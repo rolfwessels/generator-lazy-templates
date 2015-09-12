@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using MainSolutionTemplate.Dal.Models;
 using MainSolutionTemplate.Dal.Models.Interfaces;
 using MainSolutionTemplate.Dal.Persistance;
@@ -50,38 +51,13 @@ namespace MainSolutionTemplate.Core.Tests.Fakes
         public class FakeRepository<T> : IRepository<T> where T : IBaseDalModel
         {
             private List<T> _list;
-            private IQueryable<T> _asQueryable;
 
             public FakeRepository()
             {
                 _list = new List<T>();
-                ElementType = typeof (T);
-                _asQueryable = _list.AsQueryable();
-                Expression = _asQueryable.Expression;
-                Provider = _asQueryable.Provider;
             }
 
-            #region Implementation of IEnumerable
-
-            public IEnumerator<T> GetEnumerator()
-            {
-                return _list.GetEnumerator();
-            }
-
-            IEnumerator IEnumerable.GetEnumerator()
-            {
-                return GetEnumerator();
-            }
-
-            #endregion
-
-            #region Implementation of IQueryable
-
-            public Expression Expression { get; private set; }
-            public Type ElementType { get; private set; }
-            public IQueryProvider Provider { get; private set; }
-
-            #endregion
+           
 
             #region Implementation of IRepository<T>
 
@@ -107,6 +83,26 @@ namespace MainSolutionTemplate.Core.Tests.Fakes
                 T[] array = _list.Where(filter.Compile()).ToArray();
                 array.ForEach(x => _list.Remove(x));
                 return array.Length > 0;
+            }
+
+            public Task<List<T>> Find(Expression<Func<T, bool>> filter)
+            {
+                return Task.FromResult(_list.Where(filter.Compile()).ToList());
+            }
+
+            public Task<T> FindOne(Expression<Func<T, bool>> filter)
+            {
+                return Task.FromResult(_list.FirstOrDefault(filter.Compile()));
+            }
+
+            public Task<long> Count()
+            {
+                return Task.FromResult(_list.LongCount());
+            }
+
+            public Task<long> Count(Expression<Func<T, bool>> filter)
+            {
+                return Task.FromResult(_list.Where(filter.Compile()).LongCount());
             }
 
             public T Update(Expression<Func<T, bool>> filter, T entity)
