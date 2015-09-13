@@ -35,11 +35,11 @@ namespace MainSolutionTemplate.Sdk.Tests
                 _projectApiClient.Insert(new ProjectDetailModel() {Name = "Sample"}).Wait();
             }
             // action
-            RunConcurrent(20);
+            RunConcurrent(500, () => _projectApiClient.Get().Wait());
             // assert
         }
 
-        private void RunConcurrent(int concurrency)
+        private void RunConcurrent(int concurrency, Action parameterizedThreadStart)
         {
             
             var stopwatch = new Stopwatch();
@@ -48,7 +48,7 @@ namespace MainSolutionTemplate.Sdk.Tests
 
             for (int i = 0; i < concurrency; i++)
             {
-                var thread = new Thread((d) => _projectApiClient.Get().Wait());
+                var thread = new Thread((d)=>parameterizedThreadStart());
                 threads.Add(thread);
             }
             threads.ForEach(x => x.Start());
