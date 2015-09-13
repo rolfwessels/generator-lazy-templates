@@ -20,14 +20,15 @@ config = {
             'MainSolutionTemplate.Website/bower_components/angular-route/angular-route.js',
             'MainSolutionTemplate.Website/bower_components/angular-animate/angular-animate.js',
             'MainSolutionTemplate.Website/bower_components/angular-local-storage/dist/angular-local-storage.js',
-            'MainSolutionTemplate.Website/bower_components/angular-loading-bar/src/loading-bar.js',
+            'MainSolutionTemplate.Website/bower_components/angular-loading-bar/build/loading-bar.js',
             'MainSolutionTemplate.Website/bower_components/signalr/jquery.signalr.js',
             'MainSolutionTemplate.Website/bower_components/materialize/bin/materialize.js',
             'MainSolutionTemplate.Website/bower_components/angular-materialize/src/angular-materialize.js'
         ],
         css: [
             'MainSolutionTemplate.Website/bower_components/materialize/bin/materialize.css',
-            'MainSolutionTemplate.Website/assets/css/app.css',
+            'MainSolutionTemplate.Website/bower_components/angular-loading-bar/build/loading-bar.min.css',
+            'MainSolutionTemplate.Website/assets/css/app.css'
         ],
         html: [
             'MainSolutionTemplate.Website/views/**/*',

@@ -1,7 +1,9 @@
 using System;
 using System.Net.NetworkInformation;
+using System.Reflection;
 using System.Runtime.Remoting.Messaging;
 using System.Threading.Tasks;
+using log4net;
 using MainSolutionTemplate.Api.SignalR.Attributes;
 using MainSolutionTemplate.Api.SignalR.Connection;
 using MainSolutionTemplate.Core.MessageUtil;
@@ -19,6 +21,7 @@ namespace MainSolutionTemplate.Api.SignalR.Hubs
     
     public class NotificationHub : BaseHub
     {
+        private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private readonly IMessenger _messenger;
 
         public NotificationHub(IConnectionStateMapping connectionStateMapping , IMessenger messenger)
@@ -38,7 +41,8 @@ namespace MainSolutionTemplate.Api.SignalR.Hubs
             {
                 var connection = _connectionsState.AddOrGet(Context);
                 var makeGenericType = GetTypeFromName(typeName);
-                _messenger.Register(makeGenericType, connection, CallBackToClient);
+                _log.Debug("NotificationHub:SubscribeToUpdates " + typeName);
+                _messenger.Register(makeGenericType, connection, (obj) => CallBackToClient(typeName,obj));
             });
         }
 
@@ -50,6 +54,7 @@ namespace MainSolutionTemplate.Api.SignalR.Hubs
             {
                 var makeGenericType = GetTypeFromName(typeName);
                 var connection = _connectionsState.AddOrGet(Context);
+                _log.Debug("NotificationHub:UnsubscribeFromUpdates " + typeName);
                 _messenger.Unregister(makeGenericType, connection);
             });
         }
@@ -63,9 +68,10 @@ namespace MainSolutionTemplate.Api.SignalR.Hubs
             return makeGenericType;
         }
 
-        private void CallBackToClient(object obj)
+        private void CallBackToClient(string typeName,object obj)
         {
-            Clients.Caller.OnUpdate(obj);
+            _log.Debug("NotificationHub:CallBackToClient " + obj.GetType().FullName);
+            Clients.Caller.OnUpdate(typeName,obj);
         }
 
         

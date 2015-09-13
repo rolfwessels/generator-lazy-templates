@@ -11,7 +11,7 @@ angular
         })
         .when('/user/:id?', {
             templateUrl: 'views/user.html',
-            controller: 'controller.user'
+            controller: 'controller.userCrud'
         })
         .when('/project/:id?', {
             templateUrl: 'views/project.html',

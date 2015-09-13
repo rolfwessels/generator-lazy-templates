@@ -71,9 +71,9 @@
     <Content Include="scripts\app.js" />
     <Content Include="scripts\controllers.js" />
     <Content Include="scripts\controllers\forgotPasswordCtrl.js" />
-    <Content Include="scripts\controllers\projectCtrl.js" />
-    <Content Include="scripts\controllers\userCtrl.js" />
-    <Content Include="scripts\controllers\dashboardCtrl.js" />
+    <Content Include="scripts\controllers\controller.projectCrud.js" />
+    <Content Include="scripts\controllers\controller.userCrud.js" />
+    <Content Include="scripts\controllers\controller.dashboard.js" />
     <Content Include="scripts\controllers\loginCtrl.js" />
     <Content Include="scripts\controllers\navigationCtrl.js" />
     <Content Include="scripts\directives.js" />

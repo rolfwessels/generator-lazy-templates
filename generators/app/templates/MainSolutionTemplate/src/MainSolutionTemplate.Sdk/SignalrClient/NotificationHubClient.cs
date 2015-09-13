@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using MainSolutionTemplate.Sdk.SignalrClient.Base;
 using MainSolutionTemplate.Shared.Models;
@@ -11,9 +12,10 @@ namespace MainSolutionTemplate.Sdk.SignalrClient
     {
         public NotificationHubClient(HubConnection hubConnection) : base(hubConnection, "NotificationHub")
         {
+            
         }
 
-        public async Task Subscribe<T>(string name, Action<ValueUpdateModel<T>> callback)
+        public async Task Subscribe<T>(string name, Action<string,ValueUpdateModel<T>> callback)
         {
             _hub.On("OnUpdate", callback);
             await _hub.Invoke("SubscribeToUpdates", name);

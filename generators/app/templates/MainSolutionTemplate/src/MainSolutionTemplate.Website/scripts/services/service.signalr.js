@@ -45,11 +45,13 @@ angular.module('webapp.services')
                  * Register events
                  */
                 notificationHub = connection.createHubProxy('NotificationHub');
-                notificationHub.on('OnUpdate', function (data) {
-                    $rootScope.$emit("NotificationHub.OnUpdate", data);
-                });
+                
 
                 var start = connection.start();
+
+                notificationHub.on('OnUpdate', function (typeName,value) {
+                    $rootScope.$emit("NotificationHub.OnUpdate", {type:typeName,value:value});
+                });
 
                 start.done(function() {
                     connectionDefer.resolve(connection);

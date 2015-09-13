@@ -1,6 +1,7 @@
 angular
     .module('webapp', [
 		'angular-loading-bar',
+		'ngAnimate',
         'ui.materialize',
         'webapp.routes',
         'webapp.controllers',

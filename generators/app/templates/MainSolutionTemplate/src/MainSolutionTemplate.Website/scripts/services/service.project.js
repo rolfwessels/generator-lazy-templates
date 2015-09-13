@@ -8,7 +8,7 @@ angular.module('webapp.services')
              * Service
              */
 		    var projectHub = {};
-		    var returnService = serviceEndPoint('project', projectHub);
+		    var returnService = serviceEndPoint('Project', projectHub);
 
 		    return returnService;
 

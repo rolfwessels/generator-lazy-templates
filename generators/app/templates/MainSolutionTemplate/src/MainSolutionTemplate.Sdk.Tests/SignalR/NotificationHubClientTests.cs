@@ -56,7 +56,7 @@ namespace MainSolutionTemplate.Sdk.Tests.SignalR
             var projectManager = IocApi.Instance.Resolve<IProjectManager>();
             var responses = new List<ValueUpdateModel<ProjectReference>>();
             // action
-            _notificationHubClient.Subscribe<ProjectReference>("Project", responses.Add).Wait();
+            _notificationHubClient.Subscribe<ProjectReference>("Project", (name, value) => responses.Add(value)).Wait();
             projectManager.Save(project);
             projectManager.Delete(project.Id);
             // assert
@@ -76,7 +76,7 @@ namespace MainSolutionTemplate.Sdk.Tests.SignalR
             var projectManager = IocApi.Instance.Resolve<IProjectManager>();
             var responses = new List<ValueUpdateModel<ProjectReference>>();
             // action
-            _notificationHubClient.Subscribe<ProjectReference>("Project", responses.Add).Wait();
+            _notificationHubClient.Subscribe<ProjectReference>("Project", (name, value) => responses.Add(value)).Wait();
             projectManager.Save(project);
             _notificationHubClient.Unsubscribe("Project").Wait();
             projectManager.Delete(project.Id);

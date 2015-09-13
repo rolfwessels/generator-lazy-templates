@@ -1,13 +1,13 @@
 /* service.endPoint */
 
 angular.module('webapp.services')
-	.service('service.endPoint', ['$log', 'signalrBase', 'service.authorization`', '$q', '$rootScope', 'apiUrlBase', '$http',
-		function ($log, signalrBase, authorizationService, $q, $rootScope, apiUrlBase, $http) {
+	.service('service.endPoint', ['$log', 'service.signalr', 'service.authorization`', '$q', '$rootScope', 'apiUrlBase', '$http',
+		function ($log, serviceSignalr, authorizationService, $q, $rootScope, apiUrlBase, $http) {
 
 			/* 
              * Service
              */
-		    var returnService = function (basePath, userHub) {
+		    var returnService = function (basePath) {
 
 		        return {
 		            getAll: function (filter) {
@@ -35,13 +35,19 @@ angular.module('webapp.services')
 		                return httpCall('DELETE', pathCombine(apiUrlBase, basePath, id));
 		            },
 		            onUpdate: function (scope, callBack) {
-		                userHub.invoke('SubscribeToUpdates');
-
-		                var destroy = $rootScope.$on("userHub.OnUpdate", function(onId, update) {
-		                    defaultUpdate(scope, update, callBack);
+		                var notificationHub = null;
+		                serviceSignalr.whenConnected().then(function () {
+		                    notificationHub = serviceSignalr.getNotificationHub();
+		                    notificationHub.invoke('SubscribeToUpdates', basePath);
 		                });
-		                scope.$on("$destroy", function() {
-		                    userHub.invoke('UnsubscribeFromUpdates');
+		                
+		                var destroy = $rootScope.$on("NotificationHub.OnUpdate", function (onId, update) {
+		                    if (update.type == basePath) {
+		                        defaultUpdate(scope, update.value, callBack);
+		                    }
+		                });
+		                scope.$on("$destroy", function () {
+		                    notificationHub.invoke('UnsubscribeFromUpdates', basePath);
 		                    destroy();
 		                });
 		                return destroy;
