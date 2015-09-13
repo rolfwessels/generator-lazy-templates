@@ -13,7 +13,7 @@
     "angular-local-storage": "~0.1.5",
     "angular-loading-bar": "~0.7.0",
     "signalr": "~2.2.0",
-    "materialize": "~0.96.1",
+    "materialize": "~0.97.x",
     "angular-materialize": "*"
   },
   "resolutions": {

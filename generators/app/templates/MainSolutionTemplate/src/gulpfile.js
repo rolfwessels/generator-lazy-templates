@@ -12,8 +12,7 @@ config = {
     src: {
         site: 'MainSolutionTemplate.Website',
         js: [
-            'MainSolutionTemplate.Website/scripts/**/*.js',
-            '!MainSolutionTemplate.Website/scripts/dist/*.js',
+            'MainSolutionTemplate.Website/scripts/**/*.js'
         ],
         vendor: [
             'MainSolutionTemplate.Website/bower_components/jquery/dist/jquery.js',
@@ -30,72 +29,102 @@ config = {
             'MainSolutionTemplate.Website/bower_components/materialize/bin/materialize.css',
             'MainSolutionTemplate.Website/assets/css/app.css',
         ],
-        dist: [
+        html: [
             'MainSolutionTemplate.Website/views/**/*',
             'MainSolutionTemplate.Website/*.html',
-            'MainSolutionTemplate.Website/assets/**/*',
-            'MainSolutionTemplate.Website/scripts/dist/**/*',
             'MainSolutionTemplate.Website/*.ico'
+        ],
+        assets: [
+            'MainSolutionTemplate.Website/assets/image*/**/*',
+            'MainSolutionTemplate.Website/bower_components/materialize/font*/**/*'
         ]
     },
     dest: {
-        js: 'MainSolutionTemplate.Website/scripts/dist/',
         css: 'MainSolutionTemplate.Website/assets/css/',
-        dist: argv.output || 'MainSolutionTemplate.Website/dist/'
+        dist: argv.output || ('MainSolutionTemplate.Website/build/' + (argv.env || "debug"))
     }
 };
+
+
 
 //
 // Main tasks
 //
 
-gulp.task('default', ['scripts', 'vendor', 'minify-css']);
+gulp.task('default', ['build']);
+
+
 
 gulp.task('watch', function() {
-    gulp.watch(config.src.js, ['scripts', 'jshint']);
-    gulp.watch(config.src.css, ['minify-css']);
+    gulp.watch(config.src.js, ['build.scripts', 'jshint']);
+    gulp.watch(config.src.css, ['build.css']);
+    gulp.watch(config.src.html, ['build.html']);
+    gulp.watch(config.src.assets, ['build.assets']);
 });
 
 
-gulp.task('serve', function() {
+gulp.task('serve', function () {
   return runSequence(['serve.site','watch']);
 });
 
 
-gulp.task('dist', function() {
-    return runSequence('default', 'dist.clean', 'dist.copy');
+gulp.task('build', function() {
+    return runSequence('build.clean', ['build.html', 'build.css', 'build.scripts', 'build.vendor', 'build.assets']); 
 });
-
 
 //
 // sub tasks
 //
 
-gulp.task('dist.clean', function(cb) {
+gulp.task('build.clean', function (cb) {
     return del(config.dest.dist, cb);
 });
 
-gulp.task('dist.copy', function() {
-    return gulp.src(config.src.dist, {
-            base: "./MainSolutionTemplate.Website"
-        })
+gulp.task('build.html', function () {
+    return gulp.src(config.src.html, { base: "./MainSolutionTemplate.Website" })
         .pipe(gulp.dest(config.dest.dist));
+});
+
+gulp.task('build.scripts', function () {
+    return gulp.src(config.src.js)
+        .pipe(concat('scripts.js'))
+        .pipe(gulp.dest(config.dest.dist + "/scripts"));
+});
+
+gulp.task('build.vendor', function () {
+    return gulp.src(config.src.vendor)
+        .pipe(concat('vendor.min.js'))
+        .pipe(uglify())
+        .pipe(gulp.dest(config.dest.dist + "/scripts"));
+});
+
+gulp.task('build.css', function () {
+    return gulp.src(config.src.css)
+        .pipe(concat('app.min.css'))
+        .pipe(minifyCss({
+            compatibility: 'ie8'
+        }))
+        .pipe(gulp.dest(config.dest.dist + "/assets/css/"));
+});
+
+gulp.task('build.assets', function () {
+    return gulp.src(config.src.assets, { base: "./MainSolutionTemplate.Website" })
+        .pipe(gulp.dest(config.dest.dist + "/assets/"));
+});
+
+gulp.task('build.assets', function () {
+    return gulp.src(config.src.assets)
+        .pipe(gulp.dest(config.dest.dist + "/assets/"));
 });
 
 gulp.task('serve.site', function() {
   browserSync({
     server: {
-      baseDir: config.src.site
+      baseDir: config.dest.dist
     }
   });
 
   gulp.watch(['views/**/*.html','*.html', 'assets/css/**/*.css', 'scripts/dist/**/*.js'], {cwd: config.src.site}, browserSync.reload);
-});
-
-gulp.task('scripts', function() {
-    return gulp.src(config.src.js)
-        .pipe(concat('scripts.js'))
-        .pipe(gulp.dest(config.dest.js));
 });
 
 gulp.task('jshint', function() {
@@ -104,18 +133,3 @@ gulp.task('jshint', function() {
         .pipe(jshint.reporter('default'));
 });
 
-gulp.task('vendor', function() {
-    return gulp.src(config.src.vendor)
-        .pipe(concat('vendor.min.js'))
-        .pipe(uglify())
-        .pipe(gulp.dest(config.dest.js))
-});
-
-gulp.task('minify-css', function() {
-    return gulp.src(config.src.css)
-        .pipe(concat('app.min.css'))
-        .pipe(minifyCss({
-            compatibility: 'ie8'
-        }))
-        .pipe(gulp.dest(config.dest.css));
-});

@@ -1,2 +1,1 @@
-call gulp
-call gulp watch
+call gulp default serve --env debug

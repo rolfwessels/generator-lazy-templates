@@ -64,8 +64,6 @@
   <ItemGroup>
     <Content Include="404.html" />
     <Content Include="assets\css\app.css" />
-    <Content Include="assets\css\avatars.css" />
-    <Content Include="assets\css\spritesheets\avatars.svg" />
     <Content Include="bower_components\angular-material\angular-material.css" />
     <Content Include="favicon.ico" />
     <Content Include="index.html" />

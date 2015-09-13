@@ -3,7 +3,6 @@ using MainSolutionTemplate.Api.AppStartup;
 using MainSolutionTemplate.Api.Models.Mappers;
 using MainSolutionTemplate.Api.SignalR;
 using MainSolutionTemplate.Api.Swagger;
-using Microsoft.Owin.Cors;
 using Owin;
 using log4net.Config;
 

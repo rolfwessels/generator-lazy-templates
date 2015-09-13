@@ -16,7 +16,7 @@ namespace MainSolutionTemplate.Api.AppStartup
 
         static SimpleFileServer()
         {
-            PossibleWebBasePath = Path.GetFullPath(Path.Combine(new Uri(Assembly.GetExecutingAssembly().CodeBase).PathAndQuery, @"..\..\..\MainSolutionTemplate.Website"));
+            PossibleWebBasePath = Path.GetFullPath(Path.Combine(new Uri(Assembly.GetExecutingAssembly().CodeBase).PathAndQuery, @"..\..\..\MainSolutionTemplate.Website\build\debug"));
         }
 
         public static void Initialize(IAppBuilder appBuilder)
