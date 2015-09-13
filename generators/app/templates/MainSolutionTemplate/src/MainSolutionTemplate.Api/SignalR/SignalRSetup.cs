@@ -1,5 +1,10 @@
-﻿using Gaap.Api.SignalR.Attributes;
+﻿using System;
+using System.Reflection;
+using MainSolutionTemplate.Api.SignalR.Modules;
+using MainSolutionTemplate.Shared.Models;
 using Microsoft.AspNet.SignalR;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Owin;
 
 namespace MainSolutionTemplate.Api.SignalR
@@ -14,6 +19,7 @@ namespace MainSolutionTemplate.Api.SignalR
 			GlobalHost.DependencyResolver = resolve;
 	        appBuilder.MapSignalR(new HubConfiguration { EnableDetailedErrors = true });
 		    GlobalHost.HubPipeline.AddModule(new HubErrorModule());
+
 		}
 
 		#region Initialize
@@ -32,7 +38,7 @@ namespace MainSolutionTemplate.Api.SignalR
 
 		#endregion
 
-
-
 	}
+
+  
 }

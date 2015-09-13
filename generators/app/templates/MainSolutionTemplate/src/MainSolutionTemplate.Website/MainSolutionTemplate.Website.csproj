@@ -77,7 +77,7 @@
     <Content Include="scripts\controllers\loginCtrl.js" />
     <Content Include="scripts\controllers\navigationCtrl.js" />
     <Content Include="scripts\directives.js" />
-    <Content Include="scripts\directives\crudPanel.js" />
+    <Content Include="scripts\directives\directive.crudPanel.js" />
     <Content Include="scripts\filters.js" />
     <Content Include="scripts\route.js" />
     <Content Include="scripts\services.js" />

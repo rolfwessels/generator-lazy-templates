@@ -26,8 +26,34 @@ angular.module('webapp.services')
                     }
                     return currentConnectionDefer;
                 },
-                getNotificationHub : function() {
+                getNotificationHub: function() {
                     return notificationHub;
+                },
+                toCamel: function(o) {
+                    var build, key, destKey, value;
+
+                    if (o instanceof Array) {
+                        build = [];
+                        for (key in o) {
+                            value = o[key];
+
+                            if (typeof value === "object") {
+                                value = returnService.toCamel(value);
+                            }
+                            build.push(value);
+                        }
+                    } else {
+                        build = {};
+                        for (key in o) {
+                            destKey = (key.charAt(0).toLowerCase() + key.slice(1) || key).toString();
+                            value = o[key];
+                            if (typeof value === "object") {
+                                value = returnService.toCamel(value);
+                            }
+                            build[destKey] = value;
+                        }
+                    }
+                    return build;
                 }
             };
 
@@ -35,7 +61,7 @@ angular.module('webapp.services')
              * Private methods
              */
             function createConnection() {
-                
+
                 var connectionDefer = $q.defer();
                 console.log("Authenticated:" + signalrBase);
                 connection = $.hubConnection(signalrBase);
@@ -45,12 +71,12 @@ angular.module('webapp.services')
                  * Register events
                  */
                 notificationHub = connection.createHubProxy('NotificationHub');
-                
+
 
                 var start = connection.start();
 
-                notificationHub.on('OnUpdate', function (typeName,value) {
-                    $rootScope.$emit("NotificationHub.OnUpdate", {type:typeName,value:value});
+                notificationHub.on('OnUpdate', function(typeName, value) {
+                    $rootScope.$emit("NotificationHub.OnUpdate", { type: typeName, value: value });
                 });
 
                 start.done(function() {

@@ -17,6 +17,10 @@ angular.module('webapp.directives')
                 }
             };
             
+            crud.subscribe = function (scope) {
+                endpoint.onUpdate(scope, crud.list.items);
+            };
+
             endpoint.getAllPaged().then(function(data) {
                 crud.list = data;
             }, $log.error);
@@ -60,7 +64,8 @@ angular.module('webapp.directives')
                     });
                 } else {
 
-                    endpoint.post(crud.currentItem).then(function(result) {
+                    endpoint.post(crud.currentItem).then(function (result) {
+                        console.log(result);
                         crud.list.items.push(result);
                     }, function(message) {
                         crud.display = true;

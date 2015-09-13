@@ -38,11 +38,12 @@ angular.module('webapp.services')
 		                var notificationHub = null;
 		                serviceSignalr.whenConnected().then(function () {
 		                    notificationHub = serviceSignalr.getNotificationHub();
-		                    notificationHub.invoke('SubscribeToUpdates', basePath);
+		                    notificationHub.invoke('subscribeToUpdates', basePath);
 		                });
-		                
 		                var destroy = $rootScope.$on("NotificationHub.OnUpdate", function (onId, update) {
+		                    console.log(update);
 		                    if (update.type == basePath) {
+		                        serviceSignalr.toCamel(update.value);
 		                        defaultUpdate(scope, update.value, callBack);
 		                    }
 		                });

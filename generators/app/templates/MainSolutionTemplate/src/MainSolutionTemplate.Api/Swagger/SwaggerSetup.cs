@@ -31,6 +31,7 @@ namespace MainSolutionTemplate.Api.Swagger
                     c.ApiVersion(version);
                     c.OperationFilter<AddStandardResponseCodes>();
                     c.OperationFilter<AddAuthorizationResponseCodes>();
+                    
                     c.IncludeXmlComments(String.Format(@"{0}\bin\MainSolutionTemplate.Api.XML",
                                                        AppDomain.CurrentDomain.BaseDirectory));
                     c.ApiInfo(new Info
@@ -43,6 +44,7 @@ namespace MainSolutionTemplate.Api.Swagger
                 });
             SwaggerUiConfig.Customize(c =>
                 {
+                   
                     c.SupportHeaderParams = true;
                     c.SupportedSubmitMethods = new[] {HttpMethod.Get, HttpMethod.Post, HttpMethod.Put};
                     Assembly resourceAssembly = typeof (SwaggerSetup).Assembly;

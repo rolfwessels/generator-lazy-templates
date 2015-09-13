@@ -37,7 +37,7 @@ namespace MainSolutionTemplate.Sdk.Tests.Shared
             var baseStandardLookups = _crudController  as IBaseStandardLookups<TModel, TReferenceModel>;
             if (baseStandardLookups != null)
             {
-                var restResponse = baseStandardLookups.Get("$top=1&$orderby=Name desc&$filter=not startswith(tolower(Name),'new')").Result;
+                var restResponse = baseStandardLookups.Get("$top=1").Result;
                 // assert
                 restResponse.Count().Should().Be(1);
             }
