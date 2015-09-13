@@ -1,21 +1,16 @@
-﻿using System.Collections.Concurrent;
-using System.Web.Http.Dependencies;
+﻿using System.Web.Http.Dependencies;
 using Autofac;
 using Autofac.Integration.SignalR;
 using Autofac.Integration.WebApi;
-using FluentValidation;
 using GoogleAnalyticsTracker.WebApi2;
-using log4net.Appender;
 using MainSolutionTemplate.Api.Common;
 using MainSolutionTemplate.Api.Properties;
 using MainSolutionTemplate.Api.SignalR.Connection;
 using MainSolutionTemplate.Api.SignalR.Hubs;
 using MainSolutionTemplate.Api.WebApi.Controllers;
 using MainSolutionTemplate.Core.Startup;
-using MainSolutionTemplate.Dal.Models;
 using MainSolutionTemplate.Dal.Mongo;
 using MainSolutionTemplate.Dal.Persistance;
-using MainSolutionTemplate.Dal.Validation;
 using MainSolutionTemplate.Utilities.Helpers;
 
 namespace MainSolutionTemplate.Api.AppStartup

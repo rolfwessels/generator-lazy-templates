@@ -34,6 +34,7 @@ namespace MainSolutionTemplate.Sdk.Tests
             {
                 _projectApiClient.Insert(new ProjectDetailModel() {Name = "Sample"}).Wait();
             }
+            RunConcurrent(10, () => _projectApiClient.Get().Wait());
             // action
             RunConcurrent(500, () => _projectApiClient.Get().Wait());
             // assert
@@ -55,7 +56,7 @@ namespace MainSolutionTemplate.Sdk.Tests
             threads.ForEach(x => x.Join());
             stopwatch.Stop();
             _log.Info("stopwatch.ElapsedMilliseconds - " + stopwatch.ElapsedMilliseconds);
-            _log.Warn(string.Format("Done {0} per second", Math.Round((decimal)concurrency / (stopwatch.ElapsedMilliseconds / 1000), 2)));
+            _log.Warn(string.Format("Done {0} per second", Math.Round(concurrency / (stopwatch.ElapsedMilliseconds / 1000m), 2)));
             var mongoGeneralUnitOfWork = IocApi.Instance.Resolve<IGeneralUnitOfWork>() as MongoGeneralUnitOfWork;
             _log.Warn("LoadTestingTest:RunConcurrent "+mongoGeneralUnitOfWork.Stats.Dump());
         }

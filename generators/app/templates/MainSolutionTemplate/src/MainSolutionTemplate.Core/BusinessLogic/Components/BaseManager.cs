@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using MainSolutionTemplate.Core.BusinessLogic.Components.Interfaces;
 using MainSolutionTemplate.Core.MessageUtil;
 using MainSolutionTemplate.Core.MessageUtil.Models;
@@ -43,19 +44,15 @@ namespace MainSolutionTemplate.Core.BusinessLogic.Components
 
         #region IBaseManager<T> Members
 
-        public virtual IQueryable<T> Get()
+      
+        public Task<List<T>> Get(Expression<Func<T, bool>> filter)
         {
-            return Repository.Find(x=>true).Result.AsQueryable();
+            return Repository.Find(filter);
         }
 
-        public List<T> Get(Expression<Func<T, bool>> filter)
+        public Task<List<T>> Get()
         {
-            return Repository.Find(filter).Result;
-        }
-
-        List<T> IBaseManager<T>.Get()
-        {
-            return Repository.Find(x => true).Result;
+            return Repository.Find(x => true);
         }
 
         public virtual T Get(Guid id)

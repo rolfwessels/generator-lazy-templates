@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using MainSolutionTemplate.Api.WebApi.ODataSupport;
@@ -11,13 +12,19 @@ namespace MainSolutionTemplate.Api.Common
     {
         protected IBaseManager<TDal> _projectManager;
 
-        public Task<IEnumerable<TReferenceModel>> Get(string query = null)
+//        public Task<IEnumerable<TReferenceModel>> Get(string query = null)
+//        {
+//            return
+//                Task.Run(
+//                    () =>
+//                    new QueryToODataWrapper<TDal, TReferenceModel>(_projectManager, query, ToReferenceModelList)
+//                    as IEnumerable<TReferenceModel>);
+//        }
+
+        public async Task<IEnumerable<TReferenceModel>> Get(string query = null)
         {
-            return
-                Task.Run(
-                    () =>
-                    new QueryToODataWrapper<TDal, TReferenceModel>(_projectManager, query, ToReferenceModelList)
-                    as IEnumerable<TReferenceModel>);
+            var task = await _projectManager.Get();
+            return ToReferenceModelList(task);
         }
 
         public Task<IEnumerable<TModel>> GetDetail(string query = null)

@@ -23,7 +23,7 @@ namespace MainSolutionTemplate.Api.WebApi.ODataSupport
         {
             _originalDataQuery = "";
             
-            _queryable = queryable.Get().AsQueryable();
+            _queryable = queryable.Get().Result.AsQueryable();
             _map = map;
             if (string.IsNullOrEmpty(query))
             {

@@ -38,7 +38,7 @@ namespace MainSolutionTemplate.Core.Tests.Managers
             const int expected = 2;
             Repository.AddFake(expected);
             // action
-            IQueryable<T> result = Manager.Get();
+            var result = Manager.Get().Result;
             // assert
             result.Should().HaveCount(expected);
         }
