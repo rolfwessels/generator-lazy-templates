@@ -1,39 +1,40 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
-  <title>MainSolutionTemplate</title>
-  <!-- CSS  -->
-  <link rel="stylesheet" href="./assets/css/app.min.css" >
-</head>
-<body ng-app="webapp" ng-controller="navigationCtrl" >
-  <nav class="light-blue lighten-1" role="navigation">
-    <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">MainSolutionTemplate</a>
-      <ul class="right hide-on-med-and-down" ng-include="'/views/mainMenu.html'">
-      </ul>
-      <ul id="nav-mobile" class="right side-nav" >
-      <div ng-include="'views/mainMenu.html'" />
-      </ul>
-      <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
-    </div>
-  </nav>
-  <div class="section no-pad-bot" id="index-banner">
-    <div class="container">
-    	<div ng-view></div>
-    </div>
-  </div>
-
-    <footer class="page-footer grey lighten-4">
-        <div class="footer-copyright orange-text text-lighten-3">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>MainSolutionTemplate</title>
+        <!-- CSS  -->
+        <link rel="stylesheet" href="./assets/css/app.min.css" >
+    </head>
+    <body ng-app="webapp" ng-controller="navigationCtrl" >
+        <nav class="light-blue lighten-1" role="navigation">
+            <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">MainSolutionTemplate</a>
+                <ul class="right hide-on-med-and-down" ng-include="'/views/mainMenu.html'">
+                </ul>
+                <ul id="nav-mobile" class="right side-nav" >
+                    <div ng-include="'views/mainMenu.html'" />
+                </ul>
+                <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
+            </div>
+        </nav>
+        <div class="section no-pad-bot" id="index-banner">
             <div class="container">
-                Made by <a class="orange-text text-lighten-1" href="http://materializecss.com">Materialize</a>
+                <div ng-view></div>
             </div>
         </div>
-    </footer>
 
-  <script src="./scripts/dist/vendor.min.js"> </script>
-  <script src="./scripts/dist/scripts.js"> </script>
+        <footer class="page-footer grey lighten-4">
+            <div class="footer-copyright orange-text text-lighten-3">
+                <div class="container">
+                    Made by <a class="orange-text text-lighten-1" href="http://materializecss.com">Materialize</a>
+                </div>
+            </div>
+        </footer>
+
+        <script src="./scripts/dist/vendor.min.js"> </script>
+        <script src="./scripts/dist/scripts.js"> </script>
  
-  </body>
+    </body>
 </html>
