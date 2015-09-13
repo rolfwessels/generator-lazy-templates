@@ -5,7 +5,7 @@ using Owin;
 
 namespace MainSolutionTemplate.Api
 {
-    public class CrossOrginSetupp
+    public class CrossOrginSetup
     {
         public static void UseCors(IAppBuilder appBuilder)
         {

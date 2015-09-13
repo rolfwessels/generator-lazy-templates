@@ -194,7 +194,7 @@
     <Compile Include="AppStartup\IocApi.cs" />
     <Compile Include="Common\BaseCommonController.cs" />
     <Compile Include="Common\ReadOnlyCommonControllerBase.cs" />
-    <Compile Include="CrossOrginSetupp.cs" />
+    <Compile Include="CrossOrginSetup.cs" />
     <Compile Include="Models\Mappers\MapApi.cs" />
     <Compile Include="Models\Mappers\MapperHelper.cs" />
     <Compile Include="SignalR\Modules\HubErrorModule.cs" />

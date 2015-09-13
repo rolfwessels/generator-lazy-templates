@@ -1,10 +1,10 @@
-/* projectCtrl */
+/* controller.projectCrud */
 
 angular.module('webapp.controllers')
-    .controller('projectCtrl', ['$scope', 'crudService',
-        function($scope, crudService) {   
+    .controller('controller.projectCrud', ['$scope', 'service.crud', 'service.project',
+        function ($scope, crudService, serviceProject) {
 
-            $scope.crudProject = crudService('projects');
+            $scope.crudProject = crudService(serviceProject);
 
         }
     ]);

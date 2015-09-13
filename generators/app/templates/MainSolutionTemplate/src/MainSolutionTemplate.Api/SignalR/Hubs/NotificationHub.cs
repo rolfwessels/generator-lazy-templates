@@ -42,7 +42,6 @@ namespace MainSolutionTemplate.Api.SignalR.Hubs
             });
         }
 
-        
        
         [HubAuthorizeActivity(Activity.SubscribeProject)]
         public Task UnsubscribeFromUpdates(string typeName)

@@ -28,7 +28,7 @@ namespace MainSolutionTemplate.Api.AppStartup
 			SetupRoutes(configuration);
 			SetupGlobalFilters(configuration);
 			SetApiCamelCase(configuration);
-		    CrossOrginSetupp.Setup(configuration);
+		    CrossOrginSetup.Setup(configuration);
 			appBuilder.UseWebApi(configuration);
 			configuration.DependencyResolver = dependencyResolver;
 			_configuration = configuration;

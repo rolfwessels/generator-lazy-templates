@@ -18,12 +18,12 @@ namespace MainSolutionTemplate.Api.WebApi.ODataSupport
         private string _originalDataQuery;
 
 
-        public QueryToODataWrapper(IBaseManager<TDto> queryable, string query,
+        public QueryToODataWrapper(IQueryable<TDto> queryable, string query,
             Func<IQueryable<TDto>, IEnumerable<TModel>> map)
         {
             _originalDataQuery = "";
-            
-            _queryable = queryable.Get().Result.AsQueryable();
+
+            _queryable = queryable;
             _map = map;
             if (string.IsNullOrEmpty(query))
             {

@@ -1,10 +1,10 @@
-﻿/* userCtrl */
+﻿/* controller.user */
 
 angular.module('webapp.controllers')
-    .controller('userCtrl', ['$scope', 'crudService',
-        function($scope, crudService) {   
+    .controller('controller.user', ['$scope', 'service.crud', 'service.user',
+        function($scope, serviceCrud, serviceUser) {   
 
-            $scope.crudUser = crudService('users');
+            $scope.crudUser = serviceCrud(serviceUser);
 
         }
     ]);

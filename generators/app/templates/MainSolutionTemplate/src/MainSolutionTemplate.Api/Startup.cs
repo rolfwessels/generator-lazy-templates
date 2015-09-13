@@ -10,12 +10,11 @@ namespace MainSolutionTemplate.Api
 {
 	public class Startup
 	{
-	    private readonly CrossOrginSetupp _crossOrginSetupp = new CrossOrginSetupp();
-
+	    
 	    public void Configuration(IAppBuilder appBuilder)
 		{
 		    XmlConfigurator.Configure();
-	        CrossOrginSetupp.UseCors(appBuilder);
+	        CrossOrginSetup.UseCors(appBuilder);
 			BootStrap.Initialize(appBuilder);
 		    MapApi.Initialize();
 			WebApiSetup webApiSetup = WebApiSetup.Initialize(appBuilder, IocApi.Instance.Resolve<IDependencyResolver>());

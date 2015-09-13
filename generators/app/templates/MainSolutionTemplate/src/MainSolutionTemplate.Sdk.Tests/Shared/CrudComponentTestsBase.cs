@@ -16,7 +16,7 @@ using log4net;
 
 namespace MainSolutionTemplate.Sdk.Tests.Shared
 {
-    public abstract class CrudComponentTestsBase<TModel, TDetailModel> : IntegrationTestsBase where TModel : IBaseModel
+    public abstract class CrudComponentTestsBase<TModel, TDetailModel, TReferenceModel> : IntegrationTestsBase where TModel : IBaseModel
     {
         private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         protected ICrudController<TModel, TDetailModel> _crudController;
@@ -28,16 +28,20 @@ namespace MainSolutionTemplate.Sdk.Tests.Shared
 
         protected abstract void Setup();
 
-//        [Test]
-//        public void Get_WhenCalledWithOData_ShouldShouldFilter()
-//        {
-//            // arrange
-//            Setup();
-//            // action
-//            var restResponse = _crudController.Get("$top=1&$orderby=Name desc&$filter=not startswith(tolower(Name),'new')").Result;
-//            // assert
-//            restResponse.Count.Should().Be(1);
-//        }  
+        [Test]
+        public void Get_WhenCalledWithOData_ShouldShouldFilter()
+        {
+            // arrange
+            Setup();
+            // action
+            var baseStandardLookups = _crudController  as IBaseStandardLookups<TModel, TReferenceModel>;
+            if (baseStandardLookups != null)
+            {
+                var restResponse = baseStandardLookups.Get("$top=1&$orderby=Name desc&$filter=not startswith(tolower(Name),'new')").Result;
+                // assert
+                restResponse.Count().Should().Be(1);
+            }
+        }  
 
         [Test]
         public void PostPutDelete_WhenWhenGivenValidModel_ShouldLookupModels()

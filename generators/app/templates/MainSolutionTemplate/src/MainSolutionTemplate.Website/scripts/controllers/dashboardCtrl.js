@@ -1,13 +1,12 @@
-﻿/* dashboardCtrl */
+﻿/* controller.dashboard */
 
 angular.module('webapp.controllers')
-    .controller('dashboardCtrl', ['$scope',  '$log', 'dataService', 'messageService',
-        function ($scope, $log, dataService, messageService) {
+    .controller('controller.dashboard', ['$scope', '$log', 'service.project', 'messageService',
+        function ($scope, $log, serviceProject, messageService) {
 
             $scope.allCounter = [];
-
-            mapData(dataService.users, 'users','#/user');
-            mapData(dataService.projects, 'projects', '#/project');
+            mapData(serviceProject, 'users', '#/user');
+            mapData(serviceProject, 'projects', '#/project');
             
             function mapData(service,onScope,link) {
                 var counter = { name: onScope, items: [], count: 0 , link : link};
@@ -16,7 +15,6 @@ angular.module('webapp.controllers')
                     counter.count = data.count;
                     counter.items = data.items;
                 }, messageService.error, messageService.debug);
-
             }
         }
     ]);
