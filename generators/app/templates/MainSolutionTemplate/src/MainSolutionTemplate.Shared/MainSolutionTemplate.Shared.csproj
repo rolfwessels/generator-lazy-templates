@@ -85,12 +85,8 @@
     <Compile Include="Interfaces\Base\IBaseControllerLookups.cs" />
     <Compile Include="Interfaces\Base\IBaseStandardLookups.cs" />
     <Compile Include="Interfaces\Base\ICrudController.cs" />
-    <Compile Include="Interfaces\Shared\IEventUpdateEventSubSubscription.cs" />
     <Compile Include="Interfaces\Shared\IUserControllerActions.cs" />
     <Compile Include="Interfaces\Shared\IProjectControllerActions.cs" />
-    <Compile Include="Interfaces\Shared\IUserControllerStandardLookups.cs" />
-    <Compile Include="Interfaces\Shared\IProjectControllerStandardLookups.cs" />
-    <Compile Include="Interfaces\Shared\IEventUpdateEvent.cs" />
     <Compile Include="Models\Base\BaseModel.cs" />
     <Compile Include="Models\Base\BaseReferenceModel.cs" />
     <Compile Include="Models\Base\BaseReferenceModelWithName.cs" />

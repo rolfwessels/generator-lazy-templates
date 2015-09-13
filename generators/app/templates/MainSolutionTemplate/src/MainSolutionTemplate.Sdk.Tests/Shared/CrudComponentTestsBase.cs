@@ -75,29 +75,5 @@ namespace MainSolutionTemplate.Sdk.Tests.Shared
             return Builder<TDetailModel>.CreateListOfSize(2).All().Build();
         }
 
-
-
-        protected void BaseSimpleSubscriptionTest()
-        {
-            // arrange
-            Setup();
-            TDetailModel projectDetailModel = GetExampleData().First();
-
-            var valueUpdateModels = new List<ValueUpdateModel<TModel>>();
-            var client = _crudController as IEventUpdateEventSubSubscription<TModel>;
-            client.OnUpdate(valueUpdateModels.Add).Wait();
-            // action
-            TModel post = _crudController.Insert(projectDetailModel).Result;
-            _crudController.Update(post.Id, projectDetailModel).Wait();
-            client.UnsubscribeFromUpdates().Wait();
-            _crudController.Delete(post.Id);
-
-            IEnumerable<ValueUpdateModel<TModel>> updateModels = valueUpdateModels.Where(x => x.Value.Id == post.Id);
-            // assert
-            updateModels.WaitFor(x => x.Count() >= 2);
-            updateModels.Should().HaveCount(2);
-            updateModels.Select(x => x.UpdateType).Should().Contain(UpdateTypeCodes.Inserted);
-            updateModels.Select(x => x.UpdateType).Should().Contain(UpdateTypeCodes.Updated);
-        }
     }
 }

@@ -91,6 +91,7 @@
     <Compile Include="Helpers\ExceptionHelper.cs" />
     <Compile Include="Helpers\Log4NetInitializeAttribute.cs" />
     <Compile Include="Helpers\LogHelper.cs" />
+    <Compile Include="Helpers\MyReflectionHelper.cs" />
     <Compile Include="Helpers\ObjectPool.cs" />
     <Compile Include="Helpers\StreamHelper.cs" />
     <Compile Include="Helpers\StringHelper.cs" />

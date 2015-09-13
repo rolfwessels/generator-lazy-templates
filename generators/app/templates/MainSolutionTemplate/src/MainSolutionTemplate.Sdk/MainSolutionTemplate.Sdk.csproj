@@ -107,7 +107,7 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="SignalrClient\Base\BaseHubClient.cs" />
-    <Compile Include="SignalrClient\ProjectHubClient.cs" />
+    <Compile Include="SignalrClient\NotificationHubClient.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

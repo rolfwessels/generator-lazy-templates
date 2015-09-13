@@ -60,11 +60,30 @@ namespace MainSolutionTemplate.Sdk.Tests.SignalR
             projectManager.Save(project);
             projectManager.Delete(project.Id);
             // assert
-            responses.WaitFor(x => x.Count >= 2, 5000);
+            responses.WaitFor(x => x.Count > 1);
             responses.Should().HaveCount(2);
             responses.First().Value.ShouldBeEquivalentTo(project);
             responses.Select(x => x.UpdateType).Should().Contain(UpdateTypeCodes.Inserted);
             responses.Select(x => x.UpdateType).Should().Contain(UpdateTypeCodes.Removed);
+        }
+
+        [Test]
+        public void Unsubscribe_GivenConnectionDetails_ShouldRegisterToProjectUpdates()
+        {
+            // arrange
+            Setup();
+            var project = Builder<Project>.CreateNew().Build();
+            var projectManager = IocApi.Instance.Resolve<IProjectManager>();
+            var responses = new List<ValueUpdateModel<ProjectReference>>();
+            // action
+            _notificationHubClient.Subscribe<ProjectReference>("Project", responses.Add).Wait();
+            projectManager.Save(project);
+            _notificationHubClient.Unsubscribe("Project").Wait();
+            projectManager.Delete(project.Id);
+            // assert
+            responses.WaitFor(x => x.Count > 1);
+            responses.Should().HaveCount(1);
+            responses.First().Value.ShouldBeEquivalentTo(project);
         }
 
         protected HubConnection CreateHubConnection()
