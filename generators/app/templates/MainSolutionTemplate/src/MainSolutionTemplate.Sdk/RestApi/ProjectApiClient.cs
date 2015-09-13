@@ -11,7 +11,6 @@ namespace MainSolutionTemplate.Sdk.RestApi
         public ProjectApiClient(RestConnectionFactory restConnectionFactory)
             : base(restConnectionFactory, RouteHelper.ProjectController)
         {
-         
         }
 
     }

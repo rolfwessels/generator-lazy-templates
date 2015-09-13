@@ -19,7 +19,6 @@ namespace MainSolutionTemplate.Sdk.SignalrClient
             await _hub.Invoke("SubscribeToUpdates", name);
         }
 
-
         public async Task Unsubscribe(string name)
         {
             await _hub.Invoke("UnsubscribeFromUpdates", name);
