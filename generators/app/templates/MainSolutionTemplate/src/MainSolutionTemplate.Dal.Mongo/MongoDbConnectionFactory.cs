@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
+using log4net;
 using MainSolutionTemplate.Dal.Mongo.Properties;
 using MainSolutionTemplate.Dal.Persistance;
 using MongoDB.Driver;
@@ -10,6 +12,7 @@ namespace MainSolutionTemplate.Dal.Mongo
     {
         private string _connectionString;
         private string _databaseName;
+        private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         public MongoDbConnectionFactory(string connectionString)
         {
@@ -24,9 +27,20 @@ namespace MainSolutionTemplate.Dal.Mongo
 
         public IGeneralUnitOfWork GetConnection()
         {
+            _log.Info("Create new connection to " + _connectionString);
             var client = new MongoClient(_connectionString);
             var database = client.GetDatabase(_databaseName);
             return new MongoGeneralUnitOfWork(database);
+        }
+
+        public string DatabaseName
+        {
+            get { return _databaseName; }
+        }
+
+        public string ConnectionString
+        {
+            get { return _connectionString; }
         }
     }
 

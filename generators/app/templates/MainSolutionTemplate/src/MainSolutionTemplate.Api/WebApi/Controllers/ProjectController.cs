@@ -39,7 +39,7 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
         }
 
         /// <summary>
-        /// Gets all projects with their detail.
+        /// GetCounter all projects with their detail.
         /// </summary>
         /// <returns></returns>
         [Route(RouteHelper.WithDetail),AuthorizeActivity(Activity.ReadProject), QueryToODataFilter]

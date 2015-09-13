@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Autofac;
 using FluentValidation;
@@ -17,7 +18,8 @@ namespace MainSolutionTemplate.Core.Startup
 	{
 		protected void SetupCore(ContainerBuilder builder)
 		{
-			builder.Register(GetGeneralUnitOfWork).InstancePerLifetimeScope();
+           
+            builder.Register(GetGeneralUnitOfWork);
 			SetupManagers(builder);
 			SetupTools(builder);
             builder.RegisterType<UserValidator>().As<IValidator<User>>();

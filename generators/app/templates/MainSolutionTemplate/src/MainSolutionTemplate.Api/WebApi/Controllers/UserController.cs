@@ -39,7 +39,7 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
         }
 
         /// <summary>
-        /// Gets all users with their detail.
+        /// GetCounter all users with their detail.
         /// </summary>
         /// <returns></returns>
         [Route(RouteHelper.WithDetail),AuthorizeActivity(Activity.ReadUsers), QueryToODataFilter]

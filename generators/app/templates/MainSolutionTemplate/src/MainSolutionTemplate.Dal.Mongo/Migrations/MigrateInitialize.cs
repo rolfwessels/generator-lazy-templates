@@ -17,19 +17,19 @@ namespace MainSolutionTemplate.Dal.Mongo.Migrations
 			var users = new MongoRepository<User>(db);
 			var admin = new User() {Name = "Admin user", Email = "admin", HashedPassword = PasswordHash.CreateHash("admin!")};
 			admin.Roles.Add(Roles.Admin);
-			users.Add(admin);
+            users.Add(admin).Wait();
 
 			var guest = new User() { Name = "Guest", Email = "guest@guest.com", HashedPassword = PasswordHash.CreateHash("guest!") };
 			guest.Roles.Add(Roles.Guest);
-			users.Add(guest);
+			users.Add(guest).Wait();
 		}
 
         private static void AddApplications(IMongoDatabase db)
         {
             var mongoRepository = new MongoRepository<Application>(db);
-            mongoRepository.Add(new Application() {Active = true, AllowedOrigin = "*", ClientId = "MainSolutionTemplate.Api"});
-            mongoRepository.Add(new Application() {Active = true, AllowedOrigin = "*", ClientId = "MainSolutionTemplate.Console"});
-            mongoRepository.Add(new Application() {Active = true, AllowedOrigin = "*", ClientId = "MainSolutionTemplate.App"});
+            mongoRepository.Add(new Application() { Active = true, AllowedOrigin = "*", ClientId = "MainSolutionTemplate.Api" }).Wait();
+            mongoRepository.Add(new Application() { Active = true, AllowedOrigin = "*", ClientId = "MainSolutionTemplate.Console" }).Wait();
+            mongoRepository.Add(new Application() { Active = true, AllowedOrigin = "*", ClientId = "MainSolutionTemplate.App" }).Wait();
         }
 	}
 }

@@ -1,10 +1,11 @@
-﻿using System;
+﻿using System.Collections.Concurrent;
 using System.Web.Http.Dependencies;
 using Autofac;
 using Autofac.Integration.SignalR;
 using Autofac.Integration.WebApi;
 using FluentValidation;
 using GoogleAnalyticsTracker.WebApi2;
+using log4net.Appender;
 using MainSolutionTemplate.Api.Common;
 using MainSolutionTemplate.Api.Properties;
 using MainSolutionTemplate.Api.SignalR.Connection;
@@ -15,6 +16,7 @@ using MainSolutionTemplate.Dal.Models;
 using MainSolutionTemplate.Dal.Mongo;
 using MainSolutionTemplate.Dal.Persistance;
 using MainSolutionTemplate.Dal.Validation;
+using MainSolutionTemplate.Utilities.Helpers;
 
 namespace MainSolutionTemplate.Api.AppStartup
 {
@@ -24,10 +26,13 @@ namespace MainSolutionTemplate.Api.AppStartup
 		private static readonly object _locker = new object();
 		private static IocApi _instance;
 		private readonly IContainer _container;
+	    private ObjectPool<IGeneralUnitOfWork> _objectPool;
 
-		public IocApi()
+	    public IocApi()
 		{
-			var builder = new ContainerBuilder();
+		    var mongoDbConnectionFactory = new MongoDbConnectionFactory(Dal.Mongo.Properties.Settings.Default.Connection);
+	        _objectPool = new ObjectPool<IGeneralUnitOfWork>(mongoDbConnectionFactory.GetConnection,10);
+	        var builder = new ContainerBuilder();
 			SetupCore(builder);
 			SetupSignalr(builder);
             SetupCommonControllers(builder);
@@ -90,7 +95,8 @@ namespace MainSolutionTemplate.Api.AppStartup
 
 		protected override IGeneralUnitOfWork GetGeneralUnitOfWork(IComponentContext arg)
 		{
-		    return new MongoDbConnectionFactory(Dal.Mongo.Properties.Settings.Default.Connection).GetConnection();
+		    return _objectPool.Get();
+
 		}
 
 		#endregion
