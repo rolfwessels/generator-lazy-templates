@@ -2,7 +2,7 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="MainSolutionTemplate.Dal.Mongo.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="Connection" Type="System.String" Scope="User">
+    <Setting Name="Connection" Type="System.String" Scope="Application">
       <Value Profile="(Default)">mongodb://localhost/MainSolutionTemplate_Develop</Value>
     </Setting>
   </Settings>

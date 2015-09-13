@@ -23,15 +23,12 @@ namespace MainSolutionTemplate.Dal.Mongo.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("mongodb://localhost/MainSolutionTemplate_Develop")]
         public string Connection {
             get {
                 return ((string)(this["Connection"]));
-            }
-            set {
-                this["Connection"] = value;
             }
         }
     }
