@@ -21,6 +21,6 @@ angular
     .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
       cfpLoadingBarProvider.includeSpinner = false;
     }])
-    .run(['authorizationService', function(authorizationService) {
+    .run(['service.authorization`', function(authorizationService) {
       authorizationService.isAuthenticatedOrRedirect();
     }]);

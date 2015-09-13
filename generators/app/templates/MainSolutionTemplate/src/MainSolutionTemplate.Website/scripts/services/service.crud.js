@@ -1,7 +1,7 @@
 /* messageService */
 
 angular.module('webapp.directives')
-    .service('service.crud', [ '$log', 'messageService', function($log, messageService) {
+    .service('service.crud', [ '$log', 'service.message', function($log, messageService) {
 
 
         var service = function(endpoint) {

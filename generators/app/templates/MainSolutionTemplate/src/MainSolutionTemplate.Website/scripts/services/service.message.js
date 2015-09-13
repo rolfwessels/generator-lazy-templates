@@ -1,7 +1,7 @@
 /* messageService */
 
 angular.module('webapp.services')
-    .service('messageService', ['$log',
+    .service('service.message', ['$log',
         function($log) {
 
             /*

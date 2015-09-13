@@ -1,7 +1,7 @@
 ﻿/* controller.dashboard */
 
 angular.module('webapp.controllers')
-    .controller('controller.dashboard', ['$scope', '$log', 'service.project', 'messageService',
+    .controller('controller.dashboard', ['$scope', '$log', 'service.project', 'service.message',
         function ($scope, $log, serviceProject, messageService) {
 
             $scope.allCounter = [];

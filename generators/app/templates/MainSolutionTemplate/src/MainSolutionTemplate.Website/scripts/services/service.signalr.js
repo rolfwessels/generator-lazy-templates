@@ -2,7 +2,7 @@
 
 angular.module('webapp.services')
     .service('service.signalr', [
-        '$log', 'signalrBase', 'authorizationService', '$q', '$rootScope',
+        '$log', 'signalrBase', 'service.authorization`', '$q', '$rootScope',
         function($log, signalrBase, authorizationService, $q, $rootScope) {
 
             var currentConnectionString = null;

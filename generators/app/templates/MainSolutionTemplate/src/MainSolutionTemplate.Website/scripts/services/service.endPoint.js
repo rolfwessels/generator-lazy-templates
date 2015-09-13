@@ -1,7 +1,7 @@
 /* service.endPoint */
 
 angular.module('webapp.services')
-	.service('service.endPoint', ['$log', 'signalrBase', 'authorizationService', '$q', '$rootScope', 'apiUrlBase', '$http',
+	.service('service.endPoint', ['$log', 'signalrBase', 'service.authorization`', '$q', '$rootScope', 'apiUrlBase', '$http',
 		function ($log, signalrBase, authorizationService, $q, $rootScope, apiUrlBase, $http) {
 
 			/* 

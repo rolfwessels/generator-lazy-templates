@@ -1,7 +1,7 @@
-/* authorizationService */
+/* service.authorization */
 
 angular.module('webapp.services')
-	.service('authorizationService', ['$log', '$http', 'localStorageService', 'tokenUrl', 'apiUrlBase', '$q', '$location', '$rootScope',
+	.service('service.authorization`', ['$log', '$http', 'localStorageService', 'tokenUrl', 'apiUrlBase', '$q', '$location', '$rootScope',
 		function($log, $http, localStorageService, tokenUrl, apiUrlBase, $q, $location,$rootScope) {
 			
 			var clientId = "MainSolutionTemplate.Api";

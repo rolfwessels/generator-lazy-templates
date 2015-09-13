@@ -1,7 +1,7 @@
 ﻿/* dashboardCtrl */
 
 angular.module('webapp.controllers')
-  .controller('navigationCtrl', ['$scope','$rootScope', 'authorizationService', '$timeout', '$location',
+  .controller('navigationCtrl', ['$scope','$rootScope', 'service.authorization`', '$timeout', '$location',
 		function ($scope,$rootScope, authorizationService, $timeout, $location) {
     
     

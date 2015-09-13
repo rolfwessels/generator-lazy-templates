@@ -81,13 +81,13 @@
     <Content Include="scripts\filters.js" />
     <Content Include="scripts\route.js" />
     <Content Include="scripts\services.js" />
-    <Content Include="scripts\services\authorizationService.js" />
+    <Content Include="scripts\services\service.authorization.js" />
     <Content Include="scripts\services\service.crud.js" />
     <Content Include="scripts\services\service.user.js" />
     <Content Include="scripts\services\service.project.js" />
     <Content Include="scripts\services\service.signalr.js" />
     <Content Include="scripts\services\service.endPoint.js" />
-    <Content Include="scripts\services\messageService.js" />
+    <Content Include="scripts\services\service.message.js" />
     <Content Include="views\forgotPassword.html" />
     <Content Include="views\mainMenu.html" />
     <Content Include="views\partial\crudFormPartial.html" />
