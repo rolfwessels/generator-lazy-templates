@@ -26,6 +26,7 @@ namespace MainSolutionTemplate.Sdk.Tests
 
 
         [Test]
+        [Explicit]
         public void GatherTiming_GivenMultipleRequests_ShouldBeFaster()
         {
             // arrange

@@ -106,7 +106,7 @@ namespace MainSolutionTemplate.Api.AppStartup
 
 		private void SignalRHubs(ContainerBuilder builder)
 		{
-			builder.RegisterHubs(typeof(UserHub).Assembly);
+            builder.RegisterHubs(typeof(NotificationHub).Assembly);
 			builder.Register(t => new AutofacDependencyResolver(_container)).As<Microsoft.AspNet.SignalR.IDependencyResolver>();
 		}
 

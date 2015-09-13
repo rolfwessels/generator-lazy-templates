@@ -4,9 +4,9 @@ using MongoDB.Driver;
 
 namespace MainSolutionTemplate.Dal.Mongo.Migrations
 {
-	public class MigrateInitialize
-	{
-		public MigrateInitialize(IMongoDatabase db)
+    public class MigrateInitialize : IMigration
+    {
+		public void Update(IMongoDatabase db)
 		{
 			AddApplications(db);
 			AddUsers(db);

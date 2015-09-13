@@ -7,13 +7,12 @@ namespace MainSolutionTemplate.Core.Tests.Helpers
         public static void WaitFor<T>(this T updateModels, Func<T, bool> o, int timeOut = 500)
         {
             var stopTime = DateTime.Now.AddMilliseconds(timeOut);
-            var result = false;
-
+            bool result;
             do
             {
                 result = o(updateModels);
             }
-            while (!result && stopTime < DateTime.Now);
+            while (!result && stopTime > DateTime.Now);
         }
     }
 }

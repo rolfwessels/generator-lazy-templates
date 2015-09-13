@@ -38,7 +38,14 @@ namespace MainSolutionTemplate.Api.SignalR.Connection
 				});
 		}
 
-		public ConnectionState Remove(string connectionId)
+	    public ConnectionState Get(HubCallerContext context)
+	    {
+	        ConnectionState value;
+	        _connections.TryGetValue(context.ConnectionId, out value);
+	        return value;
+	    }
+
+	    public ConnectionState Remove(string connectionId)
 		{
 			ConnectionState removed;
 			_connections.TryRemove(connectionId, out removed);

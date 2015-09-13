@@ -28,6 +28,17 @@ namespace MainSolutionTemplate.Sdk.Tests.Shared
 
         protected abstract void Setup();
 
+//        [Test]
+//        public void Get_WhenCalledWithOData_ShouldShouldFilter()
+//        {
+//            // arrange
+//            Setup();
+//            // action
+//            var restResponse = _crudController.Get("$top=1&$orderby=Name desc&$filter=not startswith(tolower(Name),'new')").Result;
+//            // assert
+//            restResponse.Count.Should().Be(1);
+//        }  
+
         [Test]
         public void PostPutDelete_WhenWhenGivenValidModel_ShouldLookupModels()
         {
@@ -64,13 +75,6 @@ namespace MainSolutionTemplate.Sdk.Tests.Shared
             return Builder<TDetailModel>.CreateListOfSize(2).All().Build();
         }
 
-
-        protected HubConnection CreateHubConnection()
-        {
-            _log.Info(string.Format("Connecting to {0}", SignalRUri));
-            var queryString = new Dictionary<string, string> {{AdminToken.TokenType, AdminToken.AccessToken}};
-            return new HubConnection(SignalRUri, queryString);
-        }
 
 
         protected void BaseSimpleSubscriptionTest()

@@ -16,8 +16,8 @@ namespace MainSolutionTemplate.Dal.Mongo.Migrations
 
 		protected Configuration(IMongoDatabase db)
 		{
-		    var updates = new  [] {
-                new MigrateInitialize(db)
+            var updates = new IMigration[] {
+                new MigrateInitialize()
             };
             
             if (_mutex.WaitOne(TimeSpan.FromSeconds(30)))
@@ -29,8 +29,10 @@ namespace MainSolutionTemplate.Dal.Mongo.Migrations
                     var version = versions.FindOne(x => x.Id == i).Result;
                     if (version == null)
                     {
+                        migrateInitialize.Update(db);
                         var dbVersion1 = new DbVersion() { Id = i, Name = migrateInitialize.GetType().Name };
                         versions.Add(dbVersion1);
+                        
                     }
                 }
             }

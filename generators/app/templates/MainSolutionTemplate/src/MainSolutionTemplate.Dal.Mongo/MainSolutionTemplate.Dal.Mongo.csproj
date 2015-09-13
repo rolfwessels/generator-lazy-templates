@@ -76,6 +76,7 @@
     <Compile Include="IHasDataCounter.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\DbVersion.cs" />
+    <Compile Include="Migrations\IMigration.cs" />
     <Compile Include="Migrations\MigrateInitialize.cs" />
     <Compile Include="MongoDbConnectionFactory.cs" />
     <Compile Include="DataCounter.cs" />
