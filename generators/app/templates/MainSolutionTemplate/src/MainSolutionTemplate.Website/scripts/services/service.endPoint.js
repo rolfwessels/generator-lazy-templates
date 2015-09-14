@@ -34,17 +34,19 @@ angular.module('webapp.services')
 		            delete: function (id) {
 		                return httpCall('DELETE', pathCombine(apiUrlBase, basePath, id));
 		            },
+		            applyUpdateToList: applyUpdateToList,
+		            toCamel: serviceSignalr.toCamel,
 		            onUpdate: function (scope, callBack) {
+		                
 		                var notificationHub = null;
 		                serviceSignalr.whenConnected().then(function () {
 		                    notificationHub = serviceSignalr.getNotificationHub();
 		                    notificationHub.invoke('subscribeToUpdates', basePath);
 		                });
 		                var destroy = $rootScope.$on("NotificationHub.OnUpdate", function (onId, update) {
-		                    console.log(update);
 		                    if (update.type == basePath) {
-		                        serviceSignalr.toCamel(update.value);
-		                        defaultUpdate(scope, update.value, callBack);
+		                        var camel = serviceSignalr.toCamel(update.value);
+		                        defaultUpdate(scope, camel, callBack);
 		                    }
 		                });
 		                scope.$on("$destroy", function () {
@@ -96,36 +98,31 @@ angular.module('webapp.services')
 
 			function defaultUpdate(scope, update, callBack) {
 			    if (angular.isArray(callBack)) {
-
 			        scope.$apply(function () {
-			            if (update.UpdateType === 0) {
-			                callBack.push(update.Value);
-			            }
-			                //delete
-			            else if (update.UpdateType == 2) {
-
-			                angular.forEach(callBack, function (value, key) {
-			                    if (update.Value.Id == value.Id) {
-			                        callBack.splice(key);
-			                    }
-			                });
-
-			            }
-			                //update
-			            else if (update.UpdateType == 1) {
-			                angular.forEach(callBack, function (value) {
-			                    if (update.Value.Id == value.Id) {
-			                        angular.copy(update.Value, value);
-			                    }
-			                });
-
-			            }
+			            applyUpdateToList(update, callBack);
 			        });
 
 			    } else {
 			        callBack(update);
 			    }
 			}
+
+			function applyUpdateToList(update, list) {
+			    var found = false;
+			    angular.forEach(list, function (value,key) {
+			        if (update.value.id == value.id) {
+			            if (update.updateType !== 2) {
+			                angular.copy(update.value, value);
+			            } else {
+			                list.splice(key, 1);
+			            }
+			            found = true;
+			        }
+			    });
+			    if (!found && update.updateType === 0) {
+			        list.push(update.value);
+			    }
+		    }
 
 		    return returnService;
 

@@ -59,6 +59,17 @@ namespace MainSolutionTemplate.Api.SignalR.Hubs
             });
         }
 
+        #region Overrides of BaseHub
+
+        public override Task OnDisconnected(bool stopCalled)
+        {
+            var connection = _connectionsState.AddOrGet(Context);
+            _messenger.Unregister(connection); 
+            return base.OnDisconnected(stopCalled);
+        }
+
+        #endregion
+
         #endregion
 
         private static Type GetTypeFromName(string typeName)

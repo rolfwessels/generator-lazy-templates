@@ -23,10 +23,10 @@ namespace MainSolutionTemplate.Core.BusinessLogic.Components
         {
             return Save(project, null);
         }
-
+        
         protected override void DefaultModelNormalize(User user)
         {
-            user.Email = user.Email.ToLower();
+            user.Email = (user.Email??"").ToLower();
         }
 
         #endregion

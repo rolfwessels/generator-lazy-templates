@@ -11,9 +11,14 @@ angular.module('webapp.controllers')
             function mapData(service,onScope,link) {
                 var counter = { name: onScope, items: [], count: 0 , link : link};
                 $scope.allCounter.push(counter);
-                service.onUpdate($scope, function(call) {
-                    console.log(onScope, call);
-                    update(service, counter);
+                service.onUpdate($scope, function (call) {
+                    $scope.$apply(function() {
+                        if (call.updateType == 0) {
+                            counter.count += 1;
+                        } else if (call.updateType == 2) {
+                            counter.count += -1;
+                        }
+                    });
                 });
                 update(service, counter);
             }

@@ -18,11 +18,13 @@ angular.module('webapp.services')
 				$rootScope.isAuthenticated = isAuthenticate();
 			}
 
-			function isAuthenticate() {					
-					return currentSession.accessToken !== null ;//&&  currentSession.expires < new Date();
+			function isAuthenticate() {
+			    var isAuthed = currentSession.accessToken !== null && (new Date(currentSession.expires) > new Date());
+			    console.log("isAuthenticate: " + isAuthed);
+			    return isAuthed;    
 			}
 
-			/* 
+		    /* 
 			 * Service
 			 */
 			return {
@@ -36,6 +38,7 @@ angular.module('webapp.services')
 					if (pathsToIgnore.indexOf($location.path()) >= 0) {
 						return;
 					}
+				    
 					if (!this.isAuthenticate()) {
 						directTo = $location.path();
 						console.log(directTo);

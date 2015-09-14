@@ -12,17 +12,21 @@ angular.module('webapp.directives')
                     items: [],
                     count: 0
                 },
-                currentItem: {
-                    name: "asfd"
-                }
+                currentItem: {}
             };
             
+            
             crud.subscribe = function (scope) {
-                endpoint.onUpdate(scope, crud.list.items);
+                endpoint.onUpdate(scope, function(callb) {
+                    scope.$apply(function () {
+                        endpoint.applyUpdateToList(callb, crud.list.items);
+                    });
+                });
             };
 
-            endpoint.getAllPaged().then(function(data) {
-                crud.list = data;
+            endpoint.getAllPaged().then(function (data) {
+                angular.extend(crud.list, data);
+                
             }, $log.error);
 
             crud.showAdd = function() {
@@ -65,8 +69,18 @@ angular.module('webapp.directives')
                 } else {
 
                     endpoint.post(crud.currentItem).then(function (result) {
-                        console.log(result);
-                        crud.list.items.push(result);
+                        var found = false;
+                        var list = crud.list.items;
+                        angular.forEach(list, function (value) {
+                            if (result.id == value.id) {
+                                angular.copy(result, value);
+                                found = true;
+                            }
+                        });
+                        if (!found) {
+                            list.push(result);
+                        }
+
                     }, function(message) {
                         crud.display = true;
                         messageService.error(message);
