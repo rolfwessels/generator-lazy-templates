@@ -1,16 +1,9 @@
-﻿using System;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading;
-using MainSolutionTemplate.Dal.Models;
-using MongoDB.Driver;
-using System.Linq;
+﻿using MongoDB.Driver;
 
 namespace MainSolutionTemplate.Dal.Mongo.Migrations
 {
 	public class Configuration
 	{
-        private static Mutex _mutex = new Mutex();
-		private static bool _isInitialized;
 		private static readonly object _locker = new object();
 		private static Configuration _instance;
 
@@ -19,23 +12,8 @@ namespace MainSolutionTemplate.Dal.Mongo.Migrations
             var updates = new IMigration[] {
                 new MigrateInitialize()
             };
-            
-            if (_mutex.WaitOne(TimeSpan.FromSeconds(30)))
-            {
-                var versions = new MongoRepository<DbVersion>(db);
-                for (int i = 0; i < updates.Length; i++)
-                {
-                    var migrateInitialize = updates [i];
-                    var version = versions.FindOne(x => x.Id == i).Result;
-                    if (version == null)
-                    {
-                        migrateInitialize.Update(db);
-                        var dbVersion1 = new DbVersion() { Id = i, Name = migrateInitialize.GetType().Name };
-                        versions.Add(dbVersion1);
-                        
-                    }
-                }
-            }
+            var versionUpdator = new VersionUpdator(updates);
+            versionUpdator.Update(db).Wait();
 		}
 
 		#region Initialize
@@ -44,13 +22,12 @@ namespace MainSolutionTemplate.Dal.Mongo.Migrations
 
 		public static void Initialize(IMongoDatabase db)
 		{
-			if (_isInitialized) return;
+            if (_instance != null) return;
 			lock (_locker)
 			{
-				if (!_isInitialized)
+                if (_instance == null)
 				{
 					_instance = new Configuration(db);
-					_isInitialized = true;
 				}
 			}
 		}

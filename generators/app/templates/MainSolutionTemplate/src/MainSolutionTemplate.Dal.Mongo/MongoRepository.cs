@@ -94,5 +94,10 @@ namespace MainSolutionTemplate.Dal.Mongo
         }
 
         #endregion
+
+        public Task<List<T>> Find()
+        {
+            return Find(x => true);
+        }
 	}
 }
