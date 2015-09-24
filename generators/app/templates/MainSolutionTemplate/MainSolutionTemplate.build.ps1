@@ -22,7 +22,9 @@ properties {
     $versionMinor = 0
     $versionBuild = 1
     $versionRevision = 0
-
+    
+    $vsVersion = "12.0"
+    
     $msdeploy = 'C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe';
     $deployServiceDest = "computerName='xxxx',userName='xxx',password='xxxx',includeAcls='False',tempAgent='false',dirPath='d:\server\temp'"
     $deployApiDest = 'auto,includeAcls="False",tempAgent="false"'
@@ -65,7 +67,7 @@ task build.cleanbin {
 
 task build.compile {
     'Compile '+$buildConfiguration+' version '+(srcBinFolder)
-    msbuild  $srcSolution /t:rebuild /p:Configuration=$buildConfiguration /v:q
+    msbuild  $srcSolution /t:rebuild /p:Configuration=$buildConfiguration /p:VisualStudioVersion=$vsVersion /v:q
 }
 
 task version {
@@ -108,7 +110,7 @@ task build.publish {
     $toFolder = Join-Path ( Join-Path (resolve-path .)(buildConfigDirectory)) 'MainSolutionTemplate.Api'
     $project = Join-Path $srcDirectory 'MainSolutionTemplate.Api\MainSolutionTemplate.Api.csproj'
     $publishProfile = "Publish - $buildConfiguration.pubxml";
-    msbuild  $project /p:DeployOnBuild=true /p:publishurl=$toFolder /p:DefineConstants=$buildContants /p:Configuration=$buildConfiguration /p:PublishProfile=$publishProfile /p:VisualStudioVersion=11.0 /v:q
+    msbuild  $project /p:DeployOnBuild=true /p:publishurl=$toFolder /p:VisualStudioVersion=$vsVersion /p:DefineConstants=$buildContants /p:Configuration=$buildConfiguration /p:PublishProfile=$publishProfile /p:VisualStudioVersion=$vsVersion /v:q
 }
 
 task nuget.restore {
@@ -197,7 +199,7 @@ task deploy.package {
     $toFolder = Join-Path ( resolve-path $buildPackageDirectory ) "$buildConfiguration.MainSolutionTemplate.Api.v.$version.zip"
     $configuration = $buildConfiguration+';Platform=AnyCPU;AutoParameterizationWebConfigConnectionStrings=false;PackageLocation=' + $toFolder + ';EnableNuGetPackageRestore=true'
     $project = Join-Path $srcDirectory 'MainSolutionTemplate.Api\MainSolutionTemplate.Api.csproj'
-    msbuild /v:q  /t:restorepackages  /T:Package  /p:Configuration=$configuration  /p:PackageTempRootDir=c:\temp  $project
+    msbuild /v:q  /t:restorepackages  /T:Package  /p:VisualStudioVersion=$vsVersion /p:Configuration=$configuration  /p:PackageTempRootDir=c:\temp  $project
 }
 
 
