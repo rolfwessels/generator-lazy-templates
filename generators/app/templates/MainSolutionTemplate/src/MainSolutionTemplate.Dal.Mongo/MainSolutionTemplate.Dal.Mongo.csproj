@@ -75,11 +75,11 @@
     </Compile>
     <Compile Include="IHasDataCounter.cs" />
     <Compile Include="Migrations\VersionUpdator.cs" />
-    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Configuration.cs" />
     <Compile Include="Migrations\DbVersion.cs" />
     <Compile Include="Migrations\IMigration.cs" />
-    <Compile Include="Migrations\MigrateInitialize.cs" />
-    <Compile Include="MongoDbConnectionFactory.cs" />
+    <Compile Include="Migrations\Versions\MigrateInitialize.cs" />
+    <Compile Include="MongoConnectionFactory.cs" />
     <Compile Include="DataCounter.cs" />
     <Compile Include="MongoGeneralUnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

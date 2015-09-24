@@ -1,6 +1,8 @@
-﻿using MongoDB.Driver;
+﻿using MainSolutionTemplate.Dal.Mongo.Migrations;
+using MainSolutionTemplate.Dal.Mongo.Migrations.Versions;
+using MongoDB.Driver;
 
-namespace MainSolutionTemplate.Dal.Mongo.Migrations
+namespace MainSolutionTemplate.Dal.Mongo
 {
 	public class Configuration
 	{

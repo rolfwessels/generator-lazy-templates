@@ -34,7 +34,7 @@ namespace MainSolutionTemplate.Dal.Mongo.Tests.Persistance
             Setup();
             //action
             var role = Builder<Role>.CreateNew().WithValidData().Build();
-            using (var dataContext = MongoDbConnectionFactory.New)
+            using (var dataContext = MongoConnectionFactory.New)
             {
                 var persistanceTester = new PersistanceTester<Role>(dataContext, work => work.Roles);
                 persistanceTester.ValueValidate(x => x.Name, role.Name, GetRandom.String(30));

@@ -25,7 +25,7 @@ namespace MainSolutionTemplate.Api.AppStartup
 
 	    public IocApi()
 		{
-		    var mongoDbConnectionFactory = new MongoDbConnectionFactory(Dal.Mongo.Properties.Settings.Default.Connection);
+		    var mongoDbConnectionFactory = new MongoConnectionFactory(Dal.Mongo.Properties.Settings.Default.Connection);
 	        _objectPool = new ObjectPool<IGeneralUnitOfWork>(mongoDbConnectionFactory.GetConnection);
 	        var builder = new ContainerBuilder();
 			SetupCore(builder);

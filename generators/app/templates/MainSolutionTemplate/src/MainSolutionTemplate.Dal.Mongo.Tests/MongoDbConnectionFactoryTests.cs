@@ -8,13 +8,13 @@ namespace MainSolutionTemplate.Dal.Mongo.Tests
     public class MongoDbConnectionFactoryTests
     {
 
-        private MongoDbConnectionFactory _mongoDbConnectionFactory;
+        private MongoConnectionFactory _mongoDbConnectionFactory;
 
         #region Setup/Teardown
 
         public void Setup()
         {
-            _mongoDbConnectionFactory = new MongoDbConnectionFactory(Settings.Default.Connection);
+            _mongoDbConnectionFactory = new MongoConnectionFactory(Settings.Default.Connection);
         }
 
         [TearDown]

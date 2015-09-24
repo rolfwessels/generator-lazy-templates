@@ -31,7 +31,7 @@ namespace MainSolutionTemplate.Dal.Mongo.Tests.Persistance
         {
             // arrange
             Setup();
-            using (var dataContext = MongoDbConnectionFactory.New)
+            using (var dataContext = MongoConnectionFactory.New)
             {
                 var project = Builder<Project>.CreateNew().WithValidData().Build();
                 var persistanceTester = new PersistanceTester<Project>(dataContext, work => work.Projects);

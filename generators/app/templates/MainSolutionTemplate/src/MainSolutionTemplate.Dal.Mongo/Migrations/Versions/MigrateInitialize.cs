@@ -2,7 +2,7 @@
 using MainSolutionTemplate.Dal.Models;
 using MongoDB.Driver;
 
-namespace MainSolutionTemplate.Dal.Mongo.Migrations
+namespace MainSolutionTemplate.Dal.Mongo.Migrations.Versions
 {
     public class MigrateInitialize : IMigration
     {

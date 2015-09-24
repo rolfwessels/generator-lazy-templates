@@ -8,13 +8,13 @@ using MongoDB.Driver;
 
 namespace MainSolutionTemplate.Dal.Mongo
 {
-    public class MongoDbConnectionFactory
+    public class MongoConnectionFactory
     {
         private string _connectionString;
         private string _databaseName;
         private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        public MongoDbConnectionFactory(string connectionString)
+        public MongoConnectionFactory(string connectionString)
         {
             _connectionString = connectionString;
             _databaseName = new Uri(_connectionString).Segments.Skip(1).FirstOrDefault() ?? "MainSolutionTemplate";
@@ -22,7 +22,7 @@ namespace MainSolutionTemplate.Dal.Mongo
         }
 
         public static IGeneralUnitOfWork New {
-            get { return new MongoDbConnectionFactory(Settings.Default.Connection).GetConnection(); }
+            get { return new MongoConnectionFactory(Settings.Default.Connection).GetConnection(); }
         }
 
         public IGeneralUnitOfWork GetConnection()
