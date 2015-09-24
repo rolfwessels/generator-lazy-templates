@@ -1,6 +1,6 @@
 > in RouteHelpers.cs
 
-public const string ProjectController = ApiPrefix+"Project";
+public const string ProjectController = ApiPrefix+"project";
 
 > Enums\Activity.cs
         ReadProject = 100,
