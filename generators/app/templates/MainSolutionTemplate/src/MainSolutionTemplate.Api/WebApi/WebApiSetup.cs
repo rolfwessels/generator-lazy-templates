@@ -4,14 +4,13 @@ using System.Net.Http.Formatting;
 using System.Web.Http;
 using System.Web.Http.Dependencies;
 using System.Web.Http.OData.Extensions;
-using GoogleAnalyticsTracker.WebApi2;
+using GoogleAnalyticsTracker.WebAPI2;
 using MainSolutionTemplate.Api.Properties;
 using MainSolutionTemplate.Api.WebApi.Filters;
-using Microsoft.Owin.Cors;
 using Newtonsoft.Json.Serialization;
 using Owin;
 
-namespace MainSolutionTemplate.Api.AppStartup
+namespace MainSolutionTemplate.Api.WebApi
 {
 	public class WebApiSetup
 	{

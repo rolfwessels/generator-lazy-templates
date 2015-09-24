@@ -2,7 +2,7 @@
 using Autofac;
 using Autofac.Integration.SignalR;
 using Autofac.Integration.WebApi;
-using GoogleAnalyticsTracker.WebApi2;
+using GoogleAnalyticsTracker.WebAPI2;
 using MainSolutionTemplate.Api.Common;
 using MainSolutionTemplate.Api.Properties;
 using MainSolutionTemplate.Api.SignalR.Connection;

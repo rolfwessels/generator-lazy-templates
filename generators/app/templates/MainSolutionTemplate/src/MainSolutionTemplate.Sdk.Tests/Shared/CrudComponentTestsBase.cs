@@ -4,13 +4,8 @@ using System.Reflection;
 using FizzWare.NBuilder;
 using FluentAssertions;
 using FluentAssertions.Equivalency;
-using MainSolutionTemplate.Core.Tests.Helpers;
 using MainSolutionTemplate.Shared.Interfaces.Base;
-using MainSolutionTemplate.Shared.Interfaces.Shared;
-using MainSolutionTemplate.Shared.Models;
-using MainSolutionTemplate.Shared.Models.Enums;
 using MainSolutionTemplate.Shared.Models.Interfaces;
-using Microsoft.AspNet.SignalR.Client;
 using NUnit.Framework;
 using log4net;
 
@@ -71,7 +66,7 @@ namespace MainSolutionTemplate.Sdk.Tests.Shared
         protected virtual EquivalencyAssertionOptions<TDetailModel> CompareConfig(
             EquivalencyAssertionOptions<TDetailModel> options)
         {
-            return options.ExcludingMissingProperties();
+            return options.ExcludingMissingMembers();
         }
 
         protected virtual IList<TDetailModel> GetExampleData()
