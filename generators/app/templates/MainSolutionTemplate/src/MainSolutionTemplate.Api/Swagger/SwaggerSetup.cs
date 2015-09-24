@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Reflection;
 using System.Web.Http;
 using System.Web.Http.Description;
 using MainSolutionTemplate.Api.WebApi.Controllers;
+using MainSolutionTemplate.Shared.Models;
 using MainSolutionTemplate.Utilities.Helpers;
 using Swashbuckle.Application;
 using Swashbuckle.Swagger;
@@ -20,63 +21,31 @@ namespace MainSolutionTemplate.Api.Swagger
 
         protected SwaggerSetup(HttpConfiguration configuration)
         {
+            string version = GetVersion();
 
-            
+            configuration.EnableSwagger(c =>
+            {
+                c.SingleApiVersion(version, "MainSolutionTemplate API")
+                    .Description(EmbededResourceHelper.ReadResource("MainSolutionTemplate.Api.Swagger.loginForm.html",
+                        typeof (SwaggerSetup).Assembly));
+                c.IncludeXmlComments(String.Format(@"{0}\bin\MainSolutionTemplate.Api.XML",
+                    AppDomain.CurrentDomain.BaseDirectory));
+                c.OperationFilter<AddAuthorizationResponseCodes>();
+            })
+                .EnableSwaggerUi(c =>
+                {
+                    Assembly resourceAssembly = typeof (SwaggerSetup).Assembly;
+                    c.InjectJavaScript(resourceAssembly, "MainSolutionTemplate.Api.Swagger.onComplete.js");
+                });
 
-            string version =
-                typeof (UserController).Assembly.GetName().Version.ToString().Split('.').Take(3).StringJoin(".");
-
-            configuration.EnableSwagger(c => c.SingleApiVersion(version, "MainSolutionTemplate API"))
-                .EnableSwaggerUi();
-
-//            SwaggerSpecConfig.Customize(c =>
-//                {
-//                    c.ApiVersion(version);
-//                    c.OperationFilter<AddStandardResponseCodes>();
-//                    c.OperationFilter<AddAuthorizationResponseCodes>();
-//                    
-//                    c.IncludeXmlComments(String.Format(@"{0}\bin\MainSolutionTemplate.Api.XML",
-//                                                       AppDomain.CurrentDomain.BaseDirectory));
-//                    c.ApiInfo(new Info
-//                        {
-//                            Title = "MainSolutionTemplate API v" + version,
-//                            Description =
-//                                EmbededResourceHelper.ReadResource("MainSolutionTemplate.Api.Swagger.loginForm.html",
-//                                                                   typeof (SwaggerSetup).Assembly)
-//                        });
-//                });
-//            SwaggerUiConfig.Customize(c =>
-//                {
-//                   
-//                    c.SupportHeaderParams = true;
-//                    c.SupportedSubmitMethods = new[] {HttpMethod.Get, HttpMethod.Post, HttpMethod.Put};
-//                    Assembly resourceAssembly = typeof (SwaggerSetup).Assembly;
-//                    c.InjectJavaScript(resourceAssembly, "MainSolutionTemplate.Api.Swagger.onComplete.js");
-//                });
         }
 
-        #region Nested type: AddAuthorizationResponseCodes
-//
-//        public class AddAuthorizationResponseCodes : IOperationFilter
-//        {
-//            #region IOperationFilter Members
-//
-//            public void Apply(Operation operation, SchemaRegistry dataTypeRegistry, ApiDescription apiDescription)
-//            {
-//                if (apiDescription.ActionDescriptor.GetFilters().OfType<AuthorizeAttribute>().Any())
-//                {
-//                    operation.responses.Add(new ResponseMessage
-//                        {
-//                            Code = (int) HttpStatusCode.Unauthorized,
-//                            Message = "Authentication required"
-//                        });
-//                }
-//            }
-//
-//            #endregion
-//
-//            
-//        }
+        #region Private Methods
+
+        private static string GetVersion()
+        {
+            return typeof (UserController).Assembly.GetName().Version.ToString().Split('.').Take(3).StringJoin(".");
+        }
 
         #endregion
 
@@ -96,31 +65,30 @@ namespace MainSolutionTemplate.Api.Swagger
         }
 
         #endregion
-//
-        #region Nested type: AddStandardResponseCodes
-//
-//        public class AddStandardResponseCodes : IOperationFilter
-//        {
-//            #region IOperationFilter Members
-//
-//            public void Apply(Operation operation, DataTypeRegistry dataTypeRegistry, ApiDescription apiDescription)
-//            {
-//                operation.ResponseMessages.Add(new ResponseMessage
-//                    {
-//                        Code = (int) HttpStatusCode.OK,
-//                        Message = "Valid response code!"
-//                    });
-//
-//                operation.ResponseMessages.Add(new ResponseMessage
-//                    {
-//                        Code = (int) HttpStatusCode.InternalServerError,
-//                        Message = "Internal error has occured!"
-//                    });
-//            }
-//
-//            #endregion
-//        }
 
-        #endregion
+
+        public class AddAuthorizationResponseCodes : IOperationFilter
+        {
+            #region IOperationFilter Members
+
+            public void Apply(Operation operation, SchemaRegistry dataTypeRegistry, ApiDescription apiDescription)
+            {
+                if (apiDescription.ActionDescriptor.GetFilters().OfType<AuthorizeAttribute>().Any())
+                {
+                    operation.responses.Add(ToIntDisplayValue(HttpStatusCode.Unauthorized), new Response
+                        {
+                            description = "Authentication required"    
+                        });
+
+                }
+            }
+
+            private static string ToIntDisplayValue(HttpStatusCode httpStatusCode)
+            {
+                return ((int)httpStatusCode).ToString(CultureInfo.InvariantCulture);
+            }
+
+            #endregion   
+        }
     }
 }
