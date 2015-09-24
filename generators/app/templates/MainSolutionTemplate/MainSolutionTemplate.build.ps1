@@ -121,10 +121,11 @@ task test.run -depends nuget.restore -precondition { return $buildConfiguration 
     mkdir $buildReportsDirectory -ErrorAction SilentlyContinue
 
     $currentPath = resolve-path '.'
-    $partcoverDirectory = resolve-path 'lib\OpenCover.4.5.3723\'
+    $partcoverDirectory = resolve-path 'lib\OpenCover.4.6.166\tools'
     $partcoverExe = Join-Path $partcoverDirectory 'OpenCover.Console.exe'
     $nunitDirectory =  resolve-path 'lib\NUnit.Runners.2.6.4\tools\nunit-console.exe'
-
+    $reportGenerator = 'lib\ReportGenerator.2.3.2.0'
+    
     $runTestsTimeout = '60000'
     $runTestsDirectory = '.Tests'
     $runTestsSettings = '/exclude:Unstable /timeout:' + $runTestsTimeout
@@ -137,7 +138,7 @@ task test.run -depends nuget.restore -precondition { return $buildConfiguration 
         $runTestsFolder = Join-Path $testFolder.FullName (srcBinFolder)
         $runTestsFolderDll = Join-Path $runTestsFolder ($testFolder.Name + '.dll')
 
-        $buildReportsDirectoryResolved = '..\..\'+ $buildReportsDirectory;
+        $buildReportsDirectoryResolved = '..\..\..\'+ $buildReportsDirectory;
         $runTestsFolderResult =  Join-Path $buildReportsDirectoryResolved ($testFolder.Name + '.xml')
         $runTestsFolderOut =  Join-Path $buildReportsDirectoryResolved ($testFolder.Name + '.txt')
         $runTestsFolderPartResult =  Join-Path $buildReportsDirectoryResolved ($testFolder.Name + '.part.xml')
@@ -163,7 +164,7 @@ task test.run -depends nuget.restore -precondition { return $buildConfiguration 
 
     write-host 'Generate report' -foreground "magenta"
     Set-Location $currentPath
-    Set-Location 'lib\ReportGenerator.2.1.1.0'
+    Set-Location $reportGenerator
     $buildReportsDirectoryRelative = Join-Path '..\..\' $buildReportsDirectory
     $reports = Join-Path  $buildReportsDirectoryRelative '*.Tests.part.xml'
     $targetdir = Join-Path  $buildReportsDirectoryRelative 'CodeCoverage'

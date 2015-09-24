@@ -3,7 +3,6 @@ using System.Linq;
 using System.Net.Http.Formatting;
 using System.Web.Http;
 using System.Web.Http.Dependencies;
-using System.Web.Http.OData.Extensions;
 using GoogleAnalyticsTracker.WebAPI2;
 using MainSolutionTemplate.Api.Properties;
 using MainSolutionTemplate.Api.WebApi.Filters;
@@ -22,7 +21,6 @@ namespace MainSolutionTemplate.Api.WebApi
 		protected WebApiSetup(IAppBuilder appBuilder, IDependencyResolver dependencyResolver)
 		{
 			var configuration = new HttpConfiguration();
-			configuration.AddODataQueryFilter();
 
 			SetupRoutes(configuration);
 			SetupGlobalFilters(configuration);
