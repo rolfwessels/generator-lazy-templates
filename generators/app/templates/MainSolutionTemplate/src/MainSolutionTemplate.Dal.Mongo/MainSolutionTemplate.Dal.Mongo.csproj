@@ -82,6 +82,7 @@
     <Compile Include="MongoConnectionFactory.cs" />
     <Compile Include="DataCounter.cs" />
     <Compile Include="MongoGeneralUnitOfWork.cs" />
+    <Compile Include="MongoMappers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MongoRepository.cs" />
     <Compile Include="Properties\Settings.Designer.cs">

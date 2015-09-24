@@ -39,7 +39,7 @@ namespace MainSolutionTemplate.Sdk.Tests.Shared
             {
                 var restResponse = baseStandardLookups.Get("$top=1").Result;
                 // assert
-                restResponse.Count().Should().Be(1);
+                restResponse.Count().Should().BeLessOrEqualTo(1);
             }
         }  
 
