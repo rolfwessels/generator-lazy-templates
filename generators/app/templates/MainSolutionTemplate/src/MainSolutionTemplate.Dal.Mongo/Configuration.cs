@@ -20,8 +20,6 @@ namespace MainSolutionTemplate.Dal.Mongo
 
 		#region Initialize
 
-		
-
 		public static void Initialize(IMongoDatabase db)
 		{
             if (_instance != null) return;

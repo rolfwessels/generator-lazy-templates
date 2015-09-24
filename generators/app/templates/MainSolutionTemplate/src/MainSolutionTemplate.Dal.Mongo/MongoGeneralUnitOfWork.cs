@@ -12,35 +12,15 @@ namespace MainSolutionTemplate.Dal.Mongo
 {
 	public class MongoGeneralUnitOfWork : IGeneralUnitOfWork
 	{
-
-	    private IMongoDatabase _database;
-
-
 	    public MongoGeneralUnitOfWork(IMongoDatabase database)
 	    {
-	        _database = database;
-
-            Configuration.Initialize(_database);
-            Users = new MongoRepository<User>(_database);
-            Roles = new MongoRepository<Role>(_database);
-            Applications = new MongoRepository<Application>(_database);
-            Projects = new MongoRepository<Project>(_database);
+            Configuration.Initialize(database);
+            Users = new MongoRepository<User>(database);
+            Roles = new MongoRepository<Role>(database);
+            Applications = new MongoRepository<Application>(database);
+            Projects = new MongoRepository<Project>(database);
 
 	    }
-
-	    #region Implementation of IUnitOfWork
-
-		public void Commit()
-		{
-			
-		}
-
-		public void Rollback()
-		{
-			
-		}
-
-		#endregion
 
 		#region Implementation of IDisposable
 
@@ -57,18 +37,17 @@ namespace MainSolutionTemplate.Dal.Mongo
 		public IRepository<Role> Roles { get; private set; }
 		public IRepository<Application> Applications { get; private set; }
 	    public IRepository<Project> Projects { get; private set; }
-	    public IEnumerable<KeyValuePair<string, DataCounter>> Stats {
-	        get
-	        {
-	            dynamic expandoObject = new ExpandoObject();
-                var foo = new Object[] { Users, Roles, Applications, Projects }.Cast<IHasDataCounter>();
-
-
-                return foo.Select(x => new KeyValuePair<string, DataCounter>(x.GetType().GetGenericTypeDefinition().Name, x.DataCounter));
-	        }
-	    }
-
+	   
 	    #endregion
+
+        public IEnumerable<KeyValuePair<string, DataCounter>> Stats
+        {
+            get
+            {
+                var counters = new Object[] { Users, Roles, Applications, Projects }.Cast<IHasDataCounter>();
+                return counters.Select(x => new KeyValuePair<string, DataCounter>(x.GetType().GetGenericTypeDefinition().Name, x.DataCounter));
+            }
+        }
 	}
 
 }
