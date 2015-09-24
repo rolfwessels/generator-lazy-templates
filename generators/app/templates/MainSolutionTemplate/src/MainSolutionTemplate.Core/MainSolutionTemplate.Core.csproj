@@ -120,14 +120,10 @@
     <Compile Include="BusinessLogic\Components\OAuthDataManager.cs" />
     <Compile Include="BusinessLogic\Components\UserManager.cs" />
     <Compile Include="BusinessLogic\Components\ProjectManager.cs" />
+    <Compile Include="Mappers\MapCore.cs" />
     <Compile Include="Mappers\MapCore.Project.cs" />
     <Compile Include="Mappers\MapCore.OAuth.cs" />
     <Compile Include="Mappers\MapCore.User.cs" />
-    <Compile Include="Mappers\MapCore.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MapCore.tt</DependentUpon>
-    </Compile>
     <Compile Include="MessageUtil\IMessenger.cs" />
     <Compile Include="MessageUtil\Messenger.cs" />
     <Compile Include="MessageUtil\Models\DalUpdateMessage.cs" />
@@ -156,11 +152,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Mappers\MapCore.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>MapCore.cs</LastGenOutput>
-      <LastOutputs>.\MapCore.cs</LastOutputs>
-    </Content>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
