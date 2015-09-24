@@ -102,7 +102,7 @@ task build.website {
     }
     pushd $srcDirectory 
     $toFolder =  Join-Path '../' (Join-Path (buildConfigDirectory) 'MainSolutionTemplate.Api/static')
-    gulp dist --output $toFolder
+    gulp build --output $toFolder
     popd
 }
 
@@ -130,7 +130,7 @@ task test.run -depends nuget.restore -precondition { return $buildConfiguration 
     $runTestsSettings = '/exclude:Unstable /timeout:' + $runTestsTimeout
 
     $nunit2failed = 'false'
-    $hasFailure = false
+    $hasFailure = $FALSE
     $testFolders = Get-ChildItem $srcDirectory '*.Tests' -Directory
     foreach ($testFolder in $testFolders) {
 
