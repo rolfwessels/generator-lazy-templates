@@ -28,8 +28,13 @@ namespace MainSolutionTemplate.Dal.Mongo
 
         #region Implementation of IRepository<T>
 
+        public IQueryable<T> Query()
+        { 
+            _dataCounter.AddGet();
+            return _mongoCollection.AsQueryable();
+        }
 
-		public async Task<T> Add(T entity)
+        public async Task<T> Add(T entity)
 		{
 			entity.CreateDate = DateTime.Now;
 			entity.UpdateDate = DateTime.Now;

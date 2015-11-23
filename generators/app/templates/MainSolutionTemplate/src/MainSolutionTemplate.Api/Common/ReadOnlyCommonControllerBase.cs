@@ -12,20 +12,20 @@ namespace MainSolutionTemplate.Api.Common
     {
         protected IBaseManager<TDal> _projectManager;
 
-        public async Task<IEnumerable<TReferenceModel>> Get(string query = null)
+        public Task<IEnumerable<TReferenceModel>> Get(string query = null)
         {
-            var dals = await _projectManager.Get();
-            var queryToODataWrapper = new QueryToODataWrapper<TDal, TReferenceModel>(dals.AsQueryable(), query, ToReferenceModelList);
-            return queryToODataWrapper as IEnumerable<TReferenceModel>;
+            
+            var queryToODataWrapper = new QueryToODataWrapper<TDal, TReferenceModel>(_projectManager.Query(), query, ToReferenceModelList);
+            return Task.FromResult(queryToODataWrapper as IEnumerable<TReferenceModel>);
         }
 
       
 
-        public async  Task<IEnumerable<TModel>> GetDetail(string query = null)
+        public Task<IEnumerable<TModel>> GetDetail(string query = null)
         {
-            var dals = await _projectManager.Get();
-            var queryToODataWrapper = new QueryToODataWrapper<TDal, TModel>(dals.AsQueryable(), query, ToModelList);
-            return queryToODataWrapper as IEnumerable<TModel>;
+            
+            var queryToODataWrapper = new QueryToODataWrapper<TDal, TModel>(_projectManager.Query(), query, ToModelList);
+            return Task.FromResult( queryToODataWrapper as IEnumerable<TModel>);
         }
 
         public async Task<TModel> Get(Guid id)
