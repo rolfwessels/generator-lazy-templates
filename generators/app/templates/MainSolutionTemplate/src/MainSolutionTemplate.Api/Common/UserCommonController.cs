@@ -24,15 +24,12 @@ namespace MainSolutionTemplate.Api.Common
 
         #region IUserControllerActions Members
 
-        public Task<UserModel> Register(RegisterModel model)
+        public async Task<UserModel> Register(RegisterModel model)
         {
-            return Task.Run(() =>
-                {
-                    User user = model.ToDal();
-                    user.Roles.Add(Roles.Guest);
-                    User savedUser = _userManager.Save(user,model.Password);
-                    return savedUser.ToModel();
-                });
+            User user = model.ToDal();
+            user.Roles.Add(Roles.Guest);
+            User savedUser = await _userManager.Save(user, model.Password);
+            return savedUser.ToModel();
         }
 
         public Task<bool> ForgotPassword(string email)

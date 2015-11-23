@@ -10,8 +10,9 @@ namespace MainSolutionTemplate.Core.BusinessLogic.Components.Interfaces
     {
         Task<List<T>> Get();
         Task<List<T>> Get(Expression<Func<T, bool>> filter);
-        T Get(Guid id);
-        T Save(T project);
-        T Delete(Guid id);
+        Task<T> Get(Guid id);
+        Task<T> Save(T entity);
+        Task<T> Delete(Guid id);
+        IQueryable<T> Query();
     }
 }

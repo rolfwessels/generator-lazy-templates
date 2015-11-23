@@ -3,6 +3,7 @@ using FizzWare.NBuilder;
 using FluentAssertions;
 using MainSolutionTemplate.Api.Common;
 using MainSolutionTemplate.Core.BusinessLogic.Components.Interfaces;
+using MainSolutionTemplate.Core.Tests.Helpers;
 using MainSolutionTemplate.Dal.Models;
 using MainSolutionTemplate.Shared.Models;
 using MainSolutionTemplate.Shared.Models.Reference;

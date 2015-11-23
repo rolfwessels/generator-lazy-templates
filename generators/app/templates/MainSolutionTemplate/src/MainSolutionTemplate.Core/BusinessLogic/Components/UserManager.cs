@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using MainSolutionTemplate.Core.BusinessLogic.Components.Interfaces;
 using MainSolutionTemplate.Core.Vendor;
 using MainSolutionTemplate.Dal.Models;
@@ -13,15 +14,15 @@ namespace MainSolutionTemplate.Core.BusinessLogic.Components
     {
         private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        public UserManager(BaseManagerArguments maseManager) : base(maseManager)
+        public UserManager(BaseManagerArguments baseManagerArguments) : base(baseManagerArguments)
         {
         }
 
         #region Overrides of BaseManager<User>
 
-        public override User Save(User project)
+        public override Task<User> Save(User entity)
         {
-            return Save(project, null);
+            return Save(entity, null);
         }
         
         protected override void DefaultModelNormalize(User user)
@@ -33,26 +34,24 @@ namespace MainSolutionTemplate.Core.BusinessLogic.Components
 
         #region IUserManager Members
 
-        public User Save(User user, string password)
+        public async Task<User> Save(User user, string password)
         {
-            User found = Get(user.Id);
-            DefaultModelNormalize(user);
+            User found = await Get(user.Id);
             user.HashedPassword = password != null || found == null
                                       ? PasswordHash.CreateHash(password ??
                                                                 user.HashedPassword ?? DateTime.Now.ToString())
                                       : found.HashedPassword;
-            _validationFactory.ValidateAndThrow(user);
             if (found == null)
             {
-                return Insert(user);
+                return await Insert(user);
             }
-            Update(user);
+            await Update(user);
             return user;
         }
 
-        public User GetUserByEmailAndPassword(string email, string password)
+        public async Task<User> GetUserByEmailAndPassword(string email, string password)
         {
-            User user = GetUserByEmail(email);
+            User user = await GetUserByEmail(email);
             if (user != null && user.HashedPassword != null)
             {
                 if (!PasswordHash.ValidatePassword(password, user.HashedPassword))
@@ -68,17 +67,17 @@ namespace MainSolutionTemplate.Core.BusinessLogic.Components
             return user;
         }
 
-        public User GetUserByEmail(string email)
+        public async Task<User> GetUserByEmail(string email)
         {
-            return _generalUnitOfWork.Users.FindOne(x => x.Email == email.ToLower()).Result;
+            return await _generalUnitOfWork.Users.FindOne(x => x.Email == email.ToLower());
         }
 
-        public void UpdateLastLoginDate(string email)
+        public async Task UpdateLastLoginDate(string email)
         {
-            User userFound = GetUserByEmail(email);
+            User userFound = await GetUserByEmail(email);
             if (userFound == null) throw new ArgumentException("Invalid email address.");
             userFound.LastLoginDate = DateTime.Now;
-            Update(userFound);
+            await  Update(userFound);
         }
 
         #endregion

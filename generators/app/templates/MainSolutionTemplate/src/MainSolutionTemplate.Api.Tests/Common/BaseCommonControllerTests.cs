@@ -5,6 +5,7 @@ using FluentAssertions;
 using MainSolutionTemplate.Api.Common;
 using MainSolutionTemplate.Api.Models.Mappers;
 using MainSolutionTemplate.Core.BusinessLogic.Components.Interfaces;
+using MainSolutionTemplate.Core.Tests.Helpers;
 using MainSolutionTemplate.Dal.Models;
 using MainSolutionTemplate.Shared.Models.Base;
 using Moq;
@@ -61,7 +62,7 @@ namespace MainSolutionTemplate.Api.Tests.Common
             // arrange
             Setup();
             var reference = Builder<TDal>.CreateListOfSize(2).Build();
-            _mockManager.Setup(mc => mc.Get()).Returns(Task.FromResult(reference.ToList()));
+            _mockManager.Setup(mc => mc.Query()).Returns(reference.ToList().AsQueryable());
             // action
             var result = _commonController.Get().Result;
             // assert
@@ -75,8 +76,8 @@ namespace MainSolutionTemplate.Api.Tests.Common
             // arrange
             Setup();
             var reference = Builder<TDal>.CreateListOfSize(2).Build();
-            _mockManager.Setup(mc => mc.Get())
-                               .Returns(Task.FromResult(reference.ToList()));
+            _mockManager.Setup(mc => mc.Query())
+                               .Returns(reference.ToList().AsQueryable());
             // action
             var result = _commonController.GetDetail().Result;
             // assert
@@ -90,8 +91,7 @@ namespace MainSolutionTemplate.Api.Tests.Common
             // arrange
             Setup();
             var dal = SampleItem;
-            _mockManager.Setup(mc => mc.Get(dal.Id))
-                               .Returns(dal);
+            TestHelper.Returns(_mockManager.Setup(mc => mc.Get(dal.Id)),dal);
             // action
             var result = _commonController.Get(dal.Id).Result;
             // assert

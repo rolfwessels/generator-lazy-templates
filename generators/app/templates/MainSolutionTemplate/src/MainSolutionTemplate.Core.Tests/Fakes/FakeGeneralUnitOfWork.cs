@@ -61,6 +61,11 @@ namespace MainSolutionTemplate.Core.Tests.Fakes
 
             #region Implementation of IRepository<T>
 
+            public IQueryable<T> Query()
+            {
+                return _list.AsQueryable();
+            }
+
             public Task<T> Add(T entity)
             {
                 entity.CreateDate = DateTime.Now;

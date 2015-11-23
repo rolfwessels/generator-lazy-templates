@@ -29,25 +29,19 @@ namespace MainSolutionTemplate.Core.BusinessLogic.Components
             return Task.Run(() => _applicationManager.GetApplicationById(clientId).MapToIOAuthClient());
         }
 
-        public Task<IAuthorizedUser> GetUserByUserIdAndPassword(string userName, string password)
+        public async Task<IAuthorizedUser> GetUserByUserIdAndPassword(string userName, string password)
         {
-            return Task.Run(() =>
-                {
-                    _log.Info(string.Format("Login user '{0}'", userName));
-                    User user = _userManager.GetUserByEmailAndPassword(userName, password);
-                    return user.MapToIAuthorizedUser();
-                });
+            _log.Info(string.Format("Login user '{0}'", userName));
+            User user = await _userManager.GetUserByEmailAndPassword(userName, password);
+            return user.MapToIAuthorizedUser();
         }
 
-        public Task<string[]> GetRolesForUser(IAuthorizedUser user)
+        public async Task<string[]> GetRolesForUser(IAuthorizedUser user)
         {
             if (user == null) throw new ArgumentNullException("user");
-            return Task.Run(() =>
-                {
-                    _log.Info(string.Format("Roles user '{0}'", user.UserId));
-                    User foundUser = _userManager.GetUserByEmail(user.UserId);
-                    return foundUser != null ? foundUser.Roles.Select(x => x.Name).ToArray() : new string[0];
-                });
+            _log.Info(string.Format("Roles user '{0}'", user.UserId));
+            User foundUser = await _userManager.GetUserByEmail(user.UserId);
+            return foundUser != null ? foundUser.Roles.Select(x => x.Name).ToArray() : new string[0];
         }
 
         public Task UpdateUserLastActivityDate(IAuthorizedUser user)

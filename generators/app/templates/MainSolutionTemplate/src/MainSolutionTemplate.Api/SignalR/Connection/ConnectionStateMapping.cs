@@ -32,7 +32,7 @@ namespace MainSolutionTemplate.Api.SignalR.Connection
 			return _connections.GetOrAdd(context.ConnectionId, (t) =>
 				{
 					var principal = context.Request.GetPrincipal();
-					var userByEmail = _userManager.GetUserByEmail(principal.Identity.Name);
+					var userByEmail = _userManager.GetUserByEmail(principal.Identity.Name).Result;
 					var connectionState = new ConnectionState(context.ConnectionId, principal, userByEmail);
 					return connectionState;
 				});
