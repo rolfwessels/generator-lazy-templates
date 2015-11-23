@@ -21,12 +21,12 @@ namespace MainSolutionTemplate.Sdk.RestApi.Base
 
         #region Implementation of IBaseStandardLookups<UserModel,UserReferenceModel>
 
-        public Task<IList<TReferenceModel>> Get()
+        public Task<IEnumerable<TReferenceModel>> Get()
         {
             return Get("");
         }
 
-        public Task<IList<TModel>> GetDetail()
+        public Task<IEnumerable<TModel>> GetDetail()
         {
             return GetDetail("");
         }
@@ -41,13 +41,13 @@ namespace MainSolutionTemplate.Sdk.RestApi.Base
             return await ExecuteAndValidate<PagedResult<TReferenceModel>>(request);
         }
 
-        public async Task<IList<TReferenceModel>> Get(string oDataQuery)
+        public async Task<IEnumerable<TReferenceModel>> Get(string oDataQuery)
         {
             RestRequest request = DefaultRequest(_apiPrefix + "?" + oDataQuery, Method.GET);
             return await ExecuteAndValidate<List<TReferenceModel>>(request);
         }
 
-        public async Task<IList<TModel>> GetDetail(string oDataQuery)
+        public async Task<IEnumerable<TModel>> GetDetail(string oDataQuery)
         {
             RestRequest request = DefaultRequest(_apiPrefix.UriCombine(RouteHelper.WithDetail) + "?" + oDataQuery,
                                                  Method.GET);

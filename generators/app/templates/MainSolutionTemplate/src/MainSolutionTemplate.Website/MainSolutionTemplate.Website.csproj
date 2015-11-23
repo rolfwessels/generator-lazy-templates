@@ -64,8 +64,6 @@
   <ItemGroup>
     <Content Include="404.html" />
     <Content Include="assets\css\app.css" />
-    <Content Include="assets\css\avatars.css" />
-    <Content Include="assets\css\spritesheets\avatars.svg" />
     <Content Include="bower_components\angular-material\angular-material.css" />
     <Content Include="favicon.ico" />
     <Content Include="index.html" />
@@ -73,23 +71,30 @@
     <Content Include="scripts\app.js" />
     <Content Include="scripts\controllers.js" />
     <Content Include="scripts\controllers\forgotPasswordCtrl.js" />
-    <Content Include="scripts\controllers\userCtrl.js" />
-    <Content Include="scripts\controllers\dashboardCtrl.js" />
+    <Content Include="scripts\controllers\controller.projectCrud.js" />
+    <Content Include="scripts\controllers\controller.userCrud.js" />
+    <Content Include="scripts\controllers\controller.dashboard.js" />
     <Content Include="scripts\controllers\loginCtrl.js" />
     <Content Include="scripts\controllers\navigationCtrl.js" />
     <Content Include="scripts\directives.js" />
+    <Content Include="scripts\directives\directive.crudPanel.js" />
     <Content Include="scripts\filters.js" />
     <Content Include="scripts\route.js" />
     <Content Include="scripts\services.js" />
-    <Content Include="scripts\services\authorizationService.js" />
-    <Content Include="scripts\services\endPointService.js" />
-    <Content Include="scripts\services\dataService.js" />
-    <Content Include="scripts\services\messageService.js" />
-    <Content Include="views\dashboard_bottom.html" />
+    <Content Include="scripts\services\service.authorization.js" />
+    <Content Include="scripts\services\service.crud.js" />
+    <Content Include="scripts\services\service.user.js" />
+    <Content Include="scripts\services\service.project.js" />
+    <Content Include="scripts\services\service.signalr.js" />
+    <Content Include="scripts\services\service.endPoint.js" />
+    <Content Include="scripts\services\service.message.js" />
     <Content Include="views\forgotPassword.html" />
+    <Content Include="views\mainMenu.html" />
+    <Content Include="views\partial\crudFormPartial.html" />
+    <Content Include="views\partial\crudPanelPartial.html" />
+    <Content Include="views\project.html" />
     <Content Include="views\user.html" />
     <Content Include="views\dashboard.html" />
-    <Content Include="views\index_leftMenu.html" />
     <Content Include="views\login.html" />
     <Content Include="Web.config" />
   </ItemGroup>

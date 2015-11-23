@@ -8,6 +8,7 @@ using MainSolutionTemplate.Api.WebApi.Attributes;
 using MainSolutionTemplate.Api.WebApi.ODataSupport;
 using MainSolutionTemplate.Dal.Models.Enums;
 using MainSolutionTemplate.Shared;
+using MainSolutionTemplate.Shared.Interfaces.Base;
 using MainSolutionTemplate.Shared.Interfaces.Shared;
 using MainSolutionTemplate.Shared.Models;
 using MainSolutionTemplate.Shared.Models.Reference;
@@ -18,7 +19,7 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 	///     Api controller for managing all the user
 	/// </summary>
     [RoutePrefix(RouteHelper.UserController)]
-	public class UserController : ApiController, IUserControllerActions, IUserControllerLookups
+    public class UserController : ApiController, IUserControllerActions, IBaseControllerLookups<UserModel, UserReferenceModel>
     {
 	    private readonly UserCommonController _userCommonController;
 	    
@@ -39,7 +40,7 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
         }
 
         /// <summary>
-        /// Gets all users with their detail.
+        /// GetCounter all users with their detail.
         /// </summary>
         /// <returns></returns>
         [Route(RouteHelper.WithDetail),AuthorizeActivity(Activity.ReadUsers), QueryToODataFilter]

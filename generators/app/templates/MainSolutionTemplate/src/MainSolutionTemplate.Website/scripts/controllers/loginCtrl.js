@@ -1,7 +1,7 @@
 ﻿/* dashboardCtrl */
 
 angular.module('webapp.controllers')
-    .controller('loginCtrl', ['$scope', '$log', 'messageService', 'authorizationService','$location',
+    .controller('loginCtrl', ['$scope', '$log', 'service.message', 'service.authorization`','$location',
         function($scope, $log, messageService, authorizationService,$location) {
 
             /*

@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Threading.Tasks;
 using FizzWare.NBuilder;
 using FluentAssertions;
 using MainSolutionTemplate.Api.Common;
@@ -60,8 +61,7 @@ namespace MainSolutionTemplate.Api.Tests.Common
             // arrange
             Setup();
             var reference = Builder<TDal>.CreateListOfSize(2).Build();
-            _mockManager.Setup(mc => mc.Get())
-                               .Returns(reference.AsQueryable);
+            _mockManager.Setup(mc => mc.Get()).Returns(Task.FromResult(reference.ToList()));
             // action
             var result = _commonController.Get().Result;
             // assert
@@ -76,7 +76,7 @@ namespace MainSolutionTemplate.Api.Tests.Common
             Setup();
             var reference = Builder<TDal>.CreateListOfSize(2).Build();
             _mockManager.Setup(mc => mc.Get())
-                               .Returns(reference.AsQueryable);
+                               .Returns(Task.FromResult(reference.ToList()));
             // action
             var result = _commonController.GetDetail().Result;
             // assert

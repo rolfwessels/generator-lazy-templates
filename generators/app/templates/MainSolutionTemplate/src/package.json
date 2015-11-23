@@ -1,7 +1,9 @@
 {
   "name": "MainSolutionTemplate",
   "version": "0.0.1",
-  "dependencies": {},
+  "dependencies": {
+    "minimist": "^1.2.0"
+  },
   "main": "index.js",
   "devDependencies": {
     "browser-sync": "^2.7.6",

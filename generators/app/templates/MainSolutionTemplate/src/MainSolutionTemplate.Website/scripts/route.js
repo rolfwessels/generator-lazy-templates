@@ -7,15 +7,15 @@ angular
         $routeProvider
         .when('/', {
               templateUrl: 'views/dashboard.html',
-              controller: 'dashboardCtrl'
+              controller: 'controller.dashboard'
         })
         .when('/user/:id?', {
             templateUrl: 'views/user.html',
-            controller: 'userCtrl'
+            controller: 'controller.userCrud'
         })
         .when('/project/:id?', {
             templateUrl: 'views/project.html',
-            controller: 'projectCtrl'
+            controller: 'controller.projectCrud'
         })
         .when('/login/', {
               templateUrl: 'views/login.html',

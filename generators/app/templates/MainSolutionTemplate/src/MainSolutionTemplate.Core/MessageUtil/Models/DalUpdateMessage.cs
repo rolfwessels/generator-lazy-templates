@@ -23,6 +23,9 @@ namespace MainSolutionTemplate.Core.MessageUtil.Models
 			get { return _updateType; }
 		}
 
-		
+	    public override string ToString()
+	    {
+	        return string.Format("UpdateType: {0}, Value: {1}", UpdateType, Value);
+	    }
 	}
 }

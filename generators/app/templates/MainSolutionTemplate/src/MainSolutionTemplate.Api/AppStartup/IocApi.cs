@@ -1,20 +1,17 @@
-﻿using System;
-using System.Web.Http.Dependencies;
+﻿using System.Web.Http.Dependencies;
 using Autofac;
 using Autofac.Integration.SignalR;
 using Autofac.Integration.WebApi;
-using FluentValidation;
-using GoogleAnalyticsTracker.WebApi2;
+using GoogleAnalyticsTracker.WebAPI2;
 using MainSolutionTemplate.Api.Common;
 using MainSolutionTemplate.Api.Properties;
 using MainSolutionTemplate.Api.SignalR.Connection;
 using MainSolutionTemplate.Api.SignalR.Hubs;
 using MainSolutionTemplate.Api.WebApi.Controllers;
 using MainSolutionTemplate.Core.Startup;
-using MainSolutionTemplate.Dal.Models;
 using MainSolutionTemplate.Dal.Mongo;
 using MainSolutionTemplate.Dal.Persistance;
-using MainSolutionTemplate.Dal.Validation;
+using MainSolutionTemplate.Utilities.Helpers;
 
 namespace MainSolutionTemplate.Api.AppStartup
 {
@@ -24,10 +21,13 @@ namespace MainSolutionTemplate.Api.AppStartup
 		private static readonly object _locker = new object();
 		private static IocApi _instance;
 		private readonly IContainer _container;
+	    private ObjectPool<IGeneralUnitOfWork> _objectPool;
 
-		public IocApi()
+	    public IocApi()
 		{
-			var builder = new ContainerBuilder();
+		    var mongoDbConnectionFactory = new MongoConnectionFactory(Dal.Mongo.Properties.Settings.Default.Connection);
+	        _objectPool = new ObjectPool<IGeneralUnitOfWork>(mongoDbConnectionFactory.GetConnection);
+	        var builder = new ContainerBuilder();
 			SetupCore(builder);
 			SetupSignalr(builder);
             SetupCommonControllers(builder);
@@ -90,7 +90,8 @@ namespace MainSolutionTemplate.Api.AppStartup
 
 		protected override IGeneralUnitOfWork GetGeneralUnitOfWork(IComponentContext arg)
 		{
-			return new MongoGeneralUnitOfWork();
+		    return _objectPool.Get();
+
 		}
 
 		#endregion
@@ -105,7 +106,7 @@ namespace MainSolutionTemplate.Api.AppStartup
 
 		private void SignalRHubs(ContainerBuilder builder)
 		{
-			builder.RegisterHubs(typeof(UserHub).Assembly);
+            builder.RegisterHubs(typeof(NotificationHub).Assembly);
 			builder.Register(t => new AutofacDependencyResolver(_container)).As<Microsoft.AspNet.SignalR.IDependencyResolver>();
 		}
 

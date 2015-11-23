@@ -3,7 +3,7 @@ using MainSolutionTemplate.Dal.Models;
 
 namespace MainSolutionTemplate.Dal.Persistance
 {
-	public interface IGeneralUnitOfWork : IUnitOfWork, IDisposable
+	public interface IGeneralUnitOfWork : IDisposable
 	{
 		IRepository<User> Users { get;  }
 		IRepository<Role> Roles { get;  }

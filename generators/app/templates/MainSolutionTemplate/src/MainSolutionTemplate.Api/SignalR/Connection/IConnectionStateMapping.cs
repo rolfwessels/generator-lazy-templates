@@ -7,8 +7,9 @@ namespace MainSolutionTemplate.Api.SignalR.Connection
 	{
 		int Count { get; }
 		ConnectionState AddOrGet(HubCallerContext context);
-		ConnectionState Remove(string connectionId);
-		ConnectionState Reconnect(HubCallerContext context);
-		bool IsAuthorized(ConnectionState connectionState, Activity[] activities);
+        ConnectionState Get(HubCallerContext context);
+	    ConnectionState Remove(string connectionId);
+	    ConnectionState Reconnect(HubCallerContext context);
+	    bool IsAuthorized(ConnectionState connectionState, Activity[] activities);
 	}
 }

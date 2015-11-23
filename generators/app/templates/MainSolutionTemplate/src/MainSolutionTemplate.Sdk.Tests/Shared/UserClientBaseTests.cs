@@ -4,14 +4,13 @@ using FizzWare.NBuilder;
 using FizzWare.NBuilder.Generators;
 using FluentAssertions;
 using MainSolutionTemplate.Shared.Models;
+using MainSolutionTemplate.Shared.Models.Reference;
 using NUnit.Framework;
 
 namespace MainSolutionTemplate.Sdk.Tests.Shared
 {
-    public abstract class UserClientBaseTests :  CrudComponentTestsBase<UserModel,UserDetailModel>
+    public abstract class UserClientBaseTests :  CrudComponentTestsBase<UserModel,UserDetailModel,UserReferenceModel>
     {
-       
-
         [Test]
         public void Post_WhenCalledWithInvalidDuplicateEmail_ShouldThrowException()
         {

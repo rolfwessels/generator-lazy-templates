@@ -20,3 +20,4 @@ src/_NCrunch_MainSolutionTemplate/
 
 **/_NCrunch*
 **/nCrunchTemp*
+**/MainSolutionTemplate.Website/build/**

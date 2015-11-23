@@ -4,6 +4,6 @@ namespace MainSolutionTemplate.Shared.Models
 {
     public class ProjectModel : BaseModel
     {
-       
+        public string Name { get; set; }
     }
 }

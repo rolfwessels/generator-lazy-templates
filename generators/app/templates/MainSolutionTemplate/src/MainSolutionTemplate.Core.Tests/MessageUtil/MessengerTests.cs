@@ -48,6 +48,19 @@ namespace MainSolutionTemplate.Core.Tests.MessageUtil
 			// assert
 			recieved.Should().NotBeNull();
 		}
+		[Test]
+		public void Send_GivenObject_ShouldBeRecievedOnOtherListner()
+		{
+			// arrange
+			Setup();
+			var o = new object();
+			object recieved = null;
+			_messenger.Register(typeof(SampleMessage),o,m => recieved = m);
+			// action
+			_messenger.Send(new SampleMessage("String"));
+			// assert
+			recieved.Should().NotBeNull();
+		}
 		
 		[Test]
 		public void Send_GivenRegisteredAndThenUnregister_ShouldNotRelieveMessage()

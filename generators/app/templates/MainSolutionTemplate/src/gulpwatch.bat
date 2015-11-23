@@ -1,0 +1,1 @@
+call gulp default serve --env debug

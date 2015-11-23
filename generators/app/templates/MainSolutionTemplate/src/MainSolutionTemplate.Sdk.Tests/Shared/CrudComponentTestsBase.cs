@@ -4,19 +4,14 @@ using System.Reflection;
 using FizzWare.NBuilder;
 using FluentAssertions;
 using FluentAssertions.Equivalency;
-using MainSolutionTemplate.Core.Tests.Helpers;
 using MainSolutionTemplate.Shared.Interfaces.Base;
-using MainSolutionTemplate.Shared.Interfaces.Shared;
-using MainSolutionTemplate.Shared.Models;
-using MainSolutionTemplate.Shared.Models.Enums;
 using MainSolutionTemplate.Shared.Models.Interfaces;
-using Microsoft.AspNet.SignalR.Client;
 using NUnit.Framework;
 using log4net;
 
 namespace MainSolutionTemplate.Sdk.Tests.Shared
 {
-    public abstract class CrudComponentTestsBase<TModel, TDetailModel> : IntegrationTestsBase where TModel : IBaseModel
+    public abstract class CrudComponentTestsBase<TModel, TDetailModel, TReferenceModel> : IntegrationTestsBase where TModel : IBaseModel
     {
         private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         protected ICrudController<TModel, TDetailModel> _crudController;
@@ -27,6 +22,21 @@ namespace MainSolutionTemplate.Sdk.Tests.Shared
         }
 
         protected abstract void Setup();
+
+        [Test]
+        public void Get_WhenCalledWithOData_ShouldShouldFilter()
+        {
+            // arrange
+            Setup();
+            // action
+            var baseStandardLookups = _crudController  as IBaseStandardLookups<TModel, TReferenceModel>;
+            if (baseStandardLookups != null)
+            {
+                var restResponse = baseStandardLookups.Get("$top=1").Result;
+                // assert
+                restResponse.Count().Should().BeLessOrEqualTo(1);
+            }
+        }  
 
         [Test]
         public void PostPutDelete_WhenWhenGivenValidModel_ShouldLookupModels()
@@ -56,7 +66,7 @@ namespace MainSolutionTemplate.Sdk.Tests.Shared
         protected virtual EquivalencyAssertionOptions<TDetailModel> CompareConfig(
             EquivalencyAssertionOptions<TDetailModel> options)
         {
-            return options.ExcludingMissingProperties();
+            return options.ExcludingMissingMembers();
         }
 
         protected virtual IList<TDetailModel> GetExampleData()
@@ -64,36 +74,5 @@ namespace MainSolutionTemplate.Sdk.Tests.Shared
             return Builder<TDetailModel>.CreateListOfSize(2).All().Build();
         }
 
-
-        protected HubConnection CreateHubConnection()
-        {
-            _log.Info(string.Format("Connecting to {0}", SignalRUri));
-            var queryString = new Dictionary<string, string> {{AdminToken.TokenType, AdminToken.AccessToken}};
-            return new HubConnection(SignalRUri, queryString);
-        }
-
-
-        protected void BaseSimpleSubscriptionTest()
-        {
-            // arrange
-            Setup();
-            TDetailModel projectDetailModel = GetExampleData().First();
-
-            var valueUpdateModels = new List<ValueUpdateModel<TModel>>();
-            var client = _crudController as IEventUpdateEventSubSubscription<TModel>;
-            client.OnUpdate(valueUpdateModels.Add).Wait();
-            // action
-            TModel post = _crudController.Insert(projectDetailModel).Result;
-            _crudController.Update(post.Id, projectDetailModel).Wait();
-            client.UnsubscribeFromUpdates().Wait();
-            _crudController.Delete(post.Id);
-
-            IEnumerable<ValueUpdateModel<TModel>> updateModels = valueUpdateModels.Where(x => x.Value.Id == post.Id);
-            // assert
-            updateModels.WaitFor(x => x.Count() >= 2);
-            updateModels.Should().HaveCount(2);
-            updateModels.Select(x => x.UpdateType).Should().Contain(UpdateTypeCodes.Inserted);
-            updateModels.Select(x => x.UpdateType).Should().Contain(UpdateTypeCodes.Updated);
-        }
     }
 }

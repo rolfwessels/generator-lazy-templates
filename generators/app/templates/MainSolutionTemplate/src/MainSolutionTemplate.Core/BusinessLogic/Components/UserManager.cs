@@ -23,10 +23,10 @@ namespace MainSolutionTemplate.Core.BusinessLogic.Components
         {
             return Save(project, null);
         }
-
+        
         protected override void DefaultModelNormalize(User user)
         {
-            user.Email = user.Email.ToLower();
+            user.Email = (user.Email??"").ToLower();
         }
 
         #endregion
@@ -70,7 +70,7 @@ namespace MainSolutionTemplate.Core.BusinessLogic.Components
 
         public User GetUserByEmail(string email)
         {
-            return _generalUnitOfWork.Users.FirstOrDefault(x => x.Email == email.ToLower());
+            return _generalUnitOfWork.Users.FindOne(x => x.Email == email.ToLower()).Result;
         }
 
         public void UpdateLastLoginDate(string email)
@@ -78,7 +78,7 @@ namespace MainSolutionTemplate.Core.BusinessLogic.Components
             User userFound = GetUserByEmail(email);
             if (userFound == null) throw new ArgumentException("Invalid email address.");
             userFound.LastLoginDate = DateTime.Now;
-            _generalUnitOfWork.Users.Update(userFound);
+            Update(userFound);
         }
 
         #endregion

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace MainSolutionTemplate.Shared.Interfaces.Base
 {
-    public interface ICrudController<TModel, TDetailModel>
+    public interface ICrudController<TModel, TDetailModel> 
     {
         Task<TModel> Get(Guid id);
         Task<TModel> Insert(TDetailModel model);

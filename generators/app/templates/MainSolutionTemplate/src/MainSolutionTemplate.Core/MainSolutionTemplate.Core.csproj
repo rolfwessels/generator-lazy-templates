@@ -79,20 +79,21 @@
     <Reference Include="Autofac">
       <HintPath>..\..\lib\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="AutoMapper, Version=3.3.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+    <Reference Include="AutoMapper, Version=4.0.4.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\AutoMapper.3.3.1\lib\net40\AutoMapper.dll</HintPath>
+      <HintPath>..\..\lib\AutoMapper.4.0.4\lib\net45\AutoMapper.dll</HintPath>
     </Reference>
-    <Reference Include="AutoMapper.Net4, Version=3.3.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+    <Reference Include="FluentValidation, Version=5.6.2.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\AutoMapper.3.3.1\lib\net40\AutoMapper.Net4.dll</HintPath>
-    </Reference>
-    <Reference Include="FluentValidation">
-      <HintPath>..\..\lib\FluentValidation.5.5.0.0\lib\Net40\FluentValidation.dll</HintPath>
+      <HintPath>..\..\lib\FluentValidation.5.6.2.0\lib\Net45\FluentValidation.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="RestSharp">
+      <HintPath>..\..\lib\RestSharp.105.2.3\lib\net45\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -119,14 +120,10 @@
     <Compile Include="BusinessLogic\Components\OAuthDataManager.cs" />
     <Compile Include="BusinessLogic\Components\UserManager.cs" />
     <Compile Include="BusinessLogic\Components\ProjectManager.cs" />
+    <Compile Include="Mappers\MapCore.cs" />
     <Compile Include="Mappers\MapCore.Project.cs" />
     <Compile Include="Mappers\MapCore.OAuth.cs" />
     <Compile Include="Mappers\MapCore.User.cs" />
-    <Compile Include="Mappers\MapCore.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MapCore.tt</DependentUpon>
-    </Compile>
     <Compile Include="MessageUtil\IMessenger.cs" />
     <Compile Include="MessageUtil\Messenger.cs" />
     <Compile Include="MessageUtil\Models\DalUpdateMessage.cs" />
@@ -155,11 +152,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Mappers\MapCore.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>MapCore.cs</LastGenOutput>
-      <LastOutputs>.\MapCore.cs</LastOutputs>
-    </Content>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -185,7 +177,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
-  <Import Project="..\..\lib\AutoMapper.3.3.1\tools\AutoMapper.targets" Condition="Exists('..\..\lib\AutoMapper.3.3.1\tools\AutoMapper.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

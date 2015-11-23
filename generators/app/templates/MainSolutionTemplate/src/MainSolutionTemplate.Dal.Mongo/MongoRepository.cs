@@ -1,106 +1,103 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using MainSolutionTemplate.Dal.Models.Interfaces;
 using MainSolutionTemplate.Dal.Persistance;
-using MongoDB.Bson;
 using MongoDB.Driver;
-using MongoDB.Driver.Linq;
 
 namespace MainSolutionTemplate.Dal.Mongo
 {
-	public class MongoRepository<T> : IRepository<T> where T : IBaseDalModel
+    public class MongoRepository<T> : IRepository<T>, IHasDataCounter where T : IBaseDalModel
 	{
-		private readonly MongoDatabase _db;
-		private readonly MongoCollection<T> _mongoCollection;
+        private readonly IMongoCollection<T> _mongoCollection;
+        private readonly DataCounter _dataCounter;
 
-		public MongoRepository(MongoDatabase db)
+        public MongoRepository(IMongoDatabase database)
 		{
-			_db = db;
-			_mongoCollection = _db.GetCollection<T>(typeof(T).Name);
+	        
+	        _mongoCollection = database.GetCollection<T>(typeof(T).Name);
+            _dataCounter = new DataCounter(typeof(T).Name);
 		}
 
-		#region Implementation of IRepository<T>
-
-        public IQueryable<T> All
+        public DataCounter DataCounter
         {
-            get { return _mongoCollection.AsQueryable(); }
-
+            get { return _dataCounter; }
         }
 
-		public T Add(T entity)
+        #region Implementation of IRepository<T>
+
+
+		public async Task<T> Add(T entity)
 		{
 			entity.CreateDate = DateTime.Now;
 			entity.UpdateDate = DateTime.Now;
-			_mongoCollection.Save(entity);
-			return entity;
+		    await _mongoCollection.InsertOneAsync(entity);
+            _dataCounter.AddInsert();
+		    return entity;
 		}
-
-		public IEnumerable<T> AddRange(IEnumerable<T> entities)
+        
+        public IEnumerable<T> AddRange(IEnumerable<T> entities)
 		{
-			return entities.Select(Add);
+		    var enumerable = entities as IList<T> ?? entities.ToList();
+		    foreach (var entity in enumerable)
+		    {
+                entity.CreateDate = DateTime.Now;
+                entity.UpdateDate = DateTime.Now;
+                _dataCounter.AddInsert();
+		    }
+		    _mongoCollection.InsertManyAsync(enumerable);
+            
+		    return enumerable;
 		}
 
-		public bool Remove(T entity)
-		{
-			var baseDalModelWithId = entity as IBaseDalModelWithId;
-			if (baseDalModelWithId != null)
-			{
-				var query = new QueryDocument("_id", BsonValue.Create(baseDalModelWithId.Id));
-				WriteConcernResult writeConcernResult = _mongoCollection.Remove(query);
-				return writeConcernResult.Ok;
-			}
-			throw new Exception(string.Format("Entity {0} must have known id to be removed", typeof(T).Name));
-		}
+	    public async Task<bool> Remove(Expression<Func<T, bool>> filter)
+	    {
+            var deleteResult = await _mongoCollection.DeleteOneAsync(filter);
+            _dataCounter.AddDelete();
+            return deleteResult.DeletedCount > 0;
+	    }
 
-		public T Update(T entity)
+
+	    public async Task<T> Update(Expression<Func<T, bool>> filter, T entity)
 		{
 			entity.UpdateDate = DateTime.Now;
-			_mongoCollection.Save(entity);
+	        await _mongoCollection.ReplaceOneAsync(Builders<T>.Filter.Where(filter), entity);
+            _dataCounter.AddUpdate();
 			return entity;
 		}
 
-		public int RemoveRange(IEnumerable<T> entities)
-		{
-			return entities.Where(Remove).Count();
-		}
+        public Task<List<T>> Find(Expression<Func<T, bool>> filter)
+	    {
+            _dataCounter.AddGet();
+	        return _mongoCollection.Find(Builders<T>.Filter.Where(filter)).ToListAsync();
+	    }
 
-		#endregion
+        public Task<T> FindOne(Expression<Func<T, bool>> filter)
+	    {
+            _dataCounter.AddGet();
+            return _mongoCollection.Find(Builders<T>.Filter.Where(filter)).FirstOrDefaultAsync();
+	    }
 
-		#region Implementation of IEnumerable
 
-		public IEnumerator<T> GetEnumerator()
-		{
-			return _mongoCollection.AsQueryable().GetEnumerator();
-		}
-
-		IEnumerator IEnumerable.GetEnumerator()
-		{
-			return GetEnumerator();
-		}
-
-		#endregion
-
-		#region Implementation of IQueryable
-
-        public Expression Expression
+        public Task<long> Count()
         {
-            get { return _mongoCollection.AsQueryable().Expression; }
-
-        }
-        public Type ElementType
-        {
-            get { return _mongoCollection.AsQueryable().ElementType; }
-
-        }
-        public IQueryProvider Provider
-        {
-            get { return _mongoCollection.AsQueryable().Provider; }
-
+            
+            return Count((x)=>true);
         }
 
-		#endregion
+        public Task<long> Count(Expression<Func<T, bool>> filter)
+        {
+            _dataCounter.AddGet();
+            return _mongoCollection.CountAsync(Builders<T>.Filter.Where(filter));
+        }
+
+        #endregion
+
+        public Task<List<T>> Find()
+        {
+            return Find(x => true);
+        }
 	}
 }

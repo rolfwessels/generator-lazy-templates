@@ -1,6 +1,7 @@
 angular
     .module('webapp', [
 		'angular-loading-bar',
+		'ngAnimate',
         'ui.materialize',
         'webapp.routes',
         'webapp.controllers',
@@ -21,6 +22,6 @@ angular
     .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
       cfpLoadingBarProvider.includeSpinner = false;
     }])
-    .run(['authorizationService', function(authorizationService) {
+    .run(['service.authorization`', function(authorizationService) {
       authorizationService.isAuthenticatedOrRedirect();
     }]);

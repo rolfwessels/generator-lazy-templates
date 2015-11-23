@@ -68,8 +68,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="RestSharp">
-      <HintPath>..\..\lib\RestSharp.105.0.1\lib\net4\RestSharp.dll</HintPath>
+    <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\RestSharp.105.2.3\lib\net45\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -85,14 +86,8 @@
     <Compile Include="Interfaces\Base\IBaseControllerLookups.cs" />
     <Compile Include="Interfaces\Base\IBaseStandardLookups.cs" />
     <Compile Include="Interfaces\Base\ICrudController.cs" />
-    <Compile Include="Interfaces\Shared\IEventUpdateEventSubSubscription.cs" />
     <Compile Include="Interfaces\Shared\IUserControllerActions.cs" />
     <Compile Include="Interfaces\Shared\IProjectControllerActions.cs" />
-    <Compile Include="Interfaces\Shared\IUserControllerLookups.cs" />
-    <Compile Include="Interfaces\Shared\IProjectControllerLookups.cs" />
-    <Compile Include="Interfaces\Shared\IUserControllerStandardLookups.cs" />
-    <Compile Include="Interfaces\Shared\IProjectControllerStandardLookups.cs" />
-    <Compile Include="Interfaces\Shared\IEventUpdateEvent.cs" />
     <Compile Include="Models\Base\BaseModel.cs" />
     <Compile Include="Models\Base\BaseReferenceModel.cs" />
     <Compile Include="Models\Base\BaseReferenceModelWithName.cs" />
@@ -100,6 +95,7 @@
     <Compile Include="Models\ErrorMessage.cs" />
     <Compile Include="Models\Interfaces\IBaseModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\PagedResult.cs" />
     <Compile Include="Models\Reference\UserReferenceModel.cs" />
     <Compile Include="Models\Reference\ProjectReferenceModel.cs" />
     <Compile Include="Models\RegisterModel.cs" />

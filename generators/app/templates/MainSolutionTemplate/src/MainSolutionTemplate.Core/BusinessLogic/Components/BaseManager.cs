@@ -1,7 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using MainSolutionTemplate.Core.BusinessLogic.Components.Interfaces;
 using MainSolutionTemplate.Core.MessageUtil;
 using MainSolutionTemplate.Core.MessageUtil.Models;
@@ -41,19 +44,25 @@ namespace MainSolutionTemplate.Core.BusinessLogic.Components
 
         #region IBaseManager<T> Members
 
-        public virtual IQueryable<T> Get()
+      
+        public Task<List<T>> Get(Expression<Func<T, bool>> filter)
         {
-            return Repository;
+            return Repository.Find(filter);
+        }
+
+        public Task<List<T>> Get()
+        {
+            return Repository.Find(x => true);
         }
 
         public virtual T Get(Guid id)
         {
-            return Repository.FirstOrDefault(x => x.Id == id);
+            return Repository.FindOne(x => x.Id == id).Result;
         }
 
         public virtual T Save(T project)
         {
-            T projectFound = Repository.FirstOrDefault(x => x.Id == project.Id);
+            T projectFound = Get(project.Id);
             DefaultModelNormalize(project);
             _validationFactory.ValidateAndThrow(project);
             if (projectFound == null)
@@ -66,11 +75,11 @@ namespace MainSolutionTemplate.Core.BusinessLogic.Components
 
         public virtual T Delete(Guid id)
         {
-            T project = Repository.FirstOrDefault(x => x.Id == id);
+            T project = Get(id);
             if (project != null)
             {
                 _log.Info(string.Format("Remove {1} [{0}]", project, _name));
-                Repository.Remove(project);
+                Repository.Remove(x => x.Id == id);
                 _messenger.Send(new DalUpdateMessage<T>(project, UpdateTypes.Removed));
             }
             return project;
@@ -81,7 +90,7 @@ namespace MainSolutionTemplate.Core.BusinessLogic.Components
         protected T Update(T project)
         {
             _log.Info(string.Format("Update {1} [{0}]", project, _name));
-            T update = Repository.Update(project);
+            T update = Repository.Update(x => x.Id == project.Id, project).Result;
             _messenger.Send(new DalUpdateMessage<T>(project, UpdateTypes.Updated));
             return update;
         }

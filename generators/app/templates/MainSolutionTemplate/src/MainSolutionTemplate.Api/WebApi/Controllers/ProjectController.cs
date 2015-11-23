@@ -7,6 +7,7 @@ using MainSolutionTemplate.Api.WebApi.Attributes;
 using MainSolutionTemplate.Api.WebApi.ODataSupport;
 using MainSolutionTemplate.Dal.Models.Enums;
 using MainSolutionTemplate.Shared;
+using MainSolutionTemplate.Shared.Interfaces.Base;
 using MainSolutionTemplate.Shared.Interfaces.Shared;
 using MainSolutionTemplate.Shared.Models;
 using MainSolutionTemplate.Shared.Models.Reference;
@@ -18,7 +19,7 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 	///     Api controller for managing all the project
 	/// </summary>
     [RoutePrefix(RouteHelper.ProjectController)]
-	public class ProjectController : ApiController, IProjectControllerActions, IProjectControllerLookups
+    public class ProjectController : ApiController, IProjectControllerActions, IBaseControllerLookups<ProjectModel, ProjectReferenceModel>
     {
 	    private readonly ProjectCommonController _projectCommonController;
 	    
@@ -39,7 +40,7 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
         }
 
         /// <summary>
-        /// Gets all projects with their detail.
+        /// GetCounter all projects with their detail.
         /// </summary>
         /// <returns></returns>
         [Route(RouteHelper.WithDetail),AuthorizeActivity(Activity.ReadProject), QueryToODataFilter]

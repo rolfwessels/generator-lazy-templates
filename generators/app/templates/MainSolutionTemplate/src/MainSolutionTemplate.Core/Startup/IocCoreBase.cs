@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using Autofac;
+﻿using Autofac;
 using FluentValidation;
 using MainSolutionTemplate.Core.BusinessLogic.Components;
 using MainSolutionTemplate.Core.BusinessLogic.Components.Interfaces;
@@ -17,7 +15,8 @@ namespace MainSolutionTemplate.Core.Startup
 	{
 		protected void SetupCore(ContainerBuilder builder)
 		{
-			builder.Register(GetGeneralUnitOfWork).InstancePerLifetimeScope();
+           
+            builder.Register(GetGeneralUnitOfWork);
 			SetupManagers(builder);
 			SetupTools(builder);
             builder.RegisterType<UserValidator>().As<IValidator<User>>();

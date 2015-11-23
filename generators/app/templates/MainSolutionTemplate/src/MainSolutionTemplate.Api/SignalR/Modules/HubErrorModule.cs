@@ -1,12 +1,12 @@
 using System;
+using System.Linq;
 using System.Reflection;
 using FluentValidation;
-using MainSolutionTemplate.Api.WebApi.Filters;
 using log4net;
+using MainSolutionTemplate.Api.WebApi.Filters;
 using Microsoft.AspNet.SignalR.Hubs;
-using System.Linq;
 
-namespace Gaap.Api.SignalR.Attributes
+namespace MainSolutionTemplate.Api.SignalR.Modules
 {
     public class HubErrorModule : HubPipelineModule
     {

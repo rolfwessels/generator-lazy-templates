@@ -3,9 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using MainSolutionTemplate.Dal.Models;
 using MainSolutionTemplate.Dal.Models.Interfaces;
 using MainSolutionTemplate.Dal.Persistance;
+using MainSolutionTemplate.Utilities.Helpers;
 
 namespace MainSolutionTemplate.Core.Tests.Fakes
 {
@@ -49,48 +51,24 @@ namespace MainSolutionTemplate.Core.Tests.Fakes
         public class FakeRepository<T> : IRepository<T> where T : IBaseDalModel
         {
             private List<T> _list;
-            private IQueryable<T> _asQueryable;
 
             public FakeRepository()
             {
                 _list = new List<T>();
-                ElementType = typeof (T);
-                _asQueryable = _list.AsQueryable();
-                Expression = _asQueryable.Expression;
-                Provider = _asQueryable.Provider;
             }
 
-            #region Implementation of IEnumerable
-
-            public IEnumerator<T> GetEnumerator()
-            {
-                return _list.GetEnumerator();
-            }
-
-            IEnumerator IEnumerable.GetEnumerator()
-            {
-                return GetEnumerator();
-            }
-
-            #endregion
-
-            #region Implementation of IQueryable
-
-            public Expression Expression { get; private set; }
-            public Type ElementType { get; private set; }
-            public IQueryProvider Provider { get; private set; }
-
-            #endregion
+           
 
             #region Implementation of IRepository<T>
 
-            public T Add(T entity)
+            public Task<T> Add(T entity)
             {
-                _list.Add(entity);
-                entity.UpdateDate = DateTime.Now;
-                return entity;
+                entity.CreateDate = DateTime.Now;
+                AddAndSetUpdateDate(entity);
+                return Task.FromResult(entity);
             }
 
+         
             public IEnumerable<T> AddRange(IEnumerable<T> entities)
             {
                 foreach (var entity in entities)
@@ -98,6 +76,41 @@ namespace MainSolutionTemplate.Core.Tests.Fakes
                     Add(entity);
                 }
                 return entities;
+            }
+
+            public Task<bool> Remove(Expression<Func<T, bool>> filter)
+            {
+                T[] array = _list.Where(filter.Compile()).ToArray();
+                array.ForEach(x => _list.Remove(x));
+                return Task.FromResult(array.Length > 0);
+            }
+
+            public Task<List<T>> Find(Expression<Func<T, bool>> filter)
+            {
+                return Task.FromResult(_list.Where(filter.Compile()).ToList());
+            }
+
+            public Task<T> FindOne(Expression<Func<T, bool>> filter)
+            {
+                return Task.FromResult(_list.FirstOrDefault(filter.Compile()));
+            }
+
+            public Task<long> Count()
+            {
+                return Task.FromResult(_list.LongCount());
+            }
+
+            public Task<long> Count(Expression<Func<T, bool>> filter)
+            {
+                return Task.FromResult(_list.Where(filter.Compile()).LongCount());
+            }
+
+            public Task<T> Update(Expression<Func<T, bool>> filter, T entity)
+            {
+                Remove(filter);
+                AddAndSetUpdateDate(entity);
+                return Task.FromResult(entity);
+
             }
 
             public bool Remove(T entity)
@@ -117,15 +130,21 @@ namespace MainSolutionTemplate.Core.Tests.Fakes
                 return _list.Remove(entity);
             }
 
-            public T Update(T entity)
+            public T Update(T entity, object t)
             {
                 Remove(entity);
-                _list.Add(entity);
-                entity.UpdateDate = DateTime.Now;
+                AddAndSetUpdateDate(entity);
                 return entity;
             }
 
             #endregion
+
+            private void AddAndSetUpdateDate(T entity)
+            {
+                _list.Add(entity);
+                entity.UpdateDate = DateTime.Now;
+            }
+
         }
     }
 }

@@ -46,36 +46,46 @@ namespace MainSolutionTemplate.Core.MessageUtil
 
 		public void Register<T>(object receiver, Action<T> action) where T : class
 		{
-			WeakReference weakReference = new WeakReference(receiver);
 			Action<object> value = (t) => action(t as T);
-			var references = _dictionary.GetOrAdd(typeof (T), t => new ConcurrentDictionary<WeakReference, Action<object>>());
-			references.AddOrUpdate(weakReference,value,(k,v) => value);
+		    Register(typeof (T), receiver, value);
 		}
 
-		public void Unregister<T>(object receiver)
+        public void Register(Type type, object receiver, Action<object> action)
+	    {
+            WeakReference weakReference = new WeakReference(receiver);
+            var references = _dictionary.GetOrAdd(type, t => new ConcurrentDictionary<WeakReference, Action<object>>());
+            references.AddOrUpdate(weakReference, action, (k, v) => action);
+	    }
+
+	    public void Unregister<T>(object receiver)
 		{
-			ConcurrentDictionary<WeakReference, Action<object>> type;
-			if (_dictionary.TryGetValue(typeof(T), out type))
-			{
-				Action<object> action;
-				foreach (var key in type.Keys)
-				{
-					if (!key.IsAlive)
-					{
-						type.TryRemove(key, out action);
-						continue;
-					}
-					if (key.Target == receiver)
-					{
-						type.TryRemove(key, out action);
-					}
-				}
-				
-				
-			}
+			Unregister(typeof(T),receiver);
 		}
 
-		public void Unregister(object receiver)
+	    public void Unregister(Type type, object receiver)
+	    {
+            ConcurrentDictionary<WeakReference, Action<object>> typeFound;
+            if (_dictionary.TryGetValue(type, out typeFound))
+            {
+                Action<object> action;
+                foreach (var key in typeFound.Keys)
+                {
+                    if (!key.IsAlive)
+                    {
+                        typeFound.TryRemove(key, out action);
+                        continue;
+                    }
+                    if (key.Target == receiver)
+                    {
+                        typeFound.TryRemove(key, out action);
+                    }
+                }
+
+
+            }
+	    }
+
+	    public void Unregister(object receiver)
 		{
 			foreach (var type in _dictionary.Values)
 			{
