@@ -82,6 +82,11 @@ namespace MainSolutionTemplate.Core.BusinessLogic.Components
             return project;
         }
 
+        public IQueryable<T> Query()
+        {
+            return Repository.Query();
+        }
+
         #endregion
 
         protected async Task<T> Update(T entity)

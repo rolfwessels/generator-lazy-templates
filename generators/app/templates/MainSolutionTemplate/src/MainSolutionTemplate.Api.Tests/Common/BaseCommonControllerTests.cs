@@ -62,7 +62,7 @@ namespace MainSolutionTemplate.Api.Tests.Common
             // arrange
             Setup();
             var reference = Builder<TDal>.CreateListOfSize(2).Build();
-            _mockManager.Setup(mc => mc.Get()).Returns(Task.FromResult(reference.ToList()));
+            _mockManager.Setup(mc => mc.Query()).Returns(reference.ToList().AsQueryable());
             // action
             var result = _commonController.Get().Result;
             // assert
@@ -76,8 +76,8 @@ namespace MainSolutionTemplate.Api.Tests.Common
             // arrange
             Setup();
             var reference = Builder<TDal>.CreateListOfSize(2).Build();
-            _mockManager.Setup(mc => mc.Get())
-                               .Returns(Task.FromResult(reference.ToList()));
+            _mockManager.Setup(mc => mc.Query())
+                               .Returns(reference.ToList().AsQueryable());
             // action
             var result = _commonController.GetDetail().Result;
             // assert
