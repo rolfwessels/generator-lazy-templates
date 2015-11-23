@@ -5,6 +5,7 @@ using FluentAssertions;
 using MainSolutionTemplate.Api.Common;
 using MainSolutionTemplate.Api.Models.Mappers;
 using MainSolutionTemplate.Core.BusinessLogic.Components.Interfaces;
+using MainSolutionTemplate.Core.Tests.Helpers;
 using MainSolutionTemplate.Dal.Models;
 using MainSolutionTemplate.Shared.Models.Base;
 using Moq;
@@ -90,8 +91,7 @@ namespace MainSolutionTemplate.Api.Tests.Common
             // arrange
             Setup();
             var dal = SampleItem;
-            _mockManager.Setup(mc => mc.Get(dal.Id))
-                               .Returns(dal);
+            TestHelper.Returns(_mockManager.Setup(mc => mc.Get(dal.Id)),dal);
             // action
             var result = _commonController.Get(dal.Id).Result;
             // assert

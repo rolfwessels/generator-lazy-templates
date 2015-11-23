@@ -35,7 +35,7 @@ namespace MainSolutionTemplate.Core.Tests.Managers
             const string password = "sample";
             user.HashedPassword = PasswordHash.CreateHash(password);
             // action
-            User userFound = _userManager.GetUserByEmailAndPassword(user.Email, password);
+            User userFound = _userManager.GetUserByEmailAndPassword(user.Email, password).Result;
             // assert
             userFound.Should().NotBeNull();
         }
@@ -49,7 +49,7 @@ namespace MainSolutionTemplate.Core.Tests.Managers
             const string password = "sample";
             user.HashedPassword = PasswordHash.CreateHash(password);
             // action
-            User userFound = _userManager.GetUserByEmailAndPassword(user.Email, password + 123);
+            User userFound = _userManager.GetUserByEmailAndPassword(user.Email, password + 123).Result;
             // assert
             userFound.Should().BeNull();
         }
@@ -63,7 +63,7 @@ namespace MainSolutionTemplate.Core.Tests.Managers
             const string password = "sample";
             user.HashedPassword = PasswordHash.CreateHash(password);
             // action
-            User userFound = _userManager.GetUserByEmailAndPassword(user.Email + "123", password);
+            User userFound = _userManager.GetUserByEmailAndPassword(user.Email + "123", password).Result;
             // assert
             userFound.Should().BeNull();
         }
@@ -76,7 +76,7 @@ namespace MainSolutionTemplate.Core.Tests.Managers
             Setup();
             User user = _fakeGeneralUnitOfWork.Users.AddFake().First();
             // action
-            User userFound = _userManager.GetUserByEmail(user.Email + "123");
+            User userFound = _userManager.GetUserByEmail(user.Email + "123").Result;
             // assert
             userFound.Should().BeNull();
         }
@@ -88,7 +88,7 @@ namespace MainSolutionTemplate.Core.Tests.Managers
             Setup();
             User user = _fakeGeneralUnitOfWork.Users.AddFake().First();
             // action
-            User userFound = _userManager.GetUserByEmail(user.Email);
+            User userFound = _userManager.GetUserByEmail(user.Email).Result;
             // assert
             userFound.Should().NotBeNull();
         }
@@ -100,7 +100,7 @@ namespace MainSolutionTemplate.Core.Tests.Managers
             Setup();
             User user = Builder<User>.CreateNew().With(x => x.Email = "asdf@GMAIL.com").Build();
             // action
-            User result = _userManager.Save(user);
+            User result = _userManager.Save(user).Result;
             // assert
             result.Email.Should().Be("asdf@gmail.com");
         }

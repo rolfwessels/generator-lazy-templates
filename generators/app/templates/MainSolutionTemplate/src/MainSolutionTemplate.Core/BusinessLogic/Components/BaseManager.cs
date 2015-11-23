@@ -55,31 +55,28 @@ namespace MainSolutionTemplate.Core.BusinessLogic.Components
             return Repository.Find(x => true);
         }
 
-        public virtual T Get(Guid id)
+        public virtual Task<T> Get(Guid id)
         {
-            return Repository.FindOne(x => x.Id == id).Result;
+            return Repository.FindOne(x => x.Id == id);
         }
 
-        public virtual T Save(T project)
+        public virtual async Task<T> Save(T entity)
         {
-            T projectFound = Get(project.Id);
-            DefaultModelNormalize(project);
-            _validationFactory.ValidateAndThrow(project);
+            T projectFound =  await Get(entity.Id);
             if (projectFound == null)
             {
-                return Insert(project);
+                return await Insert(entity);
             }
-            Update(project);
-            return project;
+            return await Update(entity); 
         }
 
-        public virtual T Delete(Guid id)
+        public virtual async Task<T> Delete(Guid id)
         {
-            T project = Get(id);
+            T project = await Get(id);
             if (project != null)
             {
                 _log.Info(string.Format("Remove {1} [{0}]", project, _name));
-                Repository.Remove(x => x.Id == id);
+                await Repository.Remove(x => x.Id == id);
                 _messenger.Send(new DalUpdateMessage<T>(project, UpdateTypes.Removed));
             }
             return project;
@@ -87,20 +84,24 @@ namespace MainSolutionTemplate.Core.BusinessLogic.Components
 
         #endregion
 
-        protected T Update(T project)
+        protected async Task<T> Update(T entity)
         {
-            _log.Info(string.Format("Update {1} [{0}]", project, _name));
-            T update = Repository.Update(x => x.Id == project.Id, project).Result;
-            _messenger.Send(new DalUpdateMessage<T>(project, UpdateTypes.Updated));
+            DefaultModelNormalize(entity);
+            _validationFactory.ValidateAndThrow(entity);
+            _log.Info(string.Format("Update {1} [{0}]", entity, _name));
+            T update = await Repository.Update(x => x.Id == entity.Id, entity);
+            _messenger.Send(new DalUpdateMessage<T>(entity, UpdateTypes.Updated));
             return update;
         }
 
-        protected T Insert(T project)
+        protected async Task<T> Insert(T entity)
         {
-            _log.Info(string.Format("Adding {1} [{0}]", project, _name));
-            Repository.Add(project);
-            _messenger.Send(new DalUpdateMessage<T>(project, UpdateTypes.Inserted));
-            return project;
+            DefaultModelNormalize(entity);
+            _validationFactory.ValidateAndThrow(entity);
+            _log.Info(string.Format("Adding {1} [{0}]", entity, _name));
+            var insert = await Repository.Add(entity);
+            _messenger.Send(new DalUpdateMessage<T>(entity, UpdateTypes.Inserted));
+            return insert;
         }
 
         protected virtual void DefaultModelNormalize(T user)

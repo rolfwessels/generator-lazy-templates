@@ -19,35 +19,26 @@ namespace MainSolutionTemplate.Api.Common
         }
 
 
-        public Task<TModel> Update(Guid id, TDetailModel model)
+        public async Task<TModel> Update(Guid id, TDetailModel model)
         {
-            return Task.Run(() =>
-                {
-                    var projectFound = _projectManager.Get(id);
-                    if (projectFound == null) throw new Exception(string.Format("Could not find model by id '{0}'", id));
-                    var project = ToDal(model,projectFound);
-                    var saveProject = _projectManager.Save(project);
-                    return ToModel(saveProject);
-                });
+            var projectFound = await _projectManager.Get(id);
+            if (projectFound == null) throw new Exception(string.Format("Could not find model by id '{0}'", id));
+            var project = ToDal(model, projectFound);
+            var saveProject = await _projectManager.Save(project);
+            return ToModel(saveProject);
         }
 
 
-        public Task<TModel> Insert(TDetailModel model)
+        public async Task<TModel> Insert(TDetailModel model)
         {
-            return Task.Run(() =>
-                {
-                    var savedProject = _projectManager.Save(ToDal(model));
-                    return ToModel(savedProject);
-                });
+            var savedProject = await _projectManager.Save(ToDal(model));
+            return ToModel(savedProject);
         }
 
-        public Task<bool> Delete(Guid id)
+        public async Task<bool> Delete(Guid id)
         {
-            return Task.Run(() =>
-                {
-                    var deleteProject = _projectManager.Delete(id);
-                    return deleteProject != null;
-                });
+            var deleteProject = await _projectManager.Delete(id);
+            return deleteProject != null;
         }
 
         protected virtual TDal ToDal(TDetailModel arg)

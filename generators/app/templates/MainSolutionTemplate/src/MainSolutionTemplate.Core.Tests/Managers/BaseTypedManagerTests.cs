@@ -23,11 +23,11 @@ namespace MainSolutionTemplate.Core.Tests.Managers
             Setup();
             T project = Repository.AddFake().First();
             // action
-            Manager.Delete(project.Id);
+            Manager.Delete(project.Id).Wait();
             // assert
             _mockIMessenger.Verify(mc => mc.Send(It.Is<DalUpdateMessage<T>>(m => m.UpdateType == UpdateTypes.Removed)),
                                    Times.Once);
-            Manager.Get(project.Id).Should().BeNull();
+            Manager.Get(project.Id).Result.Should().BeNull();
         }
 
         [Test]
@@ -51,7 +51,7 @@ namespace MainSolutionTemplate.Core.Tests.Managers
             IList<T> addFake = Repository.AddFake();
             Guid guid = addFake.First().Id;
             // action
-            T result = Manager.Get(guid);
+            T result = Manager.Get(guid).Result;
             // assert
             result.Id.Should().Be(guid);
         }
@@ -63,7 +63,7 @@ namespace MainSolutionTemplate.Core.Tests.Managers
             Setup();
             T project = Repository.AddFake().First();
             // action
-            Manager.Save(project);
+            Manager.Save(project).Wait();
             // assert
             _mockIMessenger.Verify(mc => mc.Send(It.Is<DalUpdateMessage<T>>(m => m.UpdateType == UpdateTypes.Updated)),
                                    Times.Once);
@@ -78,7 +78,7 @@ namespace MainSolutionTemplate.Core.Tests.Managers
             Setup();
             T project = SampleObject;
             // action
-            Manager.Save(project);
+            Manager.Save(project).Wait();
             // assert
             _mockIMessenger.Verify(
                 mc => mc.Send(It.Is<DalUpdateMessage<T>>(m => m.UpdateType == UpdateTypes.Inserted)), Times.Once);
@@ -93,7 +93,7 @@ namespace MainSolutionTemplate.Core.Tests.Managers
             Setup();
             T project = SampleObject;
             // action
-            T result = Manager.Save(project);
+            T result = Manager.Save(project).Result;
             // assert
             Repository.Count().Result.Should().Be(1L);
             result.Should().NotBeNull();
@@ -106,7 +106,7 @@ namespace MainSolutionTemplate.Core.Tests.Managers
             Setup();
             T project = SampleObject;
             // action
-            T result = Manager.Save(project);
+            T result = Manager.Save(project).Result;
             // assert
             result.Id.Should().Be(project.Id);
         }
