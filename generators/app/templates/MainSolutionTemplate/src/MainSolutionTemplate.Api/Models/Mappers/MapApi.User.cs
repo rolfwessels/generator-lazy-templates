@@ -18,6 +18,7 @@ namespace MainSolutionTemplate.Api.Models.Mappers
 	    private static void MapUserModel()
 		{
 			Mapper.CreateMap<User, UserModel>();
+			Mapper.CreateMap<Role, RoleModel>();
             Mapper.CreateMap<User, UserReferenceModel>();
 			Mapper.CreateMap<UserReference, UserReferenceModel>();
 
@@ -64,6 +65,10 @@ namespace MainSolutionTemplate.Api.Models.Mappers
         public static IEnumerable<UserModel> ToModelList(IQueryable<User> users)
 	    {
             return Mapper.Map<IQueryable<User>, IEnumerable<UserModel>>(users);
+	    }
+        public static IEnumerable<RoleModel> ToModels(this List<Role> users)
+	    {
+            return Mapper.Map<List<Role>, IEnumerable<RoleModel>>(users);
 	    }
 	}
 }

@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
 using MainSolutionTemplate.Api.Common;
 using MainSolutionTemplate.Api.WebApi.Attributes;
 using MainSolutionTemplate.Api.WebApi.ODataSupport;
+using MainSolutionTemplate.Dal.Models;
 using MainSolutionTemplate.Dal.Models.Enums;
 using MainSolutionTemplate.Shared;
 using MainSolutionTemplate.Shared.Interfaces.Base;
@@ -27,6 +29,8 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
         {
             _userCommonController = userCommonController;
         }
+
+        
 
         /// <summary>
         ///     Returns list of all the users as references
@@ -98,6 +102,13 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
             return _userCommonController.Delete(id);
 		}
 
+        
+        [Route(RouteHelper.UserControllerRoles), AuthorizeActivity(Activity.ReadUsers)]
+        public Task<List<RoleModel>> Roles()
+        {
+            return _userCommonController.Roles();
+        }
+
 		#region Other actions
 
 	    /// <summary>
@@ -123,6 +134,17 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
             return _userCommonController.ForgotPassword(email);
 		}
 
+        /// <summary>
+        ///     Return the current user.
+        /// </summary>
+        /// <returns>
+        /// </returns>
+        [Route(RouteHelper.UserControllerWhoAmI), AuthorizeActivity, HttpGet]
+        public Task<UserModel> WhoAmI()
+        {
+            
+            return _userCommonController.WhoAmI();
+        }
 		#endregion
 	}
 }

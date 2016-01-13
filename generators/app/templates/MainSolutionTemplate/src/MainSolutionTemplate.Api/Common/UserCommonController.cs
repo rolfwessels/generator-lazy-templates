@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Security;
 using MainSolutionTemplate.Api.Models.Mappers;
@@ -19,10 +21,12 @@ namespace MainSolutionTemplate.Api.Common
     {
         private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private readonly IUserManager _userManager;
+        private readonly IRoleManager _roleManager;
 
-        public UserCommonController(IUserManager userManager) : base(userManager)
+        public UserCommonController(IUserManager userManager, IRoleManager roleManager) : base(userManager)
         {
             _userManager = userManager;
+            _roleManager = roleManager;
         }
 
         #region IUserControllerActions Members
@@ -59,5 +63,17 @@ namespace MainSolutionTemplate.Api.Common
         }
 
         #endregion
+
+        public async Task<List<RoleModel>> Roles()
+        {
+            var roles = await _roleManager.Get();
+            return roles.ToModels().ToList();
+        }
+
+        public async Task<UserModel> WhoAmI()
+        {
+            var userByEmail = await _userManager.GetUserByEmail(Thread.CurrentPrincipal.Identity.Name);
+            return userByEmail.ToModel();
+        }
     }
 }

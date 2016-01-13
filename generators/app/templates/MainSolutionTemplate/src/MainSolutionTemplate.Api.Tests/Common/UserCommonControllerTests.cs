@@ -18,15 +18,18 @@ namespace MainSolutionTemplate.Api.Tests.Common
     {
         private Mock<IUserManager> _mockIUserManager;
         private UserCommonController _projectCommonController;
-
+        private Mock<IRoleManager> _mockIRoleManager;
 
         #region Overrides of BaseCommonControllerTests
 
         public override void Setup()
         {
             _mockIUserManager = new Mock<IUserManager>(MockBehavior.Strict);
-            _projectCommonController = new UserCommonController(_mockIUserManager.Object);
-            _mockIUserManager.VerifyAll();
+            _mockIRoleManager = new Mock<IRoleManager>(MockBehavior.Strict);
+            
+            
+            _projectCommonController = new UserCommonController(_mockIUserManager.Object, _mockIRoleManager.Object);
+            
             base.Setup();
         }
 
@@ -39,6 +42,17 @@ namespace MainSolutionTemplate.Api.Tests.Common
         {
             return _projectCommonController;
         }
+
+        #region Overrides of BaseCommonControllerTests<User,UserModel,UserReferenceModel,UserDetailModel,IUserManager>
+
+        public override void TearDown()
+        {
+            base.TearDown();
+            _mockIUserManager.VerifyAll();
+            _mockIRoleManager.VerifyAll();
+        }
+
+        #endregion
 
         #endregion
         

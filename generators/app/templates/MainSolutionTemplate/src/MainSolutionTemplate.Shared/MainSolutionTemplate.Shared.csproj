@@ -99,6 +99,7 @@
     <Compile Include="Models\Reference\UserReferenceModel.cs" />
     <Compile Include="Models\Reference\ProjectReferenceModel.cs" />
     <Compile Include="Models\RegisterModel.cs" />
+    <Compile Include="Models\RoleModel.cs" />
     <Compile Include="Models\TokenRequestModel.cs" />
     <Compile Include="Models\TokenResponseModel.cs" />
     <Compile Include="Models\UserCreateUpdateModel.cs" />

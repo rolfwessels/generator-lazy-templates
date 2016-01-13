@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using MainSolutionTemplate.Core.BusinessLogic.Components.Interfaces;
 using MainSolutionTemplate.Dal.Models;
 using MainSolutionTemplate.Dal.Models.Enums;
@@ -14,7 +15,9 @@ namespace MainSolutionTemplate.Core.BusinessLogic.Components
         public static Role Guest = new Role()
         {
             Name = "Guest",
-            Activities = EnumHelper.ToArray<Activity>().Where(x => x.ToString().StartsWith("Read") || x == Activity.Subscribe).ToList()
+            Activities = EnumHelper.ToArray<Activity>()
+            .Where(x => (x != Activity.ReadUsers) && ( x.ToString().StartsWith("Read") || x == Activity.Subscribe) )
+            .ToList()
         };
 
         static RoleManager() 
@@ -28,12 +31,17 @@ namespace MainSolutionTemplate.Core.BusinessLogic.Components
 
         #region IRoleManager Members
 
-        public Role GetRoleByName(string name)
+        public Task<Role> GetRoleByName(string name)
         {
-            return GetRole(name);
+            return Task.FromResult( GetRole(name));
         }
 
-        private static Role GetRole(string name)
+        public Task<List<Role>> Get()
+        {
+            return Task.FromResult(_roles.ToList());
+        }
+
+        public static Role GetRole(string name)
         {
             return _roles.FirstOrDefault(x => x.Name == name);
         }
