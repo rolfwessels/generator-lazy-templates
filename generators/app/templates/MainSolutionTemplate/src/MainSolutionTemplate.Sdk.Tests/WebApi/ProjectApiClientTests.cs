@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using FizzWare.NBuilder;
 using FizzWare.NBuilder.Generators;
+using MainSolutionTemplate.Api.Tests.Helper;
 using MainSolutionTemplate.Core.Tests.Helpers;
 using MainSolutionTemplate.Sdk.RestApi;
 using MainSolutionTemplate.Sdk.Tests.Shared;
@@ -32,7 +33,7 @@ namespace MainSolutionTemplate.Sdk.Tests.WebApi
 
 	    protected override IList<ProjectDetailModel> GetExampleData()
 	    {
-	        var projectDetailModel = Builder<ProjectDetailModel>.CreateListOfSize(2).All().WithValidData().Build();
+	        var projectDetailModel = Builder<ProjectDetailModel>.CreateListOfSize(2).All().WithValidModelData().Build();
 	        return projectDetailModel;
 	    }
 

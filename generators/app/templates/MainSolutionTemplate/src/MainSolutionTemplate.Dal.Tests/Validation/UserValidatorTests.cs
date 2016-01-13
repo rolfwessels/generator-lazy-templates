@@ -91,6 +91,19 @@ namespace MainSolutionTemplate.Dal.Tests.Validation
             _validator.ShouldHaveValidationErrorFor(user => user.HashedPassword, "");
         }
 
+
+        [Test]
+        public void Validate_GiveInvalidRole_ShouldFail()
+        {
+            // arrange
+            Setup();
+            var user = Builder<User>.CreateNew().WithValidData().Build();
+            user.Roles.Clear();
+            // action
+            var validationResult = _validator.Validate(user);
+            // assert
+            validationResult.Errors.Select(x => x.ErrorMessage).Should().Contain("'Roles' should not be empty.");
+        }
          
     }
 }

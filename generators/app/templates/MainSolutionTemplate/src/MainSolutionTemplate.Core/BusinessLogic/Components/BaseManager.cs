@@ -92,17 +92,19 @@ namespace MainSolutionTemplate.Core.BusinessLogic.Components
         protected async Task<T> Update(T entity)
         {
             DefaultModelNormalize(entity);
-            _validationFactory.ValidateAndThrow(entity);
+            await Validate(entity);
             _log.Info(string.Format("Update {1} [{0}]", entity, _name));
             T update = await Repository.Update(x => x.Id == entity.Id, entity);
             _messenger.Send(new DalUpdateMessage<T>(entity, UpdateTypes.Updated));
             return update;
         }
 
+        
+
         protected async Task<T> Insert(T entity)
         {
             DefaultModelNormalize(entity);
-            _validationFactory.ValidateAndThrow(entity);
+            await Validate(entity);
             _log.Info(string.Format("Adding {1} [{0}]", entity, _name));
             var insert = await Repository.Add(entity);
             _messenger.Send(new DalUpdateMessage<T>(entity, UpdateTypes.Inserted));
@@ -111,6 +113,12 @@ namespace MainSolutionTemplate.Core.BusinessLogic.Components
 
         protected virtual void DefaultModelNormalize(T user)
         {
+        }
+
+        protected virtual Task Validate(T entity)
+        {
+            _validationFactory.ValidateAndThrow(entity);
+            return Task.FromResult(true);
         }
     }
 }

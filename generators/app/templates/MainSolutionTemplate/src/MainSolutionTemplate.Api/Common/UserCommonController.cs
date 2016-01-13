@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Web.Security;
@@ -44,6 +45,17 @@ namespace MainSolutionTemplate.Api.Common
                     return true;
                     
                 });
+        }
+
+        #endregion
+
+        #region Overrides of BaseCommonController<User,UserModel,UserReferenceModel,UserDetailModel>
+
+        protected override async Task<User> AddAdditionalMappings(UserDetailModel model, User dal)
+        {
+            var addAdditionalMappings = await base.AddAdditionalMappings(model, dal);
+            if (!addAdditionalMappings.Roles.Any()) addAdditionalMappings.Roles.Add(RoleManager.Guest.Name);
+            return addAdditionalMappings;
         }
 
         #endregion

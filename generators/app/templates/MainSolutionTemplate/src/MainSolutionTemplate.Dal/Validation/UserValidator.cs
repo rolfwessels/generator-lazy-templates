@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using System.Collections.Generic;
+using FluentValidation;
 using MainSolutionTemplate.Dal.Models;
 
 namespace MainSolutionTemplate.Dal.Validation
@@ -11,6 +12,9 @@ namespace MainSolutionTemplate.Dal.Validation
             RuleFor(x => x.Name).NotNull().MediumString();
             RuleFor(x => x.Email).NotNull().EmailAddress();
             RuleFor(x => x.HashedPassword).NotEmpty();
+            RuleFor(x => x.Roles).NotEmpty();
         }
+
+       
     }
 }

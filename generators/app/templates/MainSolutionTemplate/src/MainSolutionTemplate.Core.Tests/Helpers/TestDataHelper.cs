@@ -1,5 +1,6 @@
 ﻿using FizzWare.NBuilder;
 using FizzWare.NBuilder.Generators;
+using MainSolutionTemplate.Core.BusinessLogic.Components;
 using MainSolutionTemplate.Dal.Models;
 
 namespace MainSolutionTemplate.Core.Tests.Helpers
@@ -22,7 +23,8 @@ namespace MainSolutionTemplate.Core.Tests.Helpers
             if (user != null)
             {
                 user.HashedPassword = GetRandom.String(123);
-                user.Email = GetRandom.Email();
+                user.Email = GetRandom.Email().ToLower();
+                user.Roles.Add(RoleManager.Guest.Name);
             }
             return buildingObject;
         }

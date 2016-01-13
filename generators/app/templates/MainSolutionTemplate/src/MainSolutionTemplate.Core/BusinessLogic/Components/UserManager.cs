@@ -7,6 +7,7 @@ using MainSolutionTemplate.Core.Vendor;
 using MainSolutionTemplate.Dal.Models;
 using MainSolutionTemplate.Dal.Persistance;
 using log4net;
+using MainSolutionTemplate.Utilities.Helpers;
 
 namespace MainSolutionTemplate.Core.BusinessLogic.Components
 {
@@ -28,6 +29,16 @@ namespace MainSolutionTemplate.Core.BusinessLogic.Components
         protected override void DefaultModelNormalize(User user)
         {
             user.Email = (user.Email??"").ToLower();
+        }
+
+        protected override async Task Validate(User entity)
+        {
+            await base.Validate(entity);
+            var missingRoles = entity.Roles.Where(x => RoleManager.GetRole(x) == null).ToArray();
+            if (missingRoles.Any())
+            {
+                throw new ArgumentException(string.Format("The following role '{0}' does not exist.", missingRoles.StringJoin()));
+            }
         }
 
         #endregion

@@ -23,7 +23,7 @@ namespace MainSolutionTemplate.Api.Tests.Helper
             var user = buildingObject as UserDetailModel;
             if (user != null)
             {
-                user.Email = GetRandom.Email();
+                user.Email = GetRandom.Email().ToLower();
             }
             return buildingObject;
         }

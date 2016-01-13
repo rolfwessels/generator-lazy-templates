@@ -4,6 +4,8 @@ using System.Reflection;
 using FizzWare.NBuilder;
 using FizzWare.NBuilder.Generators;
 using FluentAssertions;
+using MainSolutionTemplate.Api.Tests.Helper;
+using MainSolutionTemplate.Core.Tests.Helpers;
 using MainSolutionTemplate.Sdk.OAuth;
 using MainSolutionTemplate.Sdk.RestApi;
 using MainSolutionTemplate.Sdk.Tests.Shared;
@@ -61,7 +63,7 @@ namespace MainSolutionTemplate.Sdk.Tests.WebApi
 
         protected override IList<UserDetailModel> GetExampleData()
         {
-            return Builder<UserDetailModel>.CreateListOfSize(2).All().With(x => x.Email = GetRandom.Email().ToLower()).Build();
+            return Builder<UserDetailModel>.CreateListOfSize(2).All().WithValidModelData().Build();
         }
 
         #endregion
