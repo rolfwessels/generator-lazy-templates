@@ -16,6 +16,7 @@ obj
 *.log
 src/_NCrunch_MainSolutionTemplate/
 **/bower_components
+**/node_modules
 **/StyleCop.Cache
 
 **/_NCrunch*
