@@ -41,7 +41,7 @@ namespace MainSolutionTemplate.Core.BusinessLogic.Components
             if (user == null) throw new ArgumentNullException("user");
             _log.Info(string.Format("Roles user '{0}'", user.UserId));
             User foundUser = await _userManager.GetUserByEmail(user.UserId);
-            return foundUser != null ? foundUser.Roles.Select(x => x.Name).ToArray() : new string[0];
+            return foundUser != null ? foundUser.Roles.ToArray() : new string[0];
         }
 
         public Task UpdateUserLastActivityDate(IAuthorizedUser user)

@@ -1,8 +1,8 @@
 using FizzWare.NBuilder;
 using FizzWare.NBuilder.Generators;
 using FluentValidation.TestHelper;
+using MainSolutionTemplate.Core.Tests.Helpers;
 using MainSolutionTemplate.Dal.Models;
-using MainSolutionTemplate.Dal.Tests.Helpers;
 using MainSolutionTemplate.Dal.Validation;
 using NUnit.Framework;
 using FluentAssertions;

@@ -34,7 +34,7 @@ namespace MainSolutionTemplate.Api.SignalR.Hubs
 
         #region IEventUpdateEvent Members
 
-        [HubAuthorizeActivity(Activity.SubscribeProject)]
+        [HubAuthorizeActivity(Activity.Subscribe)]
         public Task SubscribeToUpdates(string typeName)
         {
             return Task.Run(() =>
@@ -46,8 +46,8 @@ namespace MainSolutionTemplate.Api.SignalR.Hubs
             });
         }
 
-       
-        [HubAuthorizeActivity(Activity.SubscribeProject)]
+
+        [HubAuthorizeActivity(Activity.Subscribe)]
         public Task UnsubscribeFromUpdates(string typeName)
         {
             return Task.Run(() =>

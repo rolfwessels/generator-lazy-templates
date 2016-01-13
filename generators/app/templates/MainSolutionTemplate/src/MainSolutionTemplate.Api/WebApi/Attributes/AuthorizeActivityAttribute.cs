@@ -4,6 +4,7 @@ using System.Security.Claims;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using MainSolutionTemplate.Api.AppStartup;
+using MainSolutionTemplate.Core.BusinessLogic.Components;
 using MainSolutionTemplate.Core.BusinessLogic.Components.Interfaces;
 using MainSolutionTemplate.Dal.Models.Enums;
 using log4net;
@@ -41,8 +42,8 @@ namespace MainSolutionTemplate.Api.WebApi.Attributes
 					_log.Error("User not authorized because we were expecting a ClaimsIdentity");
 					return false;
 				}
-				var authorizeManager = IocApi.Instance.Resolve<IAuthorizeManager>();
-				isAuthorized = identity.Claims.Where(x => x.Type == ClaimTypes.Role).Any(x => authorizeManager.IsAuthorizedActivity(Activities, x.Value));
+			    var roleName = identity.Claims.Where(x => x.Type == ClaimTypes.Role).Select(x => x.Value).ToArray();
+			    isAuthorized = RoleManager.IsAuthorizedActivity(Activities, roleName);
 			}
 			return isAuthorized;
 		}

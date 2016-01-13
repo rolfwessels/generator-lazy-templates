@@ -75,7 +75,7 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="IHasDataCounter.cs" />
-    <Compile Include="Migrations\VersionUpdator.cs" />
+    <Compile Include="Migrations\VersionUpdater.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="Migrations\DbVersion.cs" />
     <Compile Include="Migrations\IMigration.cs" />

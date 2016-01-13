@@ -208,8 +208,6 @@
     <Compile Include="OAuth\OAuthApiClientTests.cs" />
     <Compile Include="WebApi\UserApiClientTests.cs" />
     <Compile Include="WebApi\ProjectApiClientTests.cs" />
-    <Compile Include="Shared\UserClientBaseTests.cs" />
-    <Compile Include="Shared\ProjectClientBaseTests.cs" />
     <Compile Include="SignalR\NotificationHubClientTests.cs" />
   </ItemGroup>
   <ItemGroup>

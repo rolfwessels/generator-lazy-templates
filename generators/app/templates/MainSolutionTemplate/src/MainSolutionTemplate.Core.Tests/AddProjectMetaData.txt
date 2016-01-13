@@ -3,40 +3,52 @@
 public const string ProjectController = ApiPrefix+"project";
 
 > Enums\Activity.cs
-        ReadProject = 100,
-        UpdateProject = 101,
-        InsertProject = 102,
-        DeleteProject = 103,
-        SubscribeProject = 104,
+        ReadProject = x00,
+        UpdateProject = x01,
+        InsertProject = x02,
+        DeleteProject = x03,
+        SubscribeProject = x04,
 
 > IocCoreBase
     builder.RegisterType<ProjectManager>().As<IProjectManager>();
+    builder.RegisterType<ProjectValidator>().As<IValidator<Project>>();
 
 > IGeneralUnitOfWork
-		IRepository<Project> Projects { get;  }
+	IRepository<Project> Projects { get;  }
 
 
 > MongoGeneralUnitOfWork
-Projects = new MongoRepository<Project>(_db);
-public IRepository<Project> Projects { get; private set; }
+  Projects = new MongoRepository<Project>(database);
+  public IRepository<Project> Projects { get; private set; }
 
 > FakeGeneralUnitOfWork
-Projects = new FakeRepository<Project>();
-public IRepository<Project> Projects { get; private set; }
+  Projects = new FakeRepository<Project>();
+  public IRepository<Project> Projects { get; private set; }
 
-> EfGeneralUnitOfWork
-Projects = new EfRepository<Project>(_context.Value.Projects, _context.Value);
-public IRepository<Project> Projects { get; private set; }
-
-> GeneralDbContext
-public DbSet<Project> Projects { get; set; }
-modelBuilder.Entity<Project>().Property(x => x.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
 >  IocApi :  SetupCommonControllers(ContainerBuilder builder)
 		builder.RegisterType<ProjectCommonController>();
 			
->  IocApi :  SetupCommonControllers(ContainerBuilder builder)
-		builder.RegisterType<ProjectCommonController>();
-       
+> MapCore
+   CreateProjectMap();
+
 >  MapApi 
 		MapProjectModel();
+
+
+--------------------
+js
+--------------------
+
+> route.js 
+.when('/project/:id?', {
+            templateUrl: 'views/project.html',
+            controller: 'controller.projectCrud'
+        })
+
+> controller.dashboard
+
+'service.project',
+, serviceProject
+mapData(serviceProject, 'projects', '#/project');
+

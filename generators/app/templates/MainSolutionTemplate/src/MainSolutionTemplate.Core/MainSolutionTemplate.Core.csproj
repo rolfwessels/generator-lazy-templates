@@ -83,6 +83,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\AutoMapper.4.0.4\lib\net45\AutoMapper.dll</HintPath>
     </Reference>
+    <Reference Include="FizzWare.NBuilder">
+      <HintPath>..\..\lib\NBuilder.3.0.1.1\lib\FizzWare.NBuilder.dll</HintPath>
+    </Reference>
     <Reference Include="FluentValidation, Version=5.6.2.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\FluentValidation.5.6.2.0\lib\Net45\FluentValidation.dll</HintPath>
@@ -106,14 +109,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BusinessLogic\Components\AuthorizeManager.cs" />
     <Compile Include="BusinessLogic\Components\BaseManager.cs" />
     <Compile Include="BusinessLogic\Components\BaseManagerArguments.cs" />
     <Compile Include="BusinessLogic\Components\Interfaces\IApplicationManager.cs" />
     <Compile Include="BusinessLogic\Components\ApplicationManager.cs" />
     <Compile Include="BusinessLogic\Components\Interfaces\IBaseManager.cs" />
     <Compile Include="BusinessLogic\Components\RoleManager.cs" />
-    <Compile Include="BusinessLogic\Components\Interfaces\IAuthorizeManager.cs" />
     <Compile Include="BusinessLogic\Components\Interfaces\IRoleManager.cs" />
     <Compile Include="BusinessLogic\Components\Interfaces\IUserManager.cs" />
     <Compile Include="BusinessLogic\Components\Interfaces\IProjectManager.cs" />

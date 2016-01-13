@@ -21,7 +21,6 @@ namespace MainSolutionTemplate.Api.Tests.Common
         {
             _mockIProjectManager = new Mock<IProjectManager>(MockBehavior.Strict);
             _projectCommonController = new ProjectCommonController(_mockIProjectManager.Object);
-            _mockIProjectManager.VerifyAll();
             base.Setup();
         }
 
@@ -33,6 +32,12 @@ namespace MainSolutionTemplate.Api.Tests.Common
         protected override BaseCommonController<Project, ProjectModel, ProjectReferenceModel, ProjectDetailModel> GetCommonController()
         {
             return _projectCommonController;
+        }
+
+        public override void TearDown()
+        {
+            base.TearDown();
+            _mockIProjectManager.VerifyAll();
         }
 
         #endregion

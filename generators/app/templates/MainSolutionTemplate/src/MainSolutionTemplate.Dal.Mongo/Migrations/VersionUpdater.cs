@@ -10,14 +10,14 @@ using MongoDB.Driver;
 
 namespace MainSolutionTemplate.Dal.Mongo.Migrations
 {
-    public class VersionUpdator
+    public class VersionUpdater
     {
         private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private static readonly Mutex _dbUpdateLocker = new Mutex();
         private readonly IMigration[] _updates;
 
 
-        public VersionUpdator(IMigration[] updates)
+        public VersionUpdater(IMigration[] updates)
         {
             _updates = updates;
         }

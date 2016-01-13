@@ -2,7 +2,7 @@
 
 namespace MainSolutionTemplate.Core.BusinessLogic.Components.Interfaces
 {
-    public interface IRoleManager : IBaseManager<Role>
+    public interface IRoleManager 
     {
         Role GetRoleByName(string name);
     }

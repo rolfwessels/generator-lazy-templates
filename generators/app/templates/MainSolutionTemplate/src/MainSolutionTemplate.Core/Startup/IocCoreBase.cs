@@ -19,23 +19,30 @@ namespace MainSolutionTemplate.Core.Startup
             builder.Register(GetGeneralUnitOfWork);
 			SetupManagers(builder);
 			SetupTools(builder);
-            builder.RegisterType<UserValidator>().As<IValidator<User>>();
+            SetupValidation(builder);
 		}
 
-		private static void SetupManagers(ContainerBuilder builder)
+	    private static void SetupManagers(ContainerBuilder builder)
 		{
             builder.RegisterType<BaseManagerArguments>();
             builder.RegisterType<ApplicationManager>().As<IApplicationManager>();
-            builder.RegisterType<AuthorizeManager>().As<IAuthorizeManager>();
             builder.RegisterType<OAuthDataManager>().As<IOAuthDataManager>();
             builder.RegisterType<ProjectManager>().As<IProjectManager>();
             builder.RegisterType<RoleManager>().As<IRoleManager>();
             builder.RegisterType<UserManager>().As<IUserManager>();
 
-            builder.RegisterType<ValidatorFactory>().As<IValidatorFactory>();
+            
 		}
 
-		private void SetupTools(ContainerBuilder builder)
+	    private static void SetupValidation(ContainerBuilder builder)
+	    {
+            builder.RegisterType<ValidatorFactory>().As<IValidatorFactory>();
+	        builder.RegisterType<UserValidator>().As<IValidator<User>>();
+	        builder.RegisterType<ProjectValidator>().As<IValidator<Project>>();
+	        builder.RegisterType<UserValidator>().As<IValidator<User>>();
+	    }
+
+	    private void SetupTools(ContainerBuilder builder)
 		{
 			builder.Register((x) => Messenger.Default).As<IMessenger>();
 		}

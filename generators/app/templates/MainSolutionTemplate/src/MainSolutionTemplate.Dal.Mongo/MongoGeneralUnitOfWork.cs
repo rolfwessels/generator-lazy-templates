@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Dynamic;
 using System.Linq;
-using System.Reflection;
 using MainSolutionTemplate.Dal.Models;
-using MainSolutionTemplate.Dal.Mongo.Migrations;
 using MainSolutionTemplate.Dal.Persistance;
 using MongoDB.Driver;
 
@@ -16,7 +13,6 @@ namespace MainSolutionTemplate.Dal.Mongo
 	    {
             Configuration.Initialize(database);
             Users = new MongoRepository<User>(database);
-            Roles = new MongoRepository<Role>(database);
             Applications = new MongoRepository<Application>(database);
             Projects = new MongoRepository<Project>(database);
 
@@ -34,7 +30,6 @@ namespace MainSolutionTemplate.Dal.Mongo
 		#region Implementation of IGeneralUnitOfWork
 
 		public IRepository<User> Users { get; private set; }
-		public IRepository<Role> Roles { get; private set; }
 		public IRepository<Application> Applications { get; private set; }
 	    public IRepository<Project> Projects { get; private set; }
 	   
@@ -44,7 +39,7 @@ namespace MainSolutionTemplate.Dal.Mongo
         {
             get
             {
-                var counters = new Object[] { Users, Roles, Applications, Projects }.Cast<IHasDataCounter>();
+                var counters = new Object[] { Users,  Applications, Projects }.Cast<IHasDataCounter>();
                 return counters.Select(x => new KeyValuePair<string, DataCounter>(x.GetType().GetGenericTypeDefinition().Name, x.DataCounter));
             }
         }

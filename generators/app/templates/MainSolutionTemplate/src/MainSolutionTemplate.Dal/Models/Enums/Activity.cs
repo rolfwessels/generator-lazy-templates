@@ -2,16 +2,17 @@
 {
 	public enum Activity
 	{
+        Subscribe = 001,
+
 		ReadUsers = 100 ,
 		UpdateUsers = 101 ,
         InsertUsers = 102,
         DeleteUser = 103,
-        SubscribeUser = 104,
 
         ReadProject = 100,
         UpdateProject = 101,
         InsertProject = 102,
         DeleteProject = 103,
-        SubscribeProject = 104,
+	    
 	}
 }

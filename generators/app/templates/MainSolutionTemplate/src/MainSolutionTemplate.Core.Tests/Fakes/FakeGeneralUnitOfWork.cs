@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -16,25 +15,15 @@ namespace MainSolutionTemplate.Core.Tests.Fakes
         public FakeGeneralUnitOfWork()
         {
             Users = new FakeRepository<User>();
-            Roles = new FakeRepository<Role>();
             Applications = new FakeRepository<Application>();
             Projects = new FakeRepository<Project>();
         }
 
-        #region Implementation of IUnitOfWork
-
-        public void Rollback()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        #endregion
 
         #region Implementation of IDisposable
 
         public void Dispose()
         {
-            
         }
 
         #endregion
@@ -42,22 +31,21 @@ namespace MainSolutionTemplate.Core.Tests.Fakes
         #region Implementation of IGeneralUnitOfWork
 
         public IRepository<User> Users { get; private set; }
-        public IRepository<Role> Roles { get; private set; }
         public IRepository<Application> Applications { get; private set; }
         public IRepository<Project> Projects { get; private set; }
 
         #endregion
 
+        #region Nested type: FakeRepository
+
         public class FakeRepository<T> : IRepository<T> where T : IBaseDalModel
         {
-            private List<T> _list;
+            private readonly List<T> _list;
 
             public FakeRepository()
             {
                 _list = new List<T>();
             }
-
-           
 
             #region Implementation of IRepository<T>
 
@@ -73,14 +61,15 @@ namespace MainSolutionTemplate.Core.Tests.Fakes
                 return Task.FromResult(entity);
             }
 
-         
+
             public IEnumerable<T> AddRange(IEnumerable<T> entities)
             {
-                foreach (var entity in entities)
+                var addRange = entities as T[] ?? entities.ToArray();
+                foreach (T entity in addRange)
                 {
                     Add(entity);
                 }
-                return entities;
+                return addRange;
             }
 
             public Task<bool> Remove(Expression<Func<T, bool>> filter)
@@ -115,7 +104,6 @@ namespace MainSolutionTemplate.Core.Tests.Fakes
                 Remove(filter);
                 AddAndSetUpdateDate(entity);
                 return Task.FromResult(entity);
-
             }
 
             public bool Remove(T entity)
@@ -123,13 +111,12 @@ namespace MainSolutionTemplate.Core.Tests.Fakes
                 var baseDalModelWithId = entity as IBaseDalModelWithId;
                 if (baseDalModelWithId != null)
                 {
-                    var baseDalModelWithIds =
+                    IBaseDalModelWithId baseDalModelWithIds =
                         _list.Cast<IBaseDalModelWithId>().FirstOrDefault(x => x.Id == baseDalModelWithId.Id);
                     if (baseDalModelWithIds != null)
                     {
                         _list.Remove((T) baseDalModelWithIds);
                         return true;
-
                     }
                 }
                 return _list.Remove(entity);
@@ -144,12 +131,17 @@ namespace MainSolutionTemplate.Core.Tests.Fakes
 
             #endregion
 
+            #region Private Methods
+
             private void AddAndSetUpdateDate(T entity)
             {
                 _list.Add(entity);
                 entity.UpdateDate = DateTime.Now;
             }
 
+            #endregion
         }
+
+        #endregion
     }
 }

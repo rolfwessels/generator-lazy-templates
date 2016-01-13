@@ -1,6 +1,9 @@
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
+using System.Web.Security;
 using MainSolutionTemplate.Api.SignalR.Attributes;
+using MainSolutionTemplate.Core.BusinessLogic.Components;
 using MainSolutionTemplate.Dal.Models;
 using MainSolutionTemplate.Dal.Models.Enums;
 
@@ -44,9 +47,7 @@ namespace MainSolutionTemplate.Api.SignalR.Connection
 		{
 			if (Principal.IsAuthenticated())
 			{
-				if (User.Roles.Select(x => x.Name).Contains(Roles.Admin.Name)) return true;
-				var userActivities = User.Roles.SelectMany(x => x.Activities);
-				return activities.Select(userActivities.Contains).All(contains => contains);
+			    return RoleManager.IsAuthorizedActivity(activities, User.Roles.ToArray());
 			}
 			return false;
 		}

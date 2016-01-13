@@ -23,7 +23,7 @@ namespace MainSolutionTemplate.Api.Common
         {
             var projectFound = await _projectManager.Get(id);
             if (projectFound == null) throw new Exception(string.Format("Could not find model by id '{0}'", id));
-            var project = ToDal(model, projectFound);
+            var project = await ToDal(model, projectFound);
             var saveProject = await _projectManager.Save(project);
             return ToModel(saveProject);
         }
@@ -31,7 +31,8 @@ namespace MainSolutionTemplate.Api.Common
 
         public async Task<TModel> Insert(TDetailModel model)
         {
-            var savedProject = await _projectManager.Save(ToDal(model));
+            var entity = await ToDal(model);
+            var savedProject = await _projectManager.Save(entity);
             return ToModel(savedProject);
         }
 
@@ -41,14 +42,23 @@ namespace MainSolutionTemplate.Api.Common
             return deleteProject != null;
         }
 
-        protected virtual TDal ToDal(TDetailModel arg)
+        protected virtual async Task<TDal> ToDal(TDetailModel model)
         {
-            return Mapper.Map<TDetailModel, TDal>(arg);
+            var mappedResult = Mapper.Map<TDetailModel, TDal>(model);
+            await AddAdditionalMappings(model, mappedResult);
+            return mappedResult;
         }
-        
-        protected virtual TDal ToDal(TDetailModel arg,TDal inp)
+
+        protected virtual async Task<TDal> ToDal(TDetailModel model, TDal dal)
         {
-            return Mapper.Map(arg, inp);
+            var mappedResult = Mapper.Map(model, dal);
+            await AddAdditionalMappings(model, mappedResult);
+            return mappedResult;
+        }
+
+        protected virtual Task<TDal> AddAdditionalMappings(TDetailModel model, TDal dal)
+        {
+            return Task.FromResult(dal);
         }
     }
 }

@@ -2,7 +2,6 @@ using FizzWare.NBuilder;
 using FizzWare.NBuilder.Generators;
 using MainSolutionTemplate.Core.Tests.Helpers;
 using MainSolutionTemplate.Dal.Models;
-using MainSolutionTemplate.Dal.Tests.Helpers;
 using NUnit.Framework;
 
 namespace MainSolutionTemplate.Dal.Mongo.Tests.Persistance

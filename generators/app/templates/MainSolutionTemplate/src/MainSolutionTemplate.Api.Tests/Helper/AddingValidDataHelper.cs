@@ -1,16 +1,21 @@
 ﻿using FizzWare.NBuilder;
 using FizzWare.NBuilder.Generators;
-using MainSolutionTemplate.Dal.Models;
 using MainSolutionTemplate.Shared.Models;
 
 namespace MainSolutionTemplate.Api.Tests.Helper
 {
-    public static class TestDataHelper
+    public static class AddingValidDataHelper
     {
-        public static ISingleObjectBuilder<T> WithValidModelData<T>(this ISingleObjectBuilder<T> createNew)
+        
+
+        public static ISingleObjectBuilder<T> WithValidModelData<T>(this ISingleObjectBuilder<T> builder)
         {
-            createNew.With(WithValidDataAdded);
-            return createNew;
+            return builder.With(WithValidDataAdded);
+        }
+
+        public static IOperable<T> WithValidModelData<T>(this IOperable<T> operable)
+        {
+            return operable.With(WithValidDataAdded);
         }
 
         private static T WithValidDataAdded<T>(T buildingObject)

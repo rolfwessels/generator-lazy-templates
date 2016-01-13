@@ -84,7 +84,6 @@
     <Compile Include="MongoDbCounters.cs" />
     <Compile Include="MongoStatsKeeper.cs" />
     <Compile Include="Persistance\ProjectCollectionTests.cs" />
-    <Compile Include="Persistance\RoleCollectionTests.cs" />
     <Compile Include="Persistance\UserCollectionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

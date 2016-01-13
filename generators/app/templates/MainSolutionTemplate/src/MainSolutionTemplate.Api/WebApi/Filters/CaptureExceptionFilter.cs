@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Reflection;
@@ -23,9 +22,10 @@ namespace MainSolutionTemplate.Api.WebApi.Filters
         {
             Exception exception = context.Exception.ToFirstExceptionOfException();
 
-            if (exception is ApiException)
+            var apiException = exception as ApiException;
+            if (apiException != null)
             {
-                RespondWithTheExceptionMessage(context, exception);
+                RespondWithTheExceptionMessage(context, apiException);
             }
             else if (IsSomeSortOfValidationError(exception))
             {
@@ -43,33 +43,29 @@ namespace MainSolutionTemplate.Api.WebApi.Filters
 
         #region Private Methods
 
-        private static void RespondWithTheExceptionMessage(HttpActionExecutedContext context, Exception exception)
+        private static void RespondWithTheExceptionMessage(HttpActionExecutedContext context, ApiException exception)
         {
-            HttpStatusCode httpStatusCode = (exception as ApiException).HttpStatusCode;
             var errorMessage = new ErrorMessage(exception.Message);
-            context.Response = context.Request.CreateResponse(httpStatusCode, errorMessage);
+            context.Response = context.Request.CreateResponse(exception.HttpStatusCode, errorMessage);
         }
 
         private static void RespondWithBadRequest(HttpActionExecutedContext context, Exception exception)
         {
-            const HttpStatusCode httpStatusCode = HttpStatusCode.BadRequest;
             var errorMessage = new ErrorMessage(exception.Message);
-            context.Response = context.Request.CreateResponse(httpStatusCode, errorMessage);
+            context.Response = context.Request.CreateResponse(HttpStatusCode.BadRequest, errorMessage);
         }
 
         public static bool IsSomeSortOfValidationError(Exception exception)
         {
             return exception is System.ComponentModel.DataAnnotations.ValidationException ||
-                   exception is ArgumentException ||
-                   exception is ArgumentOutOfRangeException || exception is ArgumentNullException;
+                   exception is ArgumentException ;
         }
 
         private void RespondWithValidationRequest(HttpActionExecutedContext context,
                                                   ValidationException validationException)
         {
-            const HttpStatusCode httpStatusCode = HttpStatusCode.BadRequest;
             var errorMessage = new ErrorMessage(validationException.Errors.Select(x=>x.ErrorMessage).FirstOrDefault());
-            context.Response = context.Request.CreateResponse(httpStatusCode, errorMessage);
+            context.Response = context.Request.CreateResponse(HttpStatusCode.BadRequest, errorMessage);
         }
 
         private void RespondWithInternalServerException(HttpActionExecutedContext context, Exception exception)
@@ -83,7 +79,7 @@ namespace MainSolutionTemplate.Api.WebApi.Filters
             const HttpStatusCode httpStatusCode = HttpStatusCode.InternalServerError;
             var errorMessage =
                 new ErrorMessage("An internal system error has occurred. The developers have been notified.");
-
+            _log.Error(exception.Message, exception);
 #if DEBUG
             errorMessage.AdditionalDetail = exception.Message;
 #endif

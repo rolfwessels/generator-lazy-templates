@@ -1,39 +1,63 @@
 using FizzWare.NBuilder;
+using FluentAssertions;
 using MainSolutionTemplate.Core.BusinessLogic.Components;
 using MainSolutionTemplate.Dal.Models;
+using MainSolutionTemplate.Dal.Models.Enums;
 using MainSolutionTemplate.Dal.Persistance;
 using NUnit.Framework;
 
 namespace MainSolutionTemplate.Core.Tests.Managers
 {
     [TestFixture]
-    public class RoleManagerTests : BaseTypedManagerTests<Role>
+    public class RoleManagerTests
     {
         private RoleManager _roleManager;
 
         #region Setup/Teardown
 
-        public override void Setup()
+        public void Setup()
         {
-            base.Setup();
-            _roleManager = new RoleManager(_baseManagerArguments);
+            _roleManager = new RoleManager();
         }
 
         #endregion
 
-        protected override IRepository<Role> Repository
+        [Test]
+        public void GetRoleByName_GivenAdminRole_ShouldReturn()
         {
-            get { return _fakeGeneralUnitOfWork.Roles; }
+            // arrange
+            Setup();
+            // action
+            var roleByName = _roleManager.GetRoleByName("Admin");
+            // assert
+            roleByName.Name.Should().Be("Admin");
+            roleByName.Activities.Should().Contain(Activity.DeleteUser);
+            roleByName.Activities.Should().NotBeEmpty();
         }
 
-        protected override Role SampleObject
+        [Test]
+        public void GetRoleByName_GivenGuestRole_ShouldReturn()
         {
-            get { return Builder<Role>.CreateNew().Build(); }
+            // arrange
+            Setup();
+            // action
+            var roleByName = _roleManager.GetRoleByName("Guest");
+            // assert
+            roleByName.Name.Should().Be("Guest");
+            roleByName.Activities.Should().NotContain(Activity.DeleteUser);
+            roleByName.Activities.Should().NotBeEmpty();
         }
 
-        protected override BaseManager<Role> Manager
+        [Test]
+        public void GetRoleByName_GivenInvalidRole_ShouldReturnNull()
         {
-            get { return _roleManager; }
+            // arrange
+            Setup();
+            // action
+            var roleByName = _roleManager.GetRoleByName("Guest123123");
+            // assert
+            roleByName.Should().BeNull();
+
         }
     }
 }

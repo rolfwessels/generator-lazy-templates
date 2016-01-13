@@ -1,7 +1,5 @@
-﻿using MainSolutionTemplate.Dal.Models;
-using MainSolutionTemplate.Dal.Mongo.Migrations;
+﻿using MainSolutionTemplate.Dal.Mongo.Migrations;
 using MainSolutionTemplate.Dal.Mongo.Migrations.Versions;
-using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 
 namespace MainSolutionTemplate.Dal.Mongo
@@ -19,8 +17,8 @@ namespace MainSolutionTemplate.Dal.Mongo
             var updates = new IMigration[] {
                 new MigrateInitialize()
             };
-	        var versionUpdator = new VersionUpdator(updates);
-            versionUpdator.Update(db).Wait();
+	        var versionUpdater = new VersionUpdater(updates);
+            versionUpdater.Update(db).Wait();
 	        
 		}
 

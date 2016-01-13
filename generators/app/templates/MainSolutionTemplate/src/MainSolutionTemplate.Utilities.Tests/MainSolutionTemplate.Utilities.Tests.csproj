@@ -93,6 +93,7 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Helpers\EnumerableHelperTests.cs" />
+    <Compile Include="Helpers\EnumHelperTests.cs" />
     <Compile Include="Helpers\ReflectionHelperTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

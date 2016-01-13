@@ -41,7 +41,7 @@ namespace MainSolutionTemplate.Api.Tests.Common
 
 
         [TearDown]
-        public void TearDown()
+        public virtual void TearDown()
         {
             _mockManager.VerifyAll();
         }
@@ -91,7 +91,7 @@ namespace MainSolutionTemplate.Api.Tests.Common
             // arrange
             Setup();
             var dal = SampleItem;
-            TestHelper.Returns(_mockManager.Setup(mc => mc.Get(dal.Id)),dal);
+            _mockManager.Setup(mc => mc.Get(dal.Id)).Returns(dal);
             // action
             var result = _commonController.Get(dal.Id).Result;
             // assert
@@ -103,16 +103,17 @@ namespace MainSolutionTemplate.Api.Tests.Common
         {
             // arrange
             Setup();
-            var project = SampleItem;
-            _mockManager.Setup(mc => mc.Get(project.Id))
-                               .Returns(project);
-            _mockManager.Setup(mc => mc.Save(project))
-                               .Returns(project);
-            var projectDetailModel = Builder<TDetailModel>.CreateNew().Build();
+            var dal = SampleItem;
+            _mockManager.Setup(mc => mc.Get(dal.Id))
+                               .Returns(dal);
+            _mockManager.Setup(mc => mc.Save(dal))
+                               .Returns(dal);
+            var model = Builder<TDetailModel>.CreateNew().Build();
+            AddAdditionalMappings(model, dal);
             // action
-            var result = _commonController.Update(project.Id, projectDetailModel).Result;
+            var result = _commonController.Update(dal.Id, model).Result;
             // assert
-            result.Id.Should().Be(project.Id);
+            result.Id.Should().Be(dal.Id);
         }
 
         [Test]
@@ -120,13 +121,19 @@ namespace MainSolutionTemplate.Api.Tests.Common
         {
             // arrange
             Setup();
-            var project = SampleItem;
-            var projectDetailModel = Builder<TDetailModel>.CreateNew().Build();
-            _mockManager.Setup(mc => mc.Save(It.IsAny<TDal>())).Returns(project);
+            var dal = SampleItem;
+            var model = Builder<TDetailModel>.CreateNew().Build();
+            _mockManager.Setup(mc => mc.Save(It.IsAny<TDal>())).Returns(dal);
+            AddAdditionalMappings(model, dal);
             // action
-            var result = _commonController.Insert(projectDetailModel).Result;
+            var result = _commonController.Insert(model).Result;
             // assert
-            result.Id.Should().Be(project.Id);
+            result.Id.Should().Be(dal.Id);
+        }
+
+        protected virtual void AddAdditionalMappings(TDetailModel model, TDal dal)
+        {
+            
         }
 
 

@@ -35,7 +35,7 @@ namespace MainSolutionTemplate.Dal.Mongo.Tests
         }
 
         [Test]
-        public void GetConnnection_WhenCalled_ShouldReturnNewConnection()
+        public void GetConnection_WhenCalled_ShouldReturnNewConnection()
         {
             // arrange
             Setup();

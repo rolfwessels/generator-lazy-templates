@@ -123,8 +123,8 @@
     </Compile>
     <Compile Include="Fakes\FakeGeneralUnitOfWork.cs" />
     <Compile Include="Helpers\FakeRepoHelper.cs" />
-    <Compile Include="Helpers\ModelHelper.cs" />
     <Compile Include="Helpers\PersistanceTester.cs" />
+    <Compile Include="Helpers\TestDataHelper.cs" />
     <Compile Include="Helpers\TestHelper.cs" />
     <Compile Include="Helpers\TimerHelper.cs" />
     <Compile Include="Managers\ApplicationManagerTests.cs" />

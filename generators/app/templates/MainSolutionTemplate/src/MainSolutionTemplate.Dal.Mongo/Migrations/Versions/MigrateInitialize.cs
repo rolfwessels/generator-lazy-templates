@@ -1,4 +1,5 @@
-﻿using MainSolutionTemplate.Core.Vendor;
+﻿using MainSolutionTemplate.Core.BusinessLogic.Components;
+using MainSolutionTemplate.Core.Vendor;
 using MainSolutionTemplate.Dal.Models;
 using MongoDB.Driver;
 
@@ -16,11 +17,11 @@ namespace MainSolutionTemplate.Dal.Mongo.Migrations.Versions
 		{
 			var users = new MongoRepository<User>(db);
 			var admin = new User() {Name = "Admin user", Email = "admin", HashedPassword = PasswordHash.CreateHash("admin!")};
-			admin.Roles.Add(Roles.Admin);
+            admin.Roles.Add(RoleManager.Admin.Name);
             users.Add(admin).Wait();
 
 			var guest = new User() { Name = "Guest", Email = "guest@guest.com", HashedPassword = PasswordHash.CreateHash("guest!") };
-			guest.Roles.Add(Roles.Guest);
+			guest.Roles.Add(RoleManager.Guest.Name);
 			users.Add(guest).Wait();
 		}
 

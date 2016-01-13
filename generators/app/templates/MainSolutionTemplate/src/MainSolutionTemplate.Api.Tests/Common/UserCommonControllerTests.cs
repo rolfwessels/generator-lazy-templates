@@ -2,6 +2,7 @@
 using FizzWare.NBuilder;
 using FluentAssertions;
 using MainSolutionTemplate.Api.Common;
+using MainSolutionTemplate.Core.BusinessLogic.Components;
 using MainSolutionTemplate.Core.BusinessLogic.Components.Interfaces;
 using MainSolutionTemplate.Core.Tests.Helpers;
 using MainSolutionTemplate.Dal.Models;
@@ -49,7 +50,7 @@ namespace MainSolutionTemplate.Api.Tests.Common
             Setup();
             var registerModel = Builder<RegisterModel>.CreateNew().Build();
             var user = Builder<User>.CreateNew().Build();
-            _mockIUserManager.Setup(mc => mc.Save(It.Is<User>(x => x.Name == registerModel.Name && x.Roles.Any(r => r.Name == Roles.Guest.Name)), registerModel.Password)).Returns(user);
+            _mockIUserManager.Setup(mc => mc.Save(It.Is<User>(x => x.Name == registerModel.Name && x.Roles.Any(r => r == RoleManager.Guest.Name)), registerModel.Password)).Returns(user);
             // action
             var result = _projectCommonController.Register(registerModel).Result;
             // assert

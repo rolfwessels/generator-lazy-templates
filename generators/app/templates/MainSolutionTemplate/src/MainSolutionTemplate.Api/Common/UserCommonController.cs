@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Reflection;
 using System.Threading.Tasks;
+using System.Web.Security;
 using MainSolutionTemplate.Api.Models.Mappers;
+using MainSolutionTemplate.Core.BusinessLogic.Components;
 using MainSolutionTemplate.Core.BusinessLogic.Components.Interfaces;
 using MainSolutionTemplate.Dal.Models;
 using MainSolutionTemplate.Shared.Interfaces.Shared;
@@ -27,7 +29,7 @@ namespace MainSolutionTemplate.Api.Common
         public async Task<UserModel> Register(RegisterModel model)
         {
             User user = model.ToDal();
-            user.Roles.Add(Roles.Guest);
+            user.Roles.Add(RoleManager.Guest.Name);
             User savedUser = await _userManager.Save(user, model.Password);
             return savedUser.ToModel();
         }
