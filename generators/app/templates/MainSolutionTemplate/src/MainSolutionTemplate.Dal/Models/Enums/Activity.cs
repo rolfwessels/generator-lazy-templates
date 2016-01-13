@@ -9,10 +9,10 @@
         InsertUsers = 102,
         DeleteUser = 103,
 
-        ReadProject = 100,
-        UpdateProject = 101,
-        InsertProject = 102,
-        DeleteProject = 103,
+        ReadProject = 200,
+        UpdateProject = 201,
+        InsertProject = 202,
+        DeleteProject = 203,
 	    
 	}
 }

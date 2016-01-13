@@ -28,7 +28,7 @@ namespace MainSolutionTemplate.Core.Tests.Managers
             // arrange
             Setup();
             // action
-            var roleByName = _roleManager.GetRoleByName("Admin");
+            var roleByName = _roleManager.GetRoleByName("Admin").Result;
             // assert
             roleByName.Name.Should().Be("Admin");
             roleByName.Activities.Should().Contain(Activity.DeleteUser);
@@ -41,7 +41,7 @@ namespace MainSolutionTemplate.Core.Tests.Managers
             // arrange
             Setup();
             // action
-            var roleByName = _roleManager.GetRoleByName("Guest");
+            var roleByName = _roleManager.GetRoleByName("Guest").Result;
             // assert
             roleByName.Name.Should().Be("Guest");
             roleByName.Activities.Should().NotContain(Activity.DeleteUser);
@@ -54,7 +54,7 @@ namespace MainSolutionTemplate.Core.Tests.Managers
             // arrange
             Setup();
             // action
-            var roleByName = _roleManager.GetRoleByName("Guest123123");
+            var roleByName = _roleManager.GetRoleByName("Guest123123").Result;
             // assert
             roleByName.Should().BeNull();
 

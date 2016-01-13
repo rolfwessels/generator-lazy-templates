@@ -8,5 +8,6 @@ namespace MainSolutionTemplate.Shared.Interfaces.Shared
 	{
 	    Task<UserModel> Register(RegisterModel user);
 	    Task<bool> ForgotPassword(string email);
+        Task<UserModel> WhoAmI();
 	}
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using MainSolutionTemplate.Shared.Models.Base;
 
 namespace MainSolutionTemplate.Shared.Models
@@ -8,6 +9,7 @@ namespace MainSolutionTemplate.Shared.Models
         public string Name { get; set; }
         public string Email { get; set; }
         public DateTime? LastLoginDate { get; set; }
+        public List<string> Roles { get; set; }
 
         public override string ToString()
         {

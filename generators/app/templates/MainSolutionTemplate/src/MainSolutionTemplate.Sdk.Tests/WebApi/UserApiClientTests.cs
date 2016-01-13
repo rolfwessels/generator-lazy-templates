@@ -39,6 +39,18 @@ namespace MainSolutionTemplate.Sdk.Tests.WebApi
 
 		#endregion
 
+	    [Test]
+        public void WhoAmI_GivenUserData_ShouldReturn()
+	    {
+	        // arrange
+	        Setup();
+	        // action
+	        var userModel = _userApiClient.WhoAmI().Result;
+	        // assert
+	        userModel.Should().NotBeNull();
+	        userModel.Email.Should().Be("admin");
+	    }
+
         [Test]
         public void Post_WhenCalledWithInvalidDuplicateEmail_ShouldThrowException()
         {

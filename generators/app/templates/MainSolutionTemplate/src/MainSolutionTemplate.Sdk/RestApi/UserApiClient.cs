@@ -34,6 +34,13 @@ namespace MainSolutionTemplate.Sdk.RestApi
             return await ExecuteAndValidateBool(request);
         }
 
+        public async Task<UserModel> WhoAmI()
+        {
+            RestRequest request = DefaultRequest(_apiPrefix.UriCombine(RouteHelper.UserControllerWhoAmI),
+                                                 Method.GET);
+            return await ExecuteAndValidate<UserModel>(request);
+        }
+
         #endregion
     }
 }

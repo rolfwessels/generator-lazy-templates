@@ -13,7 +13,7 @@ namespace MainSolutionTemplate.Dal.Models
 		public string Name { get; set; }
 		public string Email { get; set; }
 		public string HashedPassword { get; set; }
-		public virtual List<string> Roles { get; private set; }
+		public List<string> Roles { get; private set; }
 		public DateTime? LastLoginDate { get; set; }
 
 		public override string ToString()
