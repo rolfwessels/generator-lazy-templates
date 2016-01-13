@@ -31,5 +31,7 @@ yo lazy-templates:classlib ModuleName
 ```
 
 
+See https://github.com/rolfwessels/generator-lazy-templates/wiki  for list of integrated components.
+
 
 
