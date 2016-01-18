@@ -28,9 +28,20 @@ namespace MainSolutionTemplate.Dal.Mongo
         public IGeneralUnitOfWork GetConnection()
         {
             _log.Info("Create new connection to " + _connectionString);
-            var client = new MongoClient(_connectionString);
-            var database = client.GetDatabase(_databaseName);
+            var database = DatabaseOnly();
             return new MongoGeneralUnitOfWork(database);
+        }
+
+        public IMongoDatabase DatabaseOnly()
+        {
+            var client = ClientOnly();
+            var database = client.GetDatabase(_databaseName);
+            return database;
+        }
+
+        private IMongoClient ClientOnly()
+        {
+            return new MongoClient(_connectionString);
         }
 
         public string DatabaseName
@@ -42,6 +53,7 @@ namespace MainSolutionTemplate.Dal.Mongo
         {
             get { return _connectionString; }
         }
+
     }
 
    

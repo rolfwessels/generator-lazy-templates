@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 using log4net;
 using MongoDB.Driver;
@@ -13,26 +15,40 @@ namespace MainSolutionTemplate.Dal.Mongo.Migrations
         private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         
         private readonly IMigration[] _updates;
-
-
+        private readonly Mutex _resetEvent = new Mutex(false, @"global/MainSolutionTemplate_VersionUpdater");
+        
         public VersionUpdater(IMigration[] updates)
         {
+
             _updates = updates;
         }
 
         public Task Update(IMongoDatabase db)
         {
-            return Task.Run(() => {
-                var repository = new MongoRepository<DbVersion>(db);
-                List<DbVersion> versions = repository.Find().Result;
-                for (int i = 0; i < _updates.Length; i++)
+
+            return Task.Run(() =>
+            {
+                if (_resetEvent.WaitOne(TimeSpan.FromSeconds(5)))
                 {
-                    IMigration migrateInitialize = _updates[i];
-                    EnsureThatVersionDoesNotExistThenUpdate(versions, i, migrateInitialize, repository, db).Wait();
-                }   
+                    
+                    var repository = new MongoRepository<DbVersion>(db);
+                    List<DbVersion> versions = repository.Find().Result;
+                    _log.Info(string.Format("Found {0} database updates in database and {1} in code", versions.Count, _updates.Length));
+                    for (int i = 0; i < _updates.Length; i++)
+                    {   
+                        IMigration migrateInitialize = _updates[i];
+                        EnsureThatVersionDoesNotExistThenUpdate(versions, i, migrateInitialize, repository, db).Wait();
+                    }
+                    _log.Info("Done");
+                    
+                    _resetEvent.ReleaseMutex();
+                }
+
             });
-                
+
         }
+
+        
 
         #region Private Methods
 
@@ -41,6 +57,7 @@ namespace MainSolutionTemplate.Dal.Mongo.Migrations
             DbVersion version = versions.FirstOrDefault(x => x.Id == i);
             if (version == null)
             {
+                _log.Info(string.Format("Running version update {0}", migrateInitialize.GetType().Name));
                 RunTheUpdate(migrateInitialize, db);
                 var dbVersion1 = new DbVersion {Id = i, Name = migrateInitialize.GetType().Name};
                 await repository.Add(dbVersion1);
