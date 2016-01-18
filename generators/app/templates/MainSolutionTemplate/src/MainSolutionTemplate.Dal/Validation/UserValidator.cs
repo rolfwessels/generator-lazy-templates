@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using FluentValidation;
+﻿using FluentValidation;
 using MainSolutionTemplate.Dal.Models;
 
 namespace MainSolutionTemplate.Dal.Validation
@@ -14,7 +13,5 @@ namespace MainSolutionTemplate.Dal.Validation
             RuleFor(x => x.HashedPassword).NotEmpty();
             RuleFor(x => x.Roles).NotEmpty();
         }
-
-       
     }
 }

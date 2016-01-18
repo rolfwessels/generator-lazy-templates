@@ -2,11 +2,8 @@
 using System.Collections.Generic;
 using System.Reflection;
 using FizzWare.NBuilder;
-using FizzWare.NBuilder.Generators;
 using FluentAssertions;
 using MainSolutionTemplate.Api.Tests.Helper;
-using MainSolutionTemplate.Core.Tests.Helpers;
-using MainSolutionTemplate.Sdk.OAuth;
 using MainSolutionTemplate.Sdk.RestApi;
 using MainSolutionTemplate.Sdk.Tests.Shared;
 using MainSolutionTemplate.Shared.Models;

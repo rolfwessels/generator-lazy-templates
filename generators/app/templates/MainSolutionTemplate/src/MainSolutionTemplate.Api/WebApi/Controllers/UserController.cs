@@ -142,7 +142,6 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
         [Route(RouteHelper.UserControllerWhoAmI), AuthorizeActivity, HttpGet]
         public Task<UserModel> WhoAmI()
         {
-            
             return _userCommonController.WhoAmI();
         }
 		#endregion

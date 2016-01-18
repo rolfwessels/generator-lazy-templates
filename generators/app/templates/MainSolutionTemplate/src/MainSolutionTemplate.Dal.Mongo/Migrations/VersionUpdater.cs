@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using System.Threading;
 using System.Threading.Tasks;
 using log4net;
 using MongoDB.Driver;
@@ -13,7 +11,7 @@ namespace MainSolutionTemplate.Dal.Mongo.Migrations
     public class VersionUpdater
     {
         private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        private static readonly Mutex _dbUpdateLocker = new Mutex();
+        
         private readonly IMigration[] _updates;
 
 
@@ -22,18 +20,18 @@ namespace MainSolutionTemplate.Dal.Mongo.Migrations
             _updates = updates;
         }
 
-        public async Task Update(IMongoDatabase db)
+        public Task Update(IMongoDatabase db)
         {
-            if (_dbUpdateLocker.WaitOne(TimeSpan.FromSeconds(30)))
-            {
+            return Task.Run(() => {
                 var repository = new MongoRepository<DbVersion>(db);
-                List<DbVersion> versions = await repository.Find();
+                List<DbVersion> versions = repository.Find().Result;
                 for (int i = 0; i < _updates.Length; i++)
                 {
                     IMigration migrateInitialize = _updates[i];
-                    await EnsureThatVersionDoesNotExistThenUpdate(versions, i, migrateInitialize, repository, db);
-                }
-            }
+                    EnsureThatVersionDoesNotExistThenUpdate(versions, i, migrateInitialize, repository, db).Wait();
+                }   
+            });
+                
         }
 
         #region Private Methods

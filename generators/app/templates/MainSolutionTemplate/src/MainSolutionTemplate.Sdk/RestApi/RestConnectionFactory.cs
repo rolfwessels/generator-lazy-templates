@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Concurrent;
 using RestSharp;
+using RestSharp.Authenticators;
 
 namespace MainSolutionTemplate.Sdk.RestApi
 {
@@ -25,7 +26,8 @@ namespace MainSolutionTemplate.Sdk.RestApi
 
         private RestClient CreateClient(string uri)
         {
-            return new RestClient(new Uri(uri));
+            var restClient = new RestClient(new Uri(uri));
+            return restClient;
         }
 
         #endregion

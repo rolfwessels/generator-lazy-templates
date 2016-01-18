@@ -74,6 +74,7 @@ namespace MainSolutionTemplate.Sdk.Tests.Shared
         private static RestConnectionFactory CreateAdminRequest()
         {
             var restConnectionFactory = new RestConnectionFactory(_hostAddress.Value);
+            
             var oAuthConnection = new OAuthApiClient(restConnectionFactory);
             _adminToken = oAuthConnection.GenerateToken(new TokenRequestModel
                 {
