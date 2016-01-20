@@ -15,7 +15,7 @@ namespace MainSolutionTemplate.Api.AppStartup
             OathAuthorizationSetup.Initialize(appBuilder, IocApi.Instance.Resolve<IOAuthDataManager>());
 	    }
 
-	    #region Initialize
+	    #region Instance
 
 		public static BootStrap Initialize(IAppBuilder appBuilder)
         {

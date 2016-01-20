@@ -49,7 +49,7 @@ namespace MainSolutionTemplate.Api.Swagger
 
         #endregion
 
-        #region Initialize
+        #region Instance
 
         public static void Initialize(HttpConfiguration configuration)
         {

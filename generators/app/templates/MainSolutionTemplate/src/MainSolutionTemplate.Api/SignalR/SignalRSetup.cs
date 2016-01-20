@@ -22,7 +22,7 @@ namespace MainSolutionTemplate.Api.SignalR
 
 		}
 
-		#region Initialize
+		#region Instance
 
 		public static SignalRSetup Initialize(IAppBuilder appBuilder, IDependencyResolver resolve)
 		{

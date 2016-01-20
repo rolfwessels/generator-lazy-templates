@@ -53,7 +53,7 @@ namespace MainSolutionTemplate.Api.AppStartup
             builder.Register(t => new Tracker(Settings.Default.GoogleAnyliticsId, Settings.Default.GoogleAnyliticsDomain));
 		}
 
-		#region Initialize
+		#region Instance
 
 		public static IocApi Instance
 		{

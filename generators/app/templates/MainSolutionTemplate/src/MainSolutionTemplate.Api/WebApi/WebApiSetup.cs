@@ -47,7 +47,7 @@ namespace MainSolutionTemplate.Api.WebApi
 		{
 			get
 			{
-				if (_instance == null) throw new Exception("Call Initialize before using Intance.");
+				if (_instance == null) throw new Exception("Call Instance before using Intance.");
 				return _instance;
 			}
 		}
@@ -70,7 +70,7 @@ namespace MainSolutionTemplate.Api.WebApi
 
 	    #endregion
 
-		#region Initialize
+		#region Instance
 
 		public static WebApiSetup Initialize(IAppBuilder appBuilder, IDependencyResolver dependencyResolver)
 		{
