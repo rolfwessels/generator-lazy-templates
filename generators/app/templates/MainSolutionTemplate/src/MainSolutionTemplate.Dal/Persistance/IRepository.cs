@@ -11,7 +11,7 @@ namespace MainSolutionTemplate.Dal.Persistance
 	{
 	    IQueryable<T> Query();
 	    Task<T> Add(T entity);
-	    IEnumerable<T> AddRange(IEnumerable<T> entities);
+	    Task<IEnumerable<T>> AddRange(IEnumerable<T> entities);
 	    Task<T> Update(Expression<Func<T, bool>> filter, T entity);
 	    Task<bool> Remove(Expression<Func<T, bool>> filter);
 	    Task<List<T>> Find(Expression<Func<T, bool>> filter);

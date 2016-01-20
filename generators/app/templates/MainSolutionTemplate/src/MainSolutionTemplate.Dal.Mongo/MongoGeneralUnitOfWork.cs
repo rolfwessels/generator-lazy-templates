@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using MainSolutionTemplate.Dal.Models;
+﻿using MainSolutionTemplate.Dal.Models;
 using MainSolutionTemplate.Dal.Persistance;
 using MongoDB.Driver;
 
@@ -35,14 +32,6 @@ namespace MainSolutionTemplate.Dal.Mongo
 	   
 	    #endregion
 
-        public IEnumerable<KeyValuePair<string, DataCounter>> Stats
-        {
-            get
-            {
-                var counters = new Object[] { Users,  Applications, Projects }.Cast<IHasDataCounter>();
-                return counters.Select(x => new KeyValuePair<string, DataCounter>(x.GetType().GetGenericTypeDefinition().Name, x.DataCounter));
-            }
-        }
 	}
 
 }

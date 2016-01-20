@@ -26,7 +26,7 @@ namespace MainSolutionTemplate.Dal.Mongo.Tests.Persistance
         #endregion
 
         [Test]
-        public void Users_GivenGrudCommands_ShouldAddListAndDeleteRecords()
+        public void Users_GivenCrudCommands_ShouldAddListAndDeleteRecords()
         {
             // arrange
             Setup();

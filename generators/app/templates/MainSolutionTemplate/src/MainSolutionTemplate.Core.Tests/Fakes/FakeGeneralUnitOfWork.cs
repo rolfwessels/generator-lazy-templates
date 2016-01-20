@@ -62,14 +62,14 @@ namespace MainSolutionTemplate.Core.Tests.Fakes
             }
 
 
-            public IEnumerable<T> AddRange(IEnumerable<T> entities)
+            public Task<IEnumerable<T>> AddRange(IEnumerable<T> entities)
             {
                 var addRange = entities as T[] ?? entities.ToArray();
                 foreach (T entity in addRange)
                 {
                     Add(entity);
                 }
-                return addRange;
+                return Task.FromResult(entities);
             }
 
             public Task<bool> Remove(Expression<Func<T, bool>> filter)
