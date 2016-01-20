@@ -1,3 +1,4 @@
+using System;
 using System.Net;
 using System.Threading.Tasks;
 using MainSolutionTemplate.Sdk.Helpers;
@@ -50,6 +51,7 @@ namespace MainSolutionTemplate.Sdk.OAuth
         {
             if (result.StatusCode != HttpStatusCode.OK)
             {
+                if (string.IsNullOrEmpty(result.Content)) throw new Exception(string.Format("Api response for {0} is empty.", result.ResponseUri));
                 var errorMessage = JsonConvert.DeserializeObject<ErrorResponse>(result.Content);
                 throw new RestClientException(errorMessage.Error_description, result);
             }

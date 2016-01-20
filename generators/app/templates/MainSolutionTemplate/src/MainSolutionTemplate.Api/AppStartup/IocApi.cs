@@ -8,10 +8,10 @@ using MainSolutionTemplate.Api.Properties;
 using MainSolutionTemplate.Api.SignalR.Connection;
 using MainSolutionTemplate.Api.SignalR.Hubs;
 using MainSolutionTemplate.Api.WebApi.Controllers;
+using MainSolutionTemplate.Core.BusinessLogic.Components;
 using MainSolutionTemplate.Core.Startup;
 using MainSolutionTemplate.Dal.Mongo;
 using MainSolutionTemplate.Dal.Persistance;
-using MainSolutionTemplate.Utilities.Helpers;
 
 namespace MainSolutionTemplate.Api.AppStartup
 {
@@ -21,12 +21,10 @@ namespace MainSolutionTemplate.Api.AppStartup
 		private static readonly object _locker = new object();
 		private static IocApi _instance;
 		private readonly IContainer _container;
-	    private ObjectPool<IGeneralUnitOfWork> _objectPool;
 
 	    public IocApi()
 		{
-		    var mongoDbConnectionFactory = new MongoConnectionFactory(Dal.Mongo.Properties.Settings.Default.Connection);
-	        _objectPool = new ObjectPool<IGeneralUnitOfWork>(mongoDbConnectionFactory.GetConnection);
+		    
 	        var builder = new ContainerBuilder();
 			SetupCore(builder);
 			SetupSignalr(builder);
@@ -38,7 +36,8 @@ namespace MainSolutionTemplate.Api.AppStartup
 		    
 		}
 
-		private void SetupSignalr(ContainerBuilder builder)
+
+	    private void SetupSignalr(ContainerBuilder builder)
 		{
 			builder.RegisterType<ConnectionStateMapping>().As<IConnectionStateMapping>().SingleInstance();
 		}
@@ -88,10 +87,9 @@ namespace MainSolutionTemplate.Api.AppStartup
 
 		#region Overrides of IocCoreBase
 
-		protected override IGeneralUnitOfWork GetGeneralUnitOfWork(IComponentContext arg)
+        protected override IGeneralUnitOfWorkFactory GetInstanceOfIGeneralUnitOfWorkFactory(IComponentContext arg)
 		{
-		    return _objectPool.Get();
-
+            return new MongoConnectionFactory(Dal.Mongo.Properties.Settings.Default.Connection);
 		}
 
 		#endregion

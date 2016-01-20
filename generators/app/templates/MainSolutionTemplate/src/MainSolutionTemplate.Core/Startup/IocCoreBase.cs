@@ -15,12 +15,17 @@ namespace MainSolutionTemplate.Core.Startup
 	{
 		protected void SetupCore(ContainerBuilder builder)
 		{
-           
-            builder.Register(GetGeneralUnitOfWork);
-			SetupManagers(builder);
+            SetupMongoDb(builder);
+		    SetupManagers(builder);
 			SetupTools(builder);
             SetupValidation(builder);
 		}
+
+	    protected virtual void SetupMongoDb(ContainerBuilder builder)
+	    {
+	        builder.Register(GetInstanceOfIGeneralUnitOfWorkFactory).SingleInstance();
+	        builder.Register(x => x.Resolve<IGeneralUnitOfWorkFactory>().GetConnection());
+	    }
 
 	    private static void SetupManagers(ContainerBuilder builder)
 		{
@@ -30,8 +35,6 @@ namespace MainSolutionTemplate.Core.Startup
             builder.RegisterType<ProjectManager>().As<IProjectManager>();
             builder.RegisterType<RoleManager>().As<IRoleManager>();
             builder.RegisterType<UserManager>().As<IUserManager>();
-
-            
 		}
 
 	    private static void SetupValidation(ContainerBuilder builder)
@@ -47,6 +50,6 @@ namespace MainSolutionTemplate.Core.Startup
 			builder.Register((x) => Messenger.Default).As<IMessenger>();
 		}
 
-		protected abstract IGeneralUnitOfWork GetGeneralUnitOfWork(IComponentContext arg);
+        protected abstract IGeneralUnitOfWorkFactory GetInstanceOfIGeneralUnitOfWorkFactory(IComponentContext arg);
 	}
 }
