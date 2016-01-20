@@ -11,7 +11,6 @@ namespace MainSolutionTemplate.Dal.Mongo
 		private static Configuration _instance;
 	    private MongoMappers _mongoMappers;
 	    private readonly IMigration[] _updates;
-	    private bool _hasRun;
 	    private Task _update;
 
 	    protected Configuration()
