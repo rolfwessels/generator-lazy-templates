@@ -216,7 +216,6 @@
     <Compile Include="SignalR\Connection\ConnectionState.cs" />
     <Compile Include="SignalR\Connection\ConnectionStateMapping.cs" />
     <Compile Include="SignalR\Connection\IConnectionStateMapping.cs" />
-    <Compile Include="SignalR\Attributes\TokenAuthorizeAttribute.cs" />
     <Compile Include="SignalR\Hubs\NotificationHub.cs" />
     <Compile Include="WebApi\Attributes\AuthorizeActivityAttribute.cs" />
     <Compile Include="WebApi\Controllers\WebApiHelper.cs" />
