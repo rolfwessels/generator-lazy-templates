@@ -32,13 +32,6 @@ namespace MainSolutionTemplate.Api.SignalR.Attributes
             }
         }
 
-        public static string GetUserName(this IRequest request)
-        {
-            ClaimsPrincipal claimsPrincipal = request.GetPrincipal();
-            if (claimsPrincipal != null) return claimsPrincipal.Identity.Name;
-            return null;
-        }
-
         public static bool IsAuthenticated(this ClaimsPrincipal principal)
         {
             if (principal != null && principal.Identity.IsAuthenticated)

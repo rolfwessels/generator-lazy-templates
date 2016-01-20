@@ -26,6 +26,31 @@ namespace MainSolutionTemplate.Dal.Mongo.Tests
         #endregion
 
         [Test]
+        public void DatabaseName_GivenConnection_ShouldBeCorrect()
+        {
+            // arrange
+            Setup();
+            // action
+            var databaseName = _mongoDbConnectionFactory.DatabaseName;
+            // assert
+            databaseName.Should().Be("MainSolutionTemplate_Develop");
+        }
+
+
+        [Test]
+        public void ConnectionString_GivenConnection_ShouldBeCorrect()
+        {
+            // arrange
+            Setup();
+            // action
+            var databaseName = _mongoDbConnectionFactory.ConnectionString;
+            // assert
+            databaseName.Should().Be(Settings.Default.Connection);
+        }
+
+
+
+        [Test]
         public void Constructor_WhenCalled_ShouldNotBeNull()
         {
             // arrange

@@ -92,7 +92,6 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="MongoDbConnectionFactoryTests.cs" />
-    <Compile Include="MongoDbCounters.cs" />
     <Compile Include="MongoStatsKeeper.cs" />
     <Compile Include="Persistance\ProjectCollectionTests.cs" />
     <Compile Include="Persistance\UserCollectionTests.cs" />

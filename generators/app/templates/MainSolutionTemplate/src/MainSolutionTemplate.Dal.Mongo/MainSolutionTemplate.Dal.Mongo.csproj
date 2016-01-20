@@ -74,14 +74,12 @@
     <Compile Include="..\MainSolutionTemplate.core\Properties\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="IHasDataCounter.cs" />
     <Compile Include="Migrations\VersionUpdater.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="Migrations\DbVersion.cs" />
     <Compile Include="Migrations\IMigration.cs" />
     <Compile Include="Migrations\Versions\MigrateInitialize.cs" />
     <Compile Include="MongoConnectionFactory.cs" />
-    <Compile Include="DataCounter.cs" />
     <Compile Include="MongoGeneralUnitOfWork.cs" />
     <Compile Include="MongoMappers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
