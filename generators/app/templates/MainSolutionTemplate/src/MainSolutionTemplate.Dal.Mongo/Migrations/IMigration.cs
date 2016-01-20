@@ -1,9 +1,10 @@
-﻿using MongoDB.Driver;
+﻿using System.Threading.Tasks;
+using MongoDB.Driver;
 
 namespace MainSolutionTemplate.Dal.Mongo.Migrations
 {
     public interface IMigration
     {
-        void Update(IMongoDatabase db);
+        Task Update(IMongoDatabase db);
     }
 }

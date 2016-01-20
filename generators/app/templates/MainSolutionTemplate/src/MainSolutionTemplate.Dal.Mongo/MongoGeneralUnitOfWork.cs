@@ -8,11 +8,9 @@ namespace MainSolutionTemplate.Dal.Mongo
 	{
 	    public MongoGeneralUnitOfWork(IMongoDatabase database)
 	    {
-            Configuration.Initialize(database);
             Users = new MongoRepository<User>(database);
             Applications = new MongoRepository<Application>(database);
             Projects = new MongoRepository<Project>(database);
-
 	    }
 
 		#region Implementation of IDisposable

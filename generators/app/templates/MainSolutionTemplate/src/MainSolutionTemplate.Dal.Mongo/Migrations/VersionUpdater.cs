@@ -58,18 +58,18 @@ namespace MainSolutionTemplate.Dal.Mongo.Migrations
             if (version == null)
             {
                 _log.Info(string.Format("Running version update {0}", migrateInitialize.GetType().Name));
-                RunTheUpdate(migrateInitialize, db);
+                await RunTheUpdate(migrateInitialize, db);
                 var dbVersion1 = new DbVersion {Id = i, Name = migrateInitialize.GetType().Name};
                 await repository.Add(dbVersion1);
             }
         }
 
-        private void RunTheUpdate(IMigration migrateInitialize, IMongoDatabase db)
+        private async Task RunTheUpdate(IMigration migrateInitialize, IMongoDatabase db)
         {
             _log.Info(string.Format("Starting {0} db update", migrateInitialize.GetType().Name));
             var stopwatch = new Stopwatch();
             stopwatch.Start();
-            migrateInitialize.Update(db);
+            await migrateInitialize.Update(db);
             stopwatch.Stop();
             _log.Info(string.Format("Done {0} in {1}ms", migrateInitialize.GetType().Name, stopwatch.ElapsedMilliseconds));
         }

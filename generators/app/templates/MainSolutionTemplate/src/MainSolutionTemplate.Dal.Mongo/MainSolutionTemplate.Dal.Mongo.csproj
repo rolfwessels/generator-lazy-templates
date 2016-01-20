@@ -99,6 +99,10 @@
       <Project>{9A75E778-72A2-4DA0-9983-1032C90C515F}</Project>
       <Name>MainSolutionTemplate.Dal</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MainSolutionTemplate.Utilities\MainSolutionTemplate.Utilities.csproj">
+      <Project>{B5EFC032-43A4-4326-A42A-F365C763EFE8}</Project>
+      <Name>MainSolutionTemplate.Utilities</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

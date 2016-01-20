@@ -19,7 +19,11 @@ namespace MainSolutionTemplate.Dal.Mongo
 	        _mongoCollection = database.GetCollection<T>(typeof(T).Name);
 		}
 
-        
+        public IMongoCollection<T> Collection
+        {
+            get { return _mongoCollection; }
+        }
+
         #region Implementation of IRepository<T>
 
         public IQueryable<T> Query()

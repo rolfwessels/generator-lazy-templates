@@ -1,4 +1,6 @@
-﻿using MainSolutionTemplate.Core.BusinessLogic.Components;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using MainSolutionTemplate.Core.BusinessLogic.Components;
 using MainSolutionTemplate.Core.Vendor;
 using MainSolutionTemplate.Dal.Models;
 using MongoDB.Driver;
@@ -7,30 +9,52 @@ namespace MainSolutionTemplate.Dal.Mongo.Migrations.Versions
 {
     public class MigrateInitialize : IMigration
     {
-		public void Update(IMongoDatabase db)
+		public async Task Update(IMongoDatabase db)
 		{
-			AddApplications(db);
-			AddUsers(db);
+			await AddApplications(db);
+            await AddUsers(db);
+
+            #if DEBUG
+            await MockData(db);
+            #endif
+
 		}
 
-        private static void AddUsers(IMongoDatabase db)
+        private async Task AddUsers(IMongoDatabase db)
 		{
 			var users = new MongoRepository<User>(db);
+
+            var emailIndex = Builders<User>.IndexKeys.Ascending(x => x.Email);
+            users.Collection.Indexes.CreateOneAsync(emailIndex).Wait();
+
 			var admin = new User() {Name = "Admin user", Email = "admin", HashedPassword = PasswordHash.CreateHash("admin!")};
             admin.Roles.Add(RoleManager.Admin.Name);
-            users.Add(admin).Wait();
+            await users.Add(admin);
 
 			var guest = new User() { Name = "Guest", Email = "guest@guest.com", HashedPassword = PasswordHash.CreateHash("guest!") };
 			guest.Roles.Add(RoleManager.Guest.Name);
-			users.Add(guest).Wait();
+			await users.Add(guest);
+
+
 		}
 
-        private static void AddApplications(IMongoDatabase db)
+        private async Task AddApplications(IMongoDatabase db)
         {
-            var mongoRepository = new MongoRepository<Application>(db);
-            mongoRepository.Add(new Application() { Active = true, AllowedOrigin = "*", ClientId = "MainSolutionTemplate.Api" }).Wait();
-            mongoRepository.Add(new Application() { Active = true, AllowedOrigin = "*", ClientId = "MainSolutionTemplate.Console" }).Wait();
-            mongoRepository.Add(new Application() { Active = true, AllowedOrigin = "*", ClientId = "MainSolutionTemplate.App" }).Wait();
+            var apps = new MongoRepository<Application>(db);
+            await apps.Add(new Application() { Active = true, AllowedOrigin = "*", ClientId = "MainSolutionTemplate.Api" });
+            await apps.Add(new Application() { Active = true, AllowedOrigin = "*", ClientId = "MainSolutionTemplate.Console" });
+            await apps.Add(new Application() { Active = true, AllowedOrigin = "*", ClientId = "MainSolutionTemplate.App" });
         }
-	}
+
+        
+        private async Task MockData(IMongoDatabase db)
+        {
+            var projects = new MongoRepository<Project>(db);
+            var saves = Enumerable.Range(1, 10)
+                .Select(x => new Project() {Name = "Project " + x})
+                .Select(projects.Add)
+                .ToArray();
+            await Task.WhenAll(saves);
+        }
+    }
 }

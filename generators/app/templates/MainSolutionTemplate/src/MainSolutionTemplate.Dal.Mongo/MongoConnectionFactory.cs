@@ -13,7 +13,7 @@ namespace MainSolutionTemplate.Dal.Mongo
         private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private readonly string _connectionString;
         private readonly string _databaseName;
-        private Lazy<IGeneralUnitOfWork> _singleConnection;
+        private readonly Lazy<IGeneralUnitOfWork> _singleConnection;
 
         public MongoConnectionFactory(string connectionString)
         {
@@ -48,6 +48,8 @@ namespace MainSolutionTemplate.Dal.Mongo
         {
             _log.Info("Create new connection to " + _connectionString);
             IMongoDatabase database = DatabaseOnly();
+            _log.Info("Apply update");
+            Configuration.Instance().Update(database).Wait();
             return new MongoGeneralUnitOfWork(database);
         }
 
