@@ -22,9 +22,9 @@ properties {
     $versionMinor = 0
     $versionBuild = 1
     $versionRevision = 0
-    
+
     $vsVersion = "12.0"
-    
+
     $msdeploy = 'C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe';
     $deployServiceDest = "computerName='xxxx',userName='xxx',password='xxxx',includeAcls='False',tempAgent='false',dirPath='d:\server\temp'"
     $deployApiDest = 'auto,includeAcls="False",tempAgent="false"'
@@ -87,20 +87,20 @@ task build.copy {
 }
 
 task build.website {
-    
-    if(!(Test-Path -Path (Join-Path $srcDirectory 'node_modules'))) { 
+
+    if(!(Test-Path -Path (Join-Path $srcDirectory 'node_modules'))) {
         'Npm install'
-        pushd $srcDirectory 
+        pushd $srcDirectory
         npm install
         popd
     }
-    if(!(Test-Path -Path (Join-Path $srcDirectory 'node_modules'))) { 
+    if(!(Test-Path -Path (Join-Path $srcDirectory 'node_modules'))) {
         pushd (Join-Path $srcDirectory 'MainSolutionTemplate.Website/bower_components')
         'Bower install'
         bower install
         popd
     }
-    pushd $srcDirectory 
+    pushd $srcDirectory
     $toFolder =  Join-Path '../' (Join-Path (buildConfigDirectory) 'MainSolutionTemplate.Api/static')
     gulp build --output $toFolder
     popd
@@ -117,15 +117,26 @@ task nuget.restore {
     ./src/.nuget/NuGet.exe install src\.nuget\packages.config -OutputDirectory lib
 }
 
-task test.run -depends nuget.restore -precondition { return $buildConfiguration -eq 'debug' } {
+task clean.database {
+   $mongoDbLocations = 'D:\Var\mongodb\bin\mongo.exe','C:\mongodb\bin\mongo.exe','C:\bin\MongoDB\bin\mongo.exe','g:\mongodb\bin\mongo.exe'
+   $mongo = $mongoDbLocations | Where-Object {Test-Path $_} | Select-Object -first 1
+   $database = 'MainSolutionTemplate_Develop'
+   'Use '+ $mongo + ' to drop the database '+$database
+   exec { &($mongo) $database  --eval 'db.dropDatabase()' }
+}
+
+task test.run -depend  clean.database, nuget.restore -precondition { return $buildConfiguration -eq 'debug' } {
     mkdir $buildReportsDirectory -ErrorAction SilentlyContinue
 
     $currentPath = resolve-path '.'
     $partcoverDirectory = resolve-path 'lib\OpenCover.4.6.166\tools'
-    $partcoverExe = Join-Path $partcoverDirectory 'OpenCover.Console.exe'
     $nunitDirectory =  resolve-path 'lib\NUnit.Runners.2.6.4\tools\nunit-console.exe'
-    $reportGenerator = 'lib\ReportGenerator.2.3.2.0'
-    
+    $reportGenerator = 'lib\ReportGenerator.2.3.2.0\tools'
+
+    $partcoverExe = Join-Path $partcoverDirectory 'OpenCover.Console.exe'
+
+
+
     $runTestsTimeout = '60000'
     $runTestsDirectory = '.Tests'
     $runTestsSettings = '/exclude:Unstable /timeout:' + $runTestsTimeout
@@ -165,7 +176,7 @@ task test.run -depends nuget.restore -precondition { return $buildConfiguration 
     write-host 'Generate report' -foreground "magenta"
     Set-Location $currentPath
     Set-Location $reportGenerator
-    $buildReportsDirectoryRelative = Join-Path '..\..\' $buildReportsDirectory
+    $buildReportsDirectoryRelative = Join-Path '..\..\..\' $buildReportsDirectory
     $reports = Join-Path  $buildReportsDirectoryRelative '*.Tests.part.xml'
     $targetdir = Join-Path  $buildReportsDirectoryRelative 'CodeCoverage'
     $reporttypes = 'HTML;HTMLSummary;XMLSummary'

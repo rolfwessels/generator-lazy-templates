@@ -1,8 +1,5 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Text;
 
 namespace MainSolutionTemplate.Utilities.Helpers
 {
@@ -10,42 +7,13 @@ namespace MainSolutionTemplate.Utilities.Helpers
     {
         public static Exception ToSimpleException(this AggregateException exception)
         {
-            var errorBuilder = new StringBuilder();
-            if (exception.InnerExceptions != null && exception.InnerExceptions.Count > 0)
+            if (exception.InnerExceptions.Count == 1)
             {
-                foreach (var innerEx in exception.InnerExceptions)
-                {
-                    errorBuilder.AppendLine(innerEx.Message);
-                }
+                return exception.ToFirstExceptionOfException();
             }
-            else
-            {
-                errorBuilder.AppendLine(exception.Message);
-            }
-            return new Exception(errorBuilder.ToString(), exception);
+
+            return new Exception(exception.InnerExceptions.Select(x=>x.Message).StringJoin(), exception);
         }
-
-
-        public static Exception ToSimpleException(this ReflectionTypeLoadException ex)
-        {
-          var sb = new StringBuilder();
-          foreach (Exception exSub in ex.LoaderExceptions)
-          {
-            sb.AppendLine(exSub.Message);
-            if (exSub is FileNotFoundException)
-            {
-              var exFileNotFound = exSub as FileNotFoundException;
-              if (!string.IsNullOrEmpty(exFileNotFound.FusionLog))
-              {
-                sb.AppendLine("Fusion Log:");
-                sb.AppendLine(exFileNotFound.FusionLog);
-              }
-            }
-            sb.AppendLine();
-          }
-          return new Exception(sb.ToString(), ex);
-        }
-
 
       public static string ToSingleExceptionString(this Exception exception)
       {

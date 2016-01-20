@@ -34,7 +34,7 @@ namespace MainSolutionTemplate.Dal.Mongo.Tests
         #endregion
         
         [Test]
-        public async Task MultipleThreadsOnOne_GivenUpdate_ShouldBlockAllOtherThreads()
+        public void MultipleThreadsOnOne_GivenUpdate_ShouldBlockAllOtherThreads()
         {
             _log.Info("Run");
             // arrange

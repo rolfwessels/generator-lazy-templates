@@ -23,7 +23,6 @@ namespace MainSolutionTemplate.Utilities.Helpers
 
     public static string ToInitialCase(this string text)
     {
-      
       return text.Substring(0, 1).ToTitleCase() + text.Substring(1).ToLower();
     }
 
@@ -36,7 +35,7 @@ namespace MainSolutionTemplate.Utilities.Helpers
     public static string[] GetEmailAddresses(this string to)
     {
       if (string.IsNullOrEmpty(to)) return new string[0];
-      return to.Split(';', ',').Where(x => x.Contains("@")).ToArray();
+      return to.Split(';', ',',' ').Where(x => x.Contains("@")).ToArray();
     }
 
     public static string StripHtml(this string inputHtml)
@@ -61,10 +60,6 @@ namespace MainSolutionTemplate.Utilities.Helpers
       return value + postFix;
     }
 
-    public static int NonAlphanumericCharactersCount(this string newPassword)
-    {
-      return newPassword.Where((t, i) => !char.IsLetterOrDigit(newPassword, i)).Count();
-    }
 
   }
 }
