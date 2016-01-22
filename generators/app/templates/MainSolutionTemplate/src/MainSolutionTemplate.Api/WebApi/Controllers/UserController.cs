@@ -73,7 +73,7 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 	    /// <returns>
 	    /// </returns>
         [Route(RouteHelper.WithId), AuthorizeActivity(Activity.UpdateUsers), HttpPut]
-		public Task<UserModel> Update(Guid id, UserDetailModel model)
+		public Task<UserModel> Update(Guid id, UserCreateUpdateModel model)
 		{
             return _userCommonController.Update(id, model);
 		}
@@ -85,7 +85,7 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 	    /// <returns>
 	    /// </returns>
         [Route, AuthorizeActivity(Activity.InsertUsers), HttpPost]
-		public Task<UserModel> Insert(UserDetailModel model)
+		public Task<UserModel> Insert(UserCreateUpdateModel model)
 		{
             return _userCommonController.Insert(model);
 		}

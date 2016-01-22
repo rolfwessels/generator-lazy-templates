@@ -9,24 +9,23 @@ namespace MainSolutionTemplate.Utilities.Helpers
         {
             if (exception.InnerExceptions.Count == 1)
             {
-                return exception.ToFirstExceptionOfException();
+                return exception.InnerExceptions.First();
             }
-
-            return new Exception(exception.InnerExceptions.Select(x=>x.Message).StringJoin(), exception);
+            return new Exception(exception.InnerExceptions.Select(x => x.Message).StringJoin(), exception);
         }
 
-      public static string ToSingleExceptionString(this Exception exception)
-      {
-        var aggregateException = exception as AggregateException;
-        Exception simpleException = aggregateException != null ? aggregateException.ToSimpleException() : exception;
-        return simpleException.Message + Environment.NewLine + simpleException.StackTrace;
-      }
+        public static string ToSingleExceptionString(this Exception exception)
+        {
+            var aggregateException = exception as AggregateException;
+            Exception simpleException = aggregateException != null ? aggregateException.ToSimpleException() : exception;
+            return simpleException.Message + Environment.NewLine + simpleException.StackTrace;
+        }
 
-      public static Exception ToFirstExceptionOfException(this Exception exception)
-      {
-        var aggregateException = exception as AggregateException;
-        if (aggregateException != null) return aggregateException.InnerExceptions.First();
-        return exception;
-      }
+        public static Exception ToFirstExceptionOfException(this Exception exception)
+        {
+            var aggregateException = exception as AggregateException;
+            if (aggregateException != null) return aggregateException.ToSimpleException();
+            return exception;
+        }
     }
 }

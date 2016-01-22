@@ -16,7 +16,7 @@ using log4net;
 
 namespace MainSolutionTemplate.Api.Common
 {
-    public class UserCommonController : BaseCommonController<User, UserModel, UserReferenceModel, UserDetailModel>,
+    public class UserCommonController : BaseCommonController<User, UserModel, UserReferenceModel, UserCreateUpdateModel>,
                                         IUserControllerActions
     {
         private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
@@ -53,9 +53,9 @@ namespace MainSolutionTemplate.Api.Common
 
         #endregion
 
-        #region Overrides of BaseCommonController<User,UserModel,UserReferenceModel,UserDetailModel>
+        #region Overrides of BaseCommonController<User,UserModel,UserReferenceModel,UserCreateUpdateModel>
 
-        protected override async Task<User> AddAdditionalMappings(UserDetailModel model, User dal)
+        protected override async Task<User> AddAdditionalMappings(UserCreateUpdateModel model, User dal)
         {
             var addAdditionalMappings = await base.AddAdditionalMappings(model, dal);
             if (!addAdditionalMappings.Roles.Any()) addAdditionalMappings.Roles.Add(RoleManager.Guest.Name);

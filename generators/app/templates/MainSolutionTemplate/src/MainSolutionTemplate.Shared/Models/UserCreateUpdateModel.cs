@@ -1,6 +1,6 @@
 namespace MainSolutionTemplate.Shared.Models
 {
-    public class UserDetailModel : RegisterModel
+    public class UserCreateUpdateModel : RegisterModel
     {
     }
 }

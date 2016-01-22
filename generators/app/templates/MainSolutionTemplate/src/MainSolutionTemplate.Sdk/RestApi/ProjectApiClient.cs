@@ -6,7 +6,7 @@ using MainSolutionTemplate.Shared.Models.Reference;
 
 namespace MainSolutionTemplate.Sdk.RestApi
 {
-    public class ProjectApiClient : BaseCrudApiClient<ProjectModel, ProjectDetailModel, ProjectReferenceModel>,
+    public class ProjectApiClient : BaseCrudApiClient<ProjectModel, ProjectCreateUpdateModel, ProjectReferenceModel>,
         IProjectControllerActions
     {
         public ProjectApiClient(RestConnectionFactory restConnectionFactory)

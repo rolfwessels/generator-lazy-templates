@@ -9,7 +9,7 @@ using RestSharp;
 
 namespace MainSolutionTemplate.Sdk.RestApi
 {
-    public class UserApiClient : BaseCrudApiClient<UserModel, UserDetailModel, UserReferenceModel>,
+    public class UserApiClient : BaseCrudApiClient<UserModel, UserCreateUpdateModel, UserReferenceModel>,
                                  IUserControllerActions
     {
         public UserApiClient(RestConnectionFactory restConnectionFactory)

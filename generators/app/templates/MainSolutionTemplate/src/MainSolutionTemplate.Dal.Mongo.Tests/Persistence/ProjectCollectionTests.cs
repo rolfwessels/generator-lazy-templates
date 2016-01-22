@@ -4,7 +4,7 @@ using MainSolutionTemplate.Core.Tests.Helpers;
 using MainSolutionTemplate.Dal.Models;
 using NUnit.Framework;
 
-namespace MainSolutionTemplate.Dal.Mongo.Tests.Persistance
+namespace MainSolutionTemplate.Dal.Mongo.Tests.Persistence
 {
     [TestFixture]
     public class ProjectCollectionTests
@@ -29,7 +29,7 @@ namespace MainSolutionTemplate.Dal.Mongo.Tests.Persistance
         public void Users_GivenCrudCommands_ShouldAddListAndDeleteRecords()
         {
             // arrange
-            Setup();
+            Setup();;
             using (var dataContext = MongoConnectionFactory.New)
             {
                 var project = Builder<Project>.CreateNew().WithValidData().Build();

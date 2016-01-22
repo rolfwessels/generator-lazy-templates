@@ -4,7 +4,7 @@ using MainSolutionTemplate.Shared.Models;
 
 namespace MainSolutionTemplate.Shared.Interfaces.Shared
 {
-    public interface IUserControllerActions : ICrudController<UserModel, UserDetailModel>
+    public interface IUserControllerActions : ICrudController<UserModel, UserCreateUpdateModel>
 	{
 	    Task<UserModel> Register(RegisterModel user);
 	    Task<bool> ForgotPassword(string email);

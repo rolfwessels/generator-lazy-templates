@@ -13,7 +13,7 @@ namespace MainSolutionTemplate.Sdk.Tests.WebApi
 {
 	[TestFixture]
 	[Category("Integration")]
-    public class ProjectApiClientTests : CrudComponentTestsBase<ProjectModel, ProjectDetailModel, ProjectReferenceModel>
+    public class ProjectApiClientTests : CrudComponentTestsBase<ProjectModel, ProjectCreateUpdateModel, ProjectReferenceModel>
 	{
 		private ProjectApiClient _projectApiClient;
 
@@ -31,9 +31,9 @@ namespace MainSolutionTemplate.Sdk.Tests.WebApi
 
 		}
 
-	    protected override IList<ProjectDetailModel> GetExampleData()
+	    protected override IList<ProjectCreateUpdateModel> GetExampleData()
 	    {
-	        var projectDetailModel = Builder<ProjectDetailModel>.CreateListOfSize(2).All().WithValidModelData().Build();
+	        var projectDetailModel = Builder<ProjectCreateUpdateModel>.CreateListOfSize(2).All().WithValidModelData().Build();
 	        return projectDetailModel;
 	    }
 

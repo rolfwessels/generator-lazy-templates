@@ -72,6 +72,18 @@ namespace MainSolutionTemplate.Core.Tests.Fakes
                 return Task.FromResult(entities);
             }
 
+
+            public Task<long> Update<TType>(Expression<Func<T, bool>> filter, Expression<Func<T, TType>> update, TType value) where TType : class
+            {
+                var enumerable = _list.Where(filter.Compile()).ToArray();
+                foreach (var v in enumerable)
+                {
+                    var type = update.Compile()(v);
+                    PropertyCopy.Copy<TType, TType>(value, type);
+                }
+                return Task.FromResult(enumerable.LongLength);
+            }
+
             public Task<bool> Remove(Expression<Func<T, bool>> filter)
             {
                 T[] array = _list.Where(filter.Compile()).ToArray();
@@ -86,7 +98,18 @@ namespace MainSolutionTemplate.Core.Tests.Fakes
 
             public Task<T> FindOne(Expression<Func<T, bool>> filter)
             {
-                return Task.FromResult(_list.FirstOrDefault(filter.Compile()));
+                var predicate = filter.Compile();
+                return Task.FromResult(_list.FirstOrDefault((x) =>
+                {
+                    try
+                    {
+                        return predicate(x);
+                    }
+                    catch (NullReferenceException)
+                    {
+                        return false;
+                    }
+                }));
             }
 
             public Task<long> Count()

@@ -106,7 +106,7 @@ namespace MainSolutionTemplate.Api.Tests.Common
             var dal = SampleItem;
             _mockManager.Setup(mc => mc.Get(dal.Id))
                                .Returns(dal);
-            _mockManager.Setup(mc => mc.Save(dal))
+            _mockManager.Setup(mc => mc.Update(dal))
                                .Returns(dal);
             var model = Builder<TDetailModel>.CreateNew().Build();
             AddAdditionalMappings(model, dal);
@@ -123,7 +123,7 @@ namespace MainSolutionTemplate.Api.Tests.Common
             Setup();
             var dal = SampleItem;
             var model = Builder<TDetailModel>.CreateNew().Build();
-            _mockManager.Setup(mc => mc.Save(It.IsAny<TDal>())).Returns(dal);
+            _mockManager.Setup(mc => mc.Insert(It.IsAny<TDal>())).Returns(dal);
             AddAdditionalMappings(model, dal);
             // action
             var result = _commonController.Insert(model).Result;

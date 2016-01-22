@@ -93,8 +93,8 @@
     </Compile>
     <Compile Include="MongoDbConnectionFactoryTests.cs" />
     <Compile Include="MongoStatsKeeper.cs" />
-    <Compile Include="Persistance\ProjectCollectionTests.cs" />
-    <Compile Include="Persistance\UserCollectionTests.cs" />
+    <Compile Include="Persistence\ProjectCollectionTests.cs" />
+    <Compile Include="Persistence\UserCollectionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VersionUpdaterTests.cs" />
   </ItemGroup>

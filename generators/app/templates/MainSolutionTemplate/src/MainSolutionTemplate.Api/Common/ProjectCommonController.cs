@@ -8,7 +8,7 @@ using MainSolutionTemplate.Shared.Models.Reference;
 
 namespace MainSolutionTemplate.Api.Common
 {
-    public class ProjectCommonController : BaseCommonController<Project, ProjectModel, ProjectReferenceModel, ProjectDetailModel>, IProjectControllerActions
+    public class ProjectCommonController : BaseCommonController<Project, ProjectModel, ProjectReferenceModel, ProjectCreateUpdateModel>, IProjectControllerActions
     {
         
         public ProjectCommonController(IProjectManager projectManager)

@@ -14,7 +14,7 @@ using NUnit.Framework;
 namespace MainSolutionTemplate.Api.Tests.Common
 {
     [TestFixture]
-    public class UserCommonControllerTests:BaseCommonControllerTests<User, UserModel, UserReferenceModel, UserDetailModel, IUserManager>
+    public class UserCommonControllerTests:BaseCommonControllerTests<User, UserModel, UserReferenceModel, UserCreateUpdateModel, IUserManager>
     {
         private Mock<IUserManager> _mockIUserManager;
         private UserCommonController _projectCommonController;
@@ -38,12 +38,12 @@ namespace MainSolutionTemplate.Api.Tests.Common
             return _mockIUserManager;
         }
 
-        protected override BaseCommonController<User, UserModel, UserReferenceModel, UserDetailModel> GetCommonController()
+        protected override BaseCommonController<User, UserModel, UserReferenceModel, UserCreateUpdateModel> GetCommonController()
         {
             return _projectCommonController;
         }
 
-        #region Overrides of BaseCommonControllerTests<User,UserModel,UserReferenceModel,UserDetailModel,IUserManager>
+        #region Overrides of BaseCommonControllerTests<User,UserModel,UserReferenceModel,UserCreateUpdateModel,IUserManager>
 
         public override void TearDown()
         {

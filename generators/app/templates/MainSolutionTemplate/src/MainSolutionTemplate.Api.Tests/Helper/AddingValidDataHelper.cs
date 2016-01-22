@@ -20,7 +20,7 @@ namespace MainSolutionTemplate.Api.Tests.Helper
 
         private static T WithValidDataAdded<T>(T buildingObject)
         {
-            var user = buildingObject as UserDetailModel;
+            var user = buildingObject as UserCreateUpdateModel;
             if (user != null)
             {
                 user.Email = GetRandom.Email().ToLower();

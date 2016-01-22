@@ -15,7 +15,7 @@ namespace MainSolutionTemplate.Sdk.Tests.WebApi
 {
 	[TestFixture]
 	[Category("Integration")]
-    public class UserApiClientTests : CrudComponentTestsBase<UserModel, UserDetailModel, UserReferenceModel>
+    public class UserApiClientTests : CrudComponentTestsBase<UserModel, UserCreateUpdateModel, UserReferenceModel>
 	{
 		private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 	    private UserApiClient _userApiClient;
@@ -53,7 +53,7 @@ namespace MainSolutionTemplate.Sdk.Tests.WebApi
         {
             // arrange
             Setup();
-            var userDetailModel = Builder<UserDetailModel>.CreateNew().Build();
+            var userDetailModel = Builder<UserCreateUpdateModel>.CreateNew().Build();
             // action
             try
             {
@@ -68,11 +68,11 @@ namespace MainSolutionTemplate.Sdk.Tests.WebApi
             testCall.ShouldThrow<Exception>().WithMessage("'Email' is not a valid email address.");
         }
 
-        #region Overrides of CrudComponentTestsBase<UserModel,UserDetailModel>
+        #region Overrides of CrudComponentTestsBase<UserModel,UserCreateUpdateModel>
 
-        protected override IList<UserDetailModel> GetExampleData()
+        protected override IList<UserCreateUpdateModel> GetExampleData()
         {
-            return Builder<UserDetailModel>.CreateListOfSize(2).All().WithValidModelData().Build();
+            return Builder<UserCreateUpdateModel>.CreateListOfSize(2).All().WithValidModelData().Build();
         }
 
         #endregion

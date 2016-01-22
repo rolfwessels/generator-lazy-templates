@@ -3,7 +3,7 @@
 	public class Application : BaseDalModelWithId 
 	{
 		public string ClientId { set; get; }
-
+        
 		#region Implementation of IOAuthClient
 
 		public string Secret { get; set; }

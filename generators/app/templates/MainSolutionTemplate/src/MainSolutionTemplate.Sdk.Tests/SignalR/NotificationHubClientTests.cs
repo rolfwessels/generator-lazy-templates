@@ -57,7 +57,7 @@ namespace MainSolutionTemplate.Sdk.Tests.SignalR
             var responses = new List<ValueUpdateModel<ProjectReference>>();
             // action
             _notificationHubClient.Subscribe<ProjectReference>("Project", (name, value) => responses.Add(value)).Wait();
-            projectManager.Save(project).Wait();
+            projectManager.Insert(project).Wait();
             projectManager.Delete(project.Id).Wait();
             // assert
             responses.WaitFor(x => x.Count > 1);
@@ -77,7 +77,7 @@ namespace MainSolutionTemplate.Sdk.Tests.SignalR
             var responses = new List<ValueUpdateModel<ProjectReference>>();
             // action
             _notificationHubClient.Subscribe<ProjectReference>("Project", (name, value) => responses.Add(value)).Wait();
-            projectManager.Save(project).Wait();
+            projectManager.Insert(project).Wait();
             _notificationHubClient.Unsubscribe("Project").Wait();
             projectManager.Delete(project.Id).Wait();
             // assert

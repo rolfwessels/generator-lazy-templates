@@ -15,6 +15,7 @@ using MainSolutionTemplate.Shared.Models;
 using MainSolutionTemplate.Shared.Models.Enums;
 using MainSolutionTemplate.Utilities.Helpers;
 using Microsoft.AspNet.SignalR.Hubs;
+using ReflectionHelper = MainSolutionTemplate.Utilities.Helpers.ReflectionHelper;
 
 namespace MainSolutionTemplate.Api.SignalR.Hubs
 {
@@ -74,8 +75,8 @@ namespace MainSolutionTemplate.Api.SignalR.Hubs
 
         private static Type GetTypeFromName(string typeName)
         {
-            var type = MyReflectionHelper.FindOfType(typeof(Project).Assembly, typeName);
-            var makeGenericType = MyReflectionHelper.MakeGenericType(typeof(DalUpdateMessage<>), type);
+            var type = ReflectionHelper.FindOfType(typeof(Project).Assembly, typeName);
+            var makeGenericType = ReflectionHelper.MakeGenericType(typeof(DalUpdateMessage<>), type);
             return makeGenericType;
         }
 

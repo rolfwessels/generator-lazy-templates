@@ -121,6 +121,11 @@
     <Compile Include="BusinessLogic\Components\OAuthDataManager.cs" />
     <Compile Include="BusinessLogic\Components\UserManager.cs" />
     <Compile Include="BusinessLogic\Components\ProjectManager.cs" />
+    <Compile Include="DataIntegrity\DataIntegrityManager.cs" />
+    <Compile Include="DataIntegrity\IDataIntegrityManager.cs" />
+    <Compile Include="DataIntegrity\IntegrityOperators.cs" />
+    <Compile Include="DataIntegrity\IIntegrity.cs" />
+    <Compile Include="DataIntegrity\PropertyIntegrity.cs" />
     <Compile Include="Mappers\MapCore.cs" />
     <Compile Include="Mappers\MapCore.Project.cs" />
     <Compile Include="Mappers\MapCore.OAuth.cs" />

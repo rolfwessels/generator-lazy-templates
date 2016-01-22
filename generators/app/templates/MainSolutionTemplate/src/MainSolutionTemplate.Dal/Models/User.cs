@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using MainSolutionTemplate.Dal.Models.Reference;
 
 namespace MainSolutionTemplate.Dal.Models
 {
@@ -15,8 +16,9 @@ namespace MainSolutionTemplate.Dal.Models
 		public string HashedPassword { get; set; }
 		public List<string> Roles { get; private set; }
 		public DateTime? LastLoginDate { get; set; }
-
-		public override string ToString()
+	    public ProjectReference DefaultProject { get; set; }
+	    
+	    public override string ToString()
 		{
 			return string.Format("Email: {0}, Name: {1}", Email, Name);
 		}

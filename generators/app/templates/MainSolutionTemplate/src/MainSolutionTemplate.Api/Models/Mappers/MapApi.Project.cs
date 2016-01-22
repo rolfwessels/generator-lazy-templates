@@ -17,11 +17,11 @@ namespace MainSolutionTemplate.Api.Models.Mappers
 			Mapper.CreateMap<Project, ProjectModel>();
             Mapper.CreateMap<Project, ProjectReferenceModel>();
 			Mapper.CreateMap<ProjectReference, ProjectReferenceModel>();
-			Mapper.CreateMap<ProjectDetailModel, Project>().MapToDal();
+			Mapper.CreateMap<ProjectCreateUpdateModel, Project>().MapToDal();
 
 		}
 
-		public static Project ToDal(this ProjectDetailModel model, Project project = null)
+		public static Project ToDal(this ProjectCreateUpdateModel model, Project project = null)
 		{
 			return Mapper.Map(model, project);
 		}

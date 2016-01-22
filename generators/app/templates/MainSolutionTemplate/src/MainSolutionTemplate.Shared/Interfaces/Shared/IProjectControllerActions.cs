@@ -4,7 +4,7 @@ using MainSolutionTemplate.Shared.Models;
 
 namespace MainSolutionTemplate.Shared.Interfaces.Shared
 {
-    public interface IProjectControllerActions : ICrudController<ProjectModel, ProjectDetailModel>
+    public interface IProjectControllerActions : ICrudController<ProjectModel, ProjectCreateUpdateModel>
 	{
 	}
 }

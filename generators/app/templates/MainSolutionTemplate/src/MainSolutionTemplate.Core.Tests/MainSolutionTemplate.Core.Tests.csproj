@@ -121,6 +121,7 @@
     <Compile Include="..\MainSolutionTemplate.Core\Properties\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="DataIntegrity\DataIntegrityManagerTests.cs" />
     <Compile Include="Fakes\FakeGeneralUnitOfWork.cs" />
     <Compile Include="Helpers\FakeRepoHelper.cs" />
     <Compile Include="Helpers\PersistanceTester.cs" />

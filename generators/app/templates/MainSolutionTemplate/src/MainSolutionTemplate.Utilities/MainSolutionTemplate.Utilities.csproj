@@ -96,10 +96,12 @@
     <Compile Include="Helpers\ExceptionHelper.cs" />
     <Compile Include="Helpers\Log4NetInitializeAttribute.cs" />
     <Compile Include="Helpers\LogHelper.cs" />
-    <Compile Include="Helpers\MyReflectionHelper.cs" />
+    <Compile Include="Helpers\ReflectionHelper.cs" />
     <Compile Include="Helpers\ObjectPool.cs" />
+    <Compile Include="Helpers\PropertyCopy.cs" />
     <Compile Include="Helpers\StreamHelper.cs" />
     <Compile Include="Helpers\StringHelper.cs" />
+    <Compile Include="Helpers\TaskHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="..\MainSolutionTemplate.core\Properties\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>

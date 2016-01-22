@@ -9,7 +9,7 @@ using NUnit.Framework;
 namespace MainSolutionTemplate.Api.Tests.Common
 {
     [TestFixture]
-    public class ProjectCommonControllerTests : BaseCommonControllerTests<Project, ProjectModel, ProjectReferenceModel, ProjectDetailModel, IProjectManager>
+    public class ProjectCommonControllerTests : BaseCommonControllerTests<Project, ProjectModel, ProjectReferenceModel, ProjectCreateUpdateModel, IProjectManager>
     {
         private Mock<IProjectManager> _mockIProjectManager;
         private ProjectCommonController _projectCommonController;
@@ -29,7 +29,7 @@ namespace MainSolutionTemplate.Api.Tests.Common
             return _mockIProjectManager;
         }
 
-        protected override BaseCommonController<Project, ProjectModel, ProjectReferenceModel, ProjectDetailModel> GetCommonController()
+        protected override BaseCommonController<Project, ProjectModel, ProjectReferenceModel, ProjectCreateUpdateModel> GetCommonController()
         {
             return _projectCommonController;
         }

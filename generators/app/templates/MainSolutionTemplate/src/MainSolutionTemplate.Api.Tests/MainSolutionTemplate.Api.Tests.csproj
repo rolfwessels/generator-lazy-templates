@@ -163,6 +163,7 @@
     <Compile Include="Common\BaseCommonControllerTests.cs" />
     <Compile Include="Common\UserCommonControllerTests.cs" />
     <Compile Include="Common\ProjectCommonControllerTests.cs" />
+    <Compile Include="DataIntegrity\DataIntegrityManagerIntegrationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup\AutoMapperSetupTests.cs" />
     <Compile Include="Helper\AddingValidDataHelper.cs" />

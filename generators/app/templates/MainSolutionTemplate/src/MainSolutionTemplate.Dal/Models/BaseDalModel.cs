@@ -3,7 +3,7 @@ using MainSolutionTemplate.Dal.Models.Interfaces;
 
 namespace MainSolutionTemplate.Dal.Models
 {
-	public class BaseDalModel : IBaseDalModel
+	public abstract class BaseDalModel : IBaseDalModel
 	{
 		public BaseDalModel()
 		{

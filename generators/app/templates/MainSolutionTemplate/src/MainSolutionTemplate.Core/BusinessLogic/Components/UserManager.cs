@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -29,6 +30,9 @@ namespace MainSolutionTemplate.Core.BusinessLogic.Components
         protected override void DefaultModelNormalize(User user)
         {
             user.Email = (user.Email??"").ToLower();
+            user.HashedPassword = user.HashedPassword == null || !user.HashedPassword.StartsWith("1000:")
+                                      ? PasswordHash.CreateHash(user.HashedPassword ?? DateTime.Now.ToString(CultureInfo.InvariantCulture))
+                                      : user.HashedPassword ;
         }
 
         protected override async Task Validate(User entity)
@@ -50,7 +54,7 @@ namespace MainSolutionTemplate.Core.BusinessLogic.Components
             User found = await Get(user.Id);
             user.HashedPassword = password != null || found == null
                                       ? PasswordHash.CreateHash(password ??
-                                                                user.HashedPassword ?? DateTime.Now.ToString())
+                                                                user.HashedPassword ?? DateTime.Now.ToString(CultureInfo.InvariantCulture))
                                       : found.HashedPassword;
             if (found == null)
             {

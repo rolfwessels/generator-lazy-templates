@@ -107,6 +107,7 @@
     <Compile Include="Models\BaseDalModelWithId.cs" />
     <Compile Include="Models\Base\BaseReference.cs" />
     <Compile Include="Models\Base\BaseReferenceWithName.cs" />
+    <Compile Include="Models\Base\IBaseReference.cs" />
     <Compile Include="Models\Enums\Activity.cs" />
     <Compile Include="Models\Enums\UpdateTypes.cs" />
     <Compile Include="Models\Interfaces\IBaseDalModel.cs" />
