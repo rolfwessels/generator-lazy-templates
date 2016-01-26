@@ -32,9 +32,10 @@ namespace MainSolutionTemplate.Sdk.Tests.Shared
             var baseStandardLookups = _crudController  as IBaseStandardLookups<TModel, TReferenceModel>;
             if (baseStandardLookups != null)
             {
-                var restResponse = baseStandardLookups.Get("$top=1").Result;
+                var restResponse = baseStandardLookups.GetPaged("$top=1").Result;
                 // assert
-                restResponse.Count().Should().BeLessOrEqualTo(1);
+                restResponse.Items.Count.Should().BeLessOrEqualTo(1);
+                restResponse.Count.Should().BePositive();
             }
         }  
 

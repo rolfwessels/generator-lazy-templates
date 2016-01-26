@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MainSolutionTemplate.Sdk.Models;
+using MainSolutionTemplate.Shared.Models;
 
 namespace MainSolutionTemplate.Shared.Interfaces.Base
 {

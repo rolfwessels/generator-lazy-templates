@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using FizzWare.NBuilder;
-using FizzWare.NBuilder.Generators;
 using MainSolutionTemplate.Api.Tests.Helper;
-using MainSolutionTemplate.Core.Tests.Helpers;
 using MainSolutionTemplate.Sdk.RestApi;
 using MainSolutionTemplate.Sdk.Tests.Shared;
 using MainSolutionTemplate.Shared.Models;

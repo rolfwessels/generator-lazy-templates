@@ -103,7 +103,7 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 		}
 
         
-        [Route(RouteHelper.UserControllerRoles), AuthorizeActivity(Activity.ReadUsers)]
+        [Route(RouteHelper.UserControllerRoles), AuthorizeActivity(Activity.ReadUsers), HttpGet]
         public Task<List<RoleModel>> Roles()
         {
             return _userCommonController.Roles();
@@ -116,7 +116,7 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 	    /// </summary>
 	    /// <param name="user">The user.</param>
 	    /// <returns></returns>
-        [HttpPost, Route(RouteHelper.UserControllerRegister), AllowAnonymous]
+        [Route(RouteHelper.UserControllerRegister), AllowAnonymous, HttpPost]
 		public Task<UserModel> Register(RegisterModel user)
 		{
             return _userCommonController.Register(user);
@@ -128,7 +128,7 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 	    /// </summary>
 	    /// <param name="email">The email.</param>
 	    /// <returns></returns>
-		[HttpGet, Route(RouteHelper.UserControllerForgotPassword),AllowAnonymous]
+        [Route(RouteHelper.UserControllerForgotPassword), AllowAnonymous, HttpGet]
 		public Task<bool> ForgotPassword(string email)
 		{
             return _userCommonController.ForgotPassword(email);
@@ -144,6 +144,8 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
         {
             return _userCommonController.WhoAmI();
         }
+
+
 		#endregion
 	}
 }

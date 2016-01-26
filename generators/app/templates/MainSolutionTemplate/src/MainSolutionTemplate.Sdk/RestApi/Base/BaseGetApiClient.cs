@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MainSolutionTemplate.Sdk.Models;
 using MainSolutionTemplate.Sdk.OAuth;
 using MainSolutionTemplate.Shared;
 using MainSolutionTemplate.Shared.Interfaces.Base;
+using MainSolutionTemplate.Shared.Models;
 using MainSolutionTemplate.Shared.Models.Interfaces;
 using MainSolutionTemplate.Utilities.Helpers;
 using RestSharp;

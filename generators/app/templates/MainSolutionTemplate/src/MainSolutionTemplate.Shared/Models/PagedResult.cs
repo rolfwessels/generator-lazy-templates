@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace MainSolutionTemplate.Sdk.Models
+namespace MainSolutionTemplate.Shared.Models
 {
     public class PagedResult<T>
     {

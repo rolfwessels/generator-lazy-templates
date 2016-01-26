@@ -94,7 +94,6 @@
     <Compile Include="Models\Enums\UpdateTypeCodes.cs" />
     <Compile Include="Models\ErrorMessage.cs" />
     <Compile Include="Models\Interfaces\IBaseModel.cs" />
-    <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\PagedResult.cs" />
     <Compile Include="Models\Reference\UserReferenceModel.cs" />
     <Compile Include="Models\Reference\ProjectReferenceModel.cs" />

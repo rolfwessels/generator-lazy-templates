@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using FizzWare.NBuilder;
 using FluentAssertions;
@@ -26,6 +27,7 @@ namespace MainSolutionTemplate.Sdk.Tests.WebApi
 		{
             _userApiClient = new UserApiClient(_adminRequestFactory.Value);
             SetRequiredData(_userApiClient);
+            _log.Info("_log");
 		}
 
 	    [TearDown]
@@ -46,6 +48,18 @@ namespace MainSolutionTemplate.Sdk.Tests.WebApi
 	        // assert
 	        userModel.Should().NotBeNull();
 	        userModel.Email.Should().Be("admin");
+	    }
+
+	    [Test]
+        public void Roles_WhenCalled_ShouldReturnAllRoleInformation()
+	    {
+	        // arrange
+	        Setup();
+	        // action
+            var userModel = _userApiClient.Roles().Result;
+	        // assert
+	        userModel.Count.Should().BeGreaterOrEqualTo(2);
+	        userModel.Select(x => x.Name).Should().Contain("Admin");
 	    }
 
         [Test]

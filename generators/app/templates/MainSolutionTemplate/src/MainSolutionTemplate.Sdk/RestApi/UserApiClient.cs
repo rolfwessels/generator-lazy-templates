@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using MainSolutionTemplate.Sdk.RestApi.Base;
 using MainSolutionTemplate.Shared;
@@ -39,6 +40,12 @@ namespace MainSolutionTemplate.Sdk.RestApi
             RestRequest request = DefaultRequest(_apiPrefix.UriCombine(RouteHelper.UserControllerWhoAmI),
                                                  Method.GET);
             return await ExecuteAndValidate<UserModel>(request);
+        }
+
+        public Task<List<RoleModel>> Roles()
+        {
+            RestRequest request = DefaultRequest(_apiPrefix.UriCombine(RouteHelper.UserControllerRoles), Method.GET);
+            return ExecuteAndValidate<List<RoleModel>>(request);
         }
 
         #endregion
