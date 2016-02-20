@@ -1,0 +1,157 @@
+{
+  "Injections": [
+    {
+      "FileName": "RouteHelper.cs",
+      "Indexline": "UserControllerForgotPassword",
+      "InsertAbove": false,
+      "InsertInline": false,
+      "Lines": [
+        null,
+        "public const string ProjectController = ApiPrefix + \"project\";"
+      ]
+    },
+    {
+      "FileName": "Activity.cs",
+      "Indexline": "DeleteProject",
+      "InsertAbove": false,
+      "InsertInline": false,
+      "Lines": [
+        null,
+        "ReadProject = x00,",
+        "UpdateProject = x01,",
+        "InsertProject = x02,",
+        "DeleteProject = x03,",
+        "SubscribeProject = x04,"
+      ]
+    },
+    {
+      "FileName": "IocCoreBase.cs",
+      "Indexline": "As<IUserManager>",
+      "InsertAbove": false,
+      "InsertInline": false,
+      "Lines": [
+        "builder.RegisterType<ProjectManager>().As<IProjectManager>();"
+      ]
+    },
+    {
+      "FileName": "IocCoreBase.cs",
+      "Indexline": ".As<IValidator<Project>>();",
+      "InsertAbove": false,
+      "InsertInline": false,
+      "Lines": [
+        "builder.RegisterType<ProjectValidator>().As<IValidator<Project>>();"
+      ]
+    },
+    {
+      "FileName": "IGeneralUnitOfWork.cs",
+      "Indexline": "Projects",
+      "InsertAbove": false,
+      "InsertInline": false,
+      "Lines": [
+        "IRepository<Project> Projects { get; }"
+      ]
+    },
+    {
+      "FileName": "MongoGeneralUnitOfWork.cs",
+      "Indexline": "Projects = ",
+      "InsertAbove": false,
+      "InsertInline": false,
+      "Lines": [
+        "Projects = new MongoRepository<Project>(database);"
+      ]
+    },
+    {
+      "FileName": "MongoGeneralUnitOfWork.cs",
+      "Indexline": "Projects { get; private set; }",
+      "InsertAbove": false,
+      "InsertInline": false,
+      "Lines": [
+        "public IRepository<Project> Projects { get; private set; }"
+      ]
+    },
+    {
+      "FileName": "FakeGeneralUnitOfWork.cs",
+      "Indexline": "Projects =",
+      "InsertAbove": false,
+      "InsertInline": false,
+      "Lines": [
+        "Projects = new FakeRepository<Project>();"
+      ]
+    },
+    {
+      "FileName": "FakeGeneralUnitOfWork.cs",
+      "Indexline": "Projects { get",
+      "InsertAbove": false,
+      "InsertInline": false,
+      "Lines": [
+        "public IRepository<Project> Projects { get; private set; }"
+      ]
+    },
+    {
+      "FileName": "IocApi.cs",
+      "Indexline": "RegisterType<ProjectCommonController>",
+      "InsertAbove": false,
+      "InsertInline": false,
+      "Lines": [
+        "builder.RegisterType<ProjectCommonController>();"
+      ]
+    },
+    {
+      "FileName": "MapCore.cs",
+      "Indexline": "CreateProjectMap",
+      "InsertAbove": false,
+      "InsertInline": false,
+      "Lines": [
+        "CreateProjectMap();"
+      ]
+    },
+    {
+      "FileName": "MapApi.cs",
+      "Indexline": "MapProjectModel",
+      "InsertAbove": false,
+      "InsertInline": false,
+      "Lines": [
+        "MapProjectModel();"
+      ]
+    },
+    {
+      "FileName": "route.js",
+      "Indexline": ".otherwise",
+      "InsertAbove": true,
+      "InsertInline": false,
+      "Lines": [
+        ".when('/project/:id?', {",
+        "    templateUrl: 'views/project.html',",
+        "    controller: 'controller.projectCrud'",
+        "})"
+      ]
+    },
+    {
+      "FileName": "controller.dashboard.js",
+      "Indexline": "mapData(serviceProject",
+      "InsertAbove": true,
+      "InsertInline": false,
+      "Lines": [
+        "mapData(serviceProject, 'projects', '#/project');"
+      ]
+    },
+    {
+      "FileName": "controller.dashboard.js",
+      "Indexline": ", 'service.project'",
+      "InsertAbove": false,
+      "InsertInline": true,
+      "Lines": [
+        ", 'service.project'"
+      ]
+    },
+    {
+      "FileName": "controller.dashboard.js",
+      "Indexline": ", serviceProject",
+      "InsertAbove": false,
+      "InsertInline": true,
+      "Lines": [
+        ", serviceProject"
+      ]
+    }
+  ]
+}
