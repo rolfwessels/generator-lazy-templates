@@ -8,7 +8,7 @@
 
 string  _location = @"..\..\src";
 string  _template = @"Project";
-string  _toName = @"Activity";
+string  _toName = @"SystemActivity";
 string[]  _fileTypes = new [] { @".cs",".js",".html",".txt",".json"};
 string[]  _exclude = new [] { @"bower_components" ,".OAuth2.","RequestClientDetailsHelper","Mappers\\MapClient.cs" , "Enums\\"};
 string _scaffoldingInjectionFile = ".scaffolding.injection.json";
@@ -22,9 +22,10 @@ void Main()
 			
 			var newFile = ReplaceAll(file);
 			if (!File.Exists(newFile)) {
-				InjectScaffolding(file);
+				
 				var replace = Util.ReadLine("Would you like to create "+file.Replace(_location,"")+" [Y/n]").ToUpper() != "N";
 				if (replace) {
+				    InjectScaffolding(file);
 					var fileContent = File.ReadAllText(file);
 					File.WriteAllText(newFile,ReplaceAll(fileContent));
 					newFile.Dump("Created");
@@ -41,13 +42,15 @@ void Main()
 public void InjectScaffolding(string fileName)
 {
 	if (!fileName.EndsWith(_scaffoldingInjectionFile)) return;
-	var injection = JsonConvert.DeserializeObject<Injection>(File.ReadAllText(fileName));
+
 	
+	var injection = JsonConvert.DeserializeObject<Injection>(File.ReadAllText(fileName));
+
 	var allfiles = Directory.GetFiles(_location, "*", SearchOption.AllDirectories);
 	
 	foreach (var inject in injection.Injections)
 	{
-		var inFile = allfiles.Where(x => x.EndsWith(inject.FileName)).FirstOrDefault();
+		var inFile = allfiles.Where(x => x.EndsWith("\\"+inject.FileName)).FirstOrDefault();
 		if (inFile != null)
 		{
 			var projectFile = File.ReadAllLines(inFile).ToList();
@@ -62,7 +65,7 @@ public void InjectScaffolding(string fileName)
 					var indexOf = projectFile[i].IndexOf(inject.Indexline)+ inject.Indexline.Length;
 					foreach (var addLine in inject.Lines)
 					{
-						var insertLine = ReplaceAll(addLine).Dump();
+						var insertLine = ReplaceAll(addLine);
 						if (inject.InsertInline)
 						{
 							projectFile[i] = projectFile[i].Insert(indexOf,insertLine);
