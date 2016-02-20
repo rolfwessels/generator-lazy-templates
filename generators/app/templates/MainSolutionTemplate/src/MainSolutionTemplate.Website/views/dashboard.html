@@ -1,22 +1,25 @@
 <div class="row">
     <h2 class="header">Dashboard</h2>
     <div class="col s6 m4" ng-repeat="counter in allCounter">
-        <div class="card medium">
+        <div class="card small">
             <!-- Card Content -->
+
             <div class="card-image grey lighten-4">
 
-                <span class="card-title col s12">
+                <span class="col s12">
                     <div class="row">
+                           
                         <h2 class="col offset-s4"><a ng-href="{{counter.link}}" class="light-blue-text text-lighten-1">{{counter.count}}</a></h2>
                     </div>
                     <span class="right light-blue-text text-lighten-2">{{counter.name}}</span>
                 </span>
             </div>
 
-            <div class="card-content">
-                <h5>Latest {{counter.name}}</h5>
-                <a href="{{counter.link}}/{{item.id}}" class="collection-item" ng-repeat="item in counter.items">{{item.name}}, </a>
-            </div>
+
+                <p class="dashboard-link" ng-repeat="item in counter.items">
+                  <a href="{{counter.link}}/{{item.id}}" >{{item.name}}</a>
+                <p>
+
 
         </div>
     </div>

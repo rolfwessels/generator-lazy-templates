@@ -5,3 +5,11 @@
 .input-field label {
   left: 0;
 }
+
+.dashboard-link {
+	margin: 5px 5px;
+}
+
+.nudge-left-sm {
+	margin-left: 5px;
+}
