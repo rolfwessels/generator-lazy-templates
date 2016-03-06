@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using Lazy.Authentication.OAuth2.Dal.Interfaces;
 using MainSolutionTemplate.Dal.Models;
-using MainSolutionTemplate.OAuth2.Dal.Interfaces;
 
 namespace MainSolutionTemplate.Core.Mappers
 {

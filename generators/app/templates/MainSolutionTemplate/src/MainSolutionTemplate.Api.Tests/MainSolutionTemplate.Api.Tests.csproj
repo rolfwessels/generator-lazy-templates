@@ -193,10 +193,6 @@
       <Project>{9A75E778-72A2-4DA0-9983-1032C90C515F}</Project>
       <Name>MainSolutionTemplate.Dal</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MainSolutionTemplate.OAuth2.Dal\MainSolutionTemplate.OAuth2.Dal.csproj">
-      <Project>{CE1598CB-ADFF-4F64-BBAD-6B16A29BAF8E}</Project>
-      <Name>MainSolutionTemplate.OAuth2.Dal</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MainSolutionTemplate.Shared\MainSolutionTemplate.Shared.csproj">
       <Project>{4F64894D-E45E-46D2-B448-FF6CDB52EEE2}</Project>
       <Name>MainSolutionTemplate.Shared</Name>

@@ -1,12 +1,12 @@
 ﻿using Autofac;
 using FluentValidation;
+using Lazy.Authentication.OAuth2.Dal.Interfaces;
 using MainSolutionTemplate.Core.BusinessLogic.Components;
 using MainSolutionTemplate.Core.BusinessLogic.Components.Interfaces;
 using MainSolutionTemplate.Core.MessageUtil;
 using MainSolutionTemplate.Dal.Models;
 using MainSolutionTemplate.Dal.Persistance;
 using MainSolutionTemplate.Dal.Validation;
-using MainSolutionTemplate.OAuth2.Dal.Interfaces;
 using IValidatorFactory = MainSolutionTemplate.Dal.Validation.IValidatorFactory;
 
 namespace MainSolutionTemplate.Core.Startup

@@ -77,6 +77,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\GoogleAnalyticsTracker.WebAPI2.4.1.2\lib\net45\GoogleAnalyticsTracker.WebAPI2.dll</HintPath>
     </Reference>
+    <Reference Include="Lazy.Authentication.OAuth2">
+      <HintPath>..\..\lib\Lazy.Authentication.OAuth2.0.0.1.0\lib\net45\Lazy.Authentication.OAuth2.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Lazy.Authentication.OAuth2.Dal">
+      <HintPath>..\..\lib\Lazy.Authentication.OAuth2.Dal.0.0.1.0\lib\net45\Lazy.Authentication.OAuth2.Dal.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="LinqToQuerystring">
       <HintPath>..\..\lib\LinqToQuerystring.0.7.0.8\lib\net35\LinqToQuerystring.dll</HintPath>
       <Private>True</Private>
@@ -259,14 +267,6 @@
     <ProjectReference Include="..\MainSolutionTemplate.Dal\MainSolutionTemplate.Dal.csproj">
       <Project>{9A75E778-72A2-4DA0-9983-1032C90C515F}</Project>
       <Name>MainSolutionTemplate.Dal</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MainSolutionTemplate.OAuth2.Dal\MainSolutionTemplate.OAuth2.Dal.csproj">
-      <Project>{CE1598CB-ADFF-4F64-BBAD-6B16A29BAF8E}</Project>
-      <Name>MainSolutionTemplate.OAuth2.Dal</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MainSolutionTemplate.OAuth2\MainSolutionTemplate.OAuth2.csproj">
-      <Project>{80F30C95-0E90-4622-9A8D-1BE39854900B}</Project>
-      <Name>MainSolutionTemplate.OAuth2</Name>
     </ProjectReference>
     <ProjectReference Include="..\MainSolutionTemplate.Shared\MainSolutionTemplate.Shared.csproj">
       <Project>{4F64894D-E45E-46D2-B448-FF6CDB52EEE2}</Project>

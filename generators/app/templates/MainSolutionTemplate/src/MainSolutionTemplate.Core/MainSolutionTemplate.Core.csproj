@@ -90,6 +90,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\FluentValidation.5.6.2.0\lib\Net45\FluentValidation.dll</HintPath>
     </Reference>
+    <Reference Include="Lazy.Authentication.OAuth2.Dal">
+      <HintPath>..\..\lib\Lazy.Authentication.OAuth2.Dal.0.0.1.0\lib\net45\Lazy.Authentication.OAuth2.Dal.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
@@ -164,10 +167,6 @@
     <ProjectReference Include="..\MainSolutionTemplate.Dal\MainSolutionTemplate.Dal.csproj">
       <Project>{9A75E778-72A2-4DA0-9983-1032C90C515F}</Project>
       <Name>MainSolutionTemplate.Dal</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MainSolutionTemplate.OAuth2.Dal\MainSolutionTemplate.OAuth2.Dal.csproj">
-      <Project>{CE1598CB-ADFF-4F64-BBAD-6B16A29BAF8E}</Project>
-      <Name>MainSolutionTemplate.OAuth2.Dal</Name>
     </ProjectReference>
     <ProjectReference Include="..\MainSolutionTemplate.Utilities\MainSolutionTemplate.Utilities.csproj">
       <Project>{B5EFC032-43A4-4326-A42A-F365C763EFE8}</Project>

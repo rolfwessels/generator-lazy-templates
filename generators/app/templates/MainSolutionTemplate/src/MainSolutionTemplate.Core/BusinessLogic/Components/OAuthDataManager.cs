@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Lazy.Authentication.OAuth2.Dal.Interfaces;
 using MainSolutionTemplate.Core.BusinessLogic.Components.Interfaces;
 using MainSolutionTemplate.Core.Mappers;
 using MainSolutionTemplate.Dal.Models;
-using MainSolutionTemplate.OAuth2.Dal.Interfaces;
 using log4net;
 
 namespace MainSolutionTemplate.Core.BusinessLogic.Components

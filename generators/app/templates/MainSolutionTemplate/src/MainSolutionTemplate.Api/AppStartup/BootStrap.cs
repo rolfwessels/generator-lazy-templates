@@ -1,5 +1,5 @@
-﻿using MainSolutionTemplate.OAuth2;
-using MainSolutionTemplate.OAuth2.Dal.Interfaces;
+﻿using Lazy.Authentication.OAuth2;
+using Lazy.Authentication.OAuth2.Dal.Interfaces;
 using Owin;
 
 namespace MainSolutionTemplate.Api.AppStartup

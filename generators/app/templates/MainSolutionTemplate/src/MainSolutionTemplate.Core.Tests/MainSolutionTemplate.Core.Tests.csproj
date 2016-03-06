@@ -146,10 +146,6 @@
       <Project>{9A75E778-72A2-4DA0-9983-1032C90C515F}</Project>
       <Name>MainSolutionTemplate.Dal</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MainSolutionTemplate.OAuth2.Dal\MainSolutionTemplate.OAuth2.Dal.csproj">
-      <Project>{CE1598CB-ADFF-4F64-BBAD-6B16A29BAF8E}</Project>
-      <Name>MainSolutionTemplate.OAuth2.Dal</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MainSolutionTemplate.Utilities\MainSolutionTemplate.Utilities.csproj">
       <Project>{b5efc032-43a4-4326-a42a-f365c763efe8}</Project>
       <Name>MainSolutionTemplate.Utilities</Name>

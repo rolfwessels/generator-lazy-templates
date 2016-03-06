@@ -1,7 +1,7 @@
 using System;
 using System.Reflection;
 using System.Security.Claims;
-using MainSolutionTemplate.OAuth2;
+using Lazy.Authentication.OAuth2;
 using Microsoft.AspNet.SignalR;
 using Microsoft.Owin.Security;
 using log4net;
