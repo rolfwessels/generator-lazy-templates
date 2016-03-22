@@ -20,7 +20,7 @@ namespace MainSolutionTemplate.Console.Commands
 		protected CommandBase()
 		{
 			_arguments = new List<Argument>();
-			HasOption("v|verbose", "Verbose output", b => Verbose = false);
+			HasOption("v|verbose", "Verbose output", b => Verbose = true);
 		}
 
 		protected bool Verbose { get; set; }
