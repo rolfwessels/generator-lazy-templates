@@ -101,7 +101,7 @@
     <Compile Include="Helpers\ObjectPoolTests.cs" />
     <Compile Include="Helpers\StreamHelperTests.cs" />
     <Compile Include="Helpers\LogHelperTests.cs" />
-    <Compile Include="Helpers\ReflectionHelperTest.cs" />
+    <Compile Include="Helpers\ReflectionHelperTests.cs" />
     <Compile Include="Helpers\StringHelperTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

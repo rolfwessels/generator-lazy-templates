@@ -7,7 +7,7 @@ using NUnit.Framework;
 namespace MainSolutionTemplate.Utilities.Tests.Helpers
 {
     [TestFixture]
-    public class ReflectionHelperTest
+    public class ReflectionHelperTests
     {
 
         [Test]
@@ -15,9 +15,9 @@ namespace MainSolutionTemplate.Utilities.Tests.Helpers
         {
             // arrange
             // action
-            var type = ReflectionHelper.FindOfType(typeof(ReflectionHelperTest).Assembly, "ReflectionHelperTest");
+            var type = ReflectionHelper.FindOfType(typeof(ReflectionHelperTests).Assembly, "ReflectionHelperTests");
             // assert
-            type.Should().Be(typeof (ReflectionHelperTest));
+            type.Should().Be(typeof (ReflectionHelperTests));
         }
          
         [Test]
@@ -25,10 +25,10 @@ namespace MainSolutionTemplate.Utilities.Tests.Helpers
         {
             // arrange
             var genericType = typeof(Task<>);
-            var ofType = ReflectionHelper.FindOfType(typeof(ReflectionHelperTest).Assembly, "ReflectionHelperTest");// action
+            var ofType = ReflectionHelper.FindOfType(typeof(ReflectionHelperTests).Assembly, "ReflectionHelperTests");// action
             var type = ReflectionHelper.MakeGenericType(genericType, ofType);
             // assert
-            type.Should().Be(typeof(Task<ReflectionHelperTest>));
+            type.Should().Be(typeof(Task<ReflectionHelperTests>));
         }
 
         [Test]
