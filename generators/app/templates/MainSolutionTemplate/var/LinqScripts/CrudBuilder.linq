@@ -11,7 +11,6 @@ string  _template = @"Project";
 string  _toName = @"Sample";
 string[]  _fileTypes = new [] { @".cs",".js",".html",".txt",".json", ".less"};
 string[]  _exclude = new [] { @"bower_components" ,".OAuth2.","RequestClientDetailsHelper","Mappers\\MapClient.cs" , "Enums\\","node_modules",".tmp"};
-string _scaffoldingInjectionFile = ".scaffolding.injection.json";
 string _focus = "Controller";
 
 bool _copyScaffold = false;
@@ -20,33 +19,45 @@ void Main()
 	_location = Path.GetFullPath(Path.Combine(Path.GetDirectoryName (Util.CurrentQueryPath),_location)).Dump();
 	var files = Directory.GetFiles(_location, "*" + _template + "*", SearchOption.AllDirectories)
 				.Where(file => _fileTypes.Contains(Path.GetExtension(file)) && !_exclude.Any(x => file.Contains(x)))
-				.OrderByDescending(x=>x.Contains(_focus))
-				;
+				.OrderByDescending(x=>x.Contains(_focus))				;
 	var fileReplaces = files.Select(x => new { File = x, Replace = ReplaceAll(x) , Exists = File.Exists(ReplaceAll(x))}).ToList();
 	fileReplaces.Where(x=>x.Exists).Select(x=> x.Replace.Replace(_location,"")).Dump("Existing files");
-	fileReplaces.Where(x=>!x.Exists).Select(x=> x.Replace.Replace(_location,"")).Dump("Missing files");
+	fileReplaces.Where(x => !x.Exists).Select(x => x.Replace.Replace(_location, "")).Dump("Missing files");
+	var replaceOption = "";
 	foreach (var replace in fileReplaces)
 	{
-			var file = replace.File;
-			var newFile = replace.Replace;
-			if (!replace.Exists) {
+		var file = replace.File;
+		var newFile = replace.Replace;
+		
+		if (!replace.Exists)
+		{
+
+			replaceOption = replaceOption == "A" ? replaceOption : Util.ReadLine("Would you like to create " + newFile + " [Y/n/a/p]").ToUpper();
+			replaceOption = string.IsNullOrEmpty(replaceOption) ? "Y" : replaceOption;
+			if (replaceOption == "Y" || replaceOption == "A" )
+			{
+				var fileContent = File.ReadAllText(file);
 				
-				var replaceOption = Util.ReadLine("Would you like to create "+newFile+" [Y/n]").ToUpper() != "N";
-				if (replaceOption) {
-				    
-					var fileContent = File.ReadAllText(file);
-					fileContent = InjectScaffolding(fileContent);
-					var path = Path.GetDirectoryName(newFile);
-					if (!Directory.Exists(path)) Directory.CreateDirectory(path);
-					File.WriteAllText(newFile,ReplaceAll(fileContent));
-					newFile.Dump("Created");
-					AddFileToProject(newFile,file);
-					
-				}
-				else {
-					newFile.Dump("Skip");
-				}
+				fileContent = InjectScaffolding(fileContent);
+				var path = Path.GetDirectoryName(newFile);
+				if (!Directory.Exists(path)) Directory.CreateDirectory(path);
+				var replacedContent = ReplaceAll(fileContent);
+				File.WriteAllText(newFile, replacedContent );
+				newFile.Dump("Created");
+				AddFileToProject(newFile, file);
+
 			}
+			else if (replaceOption == "P")
+			{
+				var fileContent = File.ReadAllText(file);
+				fileContent.Dump("Preview " + ReplaceAll(fileContent) );
+			}
+			else
+			{
+				newFile.Dump("Skip");
+			}
+		}
+
 	}
 }
 
@@ -57,11 +68,8 @@ public string InjectScaffolding(string fileData)
 	var start = fileData.IndexOf(prefix);
 	var end = fileData.IndexOf(suffix,Math.Max(0,start));
 	if (start < 0 || end < 0) return fileData;
-	start.Dump();
-	end.Dump();
-	var data = fileData.Substring(start+prefix.Length,end-start-prefix.Length).Dump();
-	
-	var injections = JsonConvert.DeserializeObject<List<FileInjection>>(data).Dump();
+	var data = fileData.Substring(start+prefix.Length,end-start-prefix.Length);
+	var injections = JsonConvert.DeserializeObject<List<FileInjection>>(data);
 	var allfiles = Directory.GetFiles(_location, "*", SearchOption.AllDirectories);
 	
 	foreach (var inject in injections)

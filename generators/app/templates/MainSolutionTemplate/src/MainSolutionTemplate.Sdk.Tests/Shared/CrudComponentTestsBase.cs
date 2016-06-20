@@ -35,7 +35,7 @@ namespace MainSolutionTemplate.Sdk.Tests.Shared
                 var restResponse = baseStandardLookups.GetPaged("$top=1").Result;
                 // assert
                 restResponse.Items.Count.Should().BeLessOrEqualTo(1);
-                restResponse.Count.Should().BePositive();
+                restResponse.Count.Should().BeGreaterOrEqualTo(0);
             }
         }  
 
