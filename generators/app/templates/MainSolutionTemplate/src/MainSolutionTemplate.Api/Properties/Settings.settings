@@ -6,7 +6,7 @@
       <Value Profile="(Default)">200</Value>
     </Setting>
     <Setting Name="WebBasePath" Type="System.String" Scope="Application">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">static</Value>
     </Setting>
     <Setting Name="GoogleAnyliticsId" Type="System.String" Scope="Application">
       <Value Profile="(Default)">UA-21679277-4</Value>

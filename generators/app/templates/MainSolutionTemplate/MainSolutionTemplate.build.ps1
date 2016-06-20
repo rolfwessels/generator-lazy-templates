@@ -15,6 +15,7 @@ properties {
 
     $srcDirectory = 'src'
     $srcSolution = Join-Path $srcDirectory 'MainSolutionTemplate.sln'
+    $srcWebFolder = Join-Path $srcDirectory 'MainSolutionTemplate.Website'
 
     $codeCoverRequired = 70
 
@@ -68,6 +69,9 @@ task build.cleanbin {
 task build.compile {
     'Compile '+$buildConfiguration+' version '+(srcBinFolder)
     msbuild  $srcSolution /t:rebuild /p:Configuration=$buildConfiguration /p:VisualStudioVersion=$vsVersion /v:q
+    if (!$?) {
+        throw 'Failed to compile'
+    }
 }
 
 task version {
@@ -86,23 +90,27 @@ task build.copy {
     copy-files $fromFolder $toFolder
 }
 
-task build.website {
+task build.website -depend gulp.build {
+   
+    $fromFolder =  Join-Path $srcWebFolder 'dist' 
+    $toFolder =  (Join-Path (buildConfigDirectory) 'MainSolutionTemplate.Api/static')
+    copy-files $fromFolder $toFolder
+}
 
-    if(!(Test-Path -Path (Join-Path $srcDirectory 'node_modules'))) {
-        'Npm install'
-        pushd $srcDirectory
-        npm install
-        popd
-    }
-    if(!(Test-Path -Path (Join-Path $srcDirectory 'node_modules'))) {
-        pushd (Join-Path $srcDirectory 'MainSolutionTemplate.Website/bower_components')
-        'Bower install'
-        bower install
-        popd
-    }
-    pushd $srcDirectory
-    $toFolder =  Join-Path '../' (Join-Path (buildConfigDirectory) 'MainSolutionTemplate.Api/static')
-    gulp build --output $toFolder
+task gulp.build {
+    'Npm install'
+    pushd $srcWebFolder
+    npm install
+    'Bower install'
+    bower install
+    gulp build
+    popd
+}
+
+task gulp.watch {
+    'Guld watch'
+    pushd $srcWebFolder
+    gulp serve
     popd
 }
 
@@ -111,6 +119,22 @@ task build.publish {
     $project = Join-Path $srcDirectory 'MainSolutionTemplate.Api\MainSolutionTemplate.Api.csproj'
     $publishProfile = "Publish - $buildConfiguration.pubxml";
     msbuild  $project /p:DeployOnBuild=true /p:publishurl=$toFolder /p:VisualStudioVersion=$vsVersion /p:DefineConstants=$buildContants /p:Configuration=$buildConfiguration /p:PublishProfile=$publishProfile /p:VisualStudioVersion=$vsVersion /v:q
+    if (!$?) {
+        throw 'Failed to compile'
+    }
+}
+
+task build.nugetPackages -depend build { 
+    $packagesFolder =  $buildDistDirectory
+    mkdir $packagesFolder -ErrorAction SilentlyContinue
+    ./src/.nuget/NuGet.exe pack src\MainSolutionTemplate.Sdk\MainSolutionTemplate.Sdk.csproj -Prop Configuration=$buildConfiguration  -includereferencedprojects
+    Move-Item -force *.nupkg $packagesFolder
+ }
+
+task publish.nuget {
+    $packagesFolder =  $buildDistDirectory
+    mkdir $packagesFolder -ErrorAction SilentlyContinue
+   ./src/.nuget/NuGet.exe push  ( Join-Path $packagesFolder ('MainSolutionTemplate.Sdk.'+(fullversionrev)+'.nupkg'))
 }
 
 task nuget.restore {
@@ -212,6 +236,9 @@ task deploy.package {
     $configuration = $buildConfiguration+';Platform=AnyCPU;AutoParameterizationWebConfigConnectionStrings=false;PackageLocation=' + $toFolder + ';EnableNuGetPackageRestore=true'
     $project = Join-Path $srcDirectory 'MainSolutionTemplate.Api\MainSolutionTemplate.Api.csproj'
     msbuild /v:q  /t:restorepackages  /T:Package  /p:VisualStudioVersion=$vsVersion /p:Configuration=$configuration  /p:PackageTempRootDir=c:\temp  $project
+    if (!$?) {
+        throw 'Failed to deploy'
+    }
 }
 
 
@@ -222,12 +249,18 @@ task deploy.api -depends deploy.package {
     $skip = 'skipAction=Delete,objectName=filePath,absolutePath=Logs'
     $setParam = 'ApplicationPath='+$deployWebsiteName+''
     &($msdeploy) -source:package=$toFolder -dest:$deployApiDest -verb:sync -disableLink:AppPoolExtension -disableLink:ContentExtension -disableLink:CertificateExtension -skip:$skip
+    if (!$?) {
+        throw 'Failed to deploy'
+    }
 }
 
 task deploy.service {
     $source = 'dirPath='+( resolve-path (Join-Path (buildConfigDirectory) 'MainSolutionTemplate.Console'))
     &($msdeploy) -verb:sync -allowUntrusted -source:$source -dest:$deployServiceDest
     # &($msdeploy) -verb:sync -preSync:runCommand='D:\Dir\on\remote\server\stop-service.cmd',waitInterval=30000 -source:dirPath='C:\dir\of\files\to\be\copied\on\build\server ' -dest:computerName='xx.xx.xx.xx',userName='xx.xx.xx.xx',password='xxxxxxxxxxxxxxx',includeAcls='False',tempAgent='false',dirPath='D:\Dir\on\remote\server\'  -allowUntrusted -postSync:runCommand='D:\Dir\on\remote\server\start-service.cmd',waitInterval=30000
+    if (!$?) {
+        throw 'Failed to deploy'
+    }
 }
 
 task ? -Description "Helper to display task info" {

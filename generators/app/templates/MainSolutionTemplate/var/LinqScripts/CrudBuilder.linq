@@ -7,26 +7,30 @@
 </Query>
 
 string  _location = @"..\..\src";
-string  _template = @"Project";
-string  _toName = @"SystemActivity";
-string[]  _fileTypes = new [] { @".cs",".js",".html",".txt",".json"};
-string[]  _exclude = new [] { @"bower_components" ,".OAuth2.","RequestClientDetailsHelper","Mappers\\MapClient.cs" , "Enums\\"};
+string  _template = @"User";
+string  _toName = @"Project";
+string[]  _fileTypes = new [] { @".cs",".js",".html",".txt",".json", ".less"};
+string[]  _exclude = new [] { @"bower_components" ,".OAuth2.","RequestClientDetailsHelper","Mappers\\MapClient.cs" , "Enums\\","node_modules",".tmp"};
 string _scaffoldingInjectionFile = ".scaffolding.injection.json";
 void Main()
 {
-	_location = Path.GetFullPath(Path.Combine(Path.GetDirectoryName (Util.CurrentQueryPath),_location)).Dump();	
-	var files =  Directory.GetFiles(_location,"*"+_template+"*",SearchOption.AllDirectories).Where(file => _fileTypes.Contains(Path.GetExtension(file)) && !_exclude.Any(x=> file.Contains(x)));
-	
-	foreach (var file in files)
+	_location = Path.GetFullPath(Path.Combine(Path.GetDirectoryName (Util.CurrentQueryPath),_location)).Dump();
+	var files = Directory.GetFiles(_location, "*" + _template + "*", SearchOption.AllDirectories).Where(file => _fileTypes.Contains(Path.GetExtension(file)) && !_exclude.Any(x => file.Contains(x)));
+	var fileReplaces = files.Select(x => new { File = x, Replace = ReplaceAll(x) , Exists = File.Exists(ReplaceAll(x))}).ToList();
+	fileReplaces.Where(x=>x.Exists).Dump("Existing files");
+	fileReplaces.Where(x=>!x.Exists).Dump("Missing files");
+	foreach (var replace in fileReplaces)
 	{
-			
-			var newFile = ReplaceAll(file);
-			if (!File.Exists(newFile)) {
+			var file = replace.File;
+			var newFile = replace.Replace;
+			if (!replace.Exists) {
 				
-				var replace = Util.ReadLine("Would you like to create "+file.Replace(_location,"")+" [Y/n]").ToUpper() != "N";
-				if (replace) {
+				var replaceOption = Util.ReadLine("Would you like to create "+newFile+" [Y/n]").ToUpper() != "N";
+				if (replaceOption) {
 				    InjectScaffolding(file);
 					var fileContent = File.ReadAllText(file);
+					var path = Path.GetDirectoryName(newFile);
+					if (!Directory.Exists(path)) Directory.CreateDirectory(path);
 					File.WriteAllText(newFile,ReplaceAll(fileContent));
 					newFile.Dump("Created");
 					AddFileToProject(newFile,file);
