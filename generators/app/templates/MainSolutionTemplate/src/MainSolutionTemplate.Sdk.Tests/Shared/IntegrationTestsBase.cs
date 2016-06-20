@@ -63,9 +63,7 @@ namespace MainSolutionTemplate.Sdk.Tests.Shared
             _log.Info(string.Format("Starting api on [{0}]", address));
 
             var combine = Path.GetFullPath(Path.Combine(new Uri(Assembly.GetAssembly(typeof(Startup)).CodeBase).LocalPath, @"..\..\..\"));
-            SimpleFileServer.PossibleWebBasePath = Path.Combine(NCrunchEnvironment.GetOriginalSolutionPath()
-                ?? combine,
-                                                                @"..\MainSolutionTemplate.Website");
+            SimpleFileServer.PossibleWebBasePath = new [] { Path.Combine(NCrunchEnvironment.GetOriginalSolutionPath()?? combine,@"..\MainSolutionTemplate.Website")};
             WebApp.Start<Startup>(address);
             return address;
         }

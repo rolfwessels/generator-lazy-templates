@@ -17,3 +17,15 @@ namespace MainSolutionTemplate.Core.Mappers
         }
 	}
 }
+
+/* scaffolding [
+    {
+      "FileName": "MapCore.cs",
+      "Indexline": "CreateProjectMap",
+      "InsertAbove": false,
+      "InsertInline": false,
+      "Lines": [
+        "CreateProjectMap();"
+      ]
+    }
+] scaffolding */

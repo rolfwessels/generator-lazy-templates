@@ -18,3 +18,14 @@ namespace MainSolutionTemplate.Api.Common
 
     }
 }
+/* scaffolding [
+    {
+      "FileName": "IocApi.cs",
+      "Indexline": "RegisterType<ProjectCommonController>",
+      "InsertAbove": false,
+      "InsertInline": false,
+      "Lines": [
+        "builder.RegisterType<ProjectCommonController>();"
+      ]
+    }
+] scaffolding */

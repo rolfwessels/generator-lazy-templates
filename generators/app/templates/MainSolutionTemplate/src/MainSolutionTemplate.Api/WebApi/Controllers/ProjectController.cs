@@ -101,3 +101,30 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 		
 	}
 }
+
+/* scaffolding
+[{
+      "FileName": "RouteHelper.cs",
+      "Indexline": "UserControllerForgotPassword",
+      "InsertAbove": false,
+      "InsertInline": false,
+      "Lines": [
+        null,
+        "public const string ProjectController = ApiPrefix + \"project\";"
+      ]
+    },
+    {
+      "FileName": "Activity.cs",
+      "Indexline": "DeleteProject",
+      "InsertAbove": false,
+      "InsertInline": false,
+      "Lines": [
+        null,
+        "ReadProject = x00,",
+        "UpdateProject = x01,",
+        "InsertProject = x02,",
+        "DeleteProject = x03,",
+        "SubscribeProject = x04,"
+      ]
+    }]
+scaffolding */

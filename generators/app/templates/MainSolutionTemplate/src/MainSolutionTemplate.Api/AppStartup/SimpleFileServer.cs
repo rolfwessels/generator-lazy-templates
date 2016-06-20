@@ -13,12 +13,18 @@ namespace MainSolutionTemplate.Api.AppStartup
     public class SimpleFileServer
     {
         private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private static IEnumerable<string> _possibleWebBasePath;
 
 
         public static IEnumerable<string> PossibleWebBasePath
         {
             get
             {
+                if (_possibleWebBasePath != null)
+                    foreach (var path in _possibleWebBasePath)
+                    {
+                        yield return path;
+                    }
                 string combine = Path.Combine(new Uri(Assembly.GetExecutingAssembly().CodeBase).PathAndQuery,
                     @"..\..\..\");
                 yield return
@@ -29,6 +35,7 @@ namespace MainSolutionTemplate.Api.AppStartup
                     Path.GetFullPath(Path.Combine(combine, @"MainSolutionTemplate.Website\dist"));
                 
             }
+            set { _possibleWebBasePath = value; }
         }
 
         public static void Initialize(IAppBuilder appBuilder)

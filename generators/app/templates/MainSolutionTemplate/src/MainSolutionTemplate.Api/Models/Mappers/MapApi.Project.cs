@@ -42,3 +42,17 @@ namespace MainSolutionTemplate.Api.Models.Mappers
 	    }
 	}
 }
+
+
+
+/* scaffolding [
+    {
+      "FileName": "MapApi.cs",
+      "Indexline": "MapProjectModel",
+      "InsertAbove": false,
+      "InsertInline": false,
+      "Lines": [
+        "MapProjectModel();"
+      ]
+    }
+] scaffolding */
