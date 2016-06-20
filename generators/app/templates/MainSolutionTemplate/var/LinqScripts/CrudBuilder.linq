@@ -7,18 +7,24 @@
 </Query>
 
 string  _location = @"..\..\src";
-string  _template = @"User";
-string  _toName = @"Project";
+string  _template = @"Project";
+string  _toName = @"Sample";
 string[]  _fileTypes = new [] { @".cs",".js",".html",".txt",".json", ".less"};
 string[]  _exclude = new [] { @"bower_components" ,".OAuth2.","RequestClientDetailsHelper","Mappers\\MapClient.cs" , "Enums\\","node_modules",".tmp"};
 string _scaffoldingInjectionFile = ".scaffolding.injection.json";
+string _focus = "Controller";
+
+bool _copyScaffold = false;
 void Main()
 {
 	_location = Path.GetFullPath(Path.Combine(Path.GetDirectoryName (Util.CurrentQueryPath),_location)).Dump();
-	var files = Directory.GetFiles(_location, "*" + _template + "*", SearchOption.AllDirectories).Where(file => _fileTypes.Contains(Path.GetExtension(file)) && !_exclude.Any(x => file.Contains(x)));
+	var files = Directory.GetFiles(_location, "*" + _template + "*", SearchOption.AllDirectories)
+				.Where(file => _fileTypes.Contains(Path.GetExtension(file)) && !_exclude.Any(x => file.Contains(x)))
+				.OrderByDescending(x=>x.Contains(_focus))
+				;
 	var fileReplaces = files.Select(x => new { File = x, Replace = ReplaceAll(x) , Exists = File.Exists(ReplaceAll(x))}).ToList();
-	fileReplaces.Where(x=>x.Exists).Dump("Existing files");
-	fileReplaces.Where(x=>!x.Exists).Dump("Missing files");
+	fileReplaces.Where(x=>x.Exists).Select(x=> x.Replace.Replace(_location,"")).Dump("Existing files");
+	fileReplaces.Where(x=>!x.Exists).Select(x=> x.Replace.Replace(_location,"")).Dump("Missing files");
 	foreach (var replace in fileReplaces)
 	{
 			var file = replace.File;
@@ -27,8 +33,9 @@ void Main()
 				
 				var replaceOption = Util.ReadLine("Would you like to create "+newFile+" [Y/n]").ToUpper() != "N";
 				if (replaceOption) {
-				    InjectScaffolding(file);
+				    
 					var fileContent = File.ReadAllText(file);
+					fileContent = InjectScaffolding(fileContent);
 					var path = Path.GetDirectoryName(newFile);
 					if (!Directory.Exists(path)) Directory.CreateDirectory(path);
 					File.WriteAllText(newFile,ReplaceAll(fileContent));
@@ -43,16 +50,21 @@ void Main()
 	}
 }
 
-public void InjectScaffolding(string fileName)
+public string InjectScaffolding(string fileData)
 {
-	if (!fileName.EndsWith(_scaffoldingInjectionFile)) return;
-
+	var prefix = "/* scaffolding";
+	var suffix = "scaffolding */";
+	var start = fileData.IndexOf(prefix);
+	var end = fileData.IndexOf(suffix,Math.Max(0,start));
+	if (start < 0 || end < 0) return fileData;
+	start.Dump();
+	end.Dump();
+	var data = fileData.Substring(start+prefix.Length,end-start-prefix.Length).Dump();
 	
-	var injection = JsonConvert.DeserializeObject<Injection>(File.ReadAllText(fileName));
-
+	var injections = JsonConvert.DeserializeObject<List<FileInjection>>(data).Dump();
 	var allfiles = Directory.GetFiles(_location, "*", SearchOption.AllDirectories);
 	
-	foreach (var inject in injection.Injections)
+	foreach (var inject in injections)
 	{
 		var inFile = allfiles.Where(x => x.EndsWith("\\"+inject.FileName)).FirstOrDefault();
 		if (inFile != null)
@@ -95,7 +107,9 @@ public void InjectScaffolding(string fileName)
 		}
 
 	}
-
+	
+	if (_copyScaffold) return fileData;
+	return fileData.Substring(0,start).Trim();
 }
 public void TryIt(int retryCount, Action action)
 {
