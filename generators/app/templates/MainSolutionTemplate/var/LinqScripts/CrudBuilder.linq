@@ -4,6 +4,7 @@
   <NuGetReference>Newtonsoft.Json</NuGetReference>
   <Namespace>Humanizer</Namespace>
   <Namespace>Newtonsoft.Json</Namespace>
+  <Namespace>System.Globalization</Namespace>
 </Query>
 
 string  _location = @"..\..\src";
@@ -12,17 +13,24 @@ string  _toName = @"Sample";
 string[]  _fileTypes = new [] { @".cs",".js",".html",".txt",".json", ".less"};
 string[]  _exclude = new [] { @"bower_components" ,".OAuth2.","RequestClientDetailsHelper","Mappers\\MapClient.cs" , "Enums\\","node_modules",".tmp"};
 string _focus = "Controller";
-
+string _templateFolder = "";
+string _toNameFolder = "";
 bool _copyScaffold = false;
 void Main()
 {
 	_location = Path.GetFullPath(Path.Combine(Path.GetDirectoryName (Util.CurrentQueryPath),_location)).Dump();
 	var files = Directory.GetFiles(_location, "*" + _template + "*", SearchOption.AllDirectories)
 				.Where(file => _fileTypes.Contains(Path.GetExtension(file)) && !_exclude.Any(x => file.Contains(x)))
-				.OrderByDescending(x=>x.Contains(_focus))				;
+				.OrderByDescending(x => x.Contains(_focus));
+	_templateFolder = GetFolderName(_template);
+	_toNameFolder = GetFolderName(_toName) ?? CultureInfo.CurrentCulture.TextInfo.ToTitleCase(_toName.Humanize().Split(' ').Last().Humanize());
+	
 	var fileReplaces = files.Select(x => new { File = x, Replace = ReplaceAll(x) , Exists = File.Exists(ReplaceAll(x))}).ToList();
 	fileReplaces.Where(x=>x.Exists).Select(x=> x.Replace.Replace(_location,"")).Dump("Existing files");
 	fileReplaces.Where(x => !x.Exists).Select(x => x.Replace.Replace(_location, "")).Dump("Missing files");
+
+	
+	
 	var replaceOption = "";
 	foreach (var replace in fileReplaces)
 	{
@@ -60,6 +68,12 @@ void Main()
 
 	}
 }
+
+public string GetFolderName(string filename)
+{
+	return Directory.GetFiles(_location, filename + ".cs", SearchOption.AllDirectories).Select(x => Path.GetFileName(Path.GetDirectoryName(x))).FirstOrDefault().Dump(filename);
+}
+
 
 public string InjectScaffolding(string fileData)
 {
@@ -177,14 +191,21 @@ public string AddFileToProject(string fileName, string oldFile) {
 
 
 public string ReplaceAll(string text) {
-if (text == null) return null;
-	return text
+	if (text == null) return null;
+	var replaced = text
 		.Replace(_template.Pluralize(),_toName.Pluralize()) // StockCategories Samples
 		.Replace(InitialLower(_template.Pluralize()),InitialLower(_toName.Pluralize()))  // stockCategories samples
 		.Replace(_template,_toName) // StockCategory Sample
-		.Replace(InitialLower(_template),InitialLower(_toName)) // stockCategory sample
-		 
-		;
+		.Replace(InitialLower(_template), InitialLower(_toName)); // stockCategory sample
+    if (_templateFolder != null)
+	{
+		replaced = replaced
+			.Replace("\\Accounts\\" + _templateFolder + "\\", "\\" + _toNameFolder + "\\")
+			.Replace("\\" + _templateFolder + "\\", "\\" + _toNameFolder + "\\")
+			.Replace(".Accounts." + _templateFolder, "." + _toNameFolder)
+			.Replace("." + _templateFolder, "." + _toNameFolder);
+	}
+	return	replaced;
 }
 
 
