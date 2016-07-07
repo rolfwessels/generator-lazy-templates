@@ -4,51 +4,89 @@
   <NuGetReference>Newtonsoft.Json</NuGetReference>
   <Namespace>Humanizer</Namespace>
   <Namespace>Newtonsoft.Json</Namespace>
+  <Namespace>System.Globalization</Namespace>
 </Query>
 
 string  _location = @"..\..\src";
 string  _template = @"Project";
-string  _toName = @"SystemActivity";
-string[]  _fileTypes = new [] { @".cs",".js",".html",".txt",".json"};
-string[]  _exclude = new [] { @"bower_components" ,".OAuth2.","RequestClientDetailsHelper","Mappers\\MapClient.cs" , "Enums\\"};
-string _scaffoldingInjectionFile = ".scaffolding.injection.json";
+string  _toName = @"Sample";
+string[]  _fileTypes = new [] { @".cs",".js",".html",".txt",".json", ".less"};
+string[]  _exclude = new [] { @"bower_components" ,".OAuth2.","RequestClientDetailsHelper","Mappers\\MapClient.cs" , "Enums\\","node_modules",".tmp"};
+string _focus = "Controller";
+string _templateFolder = "";
+string _toNameFolder = "";
+bool _copyScaffold = false;
 void Main()
 {
-	_location = Path.GetFullPath(Path.Combine(Path.GetDirectoryName (Util.CurrentQueryPath),_location)).Dump();	
-	var files =  Directory.GetFiles(_location,"*"+_template+"*",SearchOption.AllDirectories).Where(file => _fileTypes.Contains(Path.GetExtension(file)) && !_exclude.Any(x=> file.Contains(x)));
+	_location = Path.GetFullPath(Path.Combine(Path.GetDirectoryName (Util.CurrentQueryPath),_location)).Dump();
+	var files = Directory.GetFiles(_location, "*" + _template + "*", SearchOption.AllDirectories)
+				.Where(file => _fileTypes.Contains(Path.GetExtension(file)) && !_exclude.Any(x => file.Contains(x)))
+				.OrderByDescending(x => x.Contains(_focus));
+	_templateFolder = GetFolderName(_template);
+	_toNameFolder = GetFolderName(_toName) ?? CultureInfo.CurrentCulture.TextInfo.ToTitleCase(_toName.Humanize().Split(' ').Last().Humanize());
 	
-	foreach (var file in files)
+	var fileReplaces = files.Select(x => new { File = x, Replace = ReplaceAll(x) , Exists = File.Exists(ReplaceAll(x))}).ToList();
+	fileReplaces.Where(x=>x.Exists).Select(x=> x.Replace.Replace(_location,"")).Dump("Existing files");
+	fileReplaces.Where(x => !x.Exists).Select(x => x.Replace.Replace(_location, "")).Dump("Missing files");
+
+	
+	
+	var replaceOption = "";
+	foreach (var replace in fileReplaces)
 	{
-			
-			var newFile = ReplaceAll(file);
-			if (!File.Exists(newFile)) {
+		var file = replace.File;
+		var newFile = replace.Replace;
+		
+		if (!replace.Exists)
+		{
+
+			replaceOption = replaceOption == "A" ? replaceOption : Util.ReadLine("Would you like to create " + newFile + " [Y/n/a/p]").ToUpper();
+			replaceOption = string.IsNullOrEmpty(replaceOption) ? "Y" : replaceOption;
+			if (replaceOption == "Y" || replaceOption == "A" )
+			{
+				var fileContent = File.ReadAllText(file);
 				
-				var replace = Util.ReadLine("Would you like to create "+file.Replace(_location,"")+" [Y/n]").ToUpper() != "N";
-				if (replace) {
-				    InjectScaffolding(file);
-					var fileContent = File.ReadAllText(file);
-					File.WriteAllText(newFile,ReplaceAll(fileContent));
-					newFile.Dump("Created");
-					AddFileToProject(newFile,file);
-					
-				}
-				else {
-					newFile.Dump("Skip");
-				}
+				fileContent = InjectScaffolding(fileContent);
+				var path = Path.GetDirectoryName(newFile);
+				if (!Directory.Exists(path)) Directory.CreateDirectory(path);
+				var replacedContent = ReplaceAll(fileContent);
+				File.WriteAllText(newFile, replacedContent );
+				newFile.Dump("Created");
+				AddFileToProject(newFile, file);
+
 			}
+			else if (replaceOption == "P")
+			{
+				var fileContent = File.ReadAllText(file);
+				fileContent.Dump("Preview " + ReplaceAll(fileContent) );
+			}
+			else
+			{
+				newFile.Dump("Skip");
+			}
+		}
+
 	}
 }
 
-public void InjectScaffolding(string fileName)
+public string GetFolderName(string filename)
 {
-	if (!fileName.EndsWith(_scaffoldingInjectionFile)) return;
+	return Directory.GetFiles(_location, filename + ".cs", SearchOption.AllDirectories).Select(x => Path.GetFileName(Path.GetDirectoryName(x))).FirstOrDefault().Dump(filename);
+}
 
-	
-	var injection = JsonConvert.DeserializeObject<Injection>(File.ReadAllText(fileName));
 
+public string InjectScaffolding(string fileData)
+{
+	var prefix = "/* scaffolding";
+	var suffix = "scaffolding */";
+	var start = fileData.IndexOf(prefix);
+	var end = fileData.IndexOf(suffix,Math.Max(0,start));
+	if (start < 0 || end < 0) return fileData;
+	var data = fileData.Substring(start+prefix.Length,end-start-prefix.Length);
+	var injections = JsonConvert.DeserializeObject<List<FileInjection>>(data);
 	var allfiles = Directory.GetFiles(_location, "*", SearchOption.AllDirectories);
 	
-	foreach (var inject in injection.Injections)
+	foreach (var inject in injections)
 	{
 		var inFile = allfiles.Where(x => x.EndsWith("\\"+inject.FileName)).FirstOrDefault();
 		if (inFile != null)
@@ -91,7 +129,9 @@ public void InjectScaffolding(string fileName)
 		}
 
 	}
-
+	
+	if (_copyScaffold) return fileData;
+	return fileData.Substring(0,start).Trim();
 }
 public void TryIt(int retryCount, Action action)
 {
@@ -151,14 +191,21 @@ public string AddFileToProject(string fileName, string oldFile) {
 
 
 public string ReplaceAll(string text) {
-if (text == null) return null;
-	return text
+	if (text == null) return null;
+	var replaced = text
 		.Replace(_template.Pluralize(),_toName.Pluralize()) // StockCategories Samples
 		.Replace(InitialLower(_template.Pluralize()),InitialLower(_toName.Pluralize()))  // stockCategories samples
 		.Replace(_template,_toName) // StockCategory Sample
-		.Replace(InitialLower(_template),InitialLower(_toName)) // stockCategory sample
-		 
-		;
+		.Replace(InitialLower(_template), InitialLower(_toName)); // stockCategory sample
+    if (_templateFolder != null)
+	{
+		replaced = replaced
+			.Replace("\\Accounts\\" + _templateFolder + "\\", "\\" + _toNameFolder + "\\")
+			.Replace("\\" + _templateFolder + "\\", "\\" + _toNameFolder + "\\")
+			.Replace(".Accounts." + _templateFolder, "." + _toNameFolder)
+			.Replace("." + _templateFolder, "." + _toNameFolder);
+	}
+	return	replaced;
 }
 
 

@@ -12,37 +12,39 @@ config = {
     src: {
         site: 'MainSolutionTemplate.Website',
         js: [
-            'MainSolutionTemplate.Website/scripts/**/*.js'
+            'scripts/**/*.js'
         ],
+        
         vendor: [
-            'MainSolutionTemplate.Website/bower_components/jquery/dist/jquery.js',
-            'MainSolutionTemplate.Website/bower_components/angular/angular.js',
-            'MainSolutionTemplate.Website/bower_components/angular-route/angular-route.js',
-            'MainSolutionTemplate.Website/bower_components/angular-animate/angular-animate.js',
-            'MainSolutionTemplate.Website/bower_components/angular-local-storage/dist/angular-local-storage.js',
-            'MainSolutionTemplate.Website/bower_components/angular-loading-bar/build/loading-bar.js',
-            'MainSolutionTemplate.Website/bower_components/signalr/jquery.signalr.js',
-            'MainSolutionTemplate.Website/bower_components/materialize/bin/materialize.js',
-            'MainSolutionTemplate.Website/bower_components/angular-materialize/src/angular-materialize.js'
+            'bower_components/jquery/dist/jquery.js',
+            'bower_components/angular/angular.js',
+            'bower_components/angular-route/angular-route.js',
+            'bower_components/angular-animate/angular-animate.js',
+            'bower_components/angular-local-storage/dist/angular-local-storage.js',
+            'bower_components/angular-loading-bar/build/loading-bar.js',
+            'bower_components/signalr/jquery.signalr.js',
+            'bower_components/materialize/bin/materialize.js',
+            'bower_components/angular-materialize/src/angular-materialize.js'
         ],
         css: [
-            'MainSolutionTemplate.Website/bower_components/materialize/bin/materialize.css',
-            'MainSolutionTemplate.Website/bower_components/angular-loading-bar/build/loading-bar.min.css',
-            'MainSolutionTemplate.Website/assets/css/app.css'
+            'bower_components/materialize/bin/materialize.css',
+            'bower_components/angular-loading-bar/build/loading-bar.min.css',
+            'assets/css/app.css'
         ],
+        baseHtml: "./",
         html: [
-            'MainSolutionTemplate.Website/views/**/*',
-            'MainSolutionTemplate.Website/*.html',
-            'MainSolutionTemplate.Website/*.ico'
+            'views/**/*',
+            '*.html',
+            '*.ico'
         ],
         assets: [
-            'MainSolutionTemplate.Website/assets/image*/**/*',
-            'MainSolutionTemplate.Website/bower_components/materialize/font*/**/*'
+            'assets/image*/**/*',
+            'bower_components/materialize/font*/**/*'
         ]
     },
     dest: {
-        css: 'MainSolutionTemplate.Website/assets/css/',
-        dist: argv.output || ('MainSolutionTemplate.Website/build/' + (argv.env || "debug"))
+        css: 'assets/css/',
+        dist: argv.output || ('build/' + (argv.env || "debug"))
     }
 };
 
@@ -73,6 +75,11 @@ gulp.task('build', function() {
     return runSequence('build.clean', ['build.html', 'build.css', 'build.scripts', 'build.vendor', 'build.assets']); 
 });
 
+gulp.task('dist', function() {
+    return runSequence('set.dist', ['build']); 
+});
+
+
 //
 // sub tasks
 //
@@ -82,7 +89,7 @@ gulp.task('build.clean', function (cb) {
 });
 
 gulp.task('build.html', function () {
-    return gulp.src(config.src.html, { base: "./MainSolutionTemplate.Website" })
+    return gulp.src(config.src.html, { base: config.src.baseHtml })
         .pipe(gulp.dest(config.dest.dist));
 });
 
@@ -117,6 +124,11 @@ gulp.task('build.assets', function () {
     return gulp.src(config.src.assets)
         .pipe(gulp.dest(config.dest.dist + "/assets/"));
 });
+
+gulp.task('set.dist', function () {
+    config.dest.dist = "dist";
+});
+
 
 gulp.task('serve.site', function() {
   browserSync({

@@ -12,3 +12,15 @@ namespace MainSolutionTemplate.Dal.Validation
         }
     }
 }
+
+/* scaffolding [
+    {
+      "FileName": "IocCoreBase.cs",
+      "Indexline": ".As<IValidator<Project>>();",
+      "InsertAbove": false,
+      "InsertInline": false,
+      "Lines": [
+        "builder.RegisterType<ProjectValidator>().As<IValidator<Project>>();"
+      ]
+    }
+] scaffolding */
