@@ -79,7 +79,6 @@
     </Reference>
     <Reference Include="Lazy.Authentication.OAuth2">
       <HintPath>..\..\lib\Lazy.Authentication.OAuth2.0.0.1.0\lib\net45\Lazy.Authentication.OAuth2.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="Lazy.Authentication.OAuth2.Dal">
       <HintPath>..\..\lib\Lazy.Authentication.OAuth2.Dal.0.0.1.0\lib\net45\Lazy.Authentication.OAuth2.Dal.dll</HintPath>
