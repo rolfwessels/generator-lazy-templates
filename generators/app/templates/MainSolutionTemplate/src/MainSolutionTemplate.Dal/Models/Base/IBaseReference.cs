@@ -4,6 +4,6 @@ namespace MainSolutionTemplate.Dal.Models.Base
 {
     public interface IBaseReference
     {
-        Guid Id { get; set; }
+        string Id { get; set; }
     }
 }

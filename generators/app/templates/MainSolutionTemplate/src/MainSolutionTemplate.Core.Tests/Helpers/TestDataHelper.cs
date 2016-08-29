@@ -2,6 +2,7 @@
 using FizzWare.NBuilder.Generators;
 using MainSolutionTemplate.Core.BusinessLogic.Components;
 using MainSolutionTemplate.Dal.Models;
+using MainSolutionTemplate.Dal.Models.Interfaces;
 
 namespace MainSolutionTemplate.Core.Tests.Helpers
 {
@@ -19,6 +20,11 @@ namespace MainSolutionTemplate.Core.Tests.Helpers
 
         private static T WithValidDataAdded<T>(T buildingObject)
         {
+            var dalModelWithId = buildingObject as IBaseDalModelWithId;
+            if (dalModelWithId != null)
+            {
+                dalModelWithId.Id = null;
+            }
             var user = buildingObject as User;
             if (user != null)
             {

@@ -19,9 +19,9 @@ namespace MainSolutionTemplate.Api.Common
         }
 
 
-        public async Task<TModel> Update(Guid id, TDetailModel model)
+        public async Task<TModel> Update(string id, TDetailModel model)
         {
-            var projectFound = await _projectManager.Get(id);
+            var projectFound = await _projectManager.GetById(id);
             if (projectFound == null) throw new Exception(string.Format("Could not find model by id '{0}'", id));
             var project = await ToDal(model, projectFound);
             var saveProject = await _projectManager.Update(project);
@@ -36,7 +36,7 @@ namespace MainSolutionTemplate.Api.Common
             return ToModel(savedProject);
         }
 
-        public async Task<bool> Delete(Guid id)
+        public async Task<bool> Delete(string id)
         {
             var deleteProject = await _projectManager.Delete(id);
             return deleteProject != null;

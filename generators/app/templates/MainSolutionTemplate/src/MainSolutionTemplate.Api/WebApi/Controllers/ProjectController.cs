@@ -56,9 +56,9 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 		/// <returns>
 		/// </returns>
 		[Route(RouteHelper.WithId),AuthorizeActivity(Activity.ReadProject)]
-		public Task<ProjectModel> Get(Guid id)
+		public Task<ProjectModel> GetById(string id)
 		{
-            return _projectCommonController.Get(id);
+            return _projectCommonController.GetById(id);
 		}
 
 	    /// <summary>
@@ -69,7 +69,7 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 	    /// <returns>
 	    /// </returns>
 		[Route(RouteHelper.WithId),AuthorizeActivity(Activity.UpdateProject) , HttpPut]
-		public Task<ProjectModel> Update(Guid id, ProjectCreateUpdateModel model)
+        public Task<ProjectModel> Update(string id, ProjectCreateUpdateModel model)
 		{
             return _projectCommonController.Update(id, model);
 		}
@@ -93,7 +93,7 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 	    /// <returns>
 	    /// </returns>
 		[Route(RouteHelper.WithId),AuthorizeActivity(Activity.DeleteProject)]
-		public Task<bool> Delete(Guid id)
+        public Task<bool> Delete(string id)
 		{
             return _projectCommonController.Delete(id);
 		}

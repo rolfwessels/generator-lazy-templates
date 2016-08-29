@@ -92,14 +92,14 @@ task build.copy {
 
 task build.website -depend gulp.build {
    
-    $fromFolder =  Join-Path $srcWebFolder 'dist' 
+    $fromFolder =  Join-Path (srcWebFolder) 'dist' 
     $toFolder =  (Join-Path (buildConfigDirectory) 'MainSolutionTemplate.Api/static')
     copy-files $fromFolder $toFolder
 }
 
 task gulp.build {
     'Npm install'
-    pushd $srcWebFolder
+    pushd (srcWebFolder)
     npm install
     'Bower install'
     bower install
@@ -109,7 +109,7 @@ task gulp.build {
 
 task gulp.watch {
     'Guld watch'
-    pushd $srcWebFolder
+    pushd (srcWebFolder)
     gulp serve
     popd
 }
@@ -281,6 +281,13 @@ function fullversion() {
 
 function fullversionrev() {
     return  (fullversion) + ".$versionRevision"
+}
+
+function srcWebFolder() {
+    $possibleWebLocations = ($srcWebFolder + "2"),$srcWebFolder
+    $webLocation = $possibleWebLocations | Where-Object {Test-Path $_} | Select-Object -first 1
+    write-host 'Found web folder:' $webLocation -foreground "magenta"
+    return $webLocation;
 }
 
 

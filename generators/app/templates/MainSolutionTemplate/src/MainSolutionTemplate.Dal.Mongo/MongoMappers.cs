@@ -2,7 +2,9 @@ using System;
 using System.Reflection;
 using log4net;
 using MainSolutionTemplate.Dal.Models;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.IdGenerators;
 using MongoDB.Bson.Serialization.Serializers;
 
 namespace MainSolutionTemplate.Dal.Mongo
@@ -23,6 +25,12 @@ namespace MainSolutionTemplate.Dal.Mongo
             {
                 cm.MapProperty(c => c.CreateDate).SetElementName("Cd");
                 cm.MapProperty(c => c.UpdateDate).SetElementName("Ud");
+            });
+            BsonClassMap.RegisterClassMap<BaseDalModelWithId>(cm =>
+            {
+                cm.MapIdProperty(c => c.Id)
+                    .SetIdGenerator(StringObjectIdGenerator.Instance)
+                .SetSerializer(new StringSerializer(BsonType.ObjectId));
             });
         }
 

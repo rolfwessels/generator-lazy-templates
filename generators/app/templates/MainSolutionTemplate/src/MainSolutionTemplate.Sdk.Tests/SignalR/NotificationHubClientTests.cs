@@ -52,7 +52,7 @@ namespace MainSolutionTemplate.Sdk.Tests.SignalR
         {
             // arrange
             Setup();
-            var project = Builder<Project>.CreateNew().Build();
+            var project = Builder<Project>.CreateNew().WithValidData().Build();
             var projectManager = IocApi.Instance.Resolve<IProjectManager>();
             var responses = new List<ValueUpdateModel<ProjectReference>>();
             // action
@@ -72,7 +72,7 @@ namespace MainSolutionTemplate.Sdk.Tests.SignalR
         {
             // arrange
             Setup();
-            var project = Builder<Project>.CreateNew().Build();
+            var project = Builder<Project>.CreateNew().WithValidData().Build();
             var projectManager = IocApi.Instance.Resolve<IProjectManager>();
             var responses = new List<ValueUpdateModel<ProjectReference>>();
             // action

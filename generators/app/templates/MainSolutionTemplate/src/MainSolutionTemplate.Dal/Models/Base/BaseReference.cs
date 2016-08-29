@@ -4,7 +4,7 @@ namespace MainSolutionTemplate.Dal.Models.Base
 {
     public abstract class BaseReference : IBaseReference
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
         #region Equality members
 

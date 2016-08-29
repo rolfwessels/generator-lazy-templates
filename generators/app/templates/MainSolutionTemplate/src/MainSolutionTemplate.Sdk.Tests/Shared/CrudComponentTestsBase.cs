@@ -48,11 +48,11 @@ namespace MainSolutionTemplate.Sdk.Tests.Shared
 
             // action
             TModel projectModels = _crudController.Insert(projectModel[0]).Result;
-            TModel savedProject = _crudController.Get(projectModels.Id).Result;
+            TModel savedProject = _crudController.GetById(projectModels.Id).Result;
             TModel projectModelLoad = _crudController.Update(projectModels.Id, projectModel[1]).Result;
             bool removed = _crudController.Delete(projectModels.Id).Result;
             bool removedSecond = _crudController.Delete(projectModels.Id).Result;
-            TModel removedProject = _crudController.Get(projectModels.Id).Result;
+            TModel removedProject = _crudController.GetById(projectModels.Id).Result;
 
             // assert
             (savedProject).Should().NotBeNull();

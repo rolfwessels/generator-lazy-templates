@@ -57,14 +57,14 @@ namespace MainSolutionTemplate.Core.BusinessLogic.Components
             return Repository.Find(x => true);
         }
 
-        public virtual Task<T> Get(Guid id)
+        public virtual Task<T> GetById(string id)
         {
             return Repository.FindOne(x => x.Id == id);
         }
 
-        public virtual async Task<T> Delete(Guid id)
+        public virtual async Task<T> Delete(string id)
         {
-            T project = await Get(id);
+            T project = await GetById(id);
             if (project != null)
             {
                 _log.Info(string.Format("Remove {1} [{0}]", project, _name));
@@ -114,7 +114,7 @@ namespace MainSolutionTemplate.Core.BusinessLogic.Components
 
         public virtual async Task<T> Save(T entity)
         {
-            T projectFound = await Get(entity.Id);
+            T projectFound = await GetById(entity.Id);
             if (projectFound == null)
             {
                 return await Insert(entity);

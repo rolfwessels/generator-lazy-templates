@@ -91,9 +91,9 @@ namespace MainSolutionTemplate.Api.Tests.Common
             // arrange
             Setup();
             var dal = SampleItem;
-            _mockManager.Setup(mc => mc.Get(dal.Id)).Returns(dal);
+            _mockManager.Setup(mc => mc.GetById(dal.Id)).Returns(dal);
             // action
-            var result = _commonController.Get(dal.Id).Result;
+            var result = _commonController.GetById(dal.Id).Result;
             // assert
             result.Id.Should().Be(dal.Id);
         }
@@ -104,7 +104,7 @@ namespace MainSolutionTemplate.Api.Tests.Common
             // arrange
             Setup();
             var dal = SampleItem;
-            _mockManager.Setup(mc => mc.Get(dal.Id))
+            _mockManager.Setup(mc => mc.GetById(dal.Id))
                                .Returns(dal);
             _mockManager.Setup(mc => mc.Update(dal))
                                .Returns(dal);

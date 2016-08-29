@@ -19,7 +19,7 @@ namespace MainSolutionTemplate.Sdk.RestApi.Base
 
         #region ICrudController<TModel,TDetailModel> Members
 
-        public async Task<TModel> Get(Guid id)
+        public async Task<TModel> GetById(string id)
         {
             RestRequest request = DefaultRequest(_apiPrefix.UriCombine(RouteHelper.WithId), Method.GET);
             request.AddUrlSegment("id", id.ToString());
@@ -33,15 +33,15 @@ namespace MainSolutionTemplate.Sdk.RestApi.Base
             return await ExecuteAndValidate<TModel>(request);
         }
 
-        public async Task<TModel> Update(Guid id, TDetailModel model)
+        public async Task<TModel> Update(string id, TDetailModel model)
         {
             RestRequest request = DefaultRequest(_apiPrefix.UriCombine(RouteHelper.WithId), Method.PUT);
-            request.AddUrlSegment("id", id.ToString());
+            request.AddUrlSegment("id", id);
             request.AddBody(model);
             return await ExecuteAndValidate<TModel>(request);
         }
 
-        public async Task<bool> Delete(Guid id)
+        public async Task<bool> Delete(string id)
         {
             RestRequest request = DefaultRequest(_apiPrefix.UriCombine(RouteHelper.WithId), Method.DELETE);
             request.AddUrlSegment("id", id.ToString());

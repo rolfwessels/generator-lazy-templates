@@ -41,15 +41,16 @@ namespace MainSolutionTemplate.Api.Tests.DataIntegrity
             Setup();
             var project = Builder<Project>.CreateNew().WithValidData().Build();
             var user = Builder<User>.CreateNew().WithValidData().Build();
-            user.DefaultProject = project.ToReference();
+            
 
-            await _projectManager.Insert(project);
-            await _userManager.Insert(user);
+            project = await _projectManager.Insert(project);
+            user.DefaultProject = project.ToReference();
+            user = await _userManager.Insert(user);
 
             // action
             project.Name = "NewName";
             await _projectManager.Update(project);
-            var userFound = await _userManager.Get(user.Id);
+            var userFound = await _userManager.GetById(user.Id);
             await _userManager.Delete(user.Id);
             await _projectManager.Delete(project.Id);
 
@@ -66,9 +67,10 @@ namespace MainSolutionTemplate.Api.Tests.DataIntegrity
             Setup();
             var project = Builder<Project>.CreateNew().WithValidData().Build();
             var user = Builder<User>.CreateNew().WithValidData().Build();
-            user.DefaultProject = project.ToReference();
+            
 
             await _projectManager.Insert(project);
+            user.DefaultProject = project.ToReference();
             await _userManager.Insert(user);
 
             // action

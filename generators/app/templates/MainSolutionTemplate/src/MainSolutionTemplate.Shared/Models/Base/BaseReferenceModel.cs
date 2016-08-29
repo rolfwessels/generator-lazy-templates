@@ -4,7 +4,7 @@ namespace MainSolutionTemplate.Shared.Models.Base
 {
     public class BaseReferenceModel
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
         #region Equality members
 

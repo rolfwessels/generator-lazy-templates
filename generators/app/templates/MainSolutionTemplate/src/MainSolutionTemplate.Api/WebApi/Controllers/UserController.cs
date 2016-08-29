@@ -60,9 +60,9 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 		/// <returns>
 		/// </returns>
 		[Route(RouteHelper.WithId),AuthorizeActivity(Activity.ReadUsers)]
-		public Task<UserModel> Get(Guid id)
+		public Task<UserModel> GetById(string id)
 		{
-            return _userCommonController.Get(id);
+            return _userCommonController.GetById(id);
 		}
 
 	    /// <summary>
@@ -73,7 +73,7 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 	    /// <returns>
 	    /// </returns>
         [Route(RouteHelper.WithId), AuthorizeActivity(Activity.UpdateUsers), HttpPut]
-		public Task<UserModel> Update(Guid id, UserCreateUpdateModel model)
+        public Task<UserModel> Update(string id, UserCreateUpdateModel model)
 		{
             return _userCommonController.Update(id, model);
 		}
@@ -97,7 +97,7 @@ namespace MainSolutionTemplate.Api.WebApi.Controllers
 	    /// <returns>
 	    /// </returns>
 		[Route(RouteHelper.WithId),AuthorizeActivity(Activity.DeleteUser)]
-		public Task<bool> Delete(Guid id)
+        public Task<bool> Delete(string id)
 		{
             return _userCommonController.Delete(id);
 		}

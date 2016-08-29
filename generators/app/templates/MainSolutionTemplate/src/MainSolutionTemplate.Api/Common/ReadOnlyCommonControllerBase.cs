@@ -28,9 +28,9 @@ namespace MainSolutionTemplate.Api.Common
             return Task.FromResult( queryToODataWrapper as IEnumerable<TModel>);
         }
 
-        public async Task<TModel> Get(Guid id)
+        public async Task<TModel> GetById(string id)
         {
-            var task = await _projectManager.Get(id);
+            var task = await _projectManager.GetById(id);
             return ToModel(task);
         }
 

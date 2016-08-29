@@ -51,7 +51,7 @@ namespace MainSolutionTemplate.Core.BusinessLogic.Components
 
         public async Task<User> Save(User user, string password)
         {
-            User found = await Get(user.Id);
+            User found = await GetById(user.Id);
             user.HashedPassword = password != null || found == null
                                       ? PasswordHash.CreateHash(password ??
                                                                 user.HashedPassword ?? DateTime.Now.ToString(CultureInfo.InvariantCulture))
