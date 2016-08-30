@@ -1,6 +1,6 @@
 os: Visual Studio 2015
 install:
-# - ps: mkdir test
+ - ps: npm install -g bower
 
 
 build_script:
