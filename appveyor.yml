@@ -1,6 +1,6 @@
 os: Visual Studio 2015
 install:
-- ps: mkdir test
+# - ps: mkdir test
 
 
 build_script:
