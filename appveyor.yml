@@ -7,7 +7,7 @@ build_script:
   # dotnet info
   - ps: dir
   - ps: cd generators\app\templates\MainSolutionTemplate
-  - ps: go
+  - ps: .\go.bat
 
 
 test: off 
