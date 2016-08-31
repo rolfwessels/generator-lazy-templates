@@ -2,11 +2,10 @@ os: Visual Studio 2015
 
   
 install:
- - ps: npm version
  - ps: npm install npm -g
  - ps: npm version
  - ps: npm install -g graceful-fs graceful-fs@latest
- - ps: npm update -g lodash
+ - ps: npm install -g lodash lodash@latest
  - ps: npm install -g gulp
  - ps: npm install -g bower
  
