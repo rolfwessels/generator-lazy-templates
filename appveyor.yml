@@ -5,9 +5,8 @@ install:
  - ps: npm version
  - ps: npm install npm -g
  - ps: npm version
- - ps: npm update -g graceful-fs
- - ps: npm update -g lodash 
- - ps: npm update
+ - ps: npm install -g graceful-fs graceful-fs@latest
+ - ps: npm update -g lodash
  - ps: npm install -g gulp
  - ps: npm install -g bower
  
