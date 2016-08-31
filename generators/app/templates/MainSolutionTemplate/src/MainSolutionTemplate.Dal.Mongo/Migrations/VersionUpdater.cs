@@ -25,8 +25,7 @@ namespace MainSolutionTemplate.Dal.Mongo.Migrations
 
         public Task Update(IMongoDatabase db)
         {
-
-            return Task.Run(() =>
+            var task = Task.Run(() =>
             {
                 if (_resetEvent.WaitOne(TimeSpan.FromSeconds(5)))
                 {
@@ -45,10 +44,9 @@ namespace MainSolutionTemplate.Dal.Mongo.Migrations
                 }
 
             });
-
+            task.ConfigureAwait(false);
+            return task;
         }
-
-        
 
         #region Private Methods
 

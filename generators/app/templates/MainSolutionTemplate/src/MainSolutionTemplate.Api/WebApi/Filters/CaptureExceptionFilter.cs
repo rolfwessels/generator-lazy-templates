@@ -4,8 +4,6 @@ using System.Net.Http;
 using System.Reflection;
 using System.Web.Http.Filters;
 using FluentValidation;
-using GoogleAnalyticsTracker.Core.TrackerParameters;
-using GoogleAnalyticsTracker.WebAPI2;
 using MainSolutionTemplate.Api.AppStartup;
 using MainSolutionTemplate.Shared.Models;
 using MainSolutionTemplate.Utilities.Helpers;
@@ -70,12 +68,6 @@ namespace MainSolutionTemplate.Api.WebApi.Filters
 
         private void RespondWithInternalServerException(HttpActionExecutedContext context, Exception exception)
         {
-            var resolve = IocApi.Instance.Resolve<Tracker>();
-            resolve.TrackAsync(new ExceptionTracking()
-            {
-                Description = exception.Message,
-                DocumentPath = context.Request.RequestUri.PathAndQuery
-            });
             const HttpStatusCode httpStatusCode = HttpStatusCode.InternalServerError;
             var errorMessage =
                 new ErrorMessage("An internal system error has occurred. The developers have been notified.");

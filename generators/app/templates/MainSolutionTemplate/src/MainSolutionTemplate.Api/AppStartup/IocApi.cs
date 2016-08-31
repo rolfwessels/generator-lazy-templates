@@ -2,13 +2,11 @@
 using Autofac;
 using Autofac.Integration.SignalR;
 using Autofac.Integration.WebApi;
-using GoogleAnalyticsTracker.WebAPI2;
 using MainSolutionTemplate.Api.Common;
 using MainSolutionTemplate.Api.Properties;
 using MainSolutionTemplate.Api.SignalR.Connection;
 using MainSolutionTemplate.Api.SignalR.Hubs;
 using MainSolutionTemplate.Api.WebApi.Controllers;
-using MainSolutionTemplate.Core.BusinessLogic.Components;
 using MainSolutionTemplate.Core.Startup;
 using MainSolutionTemplate.Dal.Mongo;
 using MainSolutionTemplate.Dal.Persistance;
@@ -50,7 +48,7 @@ namespace MainSolutionTemplate.Api.AppStartup
 
         private void SetupTools(ContainerBuilder builder)
 		{
-            builder.Register(t => new Tracker(Settings.Default.GoogleAnyliticsId, Settings.Default.GoogleAnyliticsDomain));
+            
 		}
 
 		#region Instance
