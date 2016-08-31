@@ -90,9 +90,9 @@ task build.copy {
     copy-files $fromFolder $toFolder
 }
 
+
 task build.website -depend gulp.build {
-   
-    $fromFolder =  Join-Path (srcWebFolder) 'dist' 
+    $fromFolder =  Join-Path (srcWebFolder) 'dist'
     $toFolder =  (Join-Path (buildConfigDirectory) 'MainSolutionTemplate.Api/static')
     copy-files $fromFolder $toFolder
 }
@@ -100,9 +100,9 @@ task build.website -depend gulp.build {
 task gulp.build {
     'Npm install'
     pushd (srcWebFolder)
-    npm install
+    npm install --silent
     'Bower install'
-    bower install
+    bower install --silent
     gulp build
     popd
 }
@@ -124,7 +124,7 @@ task build.publish {
     }
 }
 
-task build.nugetPackages -depend build { 
+task build.nugetPackages -depend build {
     $packagesFolder =  $buildDistDirectory
     mkdir $packagesFolder -ErrorAction SilentlyContinue
     ./src/.nuget/NuGet.exe pack src\MainSolutionTemplate.Sdk\MainSolutionTemplate.Sdk.csproj -Prop Configuration=$buildConfiguration  -includereferencedprojects

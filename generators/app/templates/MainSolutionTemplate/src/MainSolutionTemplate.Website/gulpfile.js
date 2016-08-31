@@ -44,7 +44,7 @@ config = {
     },
     dest: {
         css: 'assets/css/',
-        dist: argv.output || ('build/' + (argv.env || "debug"))
+        dist: argv.output || ('dist')
     }
 };
 
