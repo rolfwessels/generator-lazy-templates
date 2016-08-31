@@ -4,6 +4,7 @@ os: Visual Studio 2015
 install:
  - ps: npm update -g graceful-fs
  - ps: npm update -g lodash 
+ - ps: npm update -g graceful-fs
  - ps: npm install -g gulp
  - ps: npm install -g bower
  
