@@ -2,13 +2,14 @@ os: Visual Studio 2015
 
   
 install:
- - ps: npm install npm -g
- - ps: npm version
- - ps: npm install -g graceful-fs graceful-fs@latest
- - ps: npm install -g lodash lodash@latest
+# - ps: npm install npm -g
+# - ps: npm version
+# - ps: npm install -g graceful-fs graceful-fs@latest
+# - ps: npm install -g lodash lodash@latest
  - call npm install -g gulp
  - call npm install -g bower
- 
+ - choco install mongodb
+
 
 
 build_script:
