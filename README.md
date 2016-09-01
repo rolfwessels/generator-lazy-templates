@@ -1,5 +1,7 @@
 # generator-lazy-templates
 
+[![Build status](https://ci.appveyor.com/api/projects/status/5tvlfkr3981e0u81?svg=true)](https://ci.appveyor.com/project/rolfwessels/generator-lazy-templates)
+
 > [Yeoman](http://yeoman.io) generator
 
 
