@@ -1,13 +1,15 @@
 os: Visual Studio 2015
 
+services:
+  - mongodb
   
 install:
 # - ps: npm install npm -g
 # - ps: npm version
 # - ps: npm install -g graceful-fs graceful-fs@latest
 # - ps: npm install -g lodash lodash@latest
- - choco install mongodb
- - '"c:\Program Files\MongoDB\Server\3.2\bin\mongod.exe" --service'
+# - choco install mongodb
+# - '"c:\Program Files\MongoDB\Server\3.2\bin\mongod.exe" --service'
  - call npm install -g gulp
  - call npm install -g bower
 
