@@ -9,13 +9,11 @@ install:
  - call npm install -g gulp
  - call npm install -g bower
  - choco install mongodb
-
+ - net start mongodb
 
 
 build_script:
   # dotnet info
-  - type C:\ProgramData\chocolatey\logs\chocolatey.log
-  - set
   - ps: cd generators\app\templates\MainSolutionTemplate
   - ps: dir
   - ps: .\go.cmd appveyor
