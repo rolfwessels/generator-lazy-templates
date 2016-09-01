@@ -6,10 +6,11 @@ install:
 # - ps: npm version
 # - ps: npm install -g graceful-fs graceful-fs@latest
 # - ps: npm install -g lodash lodash@latest
+ - choco install mongodb
+ - "C:\Program Files\MongoDB\Server\3.2\bin\mongod.exe" --service
  - call npm install -g gulp
  - call npm install -g bower
- - choco install mongodb
- - net start mongodb
+
 
 
 build_script:
