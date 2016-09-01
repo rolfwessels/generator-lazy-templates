@@ -42,6 +42,7 @@ task test -depends build,test.run  -Description "Builds and runs part cover test
 task full -depends test,deploy.zip -Description "Versions builds and creates distributions"
 task package -depends version,build,deploy.package -Description "Creates packages that could be user for deployments"
 task deploy -depends version,build,deploy.api,deploy.service -Description "Deploy the files to webserver using msdeploy"
+task appveyor -depends build, test.run, deploy.zip -Description "Deploy the files to webserver using msdeploy"
 
 #
 # task depends

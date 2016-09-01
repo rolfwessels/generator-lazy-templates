@@ -16,7 +16,7 @@ build_script:
   - ps: dir
   - ps: cd generators\app\templates\MainSolutionTemplate
   - ps: dir
-  - ps: .\go.cmd
+  - ps: .\go.cmd appveyor
 
 
 test: off 
