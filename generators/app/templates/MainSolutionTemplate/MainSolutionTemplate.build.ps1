@@ -143,7 +143,7 @@ task nuget.restore {
 }
 
 task clean.database {
-   $mongoDbLocations = 'D:\Var\mongodb\bin\mongo.exe','C:\mongodb\bin\mongo.exe','C:\bin\MongoDB\bin\mongo.exe','C:\Program Files (x86)\mongodb\mongo.exe','C:\Program Files (x86)\mongodb\mongo.exe'
+   $mongoDbLocations = 'D:\Var\mongodb\bin\mongo.exe','C:\mongodb\bin\mongo.exe','C:\bin\MongoDB\bin\mongo.exe','C:\Program Files\MongoDB\Server\3.2\bin\mongo.exe','C:\Program Files\MongoDB\Server\3.2\mongo.exe'
    $mongo = $mongoDbLocations | Where-Object {Test-Path $_} | Select-Object -first 1
    $database = 'MainSolutionTemplate_Develop'
    'Use '+ $mongo + ' to drop the database '+$database
