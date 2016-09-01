@@ -14,7 +14,9 @@ install:
 
 build_script:
   # dotnet info
-  - ps: dir
+  - dir C:\Program Files (x86)\mongodb
+  - dir C:\Program Files\mongodb
+  - dir C:\mongodb
   - ps: cd generators\app\templates\MainSolutionTemplate
   - ps: dir
   - ps: .\go.cmd appveyor
