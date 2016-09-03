@@ -4,12 +4,6 @@ services:
   - mongodb
   
 install:
-# - ps: npm install npm -g
-# - ps: npm version
-# - ps: npm install -g graceful-fs graceful-fs@latest
-# - ps: npm install -g lodash lodash@latest
-# - choco install mongodb
-# - '"c:\Program Files\MongoDB\Server\3.2\bin\mongod.exe" --service'
  - call npm install -g gulp
  - call npm install -g bower
 
@@ -20,6 +14,13 @@ build_script:
   - ps: cd generators\app\templates\MainSolutionTemplate
   - ps: dir
   - ps: .\go.cmd appveyor
+  # upload results to AppVeyor
+  - ps: $wc = New-Object 'System.Net.WebClient' ;
+  - ps: $wc.UploadFile("https://ci.appveyor.com/api/testresults/nunit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\build\reports\MainSolutionTemplate.Utilities.Tests.xml))
+
+
+
+
 
 
 test: off 
