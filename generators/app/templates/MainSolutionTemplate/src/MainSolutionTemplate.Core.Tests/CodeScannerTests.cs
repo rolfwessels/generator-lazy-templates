@@ -6,6 +6,7 @@ using System.Text;
 using MainSolutionTemplate.Utilities.Helpers;
 using NUnit.Framework;
 using FluentAssertions;
+using MainSolutionTemplate.Core.Tests.Helpers;
 
 namespace MainSolutionTemplate.Core.Tests
 {
@@ -40,6 +41,7 @@ namespace MainSolutionTemplate.Core.Tests
         }
 
         [Test]
+        [Explicit]
         public void FindAllIssues()
         {
             // arrange
@@ -84,7 +86,7 @@ namespace MainSolutionTemplate.Core.Tests
 
             public bool ShouldScan(string fileName)
             {
-                return !fileName.Contains(".Tests") && !fileName.Contains("AssemblyInfo") && !fileName.Contains("Model") && !fileName.Contains("Constants") && !Path.GetFileName(fileName).StartsWith("I");
+                return !fileName.Contains(".Tests") && !fileName.Contains("AssemblyInfo") && !fileName.Contains("Model") && !fileName.Contains("Console")  && !fileName.Contains("node_modules")  && !fileName.Contains("Constants") && !Path.GetFileName(fileName).StartsWith("I");
             }
 
             public IEnumerable<Issue> IsFail(string fileName, string[] fileLines, string[] allFiles)
@@ -147,8 +149,7 @@ namespace MainSolutionTemplate.Core.Tests
 
         public string GetSourcePath()
         {
-            // todo: Rolf make this dynamic.
-            return @"D:\Work\Home\GeneratorLazyTemplates\generators\app\templates\MainSolutionTemplate\src";
+            return TestHelper.GetSourceBasePath();
         }
 
         public interface ICodeSanner

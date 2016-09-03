@@ -10,6 +10,7 @@ using Microsoft.Owin.Hosting;
 using NCrunch.Framework;
 using RestSharp;
 using log4net;
+using MainSolutionTemplate.Core.Tests.Helpers;
 
 namespace MainSolutionTemplate.Sdk.Tests.Shared
 {
@@ -21,7 +22,7 @@ namespace MainSolutionTemplate.Sdk.Tests.Shared
         private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private static readonly Lazy<string> _hostAddress;
 
-        
+
         protected static Lazy<RestConnectionFactory> _defaultRequestFactory;
         protected static Lazy<RestConnectionFactory> _adminRequestFactory;
         private static TokenResponseModel _adminToken;
@@ -33,7 +34,7 @@ namespace MainSolutionTemplate.Sdk.Tests.Shared
             _adminRequestFactory = new Lazy<RestConnectionFactory>(CreateAdminRequest);
         }
 
-        
+
 
         public string SignalRUri
         {
@@ -62,8 +63,10 @@ namespace MainSolutionTemplate.Sdk.Tests.Shared
             string address = string.Format("http://localhost:{0}/", port);
             _log.Info(string.Format("Starting api on [{0}]", address));
 
-            var combine = Path.GetFullPath(Path.Combine(new Uri(Assembly.GetAssembly(typeof(Startup)).CodeBase).LocalPath, @"..\..\..\"));
-            SimpleFileServer.PossibleWebBasePath = new [] { Path.Combine(NCrunchEnvironment.GetOriginalSolutionPath()?? combine,@"..\MainSolutionTemplate.Website")};
+
+          var websitePath = Path.Combine(TestHelper.GetSourceBasePath(),@"MainSolutionTemplate.Website");
+
+          SimpleFileServer.PossibleWebBasePath = new [] { websitePath};
             WebApp.Start<Startup>(address);
             return address;
         }
