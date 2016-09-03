@@ -1,12 +1,26 @@
 os: Visual Studio 2015
+
+services:
+  - mongodb
+  
 install:
-- ps: mkdir test
+ - call npm install -g gulp
+ - call npm install -g bower
+
 
 
 build_script:
-  # dotnet info
-  - ps: dir
-  - ps: go
+  - ps: .\go.cmd appveyor
+  # upload results to AppVeyor
+  - ps: $wc = New-Object 'System.Net.WebClient' ;
+  - ps: $wc.UploadFile("https://ci.appveyor.com/api/testresults/nunit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\build\reports\MainSolutionTemplate.Console.Tests.xml))
+  - ps: $wc.UploadFile("https://ci.appveyor.com/api/testresults/nunit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\build\reports\MainSolutionTemplate.Api.Tests.txt))
+  - ps: $wc.UploadFile("https://ci.appveyor.com/api/testresults/nunit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\build\reports\MainSolutionTemplate.Core.Tests.xml))
+  - ps: $wc.UploadFile("https://ci.appveyor.com/api/testresults/nunit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\build\reports\MainSolutionTemplate.Dal.Mongo.Tests.xml))
+  - ps: $wc.UploadFile("https://ci.appveyor.com/api/testresults/nunit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\build\reports\MainSolutionTemplate.Dal.Tests.xml))
+  - ps: $wc.UploadFile("https://ci.appveyor.com/api/testresults/nunit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\build\reports\MainSolutionTemplate.Sdk.Tests.xml))
+  - ps: $wc.UploadFile("https://ci.appveyor.com/api/testresults/nunit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\build\reports\MainSolutionTemplate.Shared.Tests.xml))
+  - ps: $wc.UploadFile("https://ci.appveyor.com/api/testresults/nunit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\build\reports\MainSolutionTemplate.Utilities.Tests.xml))
 
 
 test: off 
