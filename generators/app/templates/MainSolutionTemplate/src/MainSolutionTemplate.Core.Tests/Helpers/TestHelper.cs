@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using log4net;
 using MainSolutionTemplate.Utilities.Cache;
+using MainSolutionTemplate.Utilities.Helpers;
 using Moq.Language.Flow;
 using NCrunch.Framework;
 
@@ -26,7 +27,7 @@ namespace MainSolutionTemplate.Core.Tests.Helpers
     private static string SourceBasePath()
     {
       var path = Path.GetFullPath(NCrunchEnvironment.GetOriginalSolutionPath() ??
-                                  new Uri(Path.GetFullPath(Assembly.GetAssembly(typeof(TestHelper)).CodeBase)).LocalPath);
+                                  new Uri(Assembly.GetAssembly(typeof(TestHelper)).CodeBase,UriKind.Absolute).LocalPath);
       while (Path.GetFileName(path) != "src")
       {
         var directoryName = Path.GetDirectoryName(path);

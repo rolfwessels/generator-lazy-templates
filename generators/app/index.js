@@ -52,19 +52,10 @@ module.exports = yeoman.generators.Base.extend({
             default : this.appname,
             store   : true
 
-        },{
-            type: 'confirm',
-            name: 'addDemoSection',
-            message: 'Would you like to generate a demo section ?',
-            default: true,
-            store   : true
         }];
 
         this.prompt(prompts, function (answers) {
             this.appName = answers.appName;
-            this.addDemoSection = answers.addDemoSection;
-
-
             this.config.save();
 
             done();
@@ -88,11 +79,18 @@ module.exports = yeoman.generators.Base.extend({
         var from = templateFolder+"\\"+data[i];
         var newFileName = data[i].replace(/MainSolutionTemplate/g, this.appName);
         var to = this.destinationRoot()+"\\"+newFileName;
-
-        this.copyAndReplaceFile(
-           from,
-           to
-         );
+        if (from.indexOf("bin\\Debug") !== -1 || from.indexOf("node_modules") !== -1 || from.indexOf("bin\\Debug") !== -1 || from.indexOf("Api\\bin") !== -1) {
+            //skip these
+        }
+        else if (from.indexOf("node_modules") !== -1 || from.indexOf(".git") !== -1 || from.indexOf(".bower") !== -1 || from.indexOf("bin\\Debug") !== -1) {
+            this.copy(from,to);
+        }
+        else {
+          this.copyAndReplaceFile(
+             from,
+             to
+           );
+        }
       };
 
 
