@@ -8,6 +8,8 @@ using MainSolutionTemplate.Shared.Interfaces.Base;
 using MainSolutionTemplate.Shared.Models.Interfaces;
 using NUnit.Framework;
 using log4net;
+using MainSolutionTemplate.Core.Tests.Helpers;
+using MainSolutionTemplate.Utilities.Helpers;
 
 namespace MainSolutionTemplate.Sdk.Tests.Shared
 {
@@ -72,7 +74,12 @@ namespace MainSolutionTemplate.Sdk.Tests.Shared
 
         protected virtual IList<TDetailModel> GetExampleData()
         {
-            return Builder<TDetailModel>.CreateListOfSize(2).All().Build();
+            var detailModels = Builder<TModel>
+                .CreateListOfSize(2)
+                .All()
+                .WithValidData()
+                .Build();
+            return detailModels.JsonClone<List<TDetailModel>>();
         }
 
     }

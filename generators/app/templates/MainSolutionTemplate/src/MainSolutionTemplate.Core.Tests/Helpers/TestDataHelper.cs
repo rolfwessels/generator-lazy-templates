@@ -3,6 +3,7 @@ using FizzWare.NBuilder.Generators;
 using MainSolutionTemplate.Core.BusinessLogic.Components;
 using MainSolutionTemplate.Dal.Models;
 using MainSolutionTemplate.Dal.Models.Interfaces;
+using MainSolutionTemplate.Utilities.Helpers;
 
 namespace MainSolutionTemplate.Core.Tests.Helpers
 {
@@ -25,6 +26,8 @@ namespace MainSolutionTemplate.Core.Tests.Helpers
             {
                 dalModelWithId.Id = null;
             }
+            buildingObject.GetType().FullName.Dump("casd");
+
             var user = buildingObject as User;
             if (user != null)
             {

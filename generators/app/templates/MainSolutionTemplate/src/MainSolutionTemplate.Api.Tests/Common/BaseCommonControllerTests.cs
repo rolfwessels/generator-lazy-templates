@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FizzWare.NBuilder;
@@ -8,7 +9,10 @@ using MainSolutionTemplate.Core.BusinessLogic.Components.Interfaces;
 using MainSolutionTemplate.Core.Tests.Helpers;
 using MainSolutionTemplate.Dal.Models;
 using MainSolutionTemplate.Shared.Models.Base;
+using MainSolutionTemplate.Utilities.Helpers;
 using Moq;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using NUnit.Framework;
 
 namespace MainSolutionTemplate.Api.Tests.Common
@@ -61,7 +65,7 @@ namespace MainSolutionTemplate.Api.Tests.Common
         {
             // arrange
             Setup();
-            var reference = Builder<TDal>.CreateListOfSize(2).Build();
+            var reference = BuildDals();
             _mockManager.Setup(mc => mc.Query()).Returns(reference.ToList().AsQueryable());
             // action
             var result = _commonController.Get().Result;
@@ -75,7 +79,7 @@ namespace MainSolutionTemplate.Api.Tests.Common
         {
             // arrange
             Setup();
-            var reference = Builder<TDal>.CreateListOfSize(2).Build();
+            var reference = BuildDals();
             _mockManager.Setup(mc => mc.Query())
                                .Returns(reference.ToList().AsQueryable());
             // action
@@ -108,7 +112,7 @@ namespace MainSolutionTemplate.Api.Tests.Common
                                .Returns(dal);
             _mockManager.Setup(mc => mc.Update(dal))
                                .Returns(dal);
-            var model = Builder<TDetailModel>.CreateNew().Build();
+            var model = BuildSamples().First();
             AddAdditionalMappings(model, dal);
             // action
             var result = _commonController.Update(dal.Id, model).Result;
@@ -122,13 +126,29 @@ namespace MainSolutionTemplate.Api.Tests.Common
             // arrange
             Setup();
             var dal = SampleItem;
-            var model = Builder<TDetailModel>.CreateNew().Build();
+            var model = BuildSamples().First();
             _mockManager.Setup(mc => mc.Insert(It.IsAny<TDal>())).Returns(dal);
             AddAdditionalMappings(model, dal);
             // action
             var result = _commonController.Insert(model).Result;
             // assert
             result.Id.Should().Be(dal.Id);
+        }
+
+        protected virtual IList<TDetailModel> BuildSamples()
+        {
+            var buildSamples = BuildDals();
+            return buildSamples.JsonClone<List<TDetailModel>>();
+        }
+
+        protected virtual IList<TDal> BuildDals()
+        {
+            var buildSamples = Builder<TDal>
+                .CreateListOfSize(2)
+                .All()
+                .WithValidData()
+                .Build();
+            return buildSamples;
         }
 
         protected virtual void AddAdditionalMappings(TDetailModel model, TDal dal)

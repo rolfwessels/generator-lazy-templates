@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using FizzWare.NBuilder;
-using MainSolutionTemplate.Api.Tests.Helper;
 using MainSolutionTemplate.Sdk.RestApi;
 using MainSolutionTemplate.Sdk.Tests.Shared;
 using MainSolutionTemplate.Shared.Models;
@@ -28,12 +27,6 @@ namespace MainSolutionTemplate.Sdk.Tests.WebApi
 		{
 
 		}
-
-	    protected override IList<ProjectCreateUpdateModel> GetExampleData()
-	    {
-	        var projectDetailModel = Builder<ProjectCreateUpdateModel>.CreateListOfSize(2).All().WithValidModelData().Build();
-	        return projectDetailModel;
-	    }
 
 	    #endregion
 	}

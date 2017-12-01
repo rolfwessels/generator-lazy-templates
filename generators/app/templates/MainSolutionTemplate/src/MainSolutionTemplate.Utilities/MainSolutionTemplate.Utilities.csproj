@@ -90,6 +90,7 @@
   <ItemGroup>
     <Compile Include="Cache\ISimpleObjectCache.cs" />
     <Compile Include="Cache\SimpleObjectCache.cs" />
+    <Compile Include="Helpers\CloneHelper.cs" />
     <Compile Include="Helpers\EmbededResourceHelper.cs" />
     <Compile Include="Helpers\EnumerableHelper.cs" />
     <Compile Include="Helpers\EnumHelper.cs" />

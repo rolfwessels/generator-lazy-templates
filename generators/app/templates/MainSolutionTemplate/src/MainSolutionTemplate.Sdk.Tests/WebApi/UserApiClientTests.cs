@@ -4,13 +4,15 @@ using System.Linq;
 using System.Reflection;
 using FizzWare.NBuilder;
 using FluentAssertions;
-using MainSolutionTemplate.Api.Tests.Helper;
 using MainSolutionTemplate.Sdk.RestApi;
 using MainSolutionTemplate.Sdk.Tests.Shared;
 using MainSolutionTemplate.Shared.Models;
 using MainSolutionTemplate.Shared.Models.Reference;
 using NUnit.Framework;
 using log4net;
+using MainSolutionTemplate.Core.Tests.Helpers;
+using MainSolutionTemplate.Dal.Models;
+using MainSolutionTemplate.Utilities.Helpers;
 
 namespace MainSolutionTemplate.Sdk.Tests.WebApi
 {
@@ -29,6 +31,16 @@ namespace MainSolutionTemplate.Sdk.Tests.WebApi
             SetRequiredData(_userApiClient);
             _log.Info("_log");
 		}
+
+	    protected override IList<UserCreateUpdateModel> GetExampleData()
+	    {
+	        var detailModels = Builder<User>
+	            .CreateListOfSize(2)
+	            .All()
+	            .WithValidData()
+	            .Build();
+	        return detailModels.JsonClone<List<UserCreateUpdateModel>>();
+        }
 
 	    [TearDown]
 		public void TearDown()
@@ -81,15 +93,7 @@ namespace MainSolutionTemplate.Sdk.Tests.WebApi
             // assert
             testCall.ShouldThrow<Exception>().WithMessage("'Email' is not a valid email address.");
         }
-
-        #region Overrides of CrudComponentTestsBase<UserModel,UserCreateUpdateModel>
-
-        protected override IList<UserCreateUpdateModel> GetExampleData()
-        {
-            return Builder<UserCreateUpdateModel>.CreateListOfSize(2).All().WithValidModelData().Build();
-        }
-
-        #endregion
+        
 
 	}
 

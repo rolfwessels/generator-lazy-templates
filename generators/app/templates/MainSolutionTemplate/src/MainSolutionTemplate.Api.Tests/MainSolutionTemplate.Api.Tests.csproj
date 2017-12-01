@@ -166,7 +166,6 @@
     <Compile Include="DataIntegrity\DataIntegrityManagerIntegrationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup\AutoMapperSetupTests.cs" />
-    <Compile Include="Helper\AddingValidDataHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\MainSolutionTemplate.Core.Tests\app.config">
@@ -202,6 +201,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Helper\" />
     <Folder Include="Selenium\" />
   </ItemGroup>
   <ItemGroup>
