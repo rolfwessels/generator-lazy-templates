@@ -27,7 +27,7 @@ properties {
     $vsVersion = "14.0"
 
     $msdeploy = 'C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe';
-	$msBuild = Join-Path "C:\Program Files (x86)\MSBuild\" ( join-path $vsVersion "\Bin\MSBuild.exe");
+    $msBuild = Join-Path "C:\Program Files (x86)\MSBuild\" ( join-path $vsVersion "\Bin\MSBuild.exe");
     $deployServiceDest = "computerName='xxxx',userName='xxx',password='xxxx',includeAcls='False',tempAgent='false',dirPath='d:\server\temp'"
     $deployApiDest = 'auto,includeAcls="False",tempAgent="false"'
 }
