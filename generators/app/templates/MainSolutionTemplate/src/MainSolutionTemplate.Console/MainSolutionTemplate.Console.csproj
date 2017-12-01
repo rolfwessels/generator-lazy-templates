@@ -75,6 +75,11 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
@@ -105,6 +110,7 @@
     <Compile Include="Helpers\ServiceInstaller.cs">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
+    <Compile Include="IocConsole.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
   </ItemGroup>
@@ -135,6 +141,14 @@
     <ProjectReference Include="..\MainSolutionTemplate.Core\MainSolutionTemplate.Core.csproj">
       <Project>{6B955EE7-2AC5-42E8-BA94-FE9EA2D49DDF}</Project>
       <Name>MainSolutionTemplate.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MainSolutionTemplate.Dal.Mongo\MainSolutionTemplate.Dal.Mongo.csproj">
+      <Project>{070F8D6F-737B-4503-8022-13954D52E752}</Project>
+      <Name>MainSolutionTemplate.Dal.Mongo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MainSolutionTemplate.Dal\MainSolutionTemplate.Dal.csproj">
+      <Project>{9A75E778-72A2-4DA0-9983-1032C90C515F}</Project>
+      <Name>MainSolutionTemplate.Dal</Name>
     </ProjectReference>
     <ProjectReference Include="..\MainSolutionTemplate.Utilities\MainSolutionTemplate.Utilities.csproj">
       <Project>{b5efc032-43a4-4326-a42a-f365c763efe8}</Project>
