@@ -20,7 +20,7 @@ namespace MainSolutionTemplate.Dal.Models
 	    
 	    public override string ToString()
 		{
-			return string.Format("Email: {0}, Name: {1}", Email, Name);
+			return $"Email: {Email}, Name: {Name}";
 		}
 	}
 }

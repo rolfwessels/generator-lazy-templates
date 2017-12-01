@@ -6,7 +6,7 @@ namespace MainSolutionTemplate.Dal.Models
 
 	    public override string ToString()
 	    {
-	        return string.Format("Project: {0}", Name);
+	        return $"Project: {Name}";
 	    }
 	}
 }

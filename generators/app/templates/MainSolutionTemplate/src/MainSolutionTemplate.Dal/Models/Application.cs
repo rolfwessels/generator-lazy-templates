@@ -12,5 +12,10 @@
 		public double RefreshTokenLifeTime { get; set; }
 
 		#endregion
+
+	    public override string ToString()
+	    {
+	        return $"{nameof(ClientId)}: {ClientId}, {nameof(Active)}: {Active}";
+	    }
 	}
 }

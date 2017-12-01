@@ -27,6 +27,7 @@ properties {
     $vsVersion = "14.0"
 
     $msdeploy = 'C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe';
+	$msBuild = Join-Path "C:\Program Files (x86)\MSBuild\" ( join-path $vsVersion "\Bin\MSBuild.exe");
     $deployServiceDest = "computerName='xxxx',userName='xxx',password='xxxx',includeAcls='False',tempAgent='false',dirPath='d:\server\temp'"
     $deployApiDest = 'auto,includeAcls="False",tempAgent="false"'
 }
@@ -68,8 +69,8 @@ task build.cleanbin {
 }
 
 task build.compile {
-    'Compile '+$buildConfiguration+' version '+(srcBinFolder)
-    msbuild  $srcSolution /t:rebuild /p:Configuration=$buildConfiguration /p:VisualStudioVersion=$vsVersion /v:q
+    "Compile  $vsVersion $buildConfiguration to "+(srcBinFolder)
+    &($msbuild)  $srcSolution /t:rebuild /p:Configuration=$buildConfiguration /p:VisualStudioVersion=$vsVersion /v:q
     if (!$?) {
         throw 'Failed to compile'
     }
@@ -119,7 +120,7 @@ task build.publish {
     $toFolder = Join-Path ( Join-Path (resolve-path .)(buildConfigDirectory)) 'MainSolutionTemplate.Api'
     $project = Join-Path $srcDirectory 'MainSolutionTemplate.Api\MainSolutionTemplate.Api.csproj'
     $publishProfile = "Publish - $buildConfiguration.pubxml";
-    msbuild  $project /p:DeployOnBuild=true /p:publishurl=$toFolder /p:VisualStudioVersion=$vsVersion /p:DefineConstants=$buildContants /p:Configuration=$buildConfiguration /p:PublishProfile=$publishProfile /p:VisualStudioVersion=$vsVersion /v:q
+    &($msbuild)  $project /p:DeployOnBuild=true /p:publishurl=$toFolder /p:VisualStudioVersion=$vsVersion /p:DefineConstants=$buildContants /p:Configuration=$buildConfiguration /p:PublishProfile=$publishProfile /p:VisualStudioVersion=$vsVersion /v:q
     if (!$?) {
         throw 'Failed to compile'
     }
@@ -236,7 +237,7 @@ task deploy.package {
     $toFolder = Join-Path ( resolve-path $buildPackageDirectory ) "$buildConfiguration.MainSolutionTemplate.Api.v.$version.zip"
     $configuration = $buildConfiguration+';Platform=AnyCPU;AutoParameterizationWebConfigConnectionStrings=false;PackageLocation=' + $toFolder + ';EnableNuGetPackageRestore=true'
     $project = Join-Path $srcDirectory 'MainSolutionTemplate.Api\MainSolutionTemplate.Api.csproj'
-    msbuild /v:q  /t:restorepackages  /T:Package  /p:VisualStudioVersion=$vsVersion /p:Configuration=$configuration  /p:PackageTempRootDir=c:\temp  $project
+    &($msbuild) /v:q  /t:restorepackages  /T:Package  /p:VisualStudioVersion=$vsVersion /p:Configuration=$configuration  /p:PackageTempRootDir=c:\temp  $project
     if (!$?) {
         throw 'Failed to deploy'
     }
