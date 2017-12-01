@@ -1,3 +1,3 @@
 # install and compile the first time.
-`choco install microsoft-build-tools`
+Add BuildToolsFull https://www.microsoft.com/en-us/download/details.aspx?id=48159 
 `go`
